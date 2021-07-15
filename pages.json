@@ -1,0 +1,92 @@
+{
+	"pages": [
+	    {
+            "path" : "pages/HomePage/HomePage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/JobWanted/JobWanted",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/RealTimeInfo/RealTimeInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Activity/Activity",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Mine/Mine",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#303133",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/HomePage/HomePage",
+				"iconPath": "static/example/HomePage.png",
+				"selectedIconPath": "static/example/HomePageS.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/JobWanted/JobWanted",
+				"iconPath": "static/example/JobWanted.png",
+				"selectedIconPath": "static/example/JobWantedS.png",
+				"text": "求职"
+			},
+			{
+				"pagePath": "pages/RealTimeInfo/RealTimeInfo",
+				"iconPath": "static/example/RealTimeInfo.png",
+				"selectedIconPath": "static/example/RealTimeInfoS.png",
+				"text": "资讯"
+			},
+			{
+				"pagePath": "pages/Activity/Activity",
+				"iconPath": "static/example/Activity.png",
+				"selectedIconPath": "static/example/ActivityS.png",
+				"text": "活动"
+			},
+			{
+				"pagePath": "pages/Mine/Mine",
+				"iconPath": "static/example/Mine.png",
+				"selectedIconPath": "static/example/MineS.png",
+				"text": "我的"
+			}
+		]
+	}
+}
