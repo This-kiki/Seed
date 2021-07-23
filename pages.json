@@ -2,20 +2,15 @@
 	"pages": [
 	    {
             "path" : "pages/HomePage/HomePage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
+			"style": {
+				"navigationStyle": "custom"
+			}
         }
         ,{
             "path" : "pages/JobWanted/JobWanted",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
+			"style": {
+				"navigationStyle": "custom"
+			}
             
         }
         ,{

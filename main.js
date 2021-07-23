@@ -5,6 +5,9 @@ import App from './App'
 import Api from './api/api'
 Vue.prototype.$api = Api
 
+// 引入基础样式
+import "./static/base.css"
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
