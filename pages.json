@@ -40,6 +40,13 @@
             }
             
         }
+        ,{
+            "path" : "pages/CompanyInfo/CompanyInfo",
+			"style": {
+				"navigationStyle": "custom"
+			}
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,9 +1,9 @@
 <template>
 	<view class="navbar">
-		<loading v-if="loading.show" :text="loading.text"></loading>
+		<loading v-if="loading.show" :text="loading.text" :mask="loading.mask"></loading>
 		<view class="header"
 			:style="{'height':titleBarHeight,'padding-top':statusBarHeight,'opacity':opacity,'background':nav.bgColor}">
-			<i v-if="nav.isShowBackBtn" class="iconfont icon-fanhui text-white back-btn" @tap="backTo()" :style="{
+			<i v-if="nav.isShowBackBtn" class="iconfont icon-fanhui back-btn" @tap="backTo()" :style="{
 				color:nav.backBtnColor
 			}" />
 			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
@@ -12,12 +12,17 @@
 	</view>
 </template>
 <script>
+	import loading from "./loading.vue"
 	export default {
-		name:"topBar",
+		name: "topBar",
 		props: [
 			"nav",
 			"opacity",
+			"loading"
 		],
+		components:{
+			loading
+		},
 		data() {
 			return {
 				statusBarHeight: 0,
@@ -78,6 +83,8 @@
 	}
 
 	.back-btn {
+		color: #fff;
 		padding: 12rpx;
+		font-weight: bold;
 	}
 </style>

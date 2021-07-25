@@ -1,7 +1,7 @@
 <template>
 	<view class="jobContainer">
 		<!-- 顶部 -->
-		<topBar :nav="setNav"></topBar>
+		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 搜索框 -->
 		<view class="inputLine">
 			<input class="input" type="text" :value="inputValue" placeholder="搜索" />
@@ -38,11 +38,7 @@
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue"
 	export default {
-		components: {
-			topBar,
-		},
 		data() {
 			return {
 				setNav: {
@@ -50,10 +46,16 @@
 					navTitle: "求职",
 					bgColor: "white"
 				},
+				setLoading: {
+					show: false,
+					text: "正在加载",
+					mask: true,
+				},
 				// 输入框内容
 				inputValue: ""
 			}
 		},
+		created() {},
 		methods: {
 
 		}
@@ -123,19 +125,22 @@
 						}
 					}
 				}
-				.right{
+
+				.right {
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
 					text-align: center;
-					.btn{
+
+					.btn {
 						color: orange;
 						font-size: 24rpx;
 						padding: 6rpx 15rpx;
 						border: 2rpx solid orange;
 						border-radius: 8rpx;
 					}
-					.date{
+
+					.date {
 						color: #999;
 						font-size: 22rpx;
 					}

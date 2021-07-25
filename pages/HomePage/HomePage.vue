@@ -20,7 +20,7 @@
 		<!-- 主要功能列表 -->
 		<view class="operateContainer">
 			<view class="top">
-				<view class="intro">
+				<view class="intro" @click="goPage('CompanyInfo')">
 					种子会介绍
 				</view>
 				<view class="news">
@@ -125,11 +125,7 @@
 </template>
 
 <script>
-	import topBar from "../../components/topBar.vue"
 	export default {
-		components: {
-			topBar,
-		},
 		data() {
 			return {
 				setNav: {
@@ -149,7 +145,14 @@
 				circular: true
 			}
 		},
-		methods: {}
+		methods: {
+			// 跳转页面
+			goPage(page){
+				uni.navigateTo({
+					url: `/pages/${page}/${page}`
+				})
+			}
+		}
 	}
 </script>
 
