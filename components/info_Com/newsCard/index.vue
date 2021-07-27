@@ -32,7 +32,7 @@ export default {
         return {
           img: '/static/hm-news-card/images/img_22726_0_0.png',
           title: '新闻标题',
-          author: '作者',
+          author: '作者1',
           date: '16 MAY 2016',
           summary:
             '新闻概要。新闻概要长度最好控制在50字符以内',
