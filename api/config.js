@@ -10,8 +10,8 @@ var Api = require('./api.js')
 import store from '../store/index.js'
 // localhostUrl 本地后台地址
 // onlineUrl 线上后台地址
-export const url ='https://gjwstudy.xyz/yjs'
-fly.config.baseURL = 'https://gjwstudy.xyz/yjs'
+export const url ='http://47.116.130.99:21587/seed'
+fly.config.baseURL = 'http://47.116.130.99:21587/seed'
 fly.config.timeout = 10 * 1000
 // 配置响应拦截器
 // newFly.config = fly.config;

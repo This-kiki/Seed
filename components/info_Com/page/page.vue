@@ -3,9 +3,7 @@
 		<loading ref="loadRefresh" :currentPage="currentPage" :totalPages="totalPages" @loadMore="loadMore" @refresh="refresh">
 			<view slot="content-list">
 				<!-- 数据列表 -->
-				<view v-for="(item, index) in list" :key="index">
-					<news-card :options="item"></news-card>
-				</view>
+				<view v-for="(item, index) in list" :key="index"><news-card :options="item"></news-card></view>
 			</view>
 		</loading>
 	</view>
@@ -64,7 +62,16 @@ export default {
 			totalPages: 2 // 总页数
 		};
 	},
+	mounted() {
+		this.init()
+	},
 	methods: {
+		init() {
+			var getAPI = {current: 1,limit: 20}
+			this.$api.getSeedInfo(getAPI).then((res)=> {
+				console.log('种子会资讯',res)
+			})
+		},
 		// 上划加载更多
 		loadMore() {
 			// 模拟请求成功后的回调
