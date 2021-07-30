@@ -1,22 +1,20 @@
 <template>
 	<view>
-		活动
+		<page></page>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+	import page from '@/components/info_Com/activity-page/activity-page.vue'
+export default {
+	components: {
+		page
+	},
+	data() {
+		return {};
+	},
+	methods: {}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
