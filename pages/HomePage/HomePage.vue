@@ -50,7 +50,7 @@
 			</view>
 		</view>
 		<!-- 管理层介绍 -->
-		<view class="managerContainer">
+		<!-- <view class="managerContainer">
 			<view class="titleLine">
 				<view class="title">
 					管理层
@@ -74,7 +74,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 会员风采 -->
 		<view class="managerContainer">
 			<view class="titleLine">
