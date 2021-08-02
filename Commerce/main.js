@@ -5,6 +5,9 @@ import App from './App'
 import Api from './api/api'
 Vue.prototype.$api = Api
 
+// vuex
+import store from './store/index.js'
+
 // 引入基础样式
 import "./static/base.css"
 import "./static/iconfont.css"
@@ -17,6 +20,7 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
+	store,
 	...App
 })
 app.$mount()

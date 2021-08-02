@@ -6,12 +6,17 @@ import {
 //公共链接
 //接口列表
 export class Api {
-	// 发布帖子
-	postPost = async (data) => {
-		let res = await flyio.post("post/save",data)
-		return res;
+	// 登录
+	// 获取普通用户信息
+	getUserMsg = async () => {
+		let res = await flyio.get("/user/findBaseInfo")
+		return res.data
 	}
-	
+	// 获取会员信息
+	getMemberMsg = async() => {
+		let res = await flyio.get("/user/findDetailInfo")
+		return res.data
+	}
 	// 获取会员单位资讯
 	getCompanyInfo = async (data) => {
 		let res = await flyio.get("/info/PageFindCompanyDynamic/"+data.current+"/"+data.limit)

@@ -18,7 +18,7 @@ service.interceptors.request.use(
     let url = config.url.replace(config.baseURL,'');
     let code = config.code;
     config.headers = getHeader(code) // 让每个请求携带自定义签名
-    console.log('comfiger',config)
+    console.log('configer',config)
     return config
   },
   error => {
@@ -38,7 +38,8 @@ service.interceptors.response.use(
       }
     }else{
       const res = response.data;
-      if (res.code === 200) {
+      // console.log('result',res)
+      if (res.code === 20000) {
         return response.data
       } else if(res.code === 407){
         // console.log("Token失效跳转登陆页面");

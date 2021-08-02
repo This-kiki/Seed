@@ -19,7 +19,6 @@ import store from './store/index'
 import http from './api/http.js'
 Vue.prototype.$http = http
 
-
 const router = new VueRouter({routes: routerMap})
 
 const app = new Vue({
