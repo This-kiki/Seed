@@ -37,6 +37,12 @@ export class Api {
 		let res = await flyio.get("/info/PageFindSeedDynamic/"+data.current+"/"+data.limit)
 		return res.data
 	}
+	
+	// 获取种子会介绍
+	getIntroduction = async data=>{
+		let res = await flyio.get("/intro/getIntroduce",data)
+		return res
+	}
 }
 
 

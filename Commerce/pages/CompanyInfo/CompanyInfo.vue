@@ -50,13 +50,13 @@
 						<view class="iconfont icon-weizhi"></view>
 					</view>
 				</view>
-				<view class="phone" @click="callPhone()">
+				<view class="phone">
 					<view class="title">
 						联系电话
 					</view>
-					<view class="info">
+					<view class="info" v-for="(item,index) in phoneList" :key="index" @click="callPhone(item.phone)">
 						<view class="text">
-							{{phone}}
+							{{item.phone}} {{item.name}}
 						</view>
 						<view class="iconfont icon-dianhua"></view>
 					</view>
@@ -93,16 +93,23 @@
 				// 循环
 				circular: true,
 				// 商会介绍
-				info: "一个人要么提得起，要么放得下，最可悲的是既提不起又放不下，犹豫犹豫去，在中间摇摆不定。但是，往往犹豫的人能找到足够的理由证明他的行为是对的。要么你狗熊到底，孬种到底，你很真实，表里如一，也能受人尊重，因为大家都喜欢弱者。在弱者身边能显出你的强大和优势，你会干得更有劲。而在强者身边只会显出你的弱小，你会感到自卑。就像你们在万行身边感到自卑一样。如果你转变心念，像万行一样努力十年、二十年，你也会成为强者。我希望你们都有这样的勇气。不敢做老虎，你就做绵羊。所以绵羊就是绵羊，老虎就是老虎，宝马就是宝马，桑塔纳就是桑塔纳，它们的本质是不一样的。绵羊的活法是对的，老虎的活法也是对的；桑塔纳的价格是合理的，宝马的价格也是合理的。所以，我是绵羊，就亮出我的风格；我是老虎，也要亮出我的风格，让你们看清楚，我从不掩饰。我经常告诉大家我就是这个东西，不需要什么包装，你喜欢这个东西就捡回家，不喜欢就不要动它，不要去批判它。一个人怎么过都是一生，胆小怕事，贪生怕死，做事前怕狼后怕虎，死要面子，这样活着是一辈子；老子天下第一，什么来了都不怕，都大胆去迎接，放开手脚去干，也是活一辈子，而且还活得很爽快。",
+				info: "濠江区珠浦种子会简称种子会，发起于2017年3月，设立于濠江珠浦，是由濠江区的青年企业家们发起并组建的非盈利性公益组织。种子会坚持以“心存善、行致远”的服务理念，致力于为濠江区当地的学子提供学业、就业方面的咨询及帮助；为当地青年提供交流与服务的平台；在传承家乡特色文化方面提出新的理念并支持建设与发展。濠江区珠浦种子会力求打造一个属于濠江区的人才交流中心及家乡文化建设平台，支持家乡公益事业的发展及文化建设。",
 				// 商会框高度
 				infoHeight: "300rpx",
 				// 商会按钮文字
 				infoBtn: "查看更多",
 				// 地址
-				address: "湖北省武汉市洪山区武汉科技大学",
+				address: "汕头市濠江区珠浦社区康乐活动中心三楼",
 				// 电话
-				phone: "11011001100"
+				phoneList:[
+					{phone: "15815134760",name: "黄居浦先生"},
+					{phone: "13510517003",name: "黄芳宜女士"},
+				]
 			};
+		},
+		created() {
+		 let res =	this.$api.getIntroduction()
+		 console.log(res)
 		},
 		methods: {
 			// 介绍显示更多
@@ -137,9 +144,9 @@
 				});
 			},
 			// 打电话
-			callPhone(){
+			callPhone(phone){
 				uni.makePhoneCall({
-					phoneNumber:this.phone
+					phoneNumber:phone
 				})
 			}
 		}
@@ -207,9 +214,9 @@
 				padding: 40rpx 30rpx 80rpx;
 				background-color: #fefefe;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-				font-size: 26rpx;
+				font-size: 28rpx;
 				letter-spacing: 1rpx;
-				line-height: 40rpx;
+				line-height: 46rpx;
 				border-radius: 10rpx;
 				text-indent: 2em;
 				overflow-y: hidden;
@@ -266,6 +273,12 @@
 							padding-left: 30rpx;
 							border-left: 4rpx solid #eee;
 						}
+					}
+				}
+				
+				.phone{
+					.info{
+						margin-top: 20rpx;
 					}
 				}
 			}
