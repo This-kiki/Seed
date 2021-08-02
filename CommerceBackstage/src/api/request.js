@@ -1,5 +1,12 @@
 import axios from 'axios'
 import URL from './api'
+
+// import Vue from 'vue'
+// import VueRouter from 'vue-router'
+import router from '../router/router.js'
+// Vue.use(VueRouter);
+// const router = new VueRouter({routes: routerMap})
+
 import { getHeader } from '../utils/header'
 import { Message } from 'element-ui'
 
@@ -38,13 +45,11 @@ service.interceptors.response.use(
       }
     }else{
       const res = response.data;
-      // console.log('result',res)
       if (res.code === 20000) {
         return response.data
-      } else if(res.code === 407){
-        // console.log("Token失效跳转登陆页面");
-        // sessionStorage.clear();
-        // location.href="/ecloud-sp/logout";
+      } else if(res.state == false){
+        console.log("Token失效跳转登陆页面");
+        router.push({path: '/login'})
       } else {
         Message({
           message: res.message,
@@ -54,14 +59,14 @@ service.interceptors.response.use(
         return Promise.reject('请求失败')
       }
     }
-
   },
   error => {
-    console.log('response错误:' + error) // for debug
+    // console.log('response错误:',JSON.stringify(error)) // for debug
+    console.log(error)
     Message({
       message: error.message,
       type: 'error',
-      duration: 800
+      duration: 1500
     })
     return Promise.reject(error)
   }

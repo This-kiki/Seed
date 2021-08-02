@@ -1,6 +1,6 @@
 <template>
   <el-col>
-    <el-menu default-active="/index/welcome" class="el-menu-vertical-demo" router>
+    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" unique-opened router>
       <el-submenu index="0">
         <template slot="title"><i class="el-icon-message"></i>首页</template>
         <el-menu-item index="/index/welcome">welcome</el-menu-item>

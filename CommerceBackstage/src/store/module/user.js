@@ -14,6 +14,10 @@ const user = {
     setToken(state, token) {
       // console.log('getToken')
       state.token = token
+    },
+    resetToken(state) {
+      // console.log('getToken')
+      state.token = ''
     }
   }
 };

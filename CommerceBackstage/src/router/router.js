@@ -15,7 +15,12 @@ import Help from '../page/help/Help.vue';
 import Feedback from '../page/feedback/Feedback.vue';
 import App from '../App.vue'
 import login from '../page/login/login.vue'
-export default [{
+
+import Vue from 'vue';
+import Router from 'vue-router';
+Vue.use(Router);
+
+export const routerMap =  [{
     path: '/login',
     name: '登录',
     component: login
@@ -95,3 +100,6 @@ export default [{
       redirect: '/index/welcome'
   }
 ]
+export default new Router({
+  routes: routerMap
+})
