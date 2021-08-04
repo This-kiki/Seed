@@ -7,6 +7,10 @@ import {
 //接口列表
 export class Api {
 	// 登录
+	getOpenid = async (data) => {
+		let res = await flyio.post("/user/getOpenid",JSON.stringify(data))
+		return res.data
+	}
 	// 获取普通用户信息
 	getUserMsg = async () => {
 		let res = await flyio.get("/user/findBaseInfo")

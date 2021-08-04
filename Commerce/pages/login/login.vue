@@ -61,6 +61,7 @@
 			          // 获取用户信息
 			          uni.getUserInfo({
 			            success: function(info_res) {
+						  // console.log('获取用户信息成功')
 			              // 小程序通过uni.request()发送code到开发者服务器
 						  uni.request({
 							  url: 'http://47.116.130.99:21587/seed/user/getOpenid',
@@ -73,8 +74,9 @@
 							  }),
 							  success: function(openId_res) {
 								  // 全局存储
-								  // console.log('return openID:',res.data.data)
+								  // console.log('return openID:',openId_res.data)
 								  that.$store.dispatch('setOpenid',openId_res.data.data.openid).then(() => {
+									  // console.log('openid存储成功')
 									  that.$api.getUserMsg().then((userMsg_res) => {
 										  // console.log('基本信息',userMsg_res.data.userBaseInfo)
 										  that.$store.commit('setUserMsg',userMsg_res.data.userBaseInfo)
@@ -89,6 +91,7 @@
 								console.log(error);
 							  }
 							})
+							// uni.reLaunch({url: '/pages/HomePage/HomePage'});
 							that.hasUserInfo= true,
 							that.userInfo = userInfo
 			            },
@@ -98,7 +101,10 @@
 							uni.reLaunch({url: '/pages/index/index'});
 						}
 			          })
-			        }
+			        },
+					fail(error) {
+						console.log('login error',error)
+					}
 			      })
 			    }else{//第一次授权登录
 					uni.login({
