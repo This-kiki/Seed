@@ -26,6 +26,7 @@
             "path" : "pages/RealTimeInfo/RealTimeInfo",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom",
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -35,6 +36,7 @@
             "path" : "pages/Activity/Activity",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom",
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
@@ -44,6 +46,7 @@
             "path" : "pages/Mine/Mine",
             "style" :                                                                                    
             {
+				"navigationStyle": "custom",
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }

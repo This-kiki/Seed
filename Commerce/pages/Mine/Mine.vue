@@ -1,5 +1,6 @@
 <template>
 	<view class="mine-page">
+		<topBar :nav="setNav"></topBar>
 		<view class="m-page">
 			<view class="m-page-top">
 				<view class="m-page-tag">
@@ -41,7 +42,7 @@
 						活动
 					</view>
 				</view>
-				<view class="m-page-box">
+				<view class="m-page-box m-page-boxborder">
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
 					<span class="iconfont m-page-boximg">&#xe601;</span>
 					<view class="m-page-boxtext">
@@ -101,7 +102,11 @@
 	export default {
 		data() {
 			return {
-				
+				setNav: {
+					titleColor: "black",
+					navTitle: "我的",
+					bgColor: "#9370DB"
+				},
 			}
 		},
 		methods: {
@@ -123,7 +128,7 @@
 }
 .m-page-top {
 	width: 100%;
-	height: 350rpx;
+	height: 280rpx;
 	background-color: rgb(147,112,219);
 	display: flex;
 	flex-direction: column;
@@ -137,7 +142,7 @@
 	justify-content: flex-end;
 	align-items: center;
 	font-size: 25rpx;
-	margin-top: 35rpx;
+	margin-top: 25rpx;
 }
 .m-page-t {
 	padding: 0 10rpx;
@@ -227,5 +232,79 @@
 .m-page-joinicon{
 	font-size: 22rpx;
 	color: rgb(238,215,191);
+}
+
+.m-page-middle {
+	width: 100%;
+	height: 200rpx;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	background-color: rgb(255,255,255);
+	border-bottom: 1rpx solid rgb(225, 225, 225);
+}
+.m-page-box {
+	height: 140rpx;
+	width: 33%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+.m-page-boxborder {
+	border-left: 1rpx solid rgb(229, 229, 229);
+	border-right: 1rpx solid rgb(229, 229, 229);
+}
+.m-page-boximg {
+	font-size: 60rpx;
+}
+.m-page-boxtext {
+	font-size: 25rpx;
+	font-family: Yuanti;
+	letter-spacing: 10rpx;
+}
+.m-page-bottom {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.m-page-list {
+	width: 100%;
+	background-color: rgb(255,255,255);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.m-page-listitem {
+	width: 100%;
+	height: 100rpx;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1rpx solid rgb(229, 229, 229);
+}
+.m-page-listitemtitle {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-left: 50rpx;
+}
+.m-page-listitemimg {
+	font-size: 35rpx;
+	margin-right: 20rpx;
+}
+.m-page-listitemtext {
+	font-size: 28rpx;
+	letter-spacing: 5rpx;
+}
+.m-page-listitemicon {
+	font-size: 30rpx;
+	margin-right: 20rpx;
 }
 </style>
