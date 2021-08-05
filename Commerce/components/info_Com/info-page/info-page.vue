@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<loading ref="loadRefresh" :currentPage="currentPage" :totalPages="totalPages" @loadMore="loadMore" @refresh="refresh">
-			<view slot="content-list">
+		<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages" @loadMore="loadMore" @refresh="refresh">
+			<view slot="content-list" class="page">
 				<!-- 数据列表 -->
 				<view v-for="(item, index) in list" :key="index"><news-card :options="item"></news-card></view>
 			</view>
@@ -13,83 +13,109 @@
 import loading from '@/components/info_Com/load-refresh/load-refresh.vue';
 import newsCard from '@/components/info_Com/newsCard/index.vue';
 export default {
+	props:['pageType'],
 	components: {
 		loading,
 		newsCard
 	},
 	data() {
 		return {
-			list: [
-				{
-					img: '/static/hm-news-card/images/img_22726_0_0.png',
-					title: '新闻标题',
-					author: '作者',
-					date: '16 MAY 2016',
-					summary:
-					'新闻概要。新闻概要长度最好控制在50字符以内',
-					comments: "14 评论",
-					likes: "254 喜欢",
-					url: '',
-					showComments: true,
-					showLikes: true
-				},{
-					img: '/static/hm-news-card/images/img_22726_0_0.png',
-					title: '新闻标题',
-					author: '作者',
-					date: '16 MAY 2016',
-					summary:
-					'新闻概要。新闻概要长度最好控制在50字符以内',
-					comments: "14 评论",
-					likes: "254 喜欢",
-					url: '',
-					showComments: true,
-					showLikes: true
-				},{
-					img: '/static/hm-news-card/images/img_22726_0_0.png',
-					title: '新闻标题',
-					author: '作者',
-					date: '16 MAY 2016',
-					summary:
-					'新闻概要。新闻概要长度最好控制在50字符以内',
-					comments: "14 评论",
-					likes: "254 喜欢",
-					url: '',
-					showComments: true,
-					showLikes: true
-				}
-			], // 数据集
-			currentPage: 1, // 当前页码
-			totalPages: 2 // 总页数
+			list: [], // 数据集
+			current: {				
+				currentPage: 1, // 当前页码
+				totalPages: 2 // 总页数
+			}
 		};
 	},
 	mounted() {
 		this.init()
 	},
 	methods: {
-		init() {
+		async init() {
+			let resp
 			var getAPI = {current: 1,limit: 20}
-			this.$api.getSeedInfo(getAPI).then((res)=> {
-				console.log('种子会资讯',res)
-			})
+			switch (this.pageType) {
+				case 0:
+					await this.$api.getSeedInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 1: 
+					await this.$api.getCompanyInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 2:
+					await this.$api.getMemberInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 3:
+					await this.$api.getCountryInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+			}
+			if(resp){
+				this.current.totalPages = resp.data.total
+				this.list = resp.data.rows
+			}
 		},
 		// 上划加载更多
-		loadMore() {
-			// 模拟请求成功后的回调
-			setTimeout(() => {
-				console.log('加载更多')
-				// 1. list数组添加新数据
-				// 2. 更新当前页码 currentPage
-				// 3. 调用completed()方法 this.$refs.loadRefresh.completed()
-			}, 800)
+		async loadMore() {
+			let resp
+			var getAPI = {current: this.current.currentPage,limit: 20}
+			switch (this.pageType) {
+				case 0:
+					await this.$api.getSeedInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 1: 
+					await this.$api.getCompanyInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 2:
+					await this.$api.getMemberInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+				case 3:
+					await this.$api.getCountryInfo(getAPI).then((res)=> {
+						// console.log('种子会资讯',res)
+						resp = res
+						this.current.currentPage=this.current.currentPage+1
+					})
+					break;
+			}
+			if(resp){
+				this.current.totalPages = resp.data.total
+				for(var i=0;i<resp.data.rows.length;i++){
+					this.list.push(resp.data.rows[i])
+				}
+			}
+			this.$refs.loadRefresh.completed()
 		  },
 		// 下拉刷新数据列表
-		refresh() {
-			// 模拟请求成功后的回调
-			setTimeout(() => {
-				// 1. list重新赋值，应避免 this.list = [] 这种操作
-				// 2. 更新当前页码 currentPage
-				// 3. 调用completed()方法 this.$refs.loadRefresh.completed()
-			}, 1600)
+		async refresh() {
+			this.current.currentPage = 1
+			await this.init()
+			this.$refs.loadRefresh.completed()
 		},
 		// 代码触发下拉刷新方法
 		runRefresh() {
@@ -99,4 +125,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.page {
+	min-height: 50rpx;
+	background-color: rgb(255, 255, 255);
+}
+</style>

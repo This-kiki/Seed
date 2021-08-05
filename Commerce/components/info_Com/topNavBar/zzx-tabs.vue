@@ -132,7 +132,7 @@
 	.zzx-tabs-wrap {
 		width: 100%;
 		display: flex;
-		flex-flow: row nowrap;
+		flex: row nowrap;
 		justify-content: flex-start;
 		font-size: 14px;
 		box-sizing: border-box;
@@ -142,6 +142,9 @@
 			box-sizing: border-box;
 			text-align: center;
 			color: #999999;
+			overflow: hidden;
+			text-overflow: hidden;
+			white-space: nowrap;
 		}
 		.item-title {
 			position: relative;
