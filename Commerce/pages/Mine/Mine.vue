@@ -17,7 +17,7 @@
 					<open-data class="m-page-name" type="userNickName"></open-data>
 					<!-- <view class="m-page-name"></view> -->
 				</view>
-				<view class="m-page-join">
+				<view class="m-page-join" @click="go('Join/Join')">
 					<view class="m-page-jointitle">
 						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-joinimg">&#xe638;</span>
@@ -35,14 +35,14 @@
 				</view>
 			</view>
 			<view class="m-page-middle">
-				<view class="m-page-box">
+				<view class="m-page-box" @click="go('MineActivity/MineActivity')">
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
 					<span class="iconfont m-page-boximg">&#xe622;</span>
 					<view class="m-page-boxtext">
 						活动
 					</view>
 				</view>
-				<view class="m-page-box m-page-boxborder">
+				<view class="m-page-box m-page-boxborder" @click="go('Notice/Notice')">
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
 					<span class="iconfont m-page-boximg">&#xe601;</span>
 					<view class="m-page-boxtext">
@@ -59,7 +59,7 @@
 			</view>
 			<view class="m-page-bottom">
 				<view class="m-page-list">
-					<view class="m-page-listitem">
+					<view class="m-page-listitem" @click="go('MineMsg/MineMsg')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 							<span class="iconfont m-page-listitemimg">&#xe610;</span>
@@ -70,7 +70,7 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem">
+					<view class="m-page-listitem" @click="go('Complaints/Complaints')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 							<span class="iconfont m-page-listitemimg">&#xe6c9;</span>
@@ -81,7 +81,7 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem">
+					<view class="m-page-listitem" @click="go('Contact/Contact')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 							<span class="iconfont m-page-listitemimg">&#xe639;</span>
@@ -110,7 +110,11 @@
 			}
 		},
 		methods: {
-			
+			go(path) {
+				uni.navigateTo({
+				    url: path
+				});
+			}
 		}
 	}
 </script>
@@ -252,6 +256,9 @@
 	justify-content: space-evenly;
 	align-items: center;
 }
+.m-page-box:active{
+	background-color: rgb(247, 247, 247);
+}
 .m-page-boxborder {
 	border-left: 1rpx solid rgb(229, 229, 229);
 	border-right: 1rpx solid rgb(229, 229, 229);
@@ -288,6 +295,9 @@
 	align-items: center;
 	border-bottom: 1rpx solid rgb(229, 229, 229);
 }
+.m-page-listitem:active {
+	background-color: rgb(247, 247, 247);
+}
 .m-page-listitemtitle {
 	display: flex;
 	flex-direction: row;
@@ -305,6 +315,6 @@
 }
 .m-page-listitemicon {
 	font-size: 30rpx;
-	margin-right: 20rpx;
+	margin-right: 25rpx;
 }
 </style>

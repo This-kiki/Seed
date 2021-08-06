@@ -88,7 +88,7 @@
             
         }
         ,{
-            "path" : "pages/Mine/Complaints /Complaints ",
+            "path" : "pages/Mine/Complaints/Complaints",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -97,7 +97,7 @@
             
         }
         ,{
-            "path" : "pages/Mine/Contact /Contact ",
+            "path" : "pages/Mine/Contact/Contact",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -116,6 +116,15 @@
         }
         ,{
             "path" : "pages/RealTimeInfo/detailedInfo/detailedInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Mine/MineActivity/MineActivity",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

@@ -2,6 +2,9 @@ import {
 	flyio,
 	url
 } from './config.js';
+import {
+	uploadPic
+} from './uploadPicture.js'
 // var {platform} = require('../config/index')
 //公共链接
 //接口列表
@@ -43,8 +46,16 @@ export class Api {
 	}
 	
 	// 获取种子会介绍
-	getIntroduction = async data=>{
+	getIntroduction = async (data) =>{
 		let res = await flyio.get("/intro/getIntroduce",data)
+		return res
+	}
+	
+	// 上传图片
+	uploadPicture = async (data) =>{
+		let res = uploadPic({
+			data:data
+		})
 		return res
 	}
 }

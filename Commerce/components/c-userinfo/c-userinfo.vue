@@ -6,30 +6,17 @@
 					<view class="iavatar" :style="'background: url('+avater+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
 				<text v-if="avater">修改头像</text>
-			</view>
-			<view class="ui-list">
-				<text>姓名</text>
-				<input type="text" :placeholder="value" :value="ApplyMember.name" placeholder-class="place" />
-			</view>
-			<view class="ui-list">
-				<text>身份证</text>
-				<input type="text" :placeholder="value" :value="ApplyMember.idNum" placeholder-class="place" />
-			</view>
-			<view class="ui-list right">
-				<text>生日</text>
-				<picker mode="date" :value="ApplyMember.birth" @change="bindDateChange">
-					<view class="picker">
-						{{ApplyMember.birth}}
-					</view>
-				</picker>
-			</view>
-			<view class="ui-list">
-				<text>电子邮箱</text>
-				<input type="text" :placeholder="value" :value="ApplyMember.email" placeholder-class="place" />
+				<text v-if="!avater">授权微信</text>
+				<button v-if="!avater" open-type="getUserInfo" @tap="getUserInfo" class="getInfo"></button>
 			</view>
 			<view class="ui-list">
 				<text>昵称</text>
 				<input type="text" :placeholder="value" :value="nickName" @input="bindnickName" placeholder-class="place" />
+			</view>
+			<view class="ui-list">
+				<text>手机号</text>
+				<input v-if="mobile" type="tel" :placeholder="value" :value="mobile" @input="bindmobile" placeholder-class="place" />
+				<button v-if="!mobile" open-type="getPhoneNumber" @getphonenumber="getphonenumber" class="getInfo bun">授权手机号</button>
 			</view>
 			<view class="ui-list right">
 				<text>性别</text>
@@ -47,52 +34,29 @@
 					</view>
 				</picker>
 			</view>
+			<view class="ui-list right">
+				<text>生日</text>
+				<picker mode="date" :value="date" @change="bindDateChange">
+					<view class="picker">
+						{{date}}
+					</view>
+				</picker>
+			</view>
+			<view class="ui-list">
+				<text>签名</text>
+				<textarea :placeholder="value" placeholder-class="place" :value="description" @input="binddescription"></textarea>
+			</view>
+			<button class="save" @tap="savaInfo">保 存 修 改</button>
 		</view>
+
 	</view>
 </template>
 
 <script>
 	export default {
+	
 		data() {
 			return {
-				ApplyMember: {
-					  "birth": "string",
-					  "email": "string",
-					  "idNum": "string",
-					  "img": "string",
-					  "introduce": "string",
-					  "level": 0,
-					  "major": "string",
-					  "name": "string",
-					  "nation": "string",
-					  "openId": "string",
-					  "phone": "string",
-					  "place": "string",
-					  "polity": "string",
-					  "position": "string",
-					  "school": "string",
-					  "sex": 0,
-					  "work": "string"
-					// ApplyMember {
-					// birth (string, optional): 出生日期 ,
-					// email (string, optional): 电子邮箱 ,
-					// idNum (string, optional): 身份证号码 ,
-					// img (string, optional): 头像(默认是微信头像，入会后会员和律师需要上传个人照片，会员单位上传公司照片) ,
-					// introduce (string, optional): 个人简介 ,
-					// level (integer, optional): 申请职位 ,
-					// major (string, optional): 专业 ,
-					// name (string, optional): 姓名 ,
-					// nation (string, optional): 民族 ,
-					// openId (string, optional),
-					// phone (string, optional): 手机号 ,
-					// place (string, optional): 籍贯 ,
-					// polity (string, optional): 政治面貌 ,
-					// position (string, optional): 工作单位职位 ,
-					// school (string, optional): 在读/毕业学校 ,
-					// sex (integer, optional): 性别 ,
-					// work (string, optional): 现任工作单位
-					// }
-				},
 				value: '请填写',
 				sex: [{
 					id: 1,
@@ -129,6 +93,7 @@
 			},
 			bindnickName(e) {
 				this.nickName = e.detail.value;
+				
 			},
 			bindmobile(e) {
 				this.mobile = e.detail.value;
@@ -146,17 +111,34 @@
 					sourceType: ['album', 'camera'],
 					success(res) {
 						// tempFilePath可以作为img标签的src属性显示图片
-						// const FormData = require('../../../lib/wx-formdata/formData.js')
-						const tempFilePaths = res.tempFilePaths
-						// let formData = new FormData();
-						// formData.appendFile("file", tempFilePaths);
-						// console.log('formdata',formData)
-						that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
-							console.log(res)
-						})
+						that.imgUpload(res.tempFilePaths);
+						const tempFilePaths = res.tempFilePaths;
 					}
 				});
 			},
+			 getUserInfo () {
+				  uni.getUserProfile({
+			      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+			      success: (res) => {
+			       console.log(res);
+				   uni.showToast({
+							   title: '已授权',
+							   icon: 'none',
+							   duration: 2000
+							   }) 
+			      }
+			    })
+			    } ,
+				 getphonenumber(e){
+					if(e.detail.iv){
+					  console.log(e.detail.iv) //传后台解密换取手机号
+						  uni.showToast({
+							   title: '已授权',
+							   icon: 'none',
+							   duration: 2000
+							   }) 
+					}
+								  },
 			savaInfo() {
 				let that = this;
 				let nickname = that.nickName;
@@ -227,6 +209,33 @@
 				//传后台
 				
 			},
+			imgUpload(file) {
+				let that = this;
+				uni.uploadFile({
+					header: {
+						Authorization: uni.getStorageSync('token')
+					},
+					url:'/api/upload/image', //需传后台图片上传接口
+					filePath: file[0],
+					name: 'file',
+					formData: {
+						type: 'user_headimg'
+					},
+					success: function(res) {
+						var data = JSON.parse(res.data);
+						data = data.data;
+						that.avater = that.url + data.img;
+
+						that.headimg = that.url + data.img;
+
+						
+					},
+					fail: function(error) {
+						console.log(error);
+					}
+				});
+			},
+	
 		},
 		onLoad() {			
 		}
