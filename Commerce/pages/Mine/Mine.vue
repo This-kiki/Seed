@@ -70,6 +70,17 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
+					<view class="m-page-listitem" @click="go('Join/Join')">
+						<view class="m-page-listitemtitle">
+							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
+							<span class="iconfont m-page-listitemimg">&#xe619;</span>
+							<view class="m-page-listitemtext">
+								成为会员
+							</view>
+						</view>
+						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
+						<span class="iconfont m-page-listitemicon">&#xe623;</span>
+					</view>
 					<view class="m-page-listitem" @click="go('Complaints/Complaints')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
@@ -92,6 +103,17 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
+					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
+						<view class="m-page-listitemtitle">
+							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
+							<span class="iconfont m-page-listitemimg">&#xe642;</span>
+							<view class="m-page-listitemtext">
+								成为会员单位
+							</view>
+						</view>
+						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
+						<span class="iconfont m-page-listitemicon">&#xe623;</span>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -100,6 +122,8 @@
 
 <script>
 	export default {
+		components:{
+		},
 		data() {
 			return {
 				setNav: {
@@ -114,7 +138,7 @@
 				uni.navigateTo({
 				    url: path
 				});
-			}
+			},
 		}
 	}
 </script>

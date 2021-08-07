@@ -3,85 +3,89 @@
 		<view class="ui-all">
 			<view class="avatar" @tap="avatarChoose">
 				<view  class="imgAvatar">
-					<view class="iavatar" :style="'background: url('+ApplyMember.img+') no-repeat center/cover #eeeeee;'"></view>
+					<view class="iavatar" :style="'background: url('+mineMsg.img+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
 				<text v-if="avater">修改头像</text>
 				<text v-if="!avater">选择头像</text>
 			</view>
 			<view class="text-box">
-				<text>姓名</text>
-				<input class="input-box" type="text" v-model="ApplyMember.name" placeholder-class="place" />
-			</view>
-			<view class="picker-box">
-				<text>申请职位</text>
-				<picker class="picker" mode='selector' range-key="name" v-model="ApplyMember.sex" @change="bindLevelChange" :range="levelList">
-					<view class="picker-text">
-						{{ApplyMember.level==0?'总经理':ApplyMember.level==1?'产品经理':ApplyMember.level==2?'部门经理':''}}
-					</view>
-				</picker>
+				<text>公司全称</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyName" placeholder-class="place" />
 			</view>
 			<view class="text-box">
-				<text>身份证</text>
-				<input class="input-box" type="text" v-model="ApplyMember.idNum" placeholder-class="place" />
+				<text>地址</text>
+				<input class="input-box" type="text" v-model="companyMsg.address" placeholder-class="place" />
 			</view>
+			<view class="text-box">
+				<text>公司联系电话</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyPhone" placeholder-class="place" />
+			</view>
+			<view class="textarea-box">
+				<text>公司介绍</text>
+				<textarea class="textarea" placeholder-class="place" v-model="ApplyMember.content"></textarea>
+			</view>
+			<view class="text-box">
+				<text>信用代码</text>
+				<input class="input-box" type="text" v-model="companyMsg.creditCode" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>电子邮箱 </text>
+				<input class="input-box" type="text" v-model="companyMsg.email" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>行业</text>
+				<input class="input-box" type="text" v-model="companyMsg.industry" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>经营范围 </text>
+				<input class="input-box" type="text" v-model="companyMsg.manageStatus" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>经营状态</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyPhone" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>公司联系电话</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyPhone" placeholder-class="place" />
+			</view>
+			
+			
+			
+			
 			<view class="picker-box">
 				<text>生日</text>
-				<picker class="picker" mode="date" v-model="ApplyMember.birth" @change="bindDateChange">
+				<picker class="picker" mode="date" v-model="companyMsg.birth" @change="bindDateChange">
 					<view class="picker-text">
-						{{ApplyMember.birth}}
+						{{companyMsg.birth}}
 					</view>
 				</picker>
 			</view>
 			<view class="picker-box">
 				<text>性别</text>
-				<picker class="picker" mode='selector' range-key="name" v-model="ApplyMember.sex" @change="bindSexChange" :range="sexlist">
+				<picker class="picker" mode='selector' range-key="name" v-model="companyMsg.sex" @change="bindSexChange" :range="sex">
 					<view class="picker-text">
-						{{ApplyMember.sex==0?'男':ApplyMember.sex==1?'女':''}}
+						{{companyMsg.sex==0?'男':companyMsg.sex==1?'女':''}}
 					</view>
 				</picker>
 			</view>
 			<view class="text-box">
 				<text>籍贯</text>
-				<input class="input-box" type="text" v-model="ApplyMember.place" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>政治面貌</text>
-				<input class="input-box" type="text" v-model="ApplyMember.polity" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>民族</text>
-				<input class="input-box" type="text" v-model="ApplyMember.nation" placeholder-class="place" />
+				<input class="input-box" type="text" v-model="companyMsg.place" placeholder-class="place" />
 			</view>
 			<view class="text-box">
 				<text>手机号</text>
-				<input class="input-box" type="text" v-model="ApplyMember.phone" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>电子邮箱</text>
-				<input class="input-box" type="text" v-model="ApplyMember.email" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>学校</text>
-				<input class="input-box" type="text" v-model="ApplyMember.school" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>专业</text>
-				<input class="input-box" type="text" v-model="ApplyMember.major" placeholder-class="place" />
+				<input class="input-box" type="text" v-model="companyMsg.phone" placeholder-class="place" />
 			</view>
 			<view class="text-box">
 				<text>工作单位</text>
-				<input class="input-box" type="text" v-model="ApplyMember.work" placeholder-class="place" />
+				<input class="input-box" type="text" v-model="companyMsg.work" placeholder-class="place" />
 			</view>
 			<view class="text-box">
 				<text>工作职位</text>
-				<input class="input-box" type="text" v-model="ApplyMember.position" placeholder-class="place" />
-			</view>
-			<view class="textarea-box">
-				<text>简介</text>
-				<textarea class="textarea" placeholder-class="place" v-model="ApplyMember.introduce"></textarea>
+				<input class="input-box" type="text" v-model="companyMsg.position" placeholder-class="place" />
 			</view>
 		</view>
-		<button class="save" @tap="save">提 交 审 核</button>
+		<button class="save" @tap="save">保 存 修 改</button>
 	</view>
 </template>
 
@@ -89,71 +93,47 @@
 	export default {
 		data() {
 			return {
-				ApplyMember: {
-					  img: "",
-					  name: "",
-					  idNum: "",
-					  birth: "",
-					  sex: null,
-					  place: "",
-					  polity: "",
-					  nation: "",
-					  phone: "",
-					  email: "",
-					  school: "",
-					  major: "",
-					  work: "",
-					  position: "",
-					  introduce: "",
-					  level: null,
+				companyMsg: {
+					img: '',
+					address: '',
+					companyName: '',
+					companyPhone: '',
+					content: '',
+					creditCode: '',
+					email: '',
+					industry: '',
+					license: '',
+					manageArea: '',
+					manageStatus: '',
+					money: '',
+					name: '',
+					num: '',
+					phone: '',
+					representative: '',
+					sex: '',
+					time: '',
 				},
-				sexlist: [{
-					id: 0,
-					name: '男'
-				}, {
-					id: 1,
-					name: '女'
-				}],
-				levelList: [{
-					id: 0,
-					name: '总经理'
-				},{
-					id: 1,
-					name: '产品经理'
-				},{
-					id: 2,
-					name: '部门经理'
-				}],
+				sex: [
+					{
+						id: 0,
+						name: '男'
+					},
+					{
+						id: 1,
+						name: '女'
+					}
+				]
 			}
-
 		},
 		methods: {
-			bindLevelChange(e) {
-				this.ApplyMember.level = this.levelList[e.detail.value].id;
-			},
 			bindSexChange(e) {
-				this.ApplyMember.sex = this.sexlist[e.detail.value].id;
+				this.companyMsg.sex = e.detail.value;
 			},
 			bindDateChange(e) {
-				this.ApplyMember.birth = e.detail.value;
-			},
-			avatarChoose() {
-				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					success(res) {
-						const tempFilePaths = res.tempFilePaths
-						that.ApplyMember.img = tempFilePaths[0]
-						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
-						// 	console.log(res)
-						// })
-					}
-				});
+				this.companyMsg.birth = e.detail.value;
 			},
 			save() {
-				console.log(this.ApplyMember)
+				console.log(this.companyMsg);
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -163,10 +143,22 @@
 					return true;
 				}
 			},
-		},
-		onLoad() {			
+			avatarChoose() {
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success(res) {
+						const tempFilePaths = res.tempFilePaths
+						that.companyMsg.img = tempFilePaths[0]
+						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
+						// 	console.log(res)
+						// })
+					}
+				});
+			},
 		}
-
 	}
 </script>
 

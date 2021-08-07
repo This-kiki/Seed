@@ -132,6 +132,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/Mine/CompanyJoin/CompanyJoin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
