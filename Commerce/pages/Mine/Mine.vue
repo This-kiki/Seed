@@ -17,7 +17,7 @@
 					<open-data class="m-page-name" type="userNickName"></open-data>
 					<!-- <view class="m-page-name"></view> -->
 				</view>
-				<view class="m-page-join" @click="go('Join/Join')">
+				<view class="m-page-join" @click="go('joinPage/joinPage')">
 					<view class="m-page-jointitle">
 						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-joinimg">&#xe638;</span>
@@ -70,12 +70,12 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem" @click="go('Join/Join')">
+					<view class="m-page-listitem" @click="go('joinPage/joinPage')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
-							<span class="iconfont m-page-listitemimg">&#xe619;</span>
+							<span class="iconfont m-page-listitemimg">&#xe612;</span>
 							<view class="m-page-listitemtext">
-								成为会员
+								加入我们
 							</view>
 						</view>
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
@@ -103,17 +103,15 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
+<!-- 					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
 						<view class="m-page-listitemtitle">
-							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 							<span class="iconfont m-page-listitemimg">&#xe642;</span>
 							<view class="m-page-listitemtext">
 								成为会员单位
 							</view>
 						</view>
-						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</view>
@@ -136,7 +134,7 @@
 		methods: {
 			go(path) {
 				uni.navigateTo({
-				    url: path
+					url: path
 				});
 			},
 		}

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import page from '@/components/info_Com/activity-page/activity-page.vue';
+import page from '@/pages/Activity/activity-page/activity-page.vue';
 export default {
 	components: {
 		page

@@ -115,7 +115,7 @@
             
         }
         ,{
-            "path" : "pages/RealTimeInfo/detailedInfo/detailedInfo",
+            "path" : "pages/RealTimeInfo/DetailedInfo/DetailedInfo",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -134,6 +134,24 @@
         }
         ,{
             "path" : "pages/Mine/CompanyJoin/CompanyJoin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Mine/joinPage/joinPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/Mine/LawyerJoin/LawyerJoin",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

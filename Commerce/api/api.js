@@ -45,6 +45,12 @@ export class Api {
 		return res.data
 	}
 	
+	// 获取所有活动
+	getActivity = async (data) =>{
+		let res = await flyio.get("/activity/list/"+data.current+"/"+data.limit)
+		return res
+	}
+	
 	// 获取种子会介绍
 	getIntroduction = async (data) =>{
 		let res = await flyio.get("/intro/getIntroduce",data)

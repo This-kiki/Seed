@@ -1,12 +1,11 @@
 <template>
 	<view>
-		{{activityId}}
+		称为律师
 	</view>
 </template>
 
 <script>
 	export default {
-		props:["activityId"],
 		data() {
 			return {
 				

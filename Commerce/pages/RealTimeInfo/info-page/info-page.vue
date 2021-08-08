@@ -3,7 +3,7 @@
 		<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages" @loadMore="loadMore" @refresh="refresh">
 			<view slot="content-list" class="page">
 				<!-- 数据列表 -->
-				<view v-for="(item, index) in list" :key="index"><news-card :options="item"></news-card></view>
+				<view v-for="(item, index) in list" :key="index" @click="go(item.id)"><news-card :options="item"></news-card></view>
 			</view>
 		</loading>
 	</view>
@@ -11,7 +11,7 @@
 
 <script>
 import loading from '@/components/info_Com/load-refresh/load-refresh.vue';
-import newsCard from '@/components/info_Com/newsCard/index.vue';
+import newsCard from '@/pages/RealTimeInfo/infoCard/index.vue';
 export default {
 	props:['pageType'],
 	components: {
@@ -31,6 +31,11 @@ export default {
 		this.init()
 	},
 	methods: {
+		go(id) {
+			uni.navigateTo({
+				url: 'DetailedInfo/DetailedInfo?infoId='+id
+			})
+		},
 		async init() {
 			let resp
 			var getAPI = {current: 1,limit: 20}

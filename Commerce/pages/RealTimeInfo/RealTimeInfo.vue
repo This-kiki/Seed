@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Page from '@/components/info_Com/info-page/info-page.vue';
+import Page from '@/pages/RealTimeInfo/info-page/info-page.vue';
 import topNavBar from '@/components/info_Com/topNavBar/zzx-tabs.vue'
 export default {
 	components: {
