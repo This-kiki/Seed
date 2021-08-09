@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column fixed prop="name" label="活动名" width="300">
+      <el-table-column prop="name" label="活动名" width="300">
       </el-table-column>
       <el-table-column prop="num" label="剩余名额" width="100">
       </el-table-column>
