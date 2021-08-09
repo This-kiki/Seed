@@ -15,6 +15,8 @@ import Help from '../page/help/Help.vue';
 import Feedback from '../page/feedback/Feedback.vue';
 import App from '../App.vue'
 import login from '../page/login/login.vue'
+import addAdmin from '../page/superAdmin/addAdmin.vue'
+import allAdmin from '../page/superAdmin/allAdmin.vue'
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -92,6 +94,17 @@ export const routerMap =  [{
         name: '富文本编辑器',
         path: 'testEditor',
         component: testEditor
+      },
+      // superAdmin
+      {
+        name: '所有管理员',
+        path: 'allAdmin',
+        component: allAdmin
+      },
+      {
+        name: '添加管理员',
+        path: 'addAdmin',
+        component: addAdmin
       },
     ]
   },

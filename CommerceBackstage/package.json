@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "element-ui": "^1.0.5",
+    "element-ui": "^2.15.5",
     "nprogress": "^0.2.0",
     "vue": "^2.1.0",
     "vue-router": "^2.1.1",

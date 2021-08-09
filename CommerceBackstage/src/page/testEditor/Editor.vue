@@ -4,7 +4,6 @@
     <div id="demo1"></div>
     <button type="button" class="btn" @click="getEditorData">获取当前内容</button>
     <h3>内容预览：</h3>
-    <el-button @click="test">测试</el-button>
     <!-- <textarea name="" id="" cols="170" rows="20" readonly v-model="editorData"></textarea> -->
     <div v-html="editorData"></div>
   </div>
@@ -39,9 +38,6 @@ export default {
       // 通过代码获取编辑器内容
       let data = this.editor.txt.html()
       alert(data)
-    },
-    test() {
-      this.$http.getGeneralAdmin()
     },
   },
   beforeDestroy() {

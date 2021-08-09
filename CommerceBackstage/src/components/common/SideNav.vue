@@ -27,8 +27,8 @@
       </el-submenu>
       <el-submenu index="6">
         <template slot="title"><i class="el-icon-message"></i>超级管理员</template>
-        <el-menu-item index="/index/">添加管理员</el-menu-item>
-        <el-menu-item index="/index/">所有管理员</el-menu-item>
+        <el-menu-item index="/index/addAdmin">添加管理员</el-menu-item>
+        <el-menu-item index="/index/allAdmin">所有管理员</el-menu-item>
       </el-submenu>
       <el-submenu index="7">
         <template slot="title"><i class="el-icon-message"></i>种子会信息</template>

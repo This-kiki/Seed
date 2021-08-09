@@ -25,7 +25,6 @@ service.interceptors.request.use(
     let url = config.url.replace(config.baseURL,'');
     let code = config.code;
     config.headers = getHeader(code) // 让每个请求携带自定义签名
-    console.log('configer',config)
     return config
   },
   error => {
@@ -54,7 +53,6 @@ service.interceptors.response.use(
         Message({
           message: res.message,
           type: 'error',
-          duration: 800
         })
         return Promise.reject('请求失败')
       }
