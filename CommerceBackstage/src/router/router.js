@@ -23,6 +23,9 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export const routerMap =  [{
+    path: '/',
+    redirect: '/login'
+  },{
     path: '/login',
     name: '登录',
     component: login
@@ -31,6 +34,10 @@ export const routerMap =  [{
     path: '/index',
     component: App,
     children: [
+      {
+        path: '/',
+        redirect: 'welcome'
+      },
       {
         name: '首页',
         path: 'welcome',

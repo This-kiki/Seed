@@ -87,13 +87,16 @@ export default {
     },
     deleteActivity(row) {
       // console.log(row)
-      var postAPI = { id: row.id }
+      var postAPI = { actid: row.id }
       this.$http.deleteActivity(postAPI).then((res) => {
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-        })
-        this.getAllActivity()
+        // console.log(res)
+        if (res.code == 20000) {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+          this.getAllActivity()
+        }
       })
     },
   },

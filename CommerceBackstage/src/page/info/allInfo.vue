@@ -68,11 +68,11 @@ export default {
         },
         {
           id: 3,
-          name: '家乡新闻',
+          name: '会员单位',
         },
         {
           id: 4,
-          name: '会员单位',
+          name: '家乡新闻',
         },
       ],
     }
@@ -92,9 +92,9 @@ export default {
           } else if (resp[i].category == 2) {
             resp[i].type = '会员风采'
           } else if (resp[i].category == 3) {
-            resp[i].type = '家乡新闻'
-          } else if (resp[i].category == 3) {
             resp[i].type = '会员单位'
+          } else if (resp[i].category == 3) {
+            resp[i].type = '家乡新闻'
           } else {
             resp[i].type = '未知'
           }
@@ -142,7 +142,7 @@ export default {
             // console.log(res)
             var resp = res.data.rows
             for (let i = 0; i < resp.length; i++) {
-              resp[i].type = '家乡新闻'
+              resp[i].type = '会员单位'
               this.tableData.push(resp[i])
             }
             this.current.total = res.data.total
@@ -153,7 +153,7 @@ export default {
             // console.log(res)
             var resp = res.data.rows
             for (let i = 0; i < resp.length; i++) {
-              resp[i].type = '会员单位'
+              resp[i].type = '家乡新闻'
               this.tableData.push(resp[i])
             }
             this.current.total = res.data.total
@@ -179,11 +179,13 @@ export default {
       // console.log(row)
       var postAPI = { id: row.id }
       this.$http.deleteOneInfo(postAPI).then((res) => {
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-        })
-        this.getAllInfo()
+        if (res.code == 20000) {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+          this.getAllInfo()
+        }
       })
     },
   },

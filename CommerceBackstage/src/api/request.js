@@ -36,27 +36,27 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   response => {
-    if(response.config.responseType=='blob'){
-      if(response.status==200){
-        return response;
-      }else{
-        return Promise.reject(error);
-      }
-    }else{
-      const res = response.data;
-      if (res.code === 20000) {
-        return response.data
-      } else if(res.state == false){
-        console.log("Token失效跳转登陆页面");
-        router.push({path: '/login'})
-      } else {
-        Message({
-          message: res.message,
-          type: 'error',
-        })
-        return Promise.reject('请求失败')
-      }
+    // if(response.config.responseType=='blob'){
+    //   if(response.status==200){
+    //     return response;
+    //   }else{
+    //     return Promise.reject(error);
+    //   }
+    // }else{
+    const res = response.data;
+    if (res.code === 20000) {
+      return response.data
+    } else if(res.code == 312){
+      console.log("Token失效跳转登陆页面");
+      router.push({path: '/login'})
+    } else {
+      Message({
+        message: res.message,
+        type: 'error',
+      })
+      return Promise.reject('请求失败')
     }
+    // }
   },
   error => {
     // console.log('response错误:',JSON.stringify(error)) // for debug

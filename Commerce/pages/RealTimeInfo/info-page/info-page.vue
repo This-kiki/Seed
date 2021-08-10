@@ -132,6 +132,7 @@ export default {
 
 <style>
 .page {
+	padding-top: 10rpx;
 	min-height: 50rpx;
 	background-color: rgb(255, 255, 255);
 }

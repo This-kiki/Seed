@@ -10,10 +10,12 @@
         <el-col :span="8">
           <el-form ref="form" :model="addForm" label-width="80px">
             <el-form-item label="活动名称">
-              <el-input v-model="addForm.name"></el-input>
+              <el-input v-model="addForm.name" placeholder="请输入活动名称"></el-input>
             </el-form-item>
             <el-form-item label="活动名额">
-              <el-input-number v-model="addForm.num" :min="1"></el-input-number>
+              <el-input-number v-model="addForm.num" :min="1" size="small"></el-input-number>
+            </el-form-item>
+            <el-form-item label="正文内容">
             </el-form-item>
           </el-form>
         </el-col>
@@ -140,11 +142,13 @@ export default {
     },
     submit() {
       this.$http.addActivity(this.addForm).then((res) => {
+        if (res.code == 20000) {
+          this.$message({
+            message: '发布活动成功',
+            type: 'success',
+          })
+        }
         // console.log(res)
-        this.$message({
-          message: '发布活动成功',
-          type: 'success',
-        })
       })
     },
   },

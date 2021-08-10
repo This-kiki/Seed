@@ -64,7 +64,7 @@ export default {
               this.$store.commit('user/setToken', token)
               setToken(token)
               //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
-              let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/')
+              let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/index')
               console.log('登陆成功，跳转到->', redirectUrl)
               this.$router.push({
                 path: redirectUrl,
