@@ -112,7 +112,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 .container {
 	width: 100%;
 	display: flex;

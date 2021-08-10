@@ -159,6 +159,45 @@
             }
             
         }
+        ,{
+            "path" : "pages/LegalAid /LegalAid ",
+			"style": {
+				"navigationStyle": "custom"
+			}
+            
+        }
+        ,{
+            "path" : "pages/UserList/UserList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/CompanyList/CompanyList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+            
+        }
+        ,{
+            "path" : "pages/CompanyListDetail/CompanyListDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/UserListDetail/UserListDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+            
+        }
+        ,{
+            "path" : "pages/JobDetail/JobDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -6,14 +6,10 @@
 		<view class="swiperContainer">
 			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 				:duration="duration" :circular="circular">
-				<swiper-item>
-					<view class="swiper-item">A</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="swiper-item">B</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="swiper-item">C</view>
+				<swiper-item v-for="item in carouselList" :key="item.id">
+					<view class="swiper-item">
+						<image :src="item.url" mode=""></image>
+					</view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -29,6 +25,19 @@
 			</view>
 			<view class="showMore" @click="showMore()">
 				{{infoBtn}}
+			</view>
+		</view>
+		<!-- 种子会架构 -->
+		<view class="frameWorkContainer infoContainer">
+			<view class="titleLine">
+				<view class="title">
+					种子会架构
+				</view>
+			</view>
+			<view class="frameWorkList">
+				<view class="frameItem" v-for="(item,index) in frameWorkList" :key="index">
+					{{item}}
+				</view>
 			</view>
 		</view>
 		<!-- 联系我们 -->
@@ -63,6 +72,18 @@
 				</view>
 			</view>
 		</view>
+
+		<!-- 种子会章程 -->
+		<view class="constitutionContainer infoContainer">
+			<view class="titleLine">
+				<view class="title">
+					种子会章程
+				</view>
+			</view>
+			<view class="main">
+				{{constitution}}
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -92,26 +113,46 @@
 				duration: 800,
 				// 循环
 				circular: true,
+				// 轮播图列表
+				carouselList: [],				
 				// 商会介绍
-				info: "濠江区珠浦种子会简称种子会，发起于2017年3月，设立于濠江珠浦，是由濠江区的青年企业家们发起并组建的非盈利性公益组织。种子会坚持以“心存善、行致远”的服务理念，致力于为濠江区当地的学子提供学业、就业方面的咨询及帮助；为当地青年提供交流与服务的平台；在传承家乡特色文化方面提出新的理念并支持建设与发展。濠江区珠浦种子会力求打造一个属于濠江区的人才交流中心及家乡文化建设平台，支持家乡公益事业的发展及文化建设。",
+				info: "暂无",
 				// 商会框高度
 				infoHeight: "300rpx",
 				// 商会按钮文字
 				infoBtn: "查看更多",
 				// 地址
-				address: "汕头市濠江区珠浦社区康乐活动中心三楼",
+				address: "",
 				// 电话
-				phoneList:[
-					{phone: "15815134760",name: "黄居浦先生"},
-					{phone: "13510517003",name: "黄芳宜女士"},
-				]
+				phoneList: [],
+				// 架构
+				frameWorkList: [],
+				// 章程
+				constitution: "",
 			};
 		},
 		created() {
-		 let res =	this.$api.getIntroduction()
-		 console.log(res)
+			this.getInfoCarousel()
+			this.getIntro()
 		},
 		methods: {
+			// 种子会轮播图
+			async getInfoCarousel(){
+				let res = await this.$api.getInfoCarousel()
+				// console.log(res)
+				this.carouselList = res.data.urlList
+			},
+			// 获取种子会介绍
+			async getIntro() {
+				let res = await this.$api.getIntroduction()
+				// console.log(res)
+				let data = res.data.intro
+				this.address = data.address
+				this.phoneList = data.contact
+				this.info = data.introduce
+				this.frameWorkList = data.framework.split("\n")
+				this.constitution = data.constitution
+			},
 			// 介绍显示更多
 			showMore() {
 				if (this.infoBtn == "查看更多") {
@@ -144,9 +185,9 @@
 				});
 			},
 			// 打电话
-			callPhone(phone){
+			callPhone(phone) {
 				uni.makePhoneCall({
-					phoneNumber:phone
+					phoneNumber: phone
 				})
 			}
 		}
@@ -167,9 +208,13 @@
 					width: 94%;
 					height: 100%;
 					margin: 0 auto;
-					background-color: lightblue;
+					background-color: #4e8df6;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+					image{
+						width: 100%;
+						height: 100%;
+					}
 				}
 			}
 		}
@@ -237,6 +282,23 @@
 			}
 		}
 
+		.frameWorkContainer {
+			margin-top: 0;
+
+			.frameWorkList {
+				margin-top: 20rpx;
+				padding: 40rpx 30rpx;
+				background-color: #fefefe;
+				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+				font-size: 28rpx;
+				letter-spacing: 1rpx;
+				line-height: 46rpx;
+				border-radius: 10rpx;
+
+			}
+		}
+
+
 		.contactContainer {
 			margin-top: 0;
 
@@ -275,12 +337,27 @@
 						}
 					}
 				}
-				
-				.phone{
-					.info{
+
+				.phone {
+					.info {
 						margin-top: 20rpx;
 					}
 				}
+			}
+		}
+
+		.constitutionContainer {
+			margin-top: 0;
+
+			.main {
+				margin-top: 20rpx;
+				padding: 40rpx 30rpx 40rpx;
+				background-color: #fefefe;
+				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+				font-size: 28rpx;
+				letter-spacing: 1rpx;
+				line-height: 46rpx;
+				border-radius: 10rpx;
 			}
 		}
 	}
