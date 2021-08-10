@@ -25,7 +25,7 @@
       </el-table-column>
     </el-table>
     <div>
-      <el-dialog title="活动详情" :visible.sync="viewVisible" width="35%">
+      <el-dialog title="活动详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
       </el-dialog>
     </div>

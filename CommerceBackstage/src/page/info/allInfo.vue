@@ -34,7 +34,7 @@
     <el-pagination background layout="prev, pager, next" :total="current.total">
     </el-pagination>
     <div>
-      <el-dialog title="资讯详情" :visible.sync="viewVisible" width="35%">
+      <el-dialog title="资讯详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
       </el-dialog>
     </div>

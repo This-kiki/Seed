@@ -48,6 +48,10 @@ service.interceptors.response.use(
       return response.data
     } else if(res.code == 312){
       console.log("Token失效跳转登陆页面");
+      Message({
+        message: 'token失效，请重新登录',
+        type: 'error',
+      })
       router.push({path: '/login'})
     } else {
       Message({

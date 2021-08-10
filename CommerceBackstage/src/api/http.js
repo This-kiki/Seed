@@ -177,5 +177,35 @@ export default {
             url: '/admin/info/delSeedDynamic/'+data.id,
             method: 'get',
         })
-    }
+    },
+    // 获取所有公司
+    getCompany() {
+        return service({
+            url: '/admin/company/findAllCompany',
+            method: 'get',
+        })
+    },
+    // 获取所有申请公司
+    getApplyCompany(data) {
+        return service({
+            url: '/admin/company/findAllCompanyApplyMeeting/'+data.current+'/20',
+            method: 'get',
+        })
+    },
+    // 删除公司
+    deleteCompony(data) {
+        return service({
+            url: '/admin/company/delCompany',
+            method: 'post',
+            data: data
+        })
+    },
+    // 通过公司申请
+    adoptApplyCompany(data) {
+        return service({
+            url: '/admin/company/successCompany',
+            method: 'post',
+            params: data
+        })
+    },
 }
