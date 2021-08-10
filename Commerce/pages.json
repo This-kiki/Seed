@@ -115,15 +115,6 @@
             
         }
         ,{
-            "path" : "pages/RealTimeInfo/DetailedInfo/DetailedInfo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
             "path" : "pages/Mine/MineActivity/MineActivity",
             "style" :                                                                                    
             {
@@ -152,6 +143,15 @@
         }
         ,{
             "path" : "pages/Mine/LawyerJoin/LawyerJoin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/RealTimeInfo/DetailedInfo/DetailedInfo",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

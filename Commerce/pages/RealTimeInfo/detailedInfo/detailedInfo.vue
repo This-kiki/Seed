@@ -1,9 +1,11 @@
 <template>
-	<view class="home">
+	<view>
 		<view class="info-title">
 			{{dataForm.title}}
 		</view>
-		<view class="info-content" v-html="dataForm.content"></view>
+		<view class="info-content" v-html="dataForm.content">
+			
+		</view>
 	</view>
 </template>
 
@@ -12,30 +14,31 @@
 		props:["infoId"],
 		data() {
 			return {
-				dataForm: {}
+				dataForm: null
 			}
 		},
 		mounted() {
-			this.getOneInfo()
+			this.getInfo()
 		},
 		methods: {
-			getOneInfo() {
+			getInfo() {
 				var getAPI = {id: this.infoId}
 				this.$api.getOneInfo(getAPI).then((res) => {
 					this.dataForm = res.data.Info
+					// console.log(res.data.Info)
 				})
 			}
 		}
 	}
 </script>
 
-<style>
-.home {
-	padding: 30rpx 25rpx 0 25rpx;
-}
+<style scoped>
 .info-title {
-	font-size: 32rpx;
+	margin: 20rpx 10rpx;
+	font-size: 35rpx;
 	font-weight: 900;
-	margin-bottom: 40rpx;
+}
+.info-content {
+	padding: 20rpx;
 }
 </style>

@@ -33,8 +33,8 @@ export default {
 	methods: {
 		go(id) {
 			uni.navigateTo({
-				url: 'DetailedInfo/DetailedInfo?infoId='+id
-			})
+				url: 'DetailedInfo/DetailedInfo?activityId='+id,
+			});
 		},
 		async init() {
 			let resp

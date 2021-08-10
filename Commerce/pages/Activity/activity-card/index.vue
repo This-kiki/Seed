@@ -5,21 +5,21 @@
 			<img class="act-card-imag" src="/static/hm-news-card/images/img_22726_0_0.png" />
 			<view class="act-card-text">
 				<view class="act-card-title">
-					种子会启动大会种子会启动大会种子会启动大会种子会启动大会种子会启动大会
+					{{options.name}}
 				</view>
 				<view class="act-card-msg">
 					<view class="act-card-time">
-						2021/05/15开始
+						{{options.createTime.slice(0,9)}}开始
 					</view>
 					<view class="act-card-quota">
-						名额：500
+						名额：{{options.num}}
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="act-card-state">
-			<view class="act-card-statebtn">
-				已结束
+			<view class="act-card-statebtn" :style="'background-color:' + getColor(options.status) + ''">
+				{{options.status==0?'进行中':'已结束'}}
 			</view>
 		</view>
 	</view>
@@ -30,10 +30,6 @@
 export default {
 	name:'ActivityCard',
 	props:{
-		dataId: {
-		  type: String,
-		  default: 'hm-news-card'
-		},
 		options: {
 			type: Object
 		}
@@ -41,7 +37,15 @@ export default {
 	data() {
 		return {};
 	},
-	methods: {}
+	methods: {
+		getColor(s) {
+			if(s == 0) {
+				return '#3CB371'
+			}else if(s == 1) {
+				return '#808080'
+			}
+		}
+	}
 };
 </script>
 
@@ -119,8 +123,8 @@ export default {
 .act-card-quota {}
 .act-card-statebtn {
 	font-size: 27rpx;
-	width: 150rpx;
-	height: 55rpx;
+	width: 130rpx;
+	height: 45rpx;
 	border-radius: 20rpx;
 	background-color: rgb(168,166,167);
 	color: rgb(243,237,239);
