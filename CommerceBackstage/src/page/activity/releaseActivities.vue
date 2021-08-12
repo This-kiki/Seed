@@ -73,6 +73,7 @@ export default {
         content: '',
         name: '',
         num: 0,
+        img: '',
       },
       imgList: [
         {
@@ -141,6 +142,9 @@ export default {
       }
     },
     submit() {
+      if (this.imgList[0]) {
+        this.addForm.img = this.imgList[0].img
+      }
       this.$http.addActivity(this.addForm).then((res) => {
         if (res.code == 20000) {
           this.$message({

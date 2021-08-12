@@ -159,13 +159,13 @@
             }
             
         }
-        ,{
-            "path" : "pages/LegalAid /LegalAid ",
-			"style": {
-				"navigationStyle": "custom"
-			}
+   //      ,{
+   //          "path" : "pages/LegalAid/LegalAid",
+			// "style": {
+			// 	"navigationStyle": "custom"
+			// }
             
-        }
+   //      }
         ,{
             "path" : "pages/UserList/UserList",
 			"style": {

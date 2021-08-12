@@ -2,8 +2,8 @@
 	<view class="activity-card">
 	<view class="act-card">
 		<view class="act-card-content">
-			<img class="act-card-imag" src="/static/hm-news-card/images/img_22726_0_0.png" />
-			<view class="act-card-text">
+			<img class="act-card-imag" :src="options.img" v-if="options.img" />
+			<view class="act-card-text" :style="options.img?'width: 55%;':'width: 100%;'">
 				<view class="act-card-title">
 					{{options.name}}
 				</view>
@@ -45,11 +45,18 @@ export default {
 				return '#808080'
 			}
 		}
+	},
+	computed:{
+		styleVar() {
+			return {
+				'--contextWidth': '55%',
+			}
+		},
 	}
 };
 </script>
 
-<style>
+<style scoped>
 .activity-card {
 	background-color: rgb(255,255,255);
 	display: flex;
@@ -93,7 +100,6 @@ export default {
 }
 .act-card-text {
 	margin-left: 30rpx;
-	width: 55%;
 	height: 150rpx;
 	display: flex;
 	flex-direction: column;

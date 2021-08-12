@@ -55,6 +55,30 @@ export class Api {
 		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit)
 		return res
 	}
+	
+	// 获取活动详情
+	getAcrivityDetails = async (data) => {
+		let res = await flyio.get(`/activity/actDetail?id=${data.id}`)
+		return res
+	}
+	
+	// 参与活动
+	participateActivity = async (data) => {
+		let res = await flyio.post(`/activity/apply?id=${data.id}`)
+		return res
+	}
+	
+	// 放弃活动
+	participateActivity = async (data) => {
+		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
+		return res
+	}
+	
+	// 获取活动状态情况
+	getActivityState = async (data) => {
+		let res = await flyio.get('/activity/queryApply')
+		return res
+	}
 
 	// 获取种子会介绍
 	getIntroduction = async () => {

@@ -91,6 +91,9 @@
 								console.log(error);
 							  }
 							})
+							// this.$api.getOpenid({'code': login_res.code}).then((res) => {
+							// 	console.log(res)
+							// })
 							// uni.reLaunch({url: '/pages/HomePage/HomePage'});
 							that.hasUserInfo= true,
 							that.userInfo = userInfo
