@@ -114,7 +114,7 @@ export default {
     },
     deleteCompany(row) {
       // console.log(row)
-      var postAPI = { id: row.id }
+      var postAPI = { openid: row.openid }
       this.$http.deleteCompany(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({

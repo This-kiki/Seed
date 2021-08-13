@@ -15,6 +15,8 @@ import Help from '../page/help/Help.vue';
 import Feedback from '../page/feedback/Feedback.vue';
 import App from '../App.vue'
 import login from '../page/login/login.vue'
+import allLayer from '../page/layer/allLayer.vue'
+import layerApplication from '../page/layer/layerApplication.vue'
 import addAdmin from '../page/superAdmin/addAdmin.vue'
 import allAdmin from '../page/superAdmin/allAdmin.vue'
 
@@ -86,6 +88,14 @@ export const routerMap =  [{
         name: '种子会信息',
         path: 'message',
         component:message
+      },{
+        name: '所有律师',
+        path: 'allLayer',
+        component:allLayer
+      },{
+        name: '律师入会审核',
+        path: 'layerApplication',
+        component:layerApplication
       },
       {
         name: '帮助',

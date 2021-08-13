@@ -20,6 +20,11 @@
         <el-menu-item index="/index/allCompanies">所有公司</el-menu-item>
         <el-menu-item index="/index/companyApplication">单位入会审核</el-menu-item>
       </el-submenu>
+      <el-submenu index="9">
+        <template slot="title"><i class="el-icon-message"></i>律师管理</template>
+        <el-menu-item index="/index/allLayer">所有律师</el-menu-item>
+        <el-menu-item index="/index/layerApplication">律师入会审核</el-menu-item>
+      </el-submenu>
       <el-submenu index="4">
         <template slot="title"><i class="el-icon-message"></i>资讯管理</template>
         <el-menu-item index="/index/releaseInfo">发布资讯</el-menu-item>

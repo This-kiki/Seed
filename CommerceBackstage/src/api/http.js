@@ -193,7 +193,7 @@ export default {
         })
     },
     // 删除公司
-    deleteCompony(data) {
+    deleteCompany(data) {
         return service({
             url: '/admin/company/delCompany',
             method: 'post',
@@ -204,6 +204,66 @@ export default {
     adoptApplyCompany(data) {
         return service({
             url: '/admin/company/successCompany',
+            method: 'post',
+            params: data
+        })
+    },
+    // 获取所有律师
+    getLayer(data) {
+        return service({
+            url: '/pro/lawyer/lawer/'+data.current,
+            method: 'get',
+        })
+    },
+    // 获取所有申请律师
+    getApplyLayer(data) {
+        return service({
+            url: '/admin/lawer/findAllApplyMeeting/'+data.current,
+            method: 'get',
+        })
+    },
+    // 删除律师
+    deleteLayer(data) {
+        return service({
+            url: '/admin/lawer/del',
+            method: 'post',
+            data: data
+        })
+    },
+    // 通过律师申请
+    adoptApplyLayer(data) {
+        return service({
+            url: '/admin/lawer/update',
+            method: 'post',
+            params: data
+        })
+    },
+    // 获取所有会员
+    getMember(data) {
+        return service({
+            url: '/admin/user/findAllDetailInfo',
+            method: 'get',
+        })
+    },
+    // 获取所有申请会员
+    getApplyMember(data) {
+        return service({
+            url: '/admin/user/findAllApplyMeeting/'+data.current+'/20',
+            method: 'get',
+        })
+    },
+    // 删除会员
+    deleteMember(data) {
+        return service({
+            url: '/admin/user/delMember',
+            method: 'post',
+            data: data
+        })
+    },
+    // 通过会员申请
+    adoptApplyMember(data) {
+        return service({
+            url: '/admin/user/successMember',
             method: 'post',
             params: data
         })
