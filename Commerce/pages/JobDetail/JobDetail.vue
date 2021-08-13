@@ -18,21 +18,18 @@
 					backBtnColor: "black"
 				},
 				// 招聘详情id
-				id: 'd85496a3909adee2bb4f9a70025dce6c'
+				id: ''
 
 			};
 		},
 		onLoad(option) {
-			if (option)
-				this.id = option.id
-		},
-		created() {
+			this.id = option.id
 			this.getJobDetail()
 		},
 		methods: {
 			async getJobDetail() {
 				let res = await this.$api.getJobDetail({
-					id:this.id
+					id: this.id
 				})
 				console.log(res)
 			}

@@ -10,6 +10,9 @@
 				搜索
 			</view>
 		</view>
+		<!-- 
+			<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages" @loadMore="loadMore" @refresh="refresh"></loading> -->
+		
 		<!-- 职场列表 -->
 		<view class="jobList">
 			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
@@ -42,7 +45,11 @@
 </template>
 
 <script>
+	import loading from '@/components/info_Com/load-refresh/load-refresh.vue';
 	export default {
+	components: {
+		loading
+	},
 		data() {
 			return {
 				setNav: {
@@ -79,7 +86,7 @@
 					job: this.inputValue
 				}
 				let res = await this.$api.getJobList(data)
-				// console.log(res)
+				console.log(res)
 				let nowList = res.data.list
 				this.jobList.push.apply(this.jobList, nowList)
 			},
@@ -90,8 +97,8 @@
 				})
 			},
 			// 搜索工作
-			searchJob(){
-				this.getJobList()
+			searchJob() {
+				// this.getJobList()
 				console.log(this.inputValue)
 			}
 		}
@@ -124,7 +131,8 @@
 				letter-spacing: 1rpx;
 				transition: 0.2s ease-in-out;
 			}
-			.searchBtn{
+
+			.searchBtn {
 				width: 100rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
@@ -164,7 +172,7 @@
 
 					.money {
 						font-size: 34rpx;
-						color: orange;
+						color: #4e8df6;
 						margin-top: 6rpx;
 
 						text {
@@ -181,10 +189,10 @@
 					text-align: center;
 
 					.btn {
-						color: orange;
+						color: #4e8df6;
 						font-size: 24rpx;
 						padding: 6rpx 15rpx;
-						border: 2rpx solid orange;
+						border: 2rpx solid #4e8df6;
 						border-radius: 8rpx;
 					}
 

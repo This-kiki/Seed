@@ -19,19 +19,6 @@ export class Api {
 		let res = await flyio.get("/user/findBaseInfo")
 		return res.data
 	}
-	
-	// 更改用户基本资料
-	changeUserMsg = async (data) => {
-		let res = await flyio.post("/user/updateBaseInfo",data)
-		return res.data
-	}
-	
-	// 更改会员详细信息
-	changeManageMsg = async (data) => {
-		let res = await flyio.post("/user/updateMemberDetailInfo",data)
-		return res.data
-	}
-	
 	// 获取会员信息
 	getMemberMsg = async () => {
 		let res = await flyio.get("/user/findDetailInfo")
@@ -66,30 +53,6 @@ export class Api {
 	// 获取所有活动
 	getActivity = async (data) => {
 		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit)
-		return res
-	}
-	
-	// 获取活动详情
-	getAcrivityDetails = async (data) => {
-		let res = await flyio.get(`/activity/actDetail?id=${data.id}`)
-		return res
-	}
-	
-	// 参与活动
-	participateActivity = async (data) => {
-		let res = await flyio.post(`/activity/apply?id=${data.id}`)
-		return res
-	}
-	
-	// 放弃活动
-	quitActivity = async (data) => {
-		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
-		return res
-	}
-	
-	// 获取活动状态情况
-	getActivityState = async (data) => {
-		let res = await flyio.get('/activity/queryApply')
 		return res
 	}
 
@@ -155,23 +118,6 @@ export class Api {
 		return res.data
 	}
 	
-	// 申请律师
-	applyLayer = async (data) => {
-		let res = await flyio.post('/pro/lawyer/apply',data)
-		return res.data
-	}
-	
-	// 申请会员
-	applyMember = async (data) => {
-		let res = await flyio.post('/user/applyMember',data)
-		return res.data
-	}
-	
-	// 申请公司
-	applyComopany = async (data) => {
-		let res = await flyio.post('/company/applyCompany',data)
-		return res.data
-	}
 }
 
 

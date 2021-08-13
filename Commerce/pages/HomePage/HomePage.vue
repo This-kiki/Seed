@@ -56,13 +56,13 @@
 				</view>
 			</view>
 			<view class="managerBox">
-				<view class="manager" v-for="index in 10" :key="index">
-					<view class="img">
-						照片
+				<view class="manager" v-for="item in userList" :key="item.openId">
+					<view class="img" @click="seeUserDetail(item.openId)">
+						<image :src="item.img" mode=""></image>
 					</view>
 					<view class="info">
 						<view class="name">
-							名称
+							{{item.name}}
 						</view>
 					</view>
 				</view>
@@ -80,7 +80,7 @@
 			</view>
 			<view class="managerBox">
 				<view class="manager" v-for="item in companyList" :key="item.openId">
-					<view class="img" @click="seeDetail(item.openId)">
+					<view class="img" @click="seeCompanyDetail(item.openId)">
 						<image :src="item.img" mode=""></image>
 					</view>
 					<view class="info">
@@ -115,22 +115,35 @@
 				circular: true,
 				// 轮播图列表
 				carouselList: [],
+				// 会员列表
+				userList: [],
 				// 会员单位列表
 				companyList: []
 			}
 		},
 		created() {
 			this.getHomeCarousel()
+			this.getManagerList()
 			this.getCompanyList()
 		},
 		methods: {
 			//首页轮播图
-		    async getHomeCarousel(){
+			async getHomeCarousel() {
 				let res = await this.$api.getHomeCarousel()
 				this.carouselList = res.data.DynamicImagList
 			},
+			// 会员列表
+			async getManagerList() {
+				let data = {
+					current: 1,
+					limit: 10
+				}
+				let res = await this.$api.getManagerList(data)
+				// console.log(res)
+				this.userList = res.data.rows
+			},
 			// 会员单位列表
-			async getCompanyList(){
+			async getCompanyList() {
 				let data = {
 					current: 1,
 					limit: 5
@@ -140,27 +153,31 @@
 				this.companyList = res.data.rows
 			},
 			// 查看更多
-			seeMore(flag){
+			seeMore(flag) {
 				uni.navigateTo({
 					url: `/pages/${flag}/${flag}`
 				})
 			},
 			// 查看详情
-			async seeDetail(openId){
-				let data ={
-					openid:openId
-				}
-				let res = await this.$api.getCompanyDetail(data)
-				console.log(openId,res)
+			seeCompanyDetail(openId) {
+				uni.navigateTo({
+					url:`/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
+				})
+			},
+			// 查看详情
+			seeUserDetail(openId) {
+				uni.navigateTo({
+					url:`/pages/UserListDetail/UserListDetail?id=${openId}`
+				})
 			},
 			// 跳转页面
-			goPage(page){
-				if(page == 'joinPage'){
+			goPage(page) {
+				if (page == 'joinPage') {
 					uni.navigateTo({
-					url: `/pages/Mine/${page}/${page}`
-				})
+						url: `/pages/Mine/${page}/${page}`
+					})
 				}
-				if(page == 'Complaints'){
+				if (page == 'Complaints') {
 					uni.navigateTo({
 						url: `/pages/Mine/${page}/${page}`
 					})
@@ -176,6 +193,7 @@
 <style lang="scss" scoped>
 	.homeContainer {
 		padding-bottom: 50rpx;
+
 		.swiperContainer {
 			width: 100%;
 
@@ -189,7 +207,8 @@
 					background-color: #4e8df6;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-					image{
+
+					image {
 						width: 100%;
 						height: 100%;
 					}
@@ -219,23 +238,24 @@
 					text-shadow: 0 4rpx 8rpx #eee;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 				}
-				
-				.intro{
-					background: url(../../static/img/jieshao.jpg) left top  no-repeat;
+
+				.intro {
+					background: url(../../static/img/jieshao.jpg) left top no-repeat;
 					background-size: 100% auto;
 				}
-				
-				.news{
+
+				.news {
 					background: url(../../static/img/dongtai.jpg) right top no-repeat;
 					background-size: 100% auto;
 				}
-				
-				.activity{
-					background: url(../../static/img/huodong.jpg) ;
+
+				.activity {
+					background: url(../../static/img/huodong.jpg);
 					background-size: 100% auto;
 				}
-				.suggest{
-					background: url(../../static/img/jianyi.jpg) center center;				
+
+				.suggest {
+					background: url(../../static/img/jianyi.jpg) center center;
 					background-size: 100% auto;
 				}
 			}
@@ -255,6 +275,7 @@
 				.left {
 					background-color: #ffffffaa;
 					padding: 30rpx 90rpx;
+
 					.title {
 						font-weight: bold;
 					}
@@ -338,7 +359,9 @@
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						image{
+
+						image {
+							border-radius: 14rpx;
 							width: 100%;
 							height: 100%;
 						}
