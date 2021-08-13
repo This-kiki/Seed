@@ -5,8 +5,8 @@
 				<view  class="imgAvatar">
 					<view class="iavatar" :style="'background: url('+ApplyMember.img+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
-				<text v-if="avater">修改头像</text>
-				<text v-if="!avater">选择头像</text>
+				<text v-if="ApplyMember.img">修改头像</text>
+				<text v-if="!ApplyMember.img">选择头像</text>
 			</view>
 			<view class="text-box">
 				<text>姓名</text>
@@ -89,12 +89,13 @@
 	export default {
 		data() {
 			return {
+				temp: null,
 				ApplyMember: {
 					  img: "",
 					  name: "",
 					  idNum: "",
 					  birth: "",
-					  sex: null,
+					  sex: 3,
 					  place: "",
 					  polity: "",
 					  nation: "",
@@ -145,6 +146,7 @@
 					sourceType: ['album', 'camera'],
 					success(res) {
 						const tempFilePaths = res.tempFilePaths
+						that.temp = tempFilePaths
 						that.ApplyMember.img = tempFilePaths[0]
 						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
 						// 	console.log(res)
@@ -153,7 +155,45 @@
 				});
 			},
 			save() {
-				console.log(this.ApplyMember)
+				if(!this.temp && !this.ApplyMember.img) {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}else if(this.temp) {
+					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
+						// console.log(res)
+						var obj = this.ApplyMember
+						obj.img = res.data.url
+						this.$api.applyMember(obj).then((res) => {
+							if(res.code == 20000){
+								uni.showToast({
+									title: '修改成功',
+									duration: 2000
+								});
+								uni.navigateBack({
+									
+								})
+							}
+						})
+					})
+				}else if(this.ApplyMember.img) {
+					var obj = this.ApplyMember
+					this.$api.applyMember(obj).then((res) => {
+						if(res.code == 20000){
+							uni.showToast({
+								title: '修改成功',
+								duration: 2000
+							});
+							uni.navigateBack({
+								
+							})
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;

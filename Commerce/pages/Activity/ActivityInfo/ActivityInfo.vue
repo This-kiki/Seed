@@ -4,12 +4,13 @@
 			{{dataForm.name}}
 		</view>
 		<view class="bot-num">
-			Remaining Places:{{dataForm.num}}
+			剩余名额：{{dataForm.num}}
 		</view>
 		<view class="act-content" v-html="dataForm.content"></view>
 		<view class="bottom">
 			<view class="bot-btn" @click="joinActivity">
-				PARTICIPATE
+				<!-- PARTICIPATE -->
+				我要参加
 			</view>
 		</view>
 	</view>
@@ -21,7 +22,6 @@
 		data() {
 			return {
 				dataForm: {},
-				num: 'ʣ�����'
 			}
 		},
 		mounted() {
@@ -36,7 +36,23 @@
 				})
 			},
 			joinActivity() {
-				
+				uni.showLoading();
+				var postAPI = {id: this.activityId}
+				this.$api.participateActivity(postAPI).then((res) => {
+					console.log(res)
+					uni.hideLoading()
+					if(res.data.code == 20000) {
+						uni.showToast({
+							title: '参加成功',
+							duration: 2000
+						});
+					}else if(res.data.code == 2002){
+						uni.showToast({
+							title: '你已经参加过啦',
+							duration: 2000
+						});
+					}
+				})
 			}
 		}
 	}
@@ -69,7 +85,7 @@
 		font-weight: 600;
 		color: #8b8b8b;
 		margin-right: 50rpx;
-		/* letter-spacing: 5rpx; */
+		letter-spacing: 5rpx;
 	}
 	.bot-btn {
 		display: flex;

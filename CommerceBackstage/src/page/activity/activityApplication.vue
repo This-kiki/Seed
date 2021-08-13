@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="username" label="姓名" width="150">
+      <el-table-column prop="username" label="申请人" width="150">
       </el-table-column>
-      <el-table-column prop="name" label="活动名" width="150">
+      <el-table-column prop="name" label="活动名" width="200">
       </el-table-column>
-      <el-table-column prop="createTime" label="申请时间" width="150">
+      <el-table-column prop="createTime" label="申请时间" width="200">
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>
@@ -57,7 +57,7 @@ export default {
       let getAPI = { current: this.current.current }
       this.$http.getApplyActivity(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.act
+        var resp = res.data.applyAct
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {
             resp[i].type = '未审核'

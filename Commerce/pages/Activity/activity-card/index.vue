@@ -9,7 +9,7 @@
 				</view>
 				<view class="act-card-msg">
 					<view class="act-card-time">
-						{{options.createTime.slice(0,9)}}开始
+						{{options.createTime.slice(0,11)}}开始
 					</view>
 					<view class="act-card-quota">
 						名额：{{options.num}}
@@ -18,7 +18,7 @@
 			</view>
 		</view>
 		<view class="act-card-state">
-			<view class="act-card-statebtn" :style="'background-color:' + getColor(options.status) + ''">
+			<view class="act-card-statebtn" :style="'background-color:' + getColor(options.status) + ';'">
 				{{options.status==0?'进行中':'已结束'}}
 			</view>
 		</view>
@@ -115,6 +115,7 @@ export default {
 	-webkit-box-orient: vertical; 
 	-webkit-line-clamp: 2; 
 	overflow: hidden; 
+	letter-spacing: 3rpx;
 }
 .act-card-msg {
 	width: 100%;

@@ -5,8 +5,8 @@
 				<view  class="imgAvatar">
 					<view class="iavatar" :style="'background: url('+mineMsg.img+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
-				<text v-if="avater">修改头像</text>
-				<text v-if="!avater">选择头像</text>
+				<text v-if="mineMsg.img">修改头像</text>
+				<text v-if="!mineMsg.img">选择头像</text>
 			</view>
 			<view class="text-box">
 				<text>姓名</text>
@@ -53,6 +53,7 @@
 	export default {
 		data() {
 			return {
+				temp: null,
 				mineMsg: {
 					img: '',
 					name: '',
@@ -75,7 +76,15 @@
 				]
 			}
 		},
+		mounted() {
+			this.getUserInfo()
+		},
 		methods: {
+			getUserInfo() {
+				this.$api.getUserMsg().then((res) => {
+					this.mineMsg = res.data.userBaseInfo
+				})
+			},
 			bindSexChange(e) {
 				this.mineMsg.sex = e.detail.value;
 			},
@@ -83,7 +92,46 @@
 				this.mineMsg.birth = e.detail.value;
 			},
 			save() {
-				console.log(this.mineMsg);
+				if(!this.temp && !this.mineMsg.img) {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}else if(this.temp) {
+					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
+						// console.log(res)
+						var obj = this.mineMsg
+						obj.img = res.data.url
+						this.$api.changeUserMsg(obj).then((res) => {
+							if(res.code == 20000){
+								uni.showToast({
+									title: '修改成功',
+									duration: 2000
+								});
+								uni.navigateBack({
+									
+								})
+							}
+						})
+					})
+				}else if(this.mineMsg.img) {
+					var obj = this.mineMsg
+					this.$api.changeUserMsg(obj).then((res) => {
+						if(res.code == 20000){
+							uni.showToast({
+								title: '修改成功',
+								duration: 2000
+							});
+							uni.navigateBack({
+								
+							})
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}
+				// // console.log(this.mineMsg);
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -101,10 +149,8 @@
 					sourceType: ['album', 'camera'],
 					success(res) {
 						const tempFilePaths = res.tempFilePaths
+						that.temp = tempFilePaths
 						that.mineMsg.img = tempFilePaths[0]
-						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
-						// 	console.log(res)
-						// })
 					}
 				});
 			},

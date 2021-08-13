@@ -19,6 +19,19 @@ export class Api {
 		let res = await flyio.get("/user/findBaseInfo")
 		return res.data
 	}
+	
+	// 更改用户基本资料
+	changeUserMsg = async (data) => {
+		let res = await flyio.post("/user/updateBaseInfo",data)
+		return res.data
+	}
+	
+	// 更改会员详细信息
+	changeManageMsg = async (data) => {
+		let res = await flyio.post("/user/updateMemberDetailInfo",data)
+		return res.data
+	}
+	
 	// 获取会员信息
 	getMemberMsg = async () => {
 		let res = await flyio.get("/user/findDetailInfo")
@@ -69,7 +82,7 @@ export class Api {
 	}
 	
 	// 放弃活动
-	participateActivity = async (data) => {
+	quitActivity = async (data) => {
 		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
 		return res
 	}
@@ -127,6 +140,24 @@ export class Api {
 	// 招聘信息详情
 	getJobDetail = async (data) => {
 		let res = await flyio.get(`/hr/companyInterview/getInfo?id=${data.id}`)
+		return res.data
+	}
+	
+	// 申请律师
+	applyLayer = async (data) => {
+		let res = await flyio.post('/pro/lawyer/apply',data)
+		return res.data
+	}
+	
+	// 申请会员
+	applyMember = async (data) => {
+		let res = await flyio.post('/user/applyMember',data)
+		return res.data
+	}
+	
+	// 申请公司
+	applyComopany = async (data) => {
+		let res = await flyio.post('/company/applyCompany',data)
 		return res.data
 	}
 }

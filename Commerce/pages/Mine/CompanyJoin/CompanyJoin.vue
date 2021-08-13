@@ -3,10 +3,10 @@
 		<view class="ui-all">
 			<view class="avatar" @tap="avatarChoose">
 				<view  class="imgAvatar">
-					<view class="iavatar" :style="'background: url('+mineMsg.img+') no-repeat center/cover #eeeeee;'"></view>
+					<view class="iavatar" :style="'background: url('+companyMsg.img+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
-				<text v-if="avater">修改头像</text>
-				<text v-if="!avater">选择头像</text>
+				<text v-if="companyMsg.img">修改头像</text>
+				<text v-if="!companyMsg.img">选择头像</text>
 			</view>
 			<view class="text-box">
 				<text>公司全称</text>
@@ -48,10 +48,6 @@
 				<text>公司联系电话</text>
 				<input class="input-box" type="text" v-model="companyMsg.companyPhone" placeholder-class="place" />
 			</view>
-			
-			
-			
-			
 			<view class="picker-box">
 				<text>生日</text>
 				<picker class="picker" mode="date" v-model="companyMsg.birth" @change="bindDateChange">
@@ -93,7 +89,9 @@
 	export default {
 		data() {
 			return {
+				temp: null,
 				companyMsg: {
+					birth: '',
 					img: '',
 					address: '',
 					companyName: '',
@@ -110,7 +108,7 @@
 					num: '',
 					phone: '',
 					representative: '',
-					sex: '',
+					sex: 3,
 					time: '',
 				},
 				sex: [
@@ -127,13 +125,51 @@
 		},
 		methods: {
 			bindSexChange(e) {
-				this.companyMsg.sex = e.detail.value;
+				this.companyMsg.sex = this.sexlist[e.detail.value].id;
 			},
 			bindDateChange(e) {
 				this.companyMsg.birth = e.detail.value;
 			},
 			save() {
-				console.log(this.companyMsg);
+				if(!this.temp && !this.companyMsg.img) {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}else if(this.temp) {
+					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
+						// console.log(res)
+						var obj = this.companyMsg
+						obj.img = res.data.url
+						this.$api.applyComopany(obj).then((res) => {
+							if(res.code == 20000){
+								uni.showToast({
+									title: '修改成功',
+									duration: 2000
+								});
+								uni.navigateBack({
+									
+								})
+							}
+						})
+					})
+				}else if(this.companyMsg.img) {
+					var obj = this.companyMsg
+					this.$api.applyComopany(obj).then((res) => {
+						if(res.code == 20000){
+							uni.showToast({
+								title: '修改成功',
+								duration: 2000
+							});
+							uni.navigateBack({
+								
+							})
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '请选择头像',
+					})
+				}
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -151,6 +187,7 @@
 					sourceType: ['album', 'camera'],
 					success(res) {
 						const tempFilePaths = res.tempFilePaths
+						that.temp = tempFilePaths
 						that.companyMsg.img = tempFilePaths[0]
 						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
 						// 	console.log(res)
