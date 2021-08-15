@@ -64,6 +64,7 @@
 			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
 
+			this.getLocalMessage()
 			this.getLeaveMessage()
 			this.openSocket()
 		},
@@ -73,18 +74,50 @@
 			// 清除心跳
 			clearInterval(this.heartTimer)
 			let chat = []
-			if(uni.getStorageSync("chat")){
-				console.log(11)
+			if (uni.getStorageSync("chat")) {
 				chat = uni.getStorageSync("chat")
 			}
+			let flag = -1
+			chat.forEach((item, i) => {
+				if (item.info.toOpenid = this.toInfo.toOpenid)
+					flag = i
+			})
 			let chatItem = {
-				info:this.toInfo,
-				chatList:this.chatList
+				info: this.toInfo,
+				chatList: this.chatList
 			}
-			chat.push(chatItem)
-			uni.setStorageSync("chat",chat)
+			if (flag == -1) {
+				chat.push(chatItem)
+			} else {
+				chat[flag] = chatItem
+			}
+			uni.setStorageSync("chat", chat)
 		},
 		methods: {
+			// 获取本地消息
+			getLocalMessage() {
+				let chat = []
+				if (uni.getStorageSync("chat")) {
+					chat = uni.getStorageSync("chat")
+				} else {
+					return
+				}
+				let flag = -1
+				chat.forEach((item, i) => {
+					if (item.info.toOpenid = this.toInfo.toOpenid)
+						flag = i
+				})
+				let localList = []
+				if (flag == -1) {
+					return
+				} else {
+					localList = chat[flag].chatList
+				}
+				localList.forEach((item) => {
+					this.chatList.push(item)
+					this.scrollBottom()
+				})
+			},
 			// 接受离线消息
 			async getLeaveMessage() {
 				let res = await this.$api.getLeaveMessage({
@@ -174,7 +207,7 @@
 					console.log('接收消息', e);
 					if (e.data == "leave") {
 						let data = {
-							toOpenid: this.toInfo.toOpenid,
+							toOpenid: this.openid,
 							content: this.chatList[this.chatList.length - 1].content
 						}
 						let res = await this.$api.sendLeaveMessage(data)
