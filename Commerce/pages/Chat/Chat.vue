@@ -50,8 +50,8 @@
 				// 对方的信息
 				toInfo: {
 					toOpenid: 'sfa',
-					name: "",
-					img: ""
+					name: "葛济维",
+					img: "https://th.bing.com/th/id/R.7379c1da3d35c4cce3132b6e50831d2d?rik=x6bJ9QmLO%2bfD8w&riu=http%3a%2f%2fimg2.woyaogexing.com%2f2017%2f08%2f21%2fdfb354693dd7a31b!400x400_big.jpg&ehk=8p%2f1vyyl3pssF7Ztu5AT2NOmoZfLV%2bffolvw%2fdz2BjM%3d&risl=&pid=ImgRaw&r=0"
 				}
 			}
 		},
@@ -60,8 +60,8 @@
 				this.toInfo.toOpenid = option.openid
 				this.toInfo.name = option.name
 				this.toInfo.img = option.img
-				this.setNav.navTitle = this.toInfo.name
 			}
+			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
 
 			this.getLeaveMessage()
@@ -80,13 +80,23 @@
 					toOpenid: this.toInfo.toOpenid
 				})
 				console.log(res)
+				let leaveList = res.data.ms
+				leaveList.forEach((item) => {
+					let chat = {
+						flag: 2,
+						content: item.content,
+						img: this.toInfo.img
+					}
+					this.chatList.push(chat)
+					this.scrollBottom()
+				})
 			},
 			// 发送消息
 			sendMessage() {
 				let chat = {
 					flag: 1,
 					content: this.inputValue,
-					img: "https://th.bing.com/th/id/R.9b1c8824e1c590b85168a685d16d7779?rik=IuMLd8zLKULaig&riu=http%3a%2f%2fscimg.jianbihuadq.com%2ftouxiang%2f202004%2f202004012005563.jpg&ehk=6KHNHMUDgb%2f3XKVuFXGi5Lr7OXCA81g%2bTZIbzrdO3aU%3d&risl=&pid=ImgRaw&r=0"
+					img: uni.getStorageSync("seed_userInfo").avatarUrl
 				}
 				if (this.inputValue != "") {
 					this.chatList.push(chat)
@@ -163,7 +173,7 @@
 						let chat = {
 							flag: 2,
 							content: message,
-							img: "https://th.bing.com/th/id/R.7379c1da3d35c4cce3132b6e50831d2d?rik=x6bJ9QmLO%2bfD8w&riu=http%3a%2f%2fimg2.woyaogexing.com%2f2017%2f08%2f21%2fdfb354693dd7a31b!400x400_big.jpg&ehk=8p%2f1vyyl3pssF7Ztu5AT2NOmoZfLV%2bffolvw%2fdz2BjM%3d&risl=&pid=ImgRaw&r=0"
+							img: this.toInfo.img
 						}
 						this.chatList.push(chat)
 						this.scrollBottom()
@@ -192,8 +202,8 @@
 				align-items: flex-start;
 
 				.avatar {
-					width: 100rpx;
-					height: 100rpx;
+					width: 80rpx;
+					height: 80rpx;
 
 					image {
 						width: 100%;

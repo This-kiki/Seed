@@ -206,14 +206,18 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}
-	    ,{
-            "path" : "pages/JobResumeAdd/JobResumeAdd",
+		}, {
+			"path": "pages/JobResumeAdd/JobResumeAdd",
 			"style": {
 				"navigationStyle": "custom"
-			}            
-        }
-    ],
+			}
+		}, {
+			"path": "pages/JobRelease/JobRelease",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
