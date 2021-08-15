@@ -1,8 +1,8 @@
 @font-face {
-  font-family: 'iconfont';  /* Project id 2698818 */
-  src: url('//at.alicdn.com/t/font_2698818_co46qr19ul8.woff2?t=1628762788332') format('woff2'),
-       url('//at.alicdn.com/t/font_2698818_co46qr19ul8.woff?t=1628762788332') format('woff'),
-       url('//at.alicdn.com/t/font_2698818_co46qr19ul8.ttf?t=1628762788332') format('truetype');
+  font-family: "iconfont"; /* Project id 2698818 */
+  src: url('//at.alicdn.com/t/font_2698818_zc8ffonr2k.woff2?t=1629012789121') format('woff2'),
+       url('//at.alicdn.com/t/font_2698818_zc8ffonr2k.woff?t=1629012789121') format('woff'),
+       url('//at.alicdn.com/t/font_2698818_zc8ffonr2k.ttf?t=1629012789121') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,94 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-guanli:before {
+  content: "\e65b";
+}
+
+.icon-jianli:before {
+  content: "\e609";
+}
+
+.icon-shanchu:before {
+  content: "\e608";
+}
+
+.icon-xiugai:before {
+  content: "\e703";
+}
+
+.icon-law:before {
+  content: "\e6b3";
+}
+
+.icon-submit:before {
+  content: "\e747";
+}
+
+.icon-share:before {
+  content: "\e63f";
+}
+
+.icon-chat:before {
+  content: "\e68b";
+}
+
+.icon-youxiang:before {
+  content: "\e63e";
+}
+
+.icon-icon-test:before {
+  content: "\e611";
+}
+
+.icon-jiaruwomen:before {
+  content: "\e612";
+}
+
+.icon-danwei:before {
+  content: "\e642";
+}
+
+.icon-xinbaniconshangchuan-:before {
+  content: "\e619";
+}
+
+.icon-dian1:before {
+  content: "\e62c";
+}
+
+.icon-dian:before {
+  content: "\ec1e";
+}
+
+.icon-xiangyou-copy:before {
+  content: "\e623";
+}
+
+.icon-VIP:before {
+  content: "\e638";
+}
+
+.icon-shoucang:before {
+  content: "\e651";
+}
+
+.icon-xiaoxi:before {
+  content: "\e601";
+}
+
+.icon-geren:before {
+  content: "\e610";
+}
+
+.icon-jingyingjianyi:before {
+  content: "\e6c9";
+}
+
+.icon-activity:before {
+  content: "\e622";
 }
 
 .icon-weizhi:before {
@@ -23,8 +111,4 @@
 
 .icon-fanhui:before {
   content: "\e613";
-}
-
-.icon-youxiang::before{
-	content: "\e63e"
 }

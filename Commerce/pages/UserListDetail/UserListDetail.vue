@@ -10,8 +10,8 @@
 			<view class="name">
 				{{userInfo.name}}
 			</view>
-			<view class="work">
-				{{userInfo.work}}
+			<view class="position">
+				{{userInfo.position}}
 			</view>
 			<view class="mainInfo">
 				<view class="place iconfont icon-weizhi" @click="copy(userInfo.place)">
@@ -19,6 +19,10 @@
 				</view>
 				<view class="phone iconfont icon-dianhua" @click="callPhone()">
 				</view>
+			</view>
+			<view class="work">
+				<text>工作单位</text>
+				{{userInfo.work}}
 			</view>
 		</view>
 	</view>
@@ -38,25 +42,23 @@
 				// 会员id
 				id: "",
 				// 会员详情
-				userInfo: {
-					birth: "2020-02-02",
-					identity: 0,
-					img: "https://bkimg.cdn.bcebos.com/pic/b219ebc4b74543a9a8a81e741d178a82b80114d2?x-bce-process=image/format,f_auto",
-					name: "刘淇",
-					openId: "test",
-					phone: "11011001100",
-					place: "武汉科技大学",
-					position: "string",
-					sex: 0,
-					work: "网络工程师"
-				}
-
+				userInfo: {}
 			};
 		},
 		onLoad(options) {
 			this.id = options.id
+			this.getUserInfo()
 		},
-		methods:{
+		methods: {
+			// 获取用户基本信息
+			async getUserInfo() {
+				let data = {
+					openid: this.id
+				}
+				let res = await this.$api.getUserInfo(data)
+				console.log(res)
+				this.userInfo = res.data.userBaseInfo
+			},
 			// 打电话
 			callPhone() {
 				uni.makePhoneCall({
@@ -84,7 +86,7 @@
 					}
 				});
 			},
-			
+
 		}
 
 	}
@@ -112,14 +114,15 @@
 					border-radius: 14rpx;
 				}
 			}
-			
-			.name{
+
+			.name {
 				text-align: center;
 				font-size: 32rpx;
 				font-weight: bold;
 				margin-top: 10rpx;
 			}
-			.work{
+
+			.position {
 				text-align: center;
 				margin-top: 10rpx;
 				color: #333;
@@ -127,12 +130,14 @@
 				padding-bottom: 20rpx;
 				border-bottom: 1rpx #ccc solid;
 			}
-			.mainInfo{
+
+			.mainInfo {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				margin-top: 20rpx;
-				.phone{
+
+				.phone {
 					margin-right: 20rpx;
 					width: 60rpx;
 					height: 60rpx;
@@ -142,6 +147,14 @@
 					background-color: #eee;
 					font-size: 50rpx;
 					padding: 10rpx;
+				}
+			}
+			.work{
+				margin-top: 10rpx;
+				text{
+					font-size: 26rpx;
+					color: #333;
+					margin-right: 20rpx;
 				}
 			}
 		}

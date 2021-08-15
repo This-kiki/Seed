@@ -37,8 +37,8 @@ fly.interceptors.request.use((request) => {
 			break
 		}
 	}
-	// request.headers["openid"] = uni.getStorageSync('openid');
-	request.headers["openid"] = store.state.openid;
+	request.headers["openid"] = uni.getStorageSync('openid');
+	// request.headers["openid"] = store.state.openid;
 	
 	// request.headers["user-type"] = store.state.loginType;
 	request.headers["content-type"]="application/json"

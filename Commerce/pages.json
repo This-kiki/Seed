@@ -1,202 +1,217 @@
 {
-	"pages": [
-		{
-		    "path" : "pages/login/login",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
+	"pages": [{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		},
-	    {
-            "path" : "pages/HomePage/HomePage",
+		{
+			"path": "pages/HomePage/HomePage",
 			"style": {
 				"navigationStyle": "custom"
 			}
-        }
-        ,{
-            "path" : "pages/JobWanted/JobWanted",
+		}, {
+			"path": "pages/JobWanted/JobWanted",
 			"style": {
 				"navigationStyle": "custom"
 			}
-            
-        }
-        ,{
-            "path" : "pages/RealTimeInfo/RealTimeInfo",
-            "style" :                                                                                    
-            {
+
+		}, {
+			"path": "pages/RealTimeInfo/RealTimeInfo",
+			"style": {
 				"navigationStyle": "custom",
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Activity/Activity",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Activity/Activity",
+			"style": {
 				"navigationStyle": "custom",
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/Mine",
-            "style" :                                                                                    
-            {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/Mine",
+			"style": {
 				"navigationStyle": "custom",
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/CompanyInfo/CompanyInfo",
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/CompanyInfo/CompanyInfo",
 			"style": {
 				"navigationStyle": "custom"
 			}
-            
-        }
-        
-        ,{
-            "path" : "pages/Mine/Join/Join",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/MineMsg/MineMsg",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/Notice/Notice",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/Complaints/Complaints",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/Contact/Contact",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Activity/ActivityInfo/ActivityInfo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/MineActivity/MineActivity",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/CompanyJoin/CompanyJoin",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/joinPage/joinPage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/Mine/LawyerJoin/LawyerJoin",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/RealTimeInfo/DetailedInfo/DetailedInfo",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-   //      ,{
-   //          "path" : "pages/LegalAid/LegalAid",
-			// "style": {
-			// 	"navigationStyle": "custom"
-			// }
-            
-   //      }
-        ,{
-            "path" : "pages/UserList/UserList",
+
+		}
+
+		, {
+			"path": "pages/Mine/Join/Join",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/MineMsg/MineMsg",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/Notice/Notice",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/Complaints/Complaints",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/Contact/Contact",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Activity/ActivityInfo/ActivityInfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/MineActivity/MineActivity",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/CompanyJoin/CompanyJoin",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/joinPage/joinPage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/Mine/LawyerJoin/LawyerJoin",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/RealTimeInfo/DetailedInfo/DetailedInfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+		//      ,{
+		//          "path" : "pages/LegalAid/LegalAid",
+		// "style": {
+		// 	"navigationStyle": "custom"
+		// }
+
+		//      }
+		, {
+			"path": "pages/UserList/UserList",
 			"style": {
 				"navigationStyle": "custom"
 			}
-        }
-        ,{
-            "path" : "pages/CompanyList/CompanyList",
+		}, {
+			"path": "pages/CompanyList/CompanyList",
 			"style": {
 				"navigationStyle": "custom"
 			}
-            
-        }
-        ,{
-            "path" : "pages/CompanyListDetail/CompanyListDetail",
+
+		}, {
+			"path": "pages/CompanyListDetail/CompanyListDetail",
 			"style": {
 				"navigationStyle": "custom"
 			}
-        }
-        ,{
-            "path" : "pages/UserListDetail/UserListDetail",
+		}, {
+			"path": "pages/UserListDetail/UserListDetail",
 			"style": {
 				"navigationStyle": "custom"
 			}
-            
-        }
-        ,{
-            "path" : "pages/JobDetail/JobDetail",
+
+		}, {
+			"path": "pages/JobDetail/JobDetail",
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/Chat/Chat",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/LawInfo/LawInfo",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/LawyerList/LawyerList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/LawInfoMe/LawInfoMe",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/LawRelease/LawRelease",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
+		}, {
+			"path": "pages/JobMe/JobMe",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/JobResume/JobResume",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/JobHR/JobHR",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+	    ,{
+            "path" : "pages/JobResumeAdd/JobResumeAdd",
+			"style": {
+				"navigationStyle": "custom"
+			}            
         }
     ],
 	"globalStyle": {

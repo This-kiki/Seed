@@ -7,7 +7,7 @@
 			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 				:duration="duration" :circular="circular">
 				<swiper-item v-for="item in  carouselList" :key="item.id">
-					<view class="swiper-item">
+					<view class="swiper-item" @click="seeInfoDetail(item.id)">
 						<image :src="item.url" mode=""></image>
 					</view>
 				</swiper-item>
@@ -19,13 +19,13 @@
 				<view class="intro" @click="goPage('CompanyInfo')">
 					种子会介绍
 				</view>
-				<view class="news" @click="goPage('Mine')">
+				<view class="news" @click="goNewPage('RealTimeInfo')">
 					最新动态
 				</view>
-				<view class="activity">
+				<view class="activity" @click="goNewPage('Activity')">
 					活动报名
 				</view>
-				<view class="suggest" @click="goPage('Complaints')">
+				<view class="suggest" @click="goPage('LawInfo')">
 					法律援助
 				</view>
 			</view>
@@ -158,13 +158,19 @@
 					url: `/pages/${flag}/${flag}`
 				})
 			},
-			// 查看详情
+			// 查看资讯详情
+			seeInfoDetail(infoId){
+				uni.navigateTo({
+					url: `/pages/RealTimeInfo/DetailedInfo/DetailedInfo?infoId=${infoId}`
+				})
+			},
+			// 查看会员单位详情
 			seeCompanyDetail(openId) {
 				uni.navigateTo({
 					url:`/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
 				})
 			},
-			// 查看详情
+			// 查看会员详情
 			seeUserDetail(openId) {
 				uni.navigateTo({
 					url:`/pages/UserListDetail/UserListDetail?id=${openId}`
@@ -183,6 +189,11 @@
 					})
 				}
 				uni.navigateTo({
+					url: `/pages/${page}/${page}`
+				})
+			},
+			goNewPage(page){
+				uni.switchTab({
 					url: `/pages/${page}/${page}`
 				})
 			}

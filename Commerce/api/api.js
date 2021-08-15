@@ -19,19 +19,19 @@ export class Api {
 		let res = await flyio.get("/user/findBaseInfo")
 		return res.data
 	}
-	
+
 	// 更改用户基本资料
 	changeUserMsg = async (data) => {
-		let res = await flyio.post("/user/updateBaseInfo",data)
+		let res = await flyio.post("/user/updateBaseInfo", data)
 		return res.data
 	}
-	
+
 	// 更改会员详细信息
 	changeManageMsg = async (data) => {
-		let res = await flyio.post("/user/updateMemberDetailInfo",data)
+		let res = await flyio.post("/user/updateMemberDetailInfo", data)
 		return res.data
 	}
-	
+
 	// 获取会员信息
 	getMemberMsg = async () => {
 		let res = await flyio.get("/user/findDetailInfo")
@@ -68,25 +68,25 @@ export class Api {
 		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit)
 		return res
 	}
-	
+
 	// 获取活动详情
 	getAcrivityDetails = async (data) => {
 		let res = await flyio.get(`/activity/actDetail?id=${data.id}`)
 		return res
 	}
-	
+
 	// 参与活动
 	participateActivity = async (data) => {
 		let res = await flyio.post(`/activity/apply?id=${data.id}`)
 		return res
 	}
-	
+
 	// 放弃活动
 	quitActivity = async (data) => {
 		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
 		return res
 	}
-	
+
 	// 获取活动状态情况
 	getActivityState = async (data) => {
 		let res = await flyio.get('/activity/queryApply')
@@ -130,16 +130,22 @@ export class Api {
 		let res = await flyio.post(`/company/findCompanyDetailInfo?openid=${data.openid}`)
 		return res.data
 	}
-	
+
 	// 首页管理层会员介绍
-	getManagerList = async (data)=>{
+	getManagerList = async (data) => {
 		let res = await flyio.get(`/user/pageManageSimpleInfo/${data.current}/${data.limit}`)
 		return res.data
 	}
-	
+
 	// 会员列表
-	getUserList = async (data)=>{
+	getUserList = async (data) => {
 		let res = await flyio.get(`/user/pageMemberSimpleInfo/${data.current}/${data.limit}`)
+		return res.data
+	}
+
+	// 首页获取用户信息
+	getUserInfo = async (data) => {
+		let res = await flyio.get(`/user/findBaseInfo/${data.openid}`)
 		return res.data
 	}
 
@@ -154,22 +160,106 @@ export class Api {
 		let res = await flyio.get(`/hr/companyInterview/getInfo?id=${data.id}`)
 		return res.data
 	}
-	
+
 	// 申请律师
 	applyLayer = async (data) => {
-		let res = await flyio.post('/pro/lawyer/apply',data)
+		let res = await flyio.post('/pro/lawyer/apply', data)
 		return res.data
 	}
-	
+
 	// 申请会员
 	applyMember = async (data) => {
-		let res = await flyio.post('/user/applyMember',data)
+		let res = await flyio.post('/user/applyMember', data)
+		return res.data
+	}
+
+	// 申请公司
+	applyComopany = async (data) => {
+		let res = await flyio.post('/company/applyCompany', data)
+		return res.data
+	}
+
+	// 查看法律常识列表
+	getLawInfo = async (data) => {
+		let res = await flyio.get(`/pro/lawyer/list/${data.current}?key=${data.key}`)
+		return res.data
+	}
+
+	// 律师列表
+	getLawyerList = async (data) => {
+		let res = await flyio.get(`/pro/lawyer/lawer/${data.current}?key=${data.key}`)
+		return res.data
+	}
+
+	// 获得自己发布的法律常识
+	getLawInfoMe = async () => {
+		let res = await flyio.get(`/pro/lawyer/mypub`)
+		return res.data
+	}
+
+	// 发布法律常识
+	releaseLaw = async (data) => {
+		let res = await flyio.post("/pro/lawyer/pub", data)
+		return res.data
+	}
+
+	// 删除自己发布的法律
+	deleteLaw = async (data) => {
+		let res = await flyio.post(`/pro/lawyer/del?id=${data.id}`)
+		return res.data
+	}
+
+	// 获取离线消息
+	getLeaveMessage = async (data) => {
+		let res = await flyio.get(`/user/msgGet?toOpenid=${data.toOpenid}`)
+		return res.data
+	}
+
+	// 发送离线消息
+	sendLeaveMessage = async (data) => {
+		let res = await flyio.post(`/user/msgSave?toOpenid=${data.toOpenid}&content=${data.content}`)
+		return res.data
+	}
+
+	//投递简历
+	submitResume = async (data) => {
+		let res = await flyio.post(`/pro/resume/submit?companyInterviewId=${data.companyInterviewId}`)
+		return res.data
+	}
+
+	// 会员获取自己简历信息
+	getResume = async () => {
+		let res = await flyio.get("/pro/resume/get")
+		return res.data
+	}
+
+	// 会员添加修改自己的简历
+	addResume = async (data) => {
+		let res = await flyio.post("/pro/resume/add", data)
+		return res.data
+	}
+
+	// 会员删除自己的简历
+	deleteResume = async (data) => {
+		let res = await flyio.post(`/pro/resume/del?id=${data.id}`)
+		return res.data
+	}
+
+	// 会员投递过简历的列表
+	getGoJobList = async () => {
+		let res = await flyio.post("/pro/resume/userGetSubmit")
 		return res.data
 	}
 	
-	// 申请公司
-	applyComopany = async (data) => {
-		let res = await flyio.post('/company/applyCompany',data)
+	// 取消投递简历
+	cancelResume = async (data)=>{
+		let res = await flyio.post(`/pro/resume/cancel?companyInterviewId=${data.companyInterviewId}`)
+		return res.data
+	}
+	
+	// 会员单位发布招聘信息
+	releaseJobNeed = async (data)=>{
+		let res = await flyio.post("/hr/companyInterview/add",data)
 		return res.data
 	}
 }

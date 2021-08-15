@@ -9,12 +9,27 @@
 			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
 				搜索
 			</view>
+			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
+				清除搜索
+			</view>
 		</view>
-		<!-- 
-			<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages" @loadMore="loadMore" @refresh="refresh"></loading> -->
-		
+		<!-- 操作栏 -->
+		<view class="operateContainer">
+			<view class="lawyer" @click="goPage('JobMe')">
+				<text class="iconfont icon-geren"></text>
+				我的求职
+			</view>
+			<view class="me" @click="goPage('JobResume')">
+				<text class="iconfont icon-jianli"></text>
+				我的简历
+			</view>
+			<view class="submit" @click="goPage('JobHR')">
+				<text class="iconfont icon-guanli"></text>
+				HR管理
+			</view>
+		</view>
 		<!-- 职场列表 -->
-		<view class="jobList">
+		<view class="jobList" id="list">
 			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
 				<view class="left">
 					<view class="title">
@@ -28,12 +43,12 @@
 					</view>
 					<view class="money">
 						{{item.reward}}
-						<text>元</text>
+						<!-- <text>元</text> -->
 					</view>
 				</view>
 				<view class="right">
 					<view class="btn">
-						投递
+						查看
 					</view>
 					<view class="date">
 						{{item.createTime.split(' ')[0]}}
@@ -41,15 +56,19 @@
 				</view>
 			</view>
 		</view>
+		<!-- 加载 -->
+		<view class="loadMore" @click="loadMore()">
+			下滑(点击)加载更多
+		</view>
 	</view>
 </template>
 
 <script>
 	import loading from '@/components/info_Com/load-refresh/load-refresh.vue';
 	export default {
-	components: {
-		loading
-	},
+		components: {
+			loading
+		},
 		data() {
 			return {
 				setNav: {
@@ -77,6 +96,9 @@
 		created() {
 			this.getJobList()
 		},
+		onReachBottom() {
+			this.loadMore()
+		},
 		methods: {
 			// 获取招聘信息列表
 			async getJobList() {
@@ -86,9 +108,13 @@
 					job: this.inputValue
 				}
 				let res = await this.$api.getJobList(data)
-				console.log(res)
 				let nowList = res.data.list
 				this.jobList.push.apply(this.jobList, nowList)
+			},
+			// 加载更多
+			loadMore() {
+				this.current++
+				this.getJobList()
 			},
 			// 查看招聘信息详情
 			seeDetail(id) {
@@ -98,8 +124,22 @@
 			},
 			// 搜索工作
 			searchJob() {
-				// this.getJobList()
-				console.log(this.inputValue)
+				this.jobList = []
+				this.current = 1
+				this.getJobList()
+			},
+			// 清除搜索
+			clearBtn() {
+				this.inputValue = ""
+				this.jobList = []
+				this.current = 1
+				this.getJobList()
+			},
+			// 跳转页面
+			goPage(page) {
+				uni.navigateTo({
+					url: `/pages/${page}/${page}`
+				})
 			}
 		}
 	}
@@ -108,6 +148,9 @@
 <style lang="scss" scoped>
 	.jobContainer {
 		padding-bottom: 50rpx;
+		box-sizing: border-box;
+		min-height: 100vh;
+		background-color: #f1f1f1;
 
 		.inputLine {
 			box-sizing: border-box;
@@ -119,6 +162,7 @@
 			border-bottom: 4rpx solid #f1f1f1;
 			display: flex;
 			justify-content: space-between;
+			z-index: 99;
 
 			.input {
 				width: 100%;
@@ -133,22 +177,62 @@
 			}
 
 			.searchBtn {
+				font-size: 24rpx;
 				width: 100rpx;
+				line-height: 60rpx;
+				padding: 0 0 0 20rpx;
+				color: #4e8df6;
+			}
+
+			.clearBtn {
+				font-size: 24rpx;
+				width: 180rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
 				color: #4e8df6;
 			}
 		}
 
-		.jobList {
+		.operateContainer {
+			width: 96%;
 			margin: 100rpx auto 0;
-			width: 94%;
+			background-color: #fff;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			padding: 20rpx;
+			box-sizing: border-box;
+			border-radius: 14rpx;
+			display: flex;
+
+			.iconfont {
+				color: blue;
+				font-size: 40rpx;
+				margin-right: 6rpx;
+				font-weight: bold;
+			}
+
+			.lawyer,
+			.me,
+			.submit {
+				margin-right: 18rpx;
+				background-color: #eee;
+				padding: 10rpx;
+				box-sizing: border-box;
+				border-radius: 10rpx;
+			}
+		}
+
+		.jobList {
+			margin: 20rpx auto 0;
+			width: 96%;
 
 			.jobBox {
 				display: flex;
 				justify-content: space-between;
-				padding: 20rpx 0;
-				border-bottom: 4rpx solid #f1f1f1;
+				padding: 20rpx;
+				margin-bottom: 20rpx;
+				background-color: #fff;
+				border-radius: 14rpx;
+				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 				.left {
 					letter-spacing: 1rpx;
@@ -202,6 +286,13 @@
 					}
 				}
 			}
+		}
+
+		.loadMore {
+			text-align: center;
+			font-size: 26rpx;
+			color: #999;
+			margin-top: 16rpx;
 		}
 	}
 </style>

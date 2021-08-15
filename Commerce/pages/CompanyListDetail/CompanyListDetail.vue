@@ -4,7 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 详情 -->
 		<view class="mainContainer">
-			<view class="img">
+			<view class="companyImg">
 				<image :src="companyInfo.img" mode=""></image>
 			</view>
 			<view class="mainInfo">
@@ -20,6 +20,44 @@
 					<view class="phone iconfont icon-dianhua" @click="callPhone()">
 					</view>
 					<view class="email iconfont icon-youxiang" @click="copy(companyInfo.email)">
+					</view>
+				</view>
+			</view>
+			<view class="detail">
+				<view class="common">
+					<text>行业</text>
+					{{companyInfo.industry}}
+				</view>
+				<view class="common">
+					<text>经营范围</text>
+					{{companyInfo.manageArea}}
+				</view>
+				<view class="common">
+					<text>经营状态</text>
+					{{companyInfo.manageStatus}}
+				</view>
+				<view class="common">
+					<text>注册资金</text>
+					{{companyInfo.money}}
+				</view>
+				<view class="common">
+					<text>企业人数</text>
+					{{companyInfo.num}}
+				</view>
+				<view class="common">
+					<text>法人代表</text>
+					{{companyInfo.representative}}
+				</view>
+				<view class="common license">
+					<text>营业执照照片</text>
+					<view class="img">
+						<image :src="companyInfo.img" mode=""></image>
+					</view>
+				</view>
+				<view class="common">
+					<text>公司介绍</text>
+					<view class="intro">
+						{{companyInfo.content}}
 					</view>
 				</view>
 			</view>
@@ -60,6 +98,7 @@
 					openid: this.id
 				}
 				let res = await this.$api.getCompanyDetail(data)
+				// console.log(res)
 				this.companyInfo = res.data.companyDetailInfo
 			},
 			// 打电话
@@ -102,7 +141,7 @@
 			width: 92%;
 			margin: 20rpx auto 0;
 
-			.img {
+			.companyImg {
 				width: 100%;
 				height: 400rpx;
 				border-radius: 14rpx;
@@ -116,26 +155,31 @@
 				}
 
 			}
-			.mainInfo{
+
+			.mainInfo {
 				display: flex;
 				justify-content: space-between;
 				margin-top: 20rpx;
 				padding-bottom: 20rpx;
 				border-bottom: 1rpx #ccc solid;
-				.left{
-					.name{
+
+				.left {
+					.name {
 						font-size: 32rpx;
 						font-weight: bold;
 					}
-					.address{
+
+					.address {
 						margin-top: 10rpx;
 						font-size: 26rpx;
 						color: #333;
 					}
 				}
-				.right{
+
+				.right {
 					display: flex;
-					.iconfont{
+
+					.iconfont {
 						width: 60rpx;
 						height: 60rpx;
 						line-height: 60rpx;
@@ -149,6 +193,38 @@
 				}
 			}
 
+			.detail {
+				margin-top: 20rpx;
+
+				.common {
+					margin-bottom: 10rpx;
+					font-size: 28rpx;
+
+					text {
+						font-size: 24rpx;
+						color: #333;
+						margin-right: 20rpx;
+					}
+					.intro{
+						letter-spacing: 1rpx;
+						text-indent: 2em;
+						line-height: 48rpx;
+					}
+				}
+
+				.license {
+					.img {
+						background-color: lightblue;
+						margin-top: 10rpx;
+						border-radius: 10rpx;
+
+						image {
+							width: 100%;
+							border-radius: 10rpx;
+						}
+					}
+				}
+			}
 		}
 	}
 </style>
