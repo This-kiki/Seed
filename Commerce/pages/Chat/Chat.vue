@@ -72,6 +72,17 @@
 			this.SocketTask.close()
 			// 清除心跳
 			clearInterval(this.heartTimer)
+			let chat = []
+			if(uni.getStorageSync("chat")){
+				console.log(11)
+				chat = uni.getStorageSync("chat")
+			}
+			let chatItem = {
+				info:this.toInfo,
+				chatList:this.chatList
+			}
+			chat.push(chatItem)
+			uni.setStorageSync("chat",chat)
 		},
 		methods: {
 			// 接受离线消息
