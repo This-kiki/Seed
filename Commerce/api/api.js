@@ -151,7 +151,7 @@ export class Api {
 
 	// 招聘信息列表
 	getJobList = async (data) => {
-		let res = await flyio.get(`/hr/companyInterview/getComList/${data.current}/${data.limit}`)
+		let res = await flyio.get(`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}`)
 		return res.data
 	}
 

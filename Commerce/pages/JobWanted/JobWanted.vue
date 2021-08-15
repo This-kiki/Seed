@@ -102,6 +102,7 @@
 		methods: {
 			// 获取招聘信息列表
 			async getJobList() {
+				console.log(this.inputValue)
 				let data = {
 					current: this.current,
 					limit: this.limit,
