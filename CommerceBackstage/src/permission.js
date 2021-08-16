@@ -19,7 +19,7 @@ NProgress.configure({
 
 const whiteList = ['/login']; // no redirect whitelist
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
     // 开始进度条
     NProgress.start();
     // 设置标题

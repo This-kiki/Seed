@@ -25,49 +25,49 @@
       <el-dialog title="申请人详情" :visible.sync="viewVisible" width="30%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
           <el-form-item label="姓名">
-            <span>{{ props.row.name }}</span>
+            <span>{{ actData.name }}</span>
           </el-form-item>
           <el-form-item label="身份证号码">
-            <span>{{ props.row.idNum }}</span>
+            <span>{{ actData.idNum }}</span>
           </el-form-item>
           <el-form-item label="电子邮箱">
-            <span>{{ props.row.email }}</span>
+            <span>{{ actData.email }}</span>
           </el-form-item>
           <el-form-item label="手机号码">
-            <span>{{ props.row.phone }}</span>
+            <span>{{ actData.phone }}</span>
           </el-form-item>
           <el-form-item label="专业">
-            <span>{{ props.row.major }}</span>
+            <span>{{ actData.major }}</span>
           </el-form-item>
           <el-form-item label="性别">
-            <span>{{ props.row.sex==0?'男':'女' }}</span>
+            <span>{{ actData.sex==0?'男':'女' }}</span>
           </el-form-item>
           <el-form-item label="出生日期">
-            <span>{{ props.row.birth }}</span>
+            <span>{{ actData.birth }}</span>
           </el-form-item>
           <el-form-item label="民族">
-            <span>{{ props.row.nation }}</span>
+            <span>{{ actData.nation }}</span>
           </el-form-item>
           <el-form-item label="籍贯">
-            <span>{{ props.row.place }}</span>
+            <span>{{ actData.place }}</span>
           </el-form-item>
           <el-form-item label="政治面貌">
-            <span>{{ props.row.polity }}</span>
+            <span>{{ actData.polity }}</span>
           </el-form-item>
           <el-form-item label="现任工作单位">
-            <span>{{ props.row.work }}</span>
+            <span>{{ actData.work }}</span>
           </el-form-item>
           <el-form-item label="工作单位职位">
-            <span>{{ props.row.position }}</span>
+            <span>{{ actData.position }}</span>
           </el-form-item>
           <el-form-item label="在读/毕业学校">
-            <span>{{ props.row.school }}</span>
+            <span>{{ actData.school }}</span>
           </el-form-item>
           <el-form-item label="头像">
-            <img :src="props.row.img" alt="">
+            <img :src="actData.img" alt="">
           </el-form-item>
           <el-form-item label="个人简介">
-            <span>{{ props.row.introduce }}</span>
+            <span>{{ actData.introduce }}</span>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -96,7 +96,7 @@ export default {
       let getAPI = { current: this.current.current }
       this.$http.getApplyMember(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.rows
+        var resp = res.data.data.rows
         this.tableData = resp
       })
     },
