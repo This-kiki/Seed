@@ -69,7 +69,7 @@
 			// 接受离线消息
 			async getLeaveMessage() {
 				let res = await this.$api.getLeaveMessage()
-				// console.log(res)
+				console.log(res)
 				let leaveData = res.data.ms
 				leaveData.forEach(item => {
 					let list = item.content.split("*chat*")
@@ -81,7 +81,7 @@
 					leave.openid = item.toOpenId
 					this.leaveList.push(leave)
 				})
-				console.log(this.leaveList)
+				// console.log(this.leaveList)
 			},
 			// 获取本地聊天记录
 			getLocal() {
