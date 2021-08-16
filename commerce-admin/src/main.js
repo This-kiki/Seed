@@ -21,5 +21,6 @@ Vue.prototype.$http = http
 
 const app = new Vue({
   store,
-  router
+  router,
+  render: h => h(App)
 }).$mount('#app');

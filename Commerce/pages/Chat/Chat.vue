@@ -52,7 +52,9 @@
 					toOpenid: 'sfa',
 					name: "葛济维",
 					img: "https://th.bing.com/th/id/R.7379c1da3d35c4cce3132b6e50831d2d?rik=x6bJ9QmLO%2bfD8w&riu=http%3a%2f%2fimg2.woyaogexing.com%2f2017%2f08%2f21%2fdfb354693dd7a31b!400x400_big.jpg&ehk=8p%2f1vyyl3pssF7Ztu5AT2NOmoZfLV%2bffolvw%2fdz2BjM%3d&risl=&pid=ImgRaw&r=0"
-				}
+				},
+				// 离线记录
+				leaveContent: ""
 			}
 		},
 		onLoad(option) {
@@ -73,27 +75,32 @@
 			this.SocketTask.close()
 			// 清除心跳
 			clearInterval(this.heartTimer)
-			let chat = []
-			if (uni.getStorageSync("chat")) {
-				chat = uni.getStorageSync("chat")
-			}
-			let flag = -1
-			chat.forEach((item, i) => {
-				if (item.info.toOpenid = this.toInfo.toOpenid)
-					flag = i
-			})
-			let chatItem = {
-				info: this.toInfo,
-				chatList: this.chatList
-			}
-			if (flag == -1) {
-				chat.push(chatItem)
-			} else {
-				chat[flag] = chatItem
-			}
-			uni.setStorageSync("chat", chat)
+			this.setLocal()
 		},
 		methods: {
+			// 将本地聊天加入缓存
+			setLocal() {
+				let chat = []
+				if (uni.getStorageSync("chat")) {
+					chat = uni.getStorageSync("chat")
+				}
+				let flag = -1
+				chat.forEach((item, i) => {
+					if (item.info.toOpenid = this.toInfo.toOpenid)
+						flag = i
+				})
+				console.log("flag", flag)
+				let chatItem = {
+					info: this.toInfo,
+					chatList: this.chatList
+				}
+				if (flag == -1) {
+					chat.push(chatItem)
+				} else {
+					chat[flag] = chatItem
+				}
+				uni.setStorageSync("chat", chat)
+			},
 			// 获取本地消息
 			getLocalMessage() {
 				let chat = []
@@ -104,7 +111,7 @@
 				}
 				let flag = -1
 				chat.forEach((item, i) => {
-					if (item.info.toOpenid = this.toInfo.toOpenid)
+					if (item.info.toOpenid == this.toInfo.toOpenid)
 						flag = i
 				})
 				let localList = []
@@ -124,16 +131,23 @@
 					toOpenid: this.toInfo.toOpenid
 				})
 				console.log(res)
-				let leaveList = res.data.ms
+				let leaveList = res.data.ms[0].content.split("*chat*")
 				leaveList.forEach((item) => {
 					let chat = {
 						flag: 2,
-						content: item.content,
+						content: item,
 						img: this.toInfo.img
 					}
-					this.chatList.push(chat)
-					this.scrollBottom()
+					if (item != "") {
+						this.chatList.push(chat)
+						this.scrollBottom()
+					}
 				})
+				let data = {
+					toOpenid: this.toInfo.toOpenid,
+					content: ""
+				}
+				await this.$api.sendLeaveMessage(data)
 			},
 			// 发送消息
 			sendMessage() {
@@ -206,12 +220,13 @@
 				this.SocketTask.onMessage(async (e) => {
 					console.log('接收消息', e);
 					if (e.data == "leave") {
+						this.leaveContent = this.leaveContent + "*chat*" + this.chatList[this.chatList.length -
+							1].content
 						let data = {
 							toOpenid: this.openid,
-							content: this.chatList[this.chatList.length - 1].content
+							content: this.leaveContent
 						}
-						let res = await this.$api.sendLeaveMessage(data)
-						console.log(res)
+						await this.$api.sendLeaveMessage(data)
 					} else {
 						let message = e.data.split(":")[1]
 						let chat = {
