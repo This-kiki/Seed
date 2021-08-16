@@ -19,6 +19,7 @@ import allLayer from '../page/layer/allLayer.vue'
 import layerApplication from '../page/layer/layerApplication.vue'
 import addAdmin from '../page/superAdmin/addAdmin.vue'
 import allAdmin from '../page/superAdmin/allAdmin.vue'
+import layout from '../page/appPage/page.vue'
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -34,7 +35,7 @@ export const routerMap =  [{
   },
   {
     path: '/index',
-    component: App,
+    component: layout,
     children: [
       {
         path: '/',
