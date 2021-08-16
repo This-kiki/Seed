@@ -70,6 +70,7 @@
 							duration: 2000
 						});
 					}
+					this.getAcrivityDetails()
 				})
 			}
 		}

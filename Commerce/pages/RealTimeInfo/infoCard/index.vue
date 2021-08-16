@@ -8,7 +8,7 @@
         <div class="row_2" />
         <div class="ft">
           <span class="comments">{{ formatMsgTime(options.createTime) }}</span>
-          <span class="comments">{{ options.view }} 浏览</span>
+          <span class="comments">{{ view }} 浏览</span>
         </div>
       </div>
     </div>
@@ -23,9 +23,18 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+		view: 0
+	};
+  },
+  mounted() {
+	this.view = this.options.view
   },
   methods: {
+	viewsAdd() {
+		console.log('add')
+		this.view+=1
+	},
     onClick() {
       uni.navigateTo({
         url: 'DetailedInfo/DetailedInfo?infoId='+this.options.id

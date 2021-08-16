@@ -3,7 +3,7 @@
 		<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages" @loadMore="loadMore" @refresh="refresh">
 			<view slot="content-list" class="page">
 				<!-- 数据列表 -->
-				<view v-for="(item, index) in list" :key="index" @click="go(item.id)"><news-card :options="item"></news-card></view>
+				<view v-for="(item, index) in list" :key="index" @click="go(item.id)"><news-card :options="item" :ref="item.id"></news-card></view>
 			</view>
 		</loading>
 	</view>
@@ -35,6 +35,8 @@ export default {
 			uni.navigateTo({
 				url: 'DetailedInfo/DetailedInfo?activityId='+id,
 			});
+			// console.log(this.$refs[id][0])
+			this.$refs[id][0].viewsAdd();
 		},
 		async init() {
 			let resp
