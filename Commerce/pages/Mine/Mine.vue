@@ -51,10 +51,10 @@
 				</view>
 				<view class="m-page-box">
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
-					<span class="iconfont m-page-boximg">&#xe601;</span>
+					<!-- <span class="iconfont m-page-boximg">&#xe601;</span>
 					<view class="m-page-boxtext">
 						消息
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="m-page-bottom">

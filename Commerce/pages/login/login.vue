@@ -40,18 +40,49 @@ export default {
 					    }
 					});
 					//拿到信息处理业务
+					that.$api.getUserMsg().then((memberMsg_res) => {
+						console.log('基本信息',memberMsg_res.data.userBaseInfo)
+						if(!memberMsg_res.data.userBaseInfo.name && !memberMsg_res.data.userBaseInfo.img) {
+							var obj = {
+								name: res.userInfo.nickName,
+								img: res.userInfo.avatarUrl
+							}
+							this.$api.changeUserMsg(obj).then((respo) => {
+								if(respo.code == 20000){
+									uni.showToast({
+										title: '个人信息已同步',
+										duration: 2000
+									});
+								}
+							})
+						}
+					})
 				},
 				fail: err => {
 					console.log('err', err);
 				}
 			});
 		},
-		userAuthorized() {
+		loginGo() {
 			let that = this;
 			const UserInfo = uni.getStorageSync('seed_userInfo');
 			if (UserInfo) {
-				console.log('userInfo',UserInfo)
-				this.hasUserInfo = true
+				that.$api.getUserMsg().then(userMsg_res => {
+					// console.log('基本信息',userMsg_res.data.userBaseInfo)
+					that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+				});
+				uni.reLaunch({ url: '/pages/HomePage/HomePage' });
+			} else {
+				this.hasUserInfo = false
+			}
+		},
+		userAuthorized() {
+			let that = this;
+			// const UserInfo = uni.getStorageSync('seed_userInfo');
+			// if (UserInfo) {
+				// console.log('userInfo',UserInfo)
+				// this.hasUserInfo = true
 				//小程序通过uni.login()获取code
 				uni.login({
 					success: function(login_res) {
@@ -69,15 +100,16 @@ export default {
 								// 全局存储
 								console.log('return openID:', openId_res.data);
 								that.$store.dispatch('setOpenid', openId_res.data.data.openid).then(() => {
-									// console.log('openid存储成功')
-									that.$api.getUserMsg().then(userMsg_res => {
-										// console.log('基本信息',userMsg_res.data.userBaseInfo)
-										that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
-										uni.setStorageSync('openid', openId_res.data.data.openid);
-										uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
-									});
+									uni.setStorageSync('openid', openId_res.data.data.openid);
+									that.loginGo()
+									console.log('openid存储成功')
+									// that.$api.getUserMsg().then(userMsg_res => {
+									// 	// console.log('基本信息',userMsg_res.data.userBaseInfo)
+									// 	that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+									// 	uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+									// });
 								});
-								uni.reLaunch({ url: '/pages/HomePage/HomePage' });
+								// uni.reLaunch({ url: '/pages/HomePage/HomePage' });
 							},
 							fail: function(error) {
 								//调用服务端登录接口失败
@@ -89,9 +121,9 @@ export default {
 						console.log('login error', error);
 					}
 				});
-			} else {
-				this.hasUserInfo = false
-			}
+			// } else {
+				// this.hasUserInfo = false
+			// }
 		}
 	}
 };

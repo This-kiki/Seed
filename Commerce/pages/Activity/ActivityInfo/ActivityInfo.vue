@@ -8,9 +8,17 @@
 		</view>
 		<view class="act-content" v-html="dataForm.content"></view>
 		<view class="bottom">
-			<view class="bot-btn" @click="joinActivity">
+			<view class="bot-btn" @click="joinActivity" v-if="apply==0">
 				<!-- PARTICIPATE -->
 				我要参加
+			</view>
+			<view class="bot-btn" style="background-color: #b8b800;" v-if="apply==1">
+				<!-- PARTICIPATE -->
+				已报名
+			</view>
+			<view class="bot-btn" style="background-color: #8f8f8f;" v-if="apply==2">
+				<!-- PARTICIPATE -->
+				已结束
 			</view>
 		</view>
 	</view>
@@ -22,6 +30,7 @@
 		data() {
 			return {
 				dataForm: {},
+				apply: ''
 			}
 		},
 		mounted() {
@@ -32,6 +41,15 @@
 				var getAPI = {id: this.activityId}
 				this.$api.getAcrivityDetails(getAPI).then((res) => {
 					this.dataForm = res.data.data.acts
+					if(res.data.data.apply == 1){
+						this.apply = res.data.data.apply
+					}else {
+						if(res.data.data.acts.status == 0){
+							this.apply = 0
+						}else {
+							this.apply = 2
+						}
+					}
 					// console.log(res.data.data.acts)
 				})
 			},
