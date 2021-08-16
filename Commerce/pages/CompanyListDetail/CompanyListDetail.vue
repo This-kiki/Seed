@@ -51,7 +51,7 @@
 				<view class="common license">
 					<text>营业执照照片</text>
 					<view class="img">
-						<image :src="companyInfo.img" mode=""></image>
+						<image :src="companyInfo.license" mode=""></image>
 					</view>
 				</view>
 				<view class="common">
@@ -79,19 +79,30 @@
 				// 会员单位id
 				id: "test",
 				// 会员单位详情
-				companyInfo: {
-					companyName: "武汉市洪山区阿里巴巴集团",
-					address: "武汉市洪山区和平大道77号",
-					phone: "11011001100",
-					email: "110@aa.com"
-				}
+				companyInfo: {}
 			};
 		},
 		onLoad(options) {
 			this.id = options.id
-			this.seeDetail()
+			this.checkIdentity()
 		},
 		methods: {
+			// 检查身份
+			checkIdentity() {
+				let identity = uni.getStorageSync("identity")
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateBack()
+						}
+					})
+				} else {
+					this.seeDetail()
+				}
+			},
 			// 查看详情
 			async seeDetail() {
 				let data = {
@@ -205,7 +216,8 @@
 						color: #333;
 						margin-right: 20rpx;
 					}
-					.intro{
+
+					.intro {
 						letter-spacing: 1rpx;
 						text-indent: 2em;
 						line-height: 48rpx;

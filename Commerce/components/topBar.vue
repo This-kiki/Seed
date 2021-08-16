@@ -20,7 +20,7 @@
 			"opacity",
 			"loading"
 		],
-		components:{
+		components: {
 			loading
 		},
 		data() {

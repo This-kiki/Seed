@@ -8,7 +8,7 @@
 				:duration="duration" :circular="circular">
 				<swiper-item v-for="item in carouselList" :key="item.id">
 					<view class="swiper-item">
-						<image :src="item.url" mode=""></image>
+						<image :src="item" mode=""></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -214,6 +214,7 @@
 					image{
 						width: 100%;
 						height: 100%;
+						border-radius: 16rpx;
 					}
 				}
 			}

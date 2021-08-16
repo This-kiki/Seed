@@ -23,7 +23,7 @@
 				<text class="iconfont icon-jianli"></text>
 				我的简历
 			</view>
-			<view class="submit" @click="goPage('JobHR')">
+			<view class="submit" @click="goPage('JobHR')" v-if="identity == 3">
 				<text class="iconfont icon-guanli"></text>
 				HR管理
 			</view>
@@ -90,23 +90,45 @@
 				// 条数
 				limit: 10,
 				// 显示按钮
-				showBtn: false
+				showBtn: false,
+				// 身份
+				identity: 0
 			}
 		},
-		created() {
-			this.getJobList()
+		onLoad() {
+			this.checkIdentity()
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
 		methods: {
+			// 检查身份
+			checkIdentity() {
+				let identity = uni.getStorageSync("identity")
+				this.identity = identity
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.reLaunch({
+								url:"/pages/HomePage/HomePage"
+							})
+						}
+					})
+				} else {
+					this.getJobList()
+				}
+			},
 			// 获取招聘信息列表
 			async getJobList() {
 				console.log(this.inputValue)
 				let data = {
 					current: this.current,
 					limit: this.limit,
-					job: this.inputValue
+					job: this.inputValue,
+					companyId: ""
 				}
 				let res = await this.$api.getJobList(data)
 				let nowList = res.data.list
