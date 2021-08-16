@@ -159,7 +159,7 @@ export class Api {
 	getJobList = async (data) => {
 		let res = await flyio.get(
 			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}`
-			)
+		)
 		return res.data
 	}
 
@@ -219,7 +219,11 @@ export class Api {
 
 	// 获取离线消息
 	getLeaveMessage = async (data) => {
-		let res = await flyio.get(`/user/msgGet?toOpenid=${data.toOpenid}`)
+		let res
+		if (data)
+			res = await flyio.get(`/user/msgGet?toOpenid=${data.toOpenid}`)
+		else
+			res = await flyio.get(`/user/msgGet`)
 		return res.data
 	}
 

@@ -91,9 +91,11 @@
 						flag = i
 				})
 				console.log("flag", flag)
+				let time= new Date()
 				let chatItem = {
 					info: this.toInfo,
-					chatList: this.chatList
+					chatList: this.chatList,
+					time: time.toLocaleString( )
 				}
 				if (flag == -1) {
 					chat.push(chatItem)
