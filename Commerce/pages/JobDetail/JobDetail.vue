@@ -212,8 +212,9 @@
 			},
 			// 聊天
 			chat() {
+				let link = encodeURIComponent(JSON.stringify(this.hrInfo.img))
 				uni.navigateTo({
-					url: `/pages/Chat/Chat?openid=${this.hrInfo.openId}&name=${this.hrInfo.name}&img=${this.hrInfo.img}`
+					url: `/pages/Chat/Chat?openid=${this.hrInfo.openId}&name=${this.hrInfo.name}&img=${link}`
 				})
 			},
 			// 投递简历

@@ -61,8 +61,9 @@
 			if (option.openid) {
 				this.toInfo.toOpenid = option.openid
 				this.toInfo.name = option.name
-				this.toInfo.img = option.img
+				this.toInfo.img = JSON.parse(decodeURIComponent(option.img))
 			}
+			console.log(this.toInfo.img)
 			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
 
