@@ -22,28 +22,40 @@
 		</view>
 		<!-- 职场列表 -->
 		<view class="jobList" id="list">
-			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
-				<view class="left">
-					<view class="title">
-						{{item.job}}
+			<view class="jobBox" v-for="item in jobList" :key="item.id">
+				<view class="top">
+					<view class="left">
+						<view class="title">
+							{{item.job}}
+						</view>
+						<view class="address">
+							{{item.place}}
+						</view>
+						<view class="company">
+							{{item.companyName}}
+						</view>
+						<view class="money">
+							{{item.reward}}
+							<!-- <text>元</text> -->
+						</view>
 					</view>
-					<view class="address">
-						{{item.place}}
-					</view>
-					<view class="company">
-						{{item.companyName}}
-					</view>
-					<view class="money">
-						{{item.reward}}
-						<!-- <text>元</text> -->
+					<view class="right">
+						<view class="btn" @click="seeDetail(item.id)">
+							查看
+						</view>
+						<view class="date">
+							{{item.createTime.split(' ')[0]}}
+						</view>
 					</view>
 				</view>
-				<view class="right">
-					<view class="btn">
-						查看
+				<view class="bottom">
+					<view class="delete" @click="deleteJobNeed(item.id)">
+						<text class="iconfont icon-shanchu"></text>
+						删除
 					</view>
-					<view class="date">
-						{{item.createTime.split(' ')[0]}}
+					<view class="edit" @click="editJobNeed(item.id)">
+						<text class="iconfont icon-xiugai"></text>
+						修改
 					</view>
 				</view>
 			</view>
@@ -80,25 +92,27 @@
 				showBtn: false,
 			};
 		},
-		created() {
-			this.getUserInfo()
+		onShow() {
+			this.clearBtn()
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
 		methods: {
 			// 获取用户信息
-			async getUserInfo(){
+			async getUserInfo() {
 				let data = {
 					openid: uni.getStorageSync("openid")
 				}
-				let res = await this.$api.getUserDetail({openid: 'test'})
+				let res = await this.$api.getUserDetail({
+					openid: 'test'
+				})
 				// console.log(res)
 				this.companyId = res.data.userDetailInfo.companyId
 				this.getJobList()
 			},
 			// 获取本公司发布的招聘信息
-			async getJobList(){
+			async getJobList() {
 				let data = {
 					current: this.current,
 					limit: this.limit,
@@ -106,7 +120,7 @@
 					job: this.inputValue
 				}
 				let res = await this.$api.getJobList(data)
-				console.log(res)
+				// console.log(res)
 				let nowList = res.data.list
 				this.jobList.push.apply(this.jobList, nowList)
 			},
@@ -145,6 +159,30 @@
 				uni.navigateTo({
 					url: `/pages/${page}/${page}`
 				})
+			},
+			// 删除招聘信息
+			async deleteJobNeed(id) {
+				let res = await this.$api.deleteJobNeed({
+					id
+				})
+				// console.log(res)
+				if (res.code == 20000) {
+					uni.showToast({
+						title: "删除成功"
+					})
+					this.clearBtn()
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "删除失败"
+					})
+				}
+			},
+			// 修改招聘信息
+			editJobNeed(id){
+				uni.navigateTo({
+					url: `/pages/JobRelease/JobRelease?id=${id}`
+				})
 			}
 		}
 	}
@@ -156,6 +194,7 @@
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #f1f1f1;
+
 		.inputLine {
 			box-sizing: border-box;
 			position: fixed;
@@ -167,7 +206,7 @@
 			display: flex;
 			justify-content: space-between;
 			z-index: 99;
-		
+
 			.input {
 				width: 100%;
 				height: 60rpx;
@@ -179,7 +218,7 @@
 				letter-spacing: 1rpx;
 				transition: 0.2s ease-in-out;
 			}
-		
+
 			.searchBtn {
 				font-size: 24rpx;
 				width: 100rpx;
@@ -187,7 +226,7 @@
 				padding: 0 0 0 20rpx;
 				color: #4e8df6;
 			}
-		
+
 			.clearBtn {
 				font-size: 24rpx;
 				width: 180rpx;
@@ -222,74 +261,104 @@
 				border-radius: 10rpx;
 			}
 		}
-		
+
 		.jobList {
 			margin: 20rpx auto 0;
 			width: 96%;
-		
+
 			.jobBox {
-				display: flex;
-				justify-content: space-between;
 				padding: 20rpx;
 				margin-bottom: 20rpx;
 				background-color: #fff;
 				border-radius: 14rpx;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-		
-				.left {
-					letter-spacing: 1rpx;
-		
-					.title {
-						font-size: 28rpx;
-						font-weight: bold;
-					}
-		
-					.address {
-						color: #999;
-						font-size: 22rpx;
-						margin-top: 10rpx;
-					}
-		
-					.company {
-						margin-top: 4rpx;
-						color: #999;
-						font-size: 22rpx;
-					}
-		
-					.money {
-						font-size: 34rpx;
-						color: #4e8df6;
-						margin-top: 6rpx;
-		
-						text {
+
+				.top {
+					display: flex;
+					justify-content: space-between;
+
+					.left {
+						letter-spacing: 1rpx;
+
+						.title {
+							font-size: 28rpx;
+							font-weight: bold;
+						}
+
+						.address {
+							color: #999;
 							font-size: 22rpx;
-							margin-left: 6rpx;
+							margin-top: 10rpx;
+						}
+
+						.company {
+							margin-top: 4rpx;
+							color: #999;
+							font-size: 22rpx;
+						}
+
+						.money {
+							font-size: 34rpx;
+							color: #4e8df6;
+							margin-top: 6rpx;
+
+							text {
+								font-size: 22rpx;
+								margin-left: 6rpx;
+							}
+						}
+					}
+
+					.right {
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						text-align: center;
+
+						.btn {
+							color: #4e8df6;
+							font-size: 24rpx;
+							padding: 6rpx 15rpx;
+							border: 2rpx solid #4e8df6;
+							border-radius: 8rpx;
+						}
+
+						.date {
+							color: #999;
+							font-size: 22rpx;
 						}
 					}
 				}
-		
-				.right {
+
+				.bottom {
+					margin-top: 16rpx;
+					padding-top: 16rpx;
+					border-top: 1rpx #ccc solid;
 					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
-					text-align: center;
-		
-					.btn {
-						color: #4e8df6;
-						font-size: 24rpx;
-						padding: 6rpx 15rpx;
-						border: 2rpx solid #4e8df6;
-						border-radius: 8rpx;
+					justify-content: space-around;
+
+					.delete,
+					.edit {
+						.iconfont {
+							margin-right: 10rpx;
+						}
+
+						padding: 10rpx;
+						border-radius: 10rpx;
+						color: #fff;
 					}
-		
-					.date {
-						color: #999;
-						font-size: 22rpx;
+
+					.delete {
+						background-color: #e06c75;
+					}
+
+					.edit {
+						background-color: #61afef;
 					}
 				}
 			}
 		}
-		
+
 		.loadMore {
 			text-align: center;
 			font-size: 26rpx;

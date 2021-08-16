@@ -103,7 +103,7 @@
 				addEdit: "修改"
 			}
 		},
-		created() {
+		onShow() {
 			this.getResume()
 		},
 		methods: {

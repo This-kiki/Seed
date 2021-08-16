@@ -81,17 +81,17 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem" @click="go('Complaints/Complaints')">
+					<!-- <view class="m-page-listitem" @click="go('Complaints/Complaints')">
 						<view class="m-page-listitemtitle">
-							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
+							<image class="m-page-listitemimg" src="" mode=""></image>
 							<span class="iconfont m-page-listitemimg">&#xe6c9;</span>
 							<view class="m-page-listitemtext">
 								投诉建议
 							</view>
 						</view>
-						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
+						<image class="m-page-listitemicon" src="" mode=""></image>
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
-					</view>
+					</view> -->
 					<view class="m-page-listitem" @click="go('Contact/Contact')">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->

@@ -55,31 +55,28 @@
 					num: 0,
 					place: "",
 					reward: ''
-				}
+				},
+				// flag
+				flag: 1
 			};
 		},
 		onLoad(options) {
 			if (options.id) {
-				let newInfo = {
-					jobInfo: {
-						id: options.id,
-						job: options.job,
-						brief: options.brief,
-						need: options.need,
-						num: options.num,
-						place: options.place,
-						reward: options.reward
-					}
-				}
 				this.setNav.navTitle = "修改招聘"
+				this.flag = 2
+				this.getJobDetail(options.id)
 			}
 		},
 		methods: {
 			// 发布招聘
 			async releaseJobNeed() {
 				this.jobInfo.num = parseInt(this.jobInfo.num)
+				if(this.flag == 2){
+					this.editJobNeed()
+					return
+				}
 				let res = await this.$api.releaseJobNeed(this.jobInfo)
-				console.log(res)
+				// console.log(res)
 				if (res.code == 20000) {
 					uni.showToast({
 						title: "发布成功"
@@ -89,6 +86,30 @@
 					uni.showToast({
 						icon: "none",
 						title: "发布失败"
+					})
+				}
+			},
+			// 获取招聘详情
+			async getJobDetail(id) {
+				let res = await this.$api.getJobDetail({
+					id
+				})
+				// console.log(res)
+				this.jobInfo = res.data.detail
+			},
+			// 修改招聘信息
+			async editJobNeed(){
+				let res = await this.$api.editJobNeed(this.jobInfo)
+				// console.log(res)
+				if (res.code == 20000) {
+					uni.showToast({
+						title: "修改成功"
+					})
+					uni.navigateBack()
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "修改失败"
 					})
 				}
 			}
