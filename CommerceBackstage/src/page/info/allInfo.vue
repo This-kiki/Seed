@@ -93,7 +93,7 @@ export default {
             resp[i].type = '会员风采'
           } else if (resp[i].category == 3) {
             resp[i].type = '会员单位'
-          } else if (resp[i].category == 3) {
+          } else if (resp[i].category == 4) {
             resp[i].type = '家乡新闻'
           } else {
             resp[i].type = '未知'
