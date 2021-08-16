@@ -26,6 +26,9 @@
 				</view>
 			</view>
 		</view>
+		<view class="noData" v-if="lawList.length == 0">
+			暂无法律援助
+		</view>
 	</view>
 </template>
 
@@ -67,7 +70,7 @@
 				}
 			},
 			//修改
-			edit(item){
+			edit(item) {
 				uni.navigateTo({
 					url: `/pages/LawRelease/LawRelease?id=${item.id}&title=${item.title}&content=${item.content}`
 				})
@@ -156,6 +159,12 @@
 					}
 				}
 			}
+		}
+
+		.noData {
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>

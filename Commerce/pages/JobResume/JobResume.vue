@@ -80,6 +80,9 @@
 				删除
 			</view>
 		</view>
+		<view class="noData" v-if="resumeInfo==null">
+			暂无简历
+		</view>
 	</view>
 </template>
 
@@ -237,6 +240,11 @@
 				color: #fff;
 				border-radius: 10rpx;
 			}
+		}
+		.noData{
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>

@@ -149,9 +149,17 @@ export class Api {
 		return res.data
 	}
 
+	// 获取用户详细信息
+	getUserDetail = async (data) => {
+		let res = await flyio.get(`/user/findDetailInfo/${data.openid}`)
+		return res.data
+	}
+
 	// 招聘信息列表
 	getJobList = async (data) => {
-		let res = await flyio.get(`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}`)
+		let res = await flyio.get(
+			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}`
+			)
 		return res.data
 	}
 
@@ -250,16 +258,28 @@ export class Api {
 		let res = await flyio.post("/pro/resume/userGetSubmit")
 		return res.data
 	}
-	
+
 	// 取消投递简历
-	cancelResume = async (data)=>{
+	cancelResume = async (data) => {
 		let res = await flyio.post(`/pro/resume/cancel?companyInterviewId=${data.companyInterviewId}`)
 		return res.data
 	}
-	
+
 	// 会员单位发布招聘信息
-	releaseJobNeed = async (data)=>{
-		let res = await flyio.post("/hr/companyInterview/add",data)
+	releaseJobNeed = async (data) => {
+		let res = await flyio.post("/hr/companyInterview/add", data)
+		return res.data
+	}
+
+	// 删除招聘信息
+	deleteJobNeed = async (data) => {
+		let res = await flyio.post(`/hr/companyInterview/del?id=${data.id}`)
+		return res.data
+	}
+
+	// 修改招聘信息
+	editJobNeed = async (data) => {
+		let res = await flyio.post("/hr/companyInterview/update", data)
 		return res.data
 	}
 }

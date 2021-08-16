@@ -66,23 +66,7 @@
 					backBtnColor: "black"
 				},
 				// 律师列表
-				lawList: [{
-					id: 1,
-					img: "https://th.bing.com/th/id/R.9b1c8824e1c590b85168a685d16d7779?rik=IuMLd8zLKULaig&riu=http%3a%2f%2fscimg.jianbihuadq.com%2ftouxiang%2f202004%2f202004012005563.jpg&ehk=6KHNHMUDgb%2f3XKVuFXGi5Lr7OXCA81g%2bTZIbzrdO3aU%3d&risl=&pid=ImgRaw&r=0",
-					introduce: "fdnslfndskkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkfnsdlkkkkkkkkfnl",
-					name: "刘淇",
-					phone: "11011101110",
-					workNum: '46463123165613',
-					workplace: "武汉科技大学黄家湖"
-				}, {
-					id: 2,
-					img: "https://th.bing.com/th/id/R.9b1c8824e1c590b85168a685d16d7779?rik=IuMLd8zLKULaig&riu=http%3a%2f%2fscimg.jianbihuadq.com%2ftouxiang%2f202004%2f202004012005563.jpg&ehk=6KHNHMUDgb%2f3XKVuFXGi5Lr7OXCA81g%2bTZIbzrdO3aU%3d&risl=&pid=ImgRaw&r=0",
-					introduce: "fdnslfndskkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkfnsdlkkkkkkkkfnl",
-					name: "刘淇",
-					phone: "11011101110",
-					workNum: '46463123165613',
-					workplace: "武汉科技大学黄家湖"
-				}],
+				lawList: [],
 				// 是否显示按钮
 				showBtn: false,
 				// 输入

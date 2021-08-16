@@ -127,15 +127,7 @@
 				"enablePullDownRefresh": false
 			}
 
-		}
-		//      ,{
-		//          "path" : "pages/LegalAid/LegalAid",
-		// "style": {
-		// 	"navigationStyle": "custom"
-		// }
-
-		//      }
-		, {
+		}, {
 			"path": "pages/UserList/UserList",
 			"style": {
 				"navigationStyle": "custom"

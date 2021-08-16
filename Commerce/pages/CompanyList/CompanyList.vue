@@ -37,9 +37,25 @@
 			};
 		},
 		created() {
-			this.getCompanyList()
+			this.checkIdentity()
 		},
-		methods:{
+		methods: {
+			// 检查身份
+			checkIdentity() {
+				let identity = uni.getStorageSync("identity")
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateBack()
+						}
+					})
+				} else {
+					this.getCompanyList()
+				}
+			},
 			// 会员单位列表
 			async getCompanyList() {
 				let data = {
@@ -53,7 +69,7 @@
 			// 查看详情
 			seeDetail(openId) {
 				uni.navigateTo({
-					url:`/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
+					url: `/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
 				})
 			},
 		}
@@ -63,17 +79,18 @@
 <style lang="scss">
 	.CompanyListContainer {
 		padding-bottom: 50rpx;
+
 		.mainContaienr {
 			width: 96%;
 			margin: 20rpx auto 0;
-		
+
 			.title {
 				font-size: 32rpx;
 				font-weight: bold;
 				position: relative;
 				margin-left: 20rpx;
 			}
-		
+
 			.title:before {
 				content: "";
 				position: absolute;
@@ -84,30 +101,31 @@
 				left: -20rpx;
 				border-radius: 5rpx;
 			}
-		
+
 			.imgContainer {
 				margin-top: 20rpx;
 				display: flex;
 				justify-content: space-between;
 				flex-wrap: wrap;
-		
+
 				.imgBox {
 					width: 46%;
-		
+
 					.img {
 						width: 100%;
-						height: 250rpx;	
+						height: 250rpx;
 						background-color: lightblue;
 						border-radius: 14rpx;
-					    box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-		
+						box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+
 						image {
 							width: 100%;
 							height: 100%;
 							border-radius: 14rpx;
 						}
 					}
-					.name{
+
+					.name {
 						text-align: center;
 						font-size: 28rpx;
 						margin: 15rpx 0 20rpx;

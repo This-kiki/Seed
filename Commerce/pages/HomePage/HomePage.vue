@@ -45,6 +45,32 @@
 				</view>
 			</view>
 		</view>
+		<!-- 管理层介绍 -->
+		<view class="managerContainer">
+			<view class="titleLine">
+				<view class="title">
+					管理层介绍
+				</view>
+				<view class="more" @click="seeMore('ManagerList')">
+					查看更多
+				</view>
+			</view>
+			<view class="managerBox">
+				<view class="manager" v-for="item in managerList" :key="item.openId">
+					<view class="img" @click="seeUserDetail(item.openId)">
+						<image :src="item.img" mode=""></image>
+					</view>
+					<view class="info">
+						<view class="work">
+							{{getIdentity(item.identity)}}
+						</view>
+						<view class="name">
+							{{item.name}}
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
 		<!-- 会员风采 -->
 		<view class="managerContainer">
 			<view class="titleLine">
@@ -61,6 +87,9 @@
 						<image :src="item.img" mode=""></image>
 					</view>
 					<view class="info">
+						<view class="work">
+							{{getIdentity(item.identity)}}
+						</view>
 						<view class="name">
 							{{item.name}}
 						</view>
@@ -115,6 +144,8 @@
 				circular: true,
 				// 轮播图列表
 				carouselList: [],
+				// 管理层列表
+				managerList: [],
 				// 会员列表
 				userList: [],
 				// 会员单位列表
@@ -124,6 +155,7 @@
 		created() {
 			this.getHomeCarousel()
 			this.getManagerList()
+			this.getUserList()
 			this.getCompanyList()
 		},
 		methods: {
@@ -132,13 +164,44 @@
 				let res = await this.$api.getHomeCarousel()
 				this.carouselList = res.data.DynamicImagList
 			},
-			// 会员列表
+			// 获取身份
+			getIdentity(id) {
+				switch (id) {
+					case 4:
+						return "荣誉会长";
+					case 5:
+						return "会长";
+					case 6:
+						return "副会长";
+					case 7:
+						return "执行委员会";
+					case 8:
+						return "秘书长";
+					case 9:
+						return "会计";
+					case 10:
+						return "出纳";
+					case 11:
+						return "会员";
+				}
+			},
+			// 管理层列表
 			async getManagerList() {
 				let data = {
 					current: 1,
 					limit: 10
 				}
 				let res = await this.$api.getManagerList(data)
+				// console.log(res)
+				this.managerList = res.data.rows
+			},
+			// 会员列表
+			async getUserList() {
+				let data = {
+					current: 1,
+					limit: 10
+				}
+				let res = await this.$api.getUserList(data)
 				// console.log(res)
 				this.userList = res.data.rows
 			},
@@ -154,12 +217,17 @@
 			},
 			// 查看更多
 			seeMore(flag) {
-				uni.navigateTo({
-					url: `/pages/${flag}/${flag}`
-				})
+				if (flag == 'ManagerList')
+					uni.navigateTo({
+						url: `/pages/UserList/UserList?flag=1`
+					})
+				else
+					uni.navigateTo({
+						url: `/pages/${flag}/${flag}?flag=2`
+					})
 			},
 			// 查看资讯详情
-			seeInfoDetail(infoId){
+			seeInfoDetail(infoId) {
 				uni.navigateTo({
 					url: `/pages/RealTimeInfo/DetailedInfo/DetailedInfo?infoId=${infoId}`
 				})
@@ -167,13 +235,13 @@
 			// 查看会员单位详情
 			seeCompanyDetail(openId) {
 				uni.navigateTo({
-					url:`/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
+					url: `/pages/CompanyListDetail/CompanyListDetail?id=${openId}`
 				})
 			},
 			// 查看会员详情
 			seeUserDetail(openId) {
 				uni.navigateTo({
-					url:`/pages/UserListDetail/UserListDetail?id=${openId}`
+					url: `/pages/UserListDetail/UserListDetail?id=${openId}`
 				})
 			},
 			// 跳转页面
@@ -192,7 +260,7 @@
 					url: `/pages/${page}/${page}`
 				})
 			},
-			goNewPage(page){
+			goNewPage(page) {
 				uni.switchTab({
 					url: `/pages/${page}/${page}`
 				})
@@ -222,6 +290,7 @@
 					image {
 						width: 100%;
 						height: 100%;
+						border-radius: 16rpx;
 					}
 				}
 			}
@@ -352,6 +421,7 @@
 				margin-top: 15rpx;
 				overflow-x: auto;
 				white-space: nowrap;
+				padding-bottom: 14rpx;
 
 				.manager {
 					display: inline-flex;

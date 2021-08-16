@@ -19,11 +19,11 @@
 				<text class="iconfont icon-law"></text>
 				律师
 			</view>
-			<view class="me" @click="goPage('LawInfoMe')">
+			<view class="me" @click="goPage('LawInfoMe')" v-if="identity==2">
 				<text class="iconfont icon-geren"></text>
 				我的
 			</view>
-			<view class="submit" @click="goPage('LawRelease')">
+			<view class="submit" @click="goPage('LawRelease')" v-if="identity==2">
 				<text class="iconfont icon-submit"></text>
 				发布
 			</view>
@@ -67,16 +67,35 @@
 				// 输入
 				inputValue: '',
 				// 当前页
-				current: 1
+				current: 1,
+				// 身份
+				identity: 0
 			};
 		},
-		created() {
-			this.getLawInfo()
+		onShow() {	
+			this.checkIdentity()
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
 		methods: {
+			// 检查身份
+			checkIdentity() {
+				let identity = uni.getStorageSync("identity")
+				this.identity = identity
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateBack()
+						}
+					})
+				} else {
+					this.clearBtn()
+				}
+			},
 			// 获取法律常识
 			async getLawInfo() {
 				let data = {
@@ -88,7 +107,6 @@
 				let nowList = res.data.list
 				this.lawList.push.apply(this.lawList, nowList)
 			},
-			// 跳转页面
 			goPage(page) {
 				uni.navigateTo({
 					url: `/pages/${page}/${page}`

@@ -17,12 +17,38 @@
 				<view class="place iconfont icon-weizhi" @click="copy(userInfo.place)">
 					{{userInfo.place}}
 				</view>
-				<view class="phone iconfont icon-dianhua" @click="callPhone()">
+				<view class="right">
+					<view class="phone iconfont icon-dianhua" @click="callPhone()">
+					</view>
+					<view class="email iconfont icon-youxiang" @click="copy(userInfo.email)">
+					</view>
 				</view>
 			</view>
-			<view class="work">
+			<view class="common">
+				<text>生日</text>
+				{{userInfo.birth}}
+			</view>
+			<view class="common">
+				<text>政治面貌</text>
+				{{userInfo.polity}}
+			</view>
+			<view class="common">
+				<text>学校</text>
+				{{userInfo.school}}
+			</view>
+			<view class="common">
+				<text>专业</text>
+				{{userInfo.major}}
+			</view>
+			<view class="common">
 				<text>工作单位</text>
 				{{userInfo.work}}
+			</view>
+			<view class="common">
+				<text>自我介绍</text>
+				<view class="intro">
+					{{userInfo.introduce}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -47,17 +73,33 @@
 		},
 		onLoad(options) {
 			this.id = options.id
-			this.getUserInfo()
+			this.checkIdentity()
 		},
 		methods: {
+			// 检查身份
+			checkIdentity() {
+				let identity = uni.getStorageSync("identity")
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateBack()
+						}
+					})
+				} else {
+					this.getUserInfo()
+				}
+			},
 			// 获取用户基本信息
 			async getUserInfo() {
 				let data = {
 					openid: this.id
 				}
-				let res = await this.$api.getUserInfo(data)
+				let res = await this.$api.getUserDetail(data)
 				console.log(res)
-				this.userInfo = res.data.userBaseInfo
+				this.userInfo = res.data.userDetailInfo
 			},
 			// 打电话
 			callPhone() {
@@ -137,24 +179,37 @@
 				align-items: center;
 				margin-top: 20rpx;
 
-				.phone {
-					margin-right: 20rpx;
-					width: 60rpx;
-					height: 60rpx;
-					line-height: 60rpx;
-					text-align: center;
-					border-radius: 30rpx;
-					background-color: #eee;
-					font-size: 50rpx;
-					padding: 10rpx;
+				.right {
+					display: flex;
+				
+					.iconfont {
+						width: 60rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 50rpx;
+						margin-right: 10rpx;
+						padding: 10rpx;
+						border-radius: 30rpx;
+						text-align: center;
+						background-color: #eee;
+					}
 				}
 			}
-			.work{
+
+			.common {
 				margin-top: 10rpx;
-				text{
+
+				text {
 					font-size: 26rpx;
 					color: #333;
 					margin-right: 20rpx;
+				}
+
+				.intro {
+					font-size: 28rpx;
+					margin-top: 10rpx;
+					text-indent: 2em;
+					letter-spacing: 1rpx;
 				}
 			}
 		}

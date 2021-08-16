@@ -33,6 +33,9 @@
 				</view>
 			</view>
 		</view>
+		<view class="noData" v-if="jobList.length == 0">
+			暂无求职
+		</view>
 	</view>
 </template>
 
@@ -179,6 +182,12 @@
 					}
 				}
 			}
+		}
+	
+		.noData{
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>
