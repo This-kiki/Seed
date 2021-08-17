@@ -63,14 +63,15 @@
 		methods: {
 			// 判断离线用户是否为聊天用户
 			checkUser() {
+				let nowUsers= []
 				this.leaveUsers.forEach((item, i) => {
-					if (this.chatUsers.includes(item)) {
-						this.leaveUsers.splice(i, 1)
+					if (!this.chatUsers.includes(item)) {
+						nowUsers.push(item)
 					}
 				})
-				// console.log("now",this.leaveUsers)
+				console.log("now",nowUsers)
 				this.leaveList.forEach(async item => {
-					if (this.leaveUsers.includes(item.openid)) {
+					if (nowUsers.includes(item.openid)) {
 						let res = await this.$api.getUserDetail({
 							openid: item.openid
 						})
@@ -217,6 +218,10 @@
 							margin-top: 4rpx;
 							color: #999;
 							letter-spacing: 1rpx;
+							width: 300rpx;
+							overflow: hidden;
+							white-space: nowrap;
+							text-overflow: ellipsis;
 						}
 					}
 				}

@@ -87,7 +87,7 @@
 				}
 				let flag = -1
 				chat.forEach((item, i) => {
-					if (item.info.toOpenid = this.toInfo.toOpenid)
+					if (item.info.toOpenid == this.toInfo.toOpenid)
 						flag = i
 				})
 				console.log("flag", flag)
@@ -289,7 +289,7 @@
 			.user {
 				flex-direction: row-reverse;
 				justify-content: flex-start;
-				text-align: right;
+				// text-align: right;
 
 				.content {
 					background-color: #95ec69;
