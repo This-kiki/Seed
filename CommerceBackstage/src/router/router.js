@@ -131,5 +131,7 @@ export const routerMap =  [{
   }
 ]
 export default new Router({
+  mode: "history",
+  base: "/admin/",
   routes: routerMap
 })

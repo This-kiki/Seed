@@ -67,8 +67,7 @@
 		}, {
 			"path": "pages/Mine/Notice/Notice",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
 
 		}, {

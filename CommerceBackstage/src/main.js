@@ -10,11 +10,7 @@ Vue.use(ElementUI);
 import './permission.js'
 
 // Router
-// import VueRouter from 'vue-router'
 import router from './router/router.js'
-// Vue.use(VueRouter);
-// const router = new VueRouter({routes: routerMap})
-
 // vuex
 import store from './store/index'
 
@@ -25,5 +21,5 @@ Vue.prototype.$http = http
 
 const app = new Vue({
   store,
-  router,
+  router
 }).$mount('#app');

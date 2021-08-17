@@ -5,7 +5,7 @@
 		<!-- 聊天主体 -->
 		<view class="mainContaienr">
 			<view class="chatBox" v-for="(item,index) in chatList" :key="index" :class="item.flag==1?'user':'company'">
-				<view class="avatar">
+				<view class="avatar" @click="seeUserDetail(toInfo.toOpenid,item.flag)">
 					<image :src="item.img" mode=""></image>
 				</view>
 				<view class="content">
@@ -49,18 +49,21 @@
 				openid: "",
 				// 对方的信息
 				toInfo: {
-					toOpenid: 'sfa',
-					name: "葛济维",
+					toOpenid: 'test',
+					name: "张三",
 					img: "https://th.bing.com/th/id/R.7379c1da3d35c4cce3132b6e50831d2d?rik=x6bJ9QmLO%2bfD8w&riu=http%3a%2f%2fimg2.woyaogexing.com%2f2017%2f08%2f21%2fdfb354693dd7a31b!400x400_big.jpg&ehk=8p%2f1vyyl3pssF7Ztu5AT2NOmoZfLV%2bffolvw%2fdz2BjM%3d&risl=&pid=ImgRaw&r=0"
-				}
+				},
+				// 离线记录
+				leaveContent: ""
 			}
 		},
 		onLoad(option) {
 			if (option.openid) {
 				this.toInfo.toOpenid = option.openid
 				this.toInfo.name = option.name
-				this.toInfo.img = option.img
+				this.toInfo.img = JSON.parse(decodeURIComponent(option.img))
 			}
+			console.log(this.toInfo.img)
 			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
 
@@ -73,27 +76,34 @@
 			this.SocketTask.close()
 			// 清除心跳
 			clearInterval(this.heartTimer)
-			let chat = []
-			if (uni.getStorageSync("chat")) {
-				chat = uni.getStorageSync("chat")
-			}
-			let flag = -1
-			chat.forEach((item, i) => {
-				if (item.info.toOpenid = this.toInfo.toOpenid)
-					flag = i
-			})
-			let chatItem = {
-				info: this.toInfo,
-				chatList: this.chatList
-			}
-			if (flag == -1) {
-				chat.push(chatItem)
-			} else {
-				chat[flag] = chatItem
-			}
-			uni.setStorageSync("chat", chat)
+			this.setLocal()
 		},
 		methods: {
+			// 将本地聊天加入缓存
+			setLocal() {
+				let chat = []
+				if (uni.getStorageSync("chat")) {
+					chat = uni.getStorageSync("chat")
+				}
+				let flag = -1
+				chat.forEach((item, i) => {
+					if (item.info.toOpenid == this.toInfo.toOpenid)
+						flag = i
+				})
+				console.log("flag", flag)
+				let time = new Date()
+				let chatItem = {
+					info: this.toInfo,
+					chatList: this.chatList,
+					time: time.toLocaleString()
+				}
+				if (flag == -1) {
+					chat.push(chatItem)
+				} else {
+					chat[flag] = chatItem
+				}
+				uni.setStorageSync("chat", chat)
+			},
 			// 获取本地消息
 			getLocalMessage() {
 				let chat = []
@@ -104,7 +114,7 @@
 				}
 				let flag = -1
 				chat.forEach((item, i) => {
-					if (item.info.toOpenid = this.toInfo.toOpenid)
+					if (item.info.toOpenid == this.toInfo.toOpenid)
 						flag = i
 				})
 				let localList = []
@@ -124,16 +134,23 @@
 					toOpenid: this.toInfo.toOpenid
 				})
 				console.log(res)
-				let leaveList = res.data.ms
+				let leaveList = res.data.ms[0].content.split("*chat*")
 				leaveList.forEach((item) => {
 					let chat = {
 						flag: 2,
-						content: item.content,
+						content: item,
 						img: this.toInfo.img
 					}
-					this.chatList.push(chat)
-					this.scrollBottom()
+					if (item != "") {
+						this.chatList.push(chat)
+						this.scrollBottom()
+					}
 				})
+				// 接受后删除离线消息
+				let data = {
+					toOpenid: this.toInfo.toOpenid,
+				}
+				await this.$api.deleteLeaveMessage(data)
 			},
 			// 发送消息
 			sendMessage() {
@@ -167,7 +184,7 @@
 				if (this.IsOpen) return
 				// 连接
 				this.SocketTask = uni.connectSocket({
-					url: `ws://47.116.130.99:21587/seed/websocket/${this.openid}`,
+					url: `wss://hjzpzzh.com/seed/websocket/${this.openid}`,
 					complete: () => {}
 				});
 				if (!this.SocketTask) return;
@@ -206,12 +223,13 @@
 				this.SocketTask.onMessage(async (e) => {
 					console.log('接收消息', e);
 					if (e.data == "leave") {
+						this.leaveContent = this.leaveContent + "*chat*" + this.chatList[this.chatList.length -
+							1].content
 						let data = {
-							toOpenid: this.openid,
-							content: this.chatList[this.chatList.length - 1].content
+							toOpenid: this.toInfo.toOpenid,
+							content: this.leaveContent
 						}
-						let res = await this.$api.sendLeaveMessage(data)
-						console.log(res)
+						await this.$api.sendLeaveMessage(data)
 					} else {
 						let message = e.data.split(":")[1]
 						let chat = {
@@ -224,6 +242,17 @@
 					}
 				})
 			},
+			// 查看用户详情
+			seeUserDetail(id, flag) {
+				if (flag == 2)
+					uni.navigateTo({
+						url: `/pages/UserListDetail/UserListDetail?id=${id}`
+					})
+				else
+					uni.navigateTo({
+						url: `/pages/UserListDetail/UserListDetail?id=${this.openid}`
+					})
+			}
 		}
 	}
 </script>
@@ -271,7 +300,7 @@
 			.user {
 				flex-direction: row-reverse;
 				justify-content: flex-start;
-				text-align: right;
+				// text-align: right;
 
 				.content {
 					background-color: #95ec69;

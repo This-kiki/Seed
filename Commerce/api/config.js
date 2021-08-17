@@ -4,10 +4,8 @@ var fly = new Fly;
 var Api = require('./api.js')
 // 配置请求根域名
 import store from '../store/index.js'
-// export const url ='http://47.116.130.99:21587/seed'
-export const url ='http://119.45.18.3/seed'
-// fly.config.baseURL = 'http://47.116.130.99:21587/seed'
-fly.config.baseURL = 'http://119.45.18.3/seed'
+export const url ='https://hjzpzzh.com/seed'
+fly.config.baseURL = 'https://hjzpzzh.com/seed'
 fly.config.timeout = 10 * 1000
 
 // 配置响应拦截器
