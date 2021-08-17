@@ -65,14 +65,75 @@
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="180" align="center">
+      <el-table-column fixed="right" label="操作" width="130" align="center">
         <template slot-scope="scope">
+          <el-button style="marginRight: 10px" type="primary" plain circle icon="el-icon-edit-outline" size="small" @click="editMember(scope.row)"></el-button>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定删除该会员吗" @confirm="deleteMember(scope.row)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
+    <div>
+      <el-dialog title="修改会员信息" :visible.sync="editVisible" width="45%">
+        <el-form label-position="left" class="demo-table-expand" label-width="180px">
+          <el-form-item label="姓名">
+            <span>{{ editForm.name }}</span>
+          </el-form-item>
+          <el-form-item label="手机号码">
+            <span>{{ editForm.phone }}</span>
+          </el-form-item>
+          <el-form-item label="工作单位职位">
+            <span>{{ editForm.position }}</span>
+          </el-form-item>
+          <el-form-item label="身份证号码">
+            <span>{{ editForm.idNum }}</span>
+          </el-form-item>
+          <el-form-item label="职位">
+            <span>{{ getsbuLevel(editForm.subLevel) }}</span>
+          </el-form-item>
+          <el-form-item label="电子邮箱">
+            <span>{{ editForm.email }}</span>
+          </el-form-item>
+          <!-- <el-form-item label="手机号码">
+              <span>{{ editForm.phone }}</span>
+            </el-form-item> -->
+          <el-form-item label="专业">
+            <span>{{ editForm.major }}</span>
+          </el-form-item>
+          <el-form-item label="性别">
+            <span>{{ editForm.sex==0?'男':'女' }}</span>
+          </el-form-item>
+          <el-form-item label="出生日期">
+            <span>{{ editForm.birth }}</span>
+          </el-form-item>
+          <el-form-item label="民族">
+            <span>{{ editForm.nation }}</span>
+          </el-form-item>
+          <el-form-item label="籍贯">
+            <span>{{ editForm.place }}</span>
+          </el-form-item>
+          <el-form-item label="政治面貌">
+            <span>{{ editForm.polity }}</span>
+          </el-form-item>
+          <el-form-item label="现任工作单位">
+            <span>{{ editForm.work }}</span>
+          </el-form-item>
+          <!-- <el-form-item label="工作单位职位">
+              <span>{{ editForm.position }}</span>
+            </el-form-item> -->
+          <el-form-item label="在读/毕业学校">
+            <span>{{ editForm.school }}</span>
+          </el-form-item>
+          <el-form-item label="头像">
+            <img :src="editForm.img" alt="">
+          </el-form-item>
+          <el-form-item label="个人简介">
+            <span>{{ editForm.introduce }}</span>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -87,6 +148,8 @@ export default {
         current: 0,
         total: 0,
       },
+      editVisible: false,
+      editForm: {},
     }
   },
   mounted() {
@@ -163,6 +226,11 @@ export default {
           type: 'success',
         })
       })
+    },
+    editMember(row) {
+      this.editVisible = true
+      this.editForm = row
+      console.log(row)
     },
   },
 }
