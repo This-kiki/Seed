@@ -171,7 +171,7 @@ export default {
     },
     editInfo(row) {
       this.$router.push({
-        path: '/index/releaseActivities',
+        path: '/index/releaseInfo',
         query: { id: row.id },
       })
     },

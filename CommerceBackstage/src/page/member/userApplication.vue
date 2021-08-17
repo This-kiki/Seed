@@ -3,9 +3,7 @@
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="position" label="工作单位职位" width="150">
-      </el-table-column>
-      <el-table-column prop="phone" label="手机号" width="150">
+      <el-table-column label="申请职位" width="150">
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>

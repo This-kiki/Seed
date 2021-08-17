@@ -50,6 +50,14 @@ export default {
             method: 'get',
         })
     },
+    // 查询某个活动
+    getOneActivity(data) {
+        return service({
+            url: '/activity/actDetail',
+            method: 'get',
+            params: data
+        })
+    },
     // 发布活动
     addActivity(data) {
         return service({

@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row>
+      <el-col :span="2" :offset="21">
+        <el-button style="margin: 15px 0" round type="success" plain icon="el-icon-document-copy" size="small">导出会员信息</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -7,9 +12,9 @@
             <el-form-item label="身份证号码">
               <span>{{ props.row.idNum }}</span>
             </el-form-item>
-            <el-form-item label="职位">
+            <!-- <el-form-item label="职位">
               <span>{{ getsbuLevel(props.row.subLevel) }}</span>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="电子邮箱">
               <span>{{ props.row.email }}</span>
             </el-form-item>
@@ -37,9 +42,9 @@
             <el-form-item label="现任工作单位">
               <span>{{ props.row.work }}</span>
             </el-form-item>
-            <!-- <el-form-item label="工作单位职位">
+            <el-form-item label="工作单位职位">
               <span>{{ props.row.position }}</span>
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item label="在读/毕业学校">
               <span>{{ props.row.school }}</span>
             </el-form-item>
@@ -54,9 +59,12 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="phone" label="手机号码" width="100">
+      <el-table-column label="职位" width="150">
+        <template slot-scope="scope">
+          {{ getsbuLevel(scope.row.subLevel) }}
+        </template>
       </el-table-column>
-      <el-table-column prop="position" label="工作单位职位" width="150">
+      <el-table-column prop="phone" label="手机号码" width="100">
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>

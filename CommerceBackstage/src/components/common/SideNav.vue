@@ -32,7 +32,7 @@
       </el-submenu>
       <el-submenu index="6">
         <template slot="title"><i class="el-icon-message"></i>超级管理员</template>
-        <el-menu-item index="/index/addAdmin">添加管理员</el-menu-item>
+        <!-- <el-menu-item index="/index/addAdmin">添加管理员</el-menu-item> -->
         <el-menu-item index="/index/allAdmin">所有管理员</el-menu-item>
       </el-submenu>
       <el-submenu index="7">
@@ -42,7 +42,7 @@
       <el-submenu index="8">
         <template slot="title"><i class="el-icon-message"></i>会员管理</template>
         <el-menu-item index="/index/allMember">所有会员</el-menu-item>
-        <el-menu-item index="/index/allUser">所有用户</el-menu-item>
+        <!-- <el-menu-item index="/index/allUser">所有用户</el-menu-item> -->
         <el-menu-item index="/index/userApplication">用户入会审核</el-menu-item>
       </el-submenu>
       <el-menu-item index="/index/help"><i class="el-icon-menu"></i>帮助中心</el-menu-item>

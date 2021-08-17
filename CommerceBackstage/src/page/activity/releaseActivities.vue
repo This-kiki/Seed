@@ -97,9 +97,14 @@ export default {
       this.editor = editor
 
       // 获取id
-      if (this.$route.params.id) {
-        this.id = this.$route.params.id
-        // this.editor.txt.html('<p>啊大苏打</p>')
+      if (this.$route.query.id) {
+        this.id = this.$route.query.id
+        // console.log('id:', this.id)
+        var getAPI = { id: this.id }
+        this.$http.getOneActivity(getAPI).then((res) => {
+          this.addForm = res.data.data.act
+          this.editor.txt.html(this.addForm.content)
+        })
       }
     },
 
