@@ -1,11 +1,7 @@
 import axios from 'axios'
 import URL from './api'
 
-// import Vue from 'vue'
-// import VueRouter from 'vue-router'
 import router from '../router/router.js'
-// Vue.use(VueRouter);
-// const router = new VueRouter({routes: routerMap})
 
 import { getHeader } from '../utils/header'
 import { Message } from 'element-ui'
@@ -22,13 +18,12 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    let url = config.url.replace(config.baseURL,'');
     let code = config.code;
     config.headers = getHeader(code) // 让每个请求携带自定义签名
     return config
   },
   error => {
-    console.log('requset错误:',error) // for debug 11
+    console.log('requset错误:', error) // for debug 11
     Promise.reject(error)
   }
 )
@@ -36,23 +31,16 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   response => {
-    // if(response.config.responseType=='blob'){
-    //   if(response.status==200){
-    //     return response;
-    //   }else{
-    //     return Promise.reject(error);
-    //   }
-    // }else{
     const res = response.data;
-    if (res.code === 20000) {
+    if (res.code === 20000 || response.config.url == "/admin/company/getAllCompanyDtlInfoToExcel") {
       return response.data
-    } else if(res.code == 312){
+    } else if (res.code == 312) {
       console.log("Token失效跳转登陆页面");
       Message({
         message: 'token失效，请重新登录',
         type: 'error',
       })
-      router.push({path: '/login'})
+      router.push({ path: '/login' })
     } else {
       Message({
         message: res.message,

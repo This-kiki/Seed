@@ -2,13 +2,26 @@
   <div>
     <el-row>
       <el-col :span="2" :offset="21">
-        <el-button @click="exportMember" style="margin: 15px 0" round type="success" plain icon="el-icon-document-copy" size="small">导出会员信息</el-button>
+        <el-button
+          @click="exportMember"
+          style="margin: 15px 0"
+          round
+          type="success"
+          plain
+          icon="el-icon-document-copy"
+          size="small"
+          >导出会员信息</el-button
+        >
       </el-col>
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form label-position="left" class="demo-table-expand" label-width="180px">
+          <el-form
+            label-position="left"
+            class="demo-table-expand"
+            label-width="180px"
+          >
             <el-form-item label="身份证号码">
               <span>{{ props.row.idNum }}</span>
             </el-form-item>
@@ -25,7 +38,7 @@
               <span>{{ props.row.major }}</span>
             </el-form-item>
             <el-form-item label="性别">
-              <span>{{ props.row.sex==0?'男':'女' }}</span>
+              <span>{{ props.row.sex == 0 ? "男" : "女" }}</span>
             </el-form-item>
             <el-form-item label="出生日期">
               <span>{{ props.row.birth }}</span>
@@ -49,7 +62,7 @@
               <span>{{ props.row.school }}</span>
             </el-form-item>
             <el-form-item label="头像">
-              <img :src="props.row.img" alt="">
+              <img :src="props.row.img" alt="" />
             </el-form-item>
             <el-form-item label="个人简介">
               <span>{{ props.row.introduce }}</span>
@@ -57,26 +70,50 @@
           </el-form>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="150">
-      </el-table-column>
+      <el-table-column prop="name" label="姓名" width="150"> </el-table-column>
       <el-table-column prop="phone" label="手机号码" width="100">
       </el-table-column>
       <el-table-column prop="position" label="工作单位职位" width="150">
       </el-table-column>
-      <el-table-column prop="" label="">
-      </el-table-column>
+      <el-table-column prop="" label=""> </el-table-column>
       <el-table-column fixed="right" label="操作" width="130" align="center">
         <template slot-scope="scope">
-          <el-button style="marginRight: 10px" type="primary" plain circle icon="el-icon-edit-outline" size="small" @click="editMember(scope.row)"></el-button>
-          <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定删除该会员吗" @confirm="deleteMember(scope.row)">
-            <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
+          <el-button
+            style="marginright: 10px"
+            type="primary"
+            plain
+            circle
+            icon="el-icon-edit-outline"
+            size="small"
+            @click="editMember(scope.row)"
+          ></el-button>
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定删除该会员吗"
+            @confirm="deleteMember(scope.row)"
+          >
+            <el-button
+              slot="reference"
+              type="danger"
+              plain
+              circle
+              icon="el-icon-delete"
+              size="small"
+            ></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
     <div>
       <el-dialog title="修改会员信息" :visible.sync="editVisible" width="45%">
-        <el-form label-position="left" class="demo-table-expand" label-width="180px">
+        <el-form
+          label-position="left"
+          class="demo-table-expand"
+          label-width="180px"
+        >
           <el-form-item label="姓名">
             <span>{{ editForm.name }}</span>
           </el-form-item>
@@ -102,7 +139,7 @@
             <span>{{ editForm.major }}</span>
           </el-form-item>
           <el-form-item label="性别">
-            <span>{{ editForm.sex==0?'男':'女' }}</span>
+            <span>{{ editForm.sex == 0 ? "男" : "女" }}</span>
           </el-form-item>
           <el-form-item label="出生日期">
             <span>{{ editForm.birth }}</span>
@@ -126,7 +163,7 @@
             <span>{{ editForm.school }}</span>
           </el-form-item>
           <el-form-item label="头像">
-            <img :src="editForm.img" alt="">
+            <img :src="editForm.img" alt="" />
           </el-form-item>
           <el-form-item label="个人简介">
             <span>{{ editForm.introduce }}</span>
@@ -138,8 +175,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import URL from '../../api/api'
+import axios from "axios";
+import URL from "../../api/api";
 export default {
   data() {
     return {
@@ -150,90 +187,90 @@ export default {
       },
       editVisible: false,
       editForm: {},
-    }
+    };
   },
   mounted() {
-    this.getAllMember()
+    this.getAllMember();
   },
   methods: {
     getsbuLevel(key) {
       switch (key) {
         case 4:
-          return '荣誉会长'
-          break
+          return "荣誉会长";
+          break;
         case 5:
-          return '会长'
-          break
+          return "会长";
+          break;
         case 6:
-          return '副会长'
-          break
+          return "副会长";
+          break;
         case 7:
-          return '执行委员会成员'
-          break
+          return "执行委员会成员";
+          break;
         case 8:
-          return '秘书长'
-          break
+          return "秘书长";
+          break;
         case 9:
-          return '会计'
-          break
+          return "会计";
+          break;
         case 10:
-          return '出纳'
-          break
+          return "出纳";
+          break;
         case 11:
-          return '会员'
-          break
+          return "会员";
+          break;
         default:
-          break
+          break;
       }
     },
     getAllMember() {
       // let getAPI = { current: this.current.current }
       this.$http.getMember().then((res) => {
         // console.log(res)
-        var resp = res.data.userList
-        this.tableData = resp
-      })
+        var resp = res.data.userList;
+        this.tableData = resp;
+      });
     },
     deleteMember(row) {
       // console.log(row)
-      var postAPI = { openId: row.openId }
+      var postAPI = { openid: row.openId };
       this.$http.deleteMember(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '删除成功',
-            type: 'success',
-          })
-          this.getAllMember()
+            message: "删除成功",
+            type: "success",
+          });
+          this.getAllMember();
         }
-      })
+      });
     },
     exportMember() {
       axios
-        .get(URL.BASE_URL_DEV + '/admin/user/getAllMemberDtlInfoToExcel', {
-          responseType: 'blob',
+        .get(URL.BASE_URL_DEV + "/admin/user/getAllMemberDtlInfoToExcel", {
+          responseType: "blob",
           headers: {
-            token: localStorage.getItem('seed_token'),
+            token: localStorage.getItem("seed_token"),
           },
         })
         .then((res) => {
-          let blob = new Blob([res], { type: 'application/vnd.ms-excel' }) // res就是接口返回的文件流了
-          let objectUrl = URL.createObjectURL(blob)
-          window.location.href = objectUrl
-        })
+          let blob = new Blob([res], { type: "application/vnd.ms-excel" }); // res就是接口返回的文件流了
+          let objectUrl = URL.createObjectURL(blob);
+          window.location.href = objectUrl;
+        });
       this.$http.exportMember().then((res) => {
         this.$message({
-          message: 'excel已导出',
-          type: 'success',
-        })
-      })
+          message: "excel已导出",
+          type: "success",
+        });
+      });
     },
     editMember(row) {
-      this.editVisible = true
-      this.editForm = row
-      console.log(row)
+      this.editVisible = true;
+      this.editForm = row;
+      console.log(row);
     },
   },
-}
+};
 </script>
 <style scoped>
 </style>

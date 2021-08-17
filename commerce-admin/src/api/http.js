@@ -46,7 +46,7 @@ export default {
     // 获取所有活动
     getActivity(data) {
         return service({
-            url: '/activity/list/' + data.current+'/20',
+            url: '/activity/list/' + data.current + '/20',
             method: 'get',
         })
     },
@@ -85,7 +85,7 @@ export default {
     // 获取所有活动申请
     getApplyActivity(data) {
         return service({
-            url: '/admin/activity/apply_list/' + data.current+'/20',
+            url: '/admin/activity/apply_list/' + data.current + '/20',
             method: 'get',
         })
     },
@@ -97,84 +97,84 @@ export default {
             params: data
         })
     },
-	// 获取会员单位资讯
-	getCompanyInfo(data) {
-		return service({
-            url: '/info/PageFindCompanyDynamic/'+data.current+'/20',
+    // 获取会员单位资讯
+    getCompanyInfo(data) {
+        return service({
+            url: '/info/PageFindCompanyDynamic/' + data.current + '/20',
             method: 'get',
         })
-	},
-	// 获取家乡新闻资讯
-	getCountryInfo(data) {
-		return service({
-            url: '/info/PageFindCompanyDynamic/'+data.current+'/20',
+    },
+    // 获取家乡新闻资讯
+    getCountryInfo(data) {
+        return service({
+            url: '/info/PageFindCompanyDynamic/' + data.current + '/20',
             method: 'get',
         })
-	},
-	// 获取会员风采资讯
-	getMemberInfo(data) {
-		return service({
-            url: '/info/PageFindCountryDynamic/'+data.current+'/20',
+    },
+    // 获取会员风采资讯
+    getMemberInfo(data) {
+        return service({
+            url: '/info/PageFindCountryDynamic/' + data.current + '/20',
             method: 'get',
         })
-	},
-	// 获取种子会动态资讯
-	getSeedInfo(data) {
-		return service({
-            url: '/info/PageFindSeedDynamic/'+data.current+'/20',
+    },
+    // 获取种子会动态资讯
+    getSeedInfo(data) {
+        return service({
+            url: '/info/PageFindSeedDynamic/' + data.current + '/20',
             method: 'get',
         })
-	},
+    },
     // 获取所有资讯
     getAllInfo() {
-		return service({
+        return service({
             url: '/info/findAllDynamic',
             method: 'get',
         })
-	},
+    },
     // 查询资讯
     getOneInfo(data) {
-		return service({
-            url: '/info/findDynamic/'+data.id,
+        return service({
+            url: '/info/findDynamic/' + data.id,
             method: 'get',
         })
-	},
+    },
     // 添加会员单位资讯
-	addCompanyInfo(data) {
-		return service({
+    addCompanyInfo(data) {
+        return service({
             url: '/admin/info/addCompanyDynamic',
             method: 'post',
             data: data
         })
-	},
-	// 添加家乡新闻资讯
-	addCountryInfo(data) {
-		return service({
+    },
+    // 添加家乡新闻资讯
+    addCountryInfo(data) {
+        return service({
             url: '/admin/info/addCountryDynamic',
             method: 'post',
             data: data
         })
-	},
-	// 添加会员风采资讯
-	addMemberInfo(data) {
-		return service({
+    },
+    // 添加会员风采资讯
+    addMemberInfo(data) {
+        return service({
             url: '/admin/info/addMemberDynamic',
             method: 'post',
             data: data
         })
-	},
-	// 添加种子会动态资讯
-	addSeedInfo(data) {
-		return service({
+    },
+    // 添加种子会动态资讯
+    addSeedInfo(data) {
+        return service({
             url: '/admin/info/addSeedDynamic',
             method: 'post',
             data: data
         })
-	},
+    },
     // 修改资讯内容
     editOneInfo(data) {
         return service({
-            url: '/admin/info/alterDynamic/'+data.id,
+            url: '/admin/info/alterDynamic/' + data.id,
             method: 'post',
             data: data
         })
@@ -182,7 +182,7 @@ export default {
     // 删除咨询
     deleteOneInfo(data) {
         return service({
-            url: '/admin/info/delSeedDynamic/'+data.id,
+            url: '/admin/info/delSeedDynamic/' + data.id,
             method: 'get',
         })
     },
@@ -196,7 +196,7 @@ export default {
     // 获取所有申请公司
     getApplyCompany(data) {
         return service({
-            url: '/admin/company/findAllCompanyApplyMeeting/'+data.current+'/20',
+            url: '/admin/company/findAllCompanyApplyMeeting/' + data.current + '/20',
             method: 'get',
         })
     },
@@ -213,6 +213,10 @@ export default {
         return service({
             url: '/admin/company/getAllCompanyDtlInfoToExcel',
             method: 'get',
+            headers: {
+                responseType: "blob",
+                withCredentials: true
+            }
         })
     },
     // 通过公司申请
@@ -226,14 +230,14 @@ export default {
     // 获取所有律师
     getLayer(data) {
         return service({
-            url: '/pro/lawyer/lawer/'+data.current,
+            url: '/pro/lawyer/lawer/' + data.current,
             method: 'get',
         })
     },
     // 获取所有申请律师
     getApplyLayer(data) {
         return service({
-            url: '/admin/lawer/findAllApplyMeeting/'+data.current,
+            url: '/admin/lawer/findAllApplyMeeting/' + data.current,
             method: 'get',
         })
     },
@@ -263,7 +267,7 @@ export default {
     // 获取所有申请会员
     getApplyMember(data) {
         return service({
-            url: '/admin/user/findAllApplyMeeting/'+data.current+'/20',
+            url: '/admin/user/findAllApplyMeeting/' + data.current + '/20',
             method: 'get',
         })
     },
@@ -272,7 +276,7 @@ export default {
         return service({
             url: '/admin/user/delMember',
             method: 'post',
-            data: data
+            params: data
         })
     },
     // 导出所有会员
@@ -290,4 +294,54 @@ export default {
             params: data
         })
     },
+    // 设置种子会地址
+    setAddress(data) {
+        return service({
+            url: "/admin/intro/setAddress",
+            method: "post",
+            data
+        })
+    },
+
+    // 设置种子会章程
+    setConstitution(data) {
+        return service({
+            url: "/admin/intro/setConstitution",
+            method: "post",
+            data
+        })
+    },
+
+    // 设置联系人姓名电话
+    setContact(data) {
+        return service({
+            url: "/admin/intro/setContact",
+            method: "post",
+            data
+        })
+    },
+    // 设置种子会架构
+    setFramework(data) {
+        return service({
+            url: "/admin/intro/setFramework",
+            method: "post",
+            data
+        })
+    },
+    // 设置种子会介绍
+    setIntroduce(data) {
+        return service({
+            url: "/admin/intro/setIntroduce",
+            method: "post",
+            data
+        })
+    },
+    // 发布法律常识
+    releaseLawInfo(data) {
+        return service({
+            url: "/admin/lawer/pub",
+            method: 'post',
+            data
+        })
+    }
 }

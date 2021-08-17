@@ -1,9 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="name" label="活动名" width="300">
+      <el-table-column prop="name" label="活动名">
       </el-table-column>
       <el-table-column prop="alNum" label="已报名" width="100">
+      </el-table-column>
+       <el-table-column prop="num" label="总人数" width="100">
       </el-table-column>
       <el-table-column label="状态" width="100">
         <template slot-scope="scope">
