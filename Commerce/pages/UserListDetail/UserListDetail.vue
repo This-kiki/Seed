@@ -18,6 +18,8 @@
 					{{userInfo.place}}
 				</view>
 				<view class="right">
+					<view class="chat iconfont icon-chat" @click="chat()">
+					</view>
 					<view class="phone iconfont icon-dianhua" @click="callPhone()">
 					</view>
 					<view class="email iconfont icon-youxiang" @click="copy(userInfo.email)">
@@ -92,7 +94,7 @@
 					this.getUserInfo()
 				}
 			},
-			// 获取用户基本信息
+			// 获取用户信息
 			async getUserInfo() {
 				let data = {
 					openid: this.id
@@ -128,7 +130,13 @@
 					}
 				});
 			},
-
+			// 聊天
+			chat(item) {
+				let link = encodeURIComponent(JSON.stringify(this.userInfo.img))
+				uni.navigateTo({
+					url: `/pages/Chat/Chat?openid=${this.id}&name=${this.userInfo.name}&img=${link}`
+				})
+			}
 		}
 
 	}
@@ -181,7 +189,7 @@
 
 				.right {
 					display: flex;
-				
+
 					.iconfont {
 						width: 60rpx;
 						height: 60rpx;

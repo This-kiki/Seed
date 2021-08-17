@@ -81,6 +81,8 @@
 		methods: {
 			// 将本地聊天加入缓存
 			setLocal() {
+				if (this.chatList.length == 0)
+					return
 				let chat = []
 				if (uni.getStorageSync("chat")) {
 					chat = uni.getStorageSync("chat")
