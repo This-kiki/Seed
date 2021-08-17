@@ -8,7 +8,7 @@
         label-width="100px"
         ref="loginForm"
       >
-        <div class="title">濠江珠浦种子会后台管理系统</div>
+        <div class="title">珠浦种子会后台管理系统</div>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="loginForm.username"></el-input>
         </el-form-item>
@@ -109,7 +109,7 @@ export default {
     0 6px 16px 1px rgba(140, 140, 140, 0.08);
 }
 .title {
-  font-size: 20px;
+  font-size: 18px;
   padding-left: 36px;
   padding-bottom: 30rpx;
 }
