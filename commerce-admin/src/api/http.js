@@ -279,6 +279,14 @@ export default {
             params: data
         })
     },
+    // 修改会员信息
+    editMember(data) {
+        return service({
+            url: '/user/updateMemberDetailInfo',
+            method: 'post',
+            data: data
+        })
+    },
     // 导出所有会员
     exportMember() {
         return service({
