@@ -223,7 +223,16 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/RealTimeInfo/info-search/info-search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

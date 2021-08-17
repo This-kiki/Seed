@@ -62,6 +62,11 @@ export class Api {
 		let res = await flyio.get("/info/findDynamic/" + data.id)
 		return res.data
 	}
+	// 查询咨询
+	searchIfo = async (data) => {
+		let res = await flyio.post("/info/PageFindDynamic/" + data.current+ "/20",data)
+		return res.data
+	}
 
 	// 获取所有活动
 	getActivity = async (data) => {
