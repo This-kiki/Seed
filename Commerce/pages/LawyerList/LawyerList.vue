@@ -89,7 +89,7 @@
 					key: this.inputValue,
 				}
 				let res = await this.$api.getLawyerList(data)
-				console.log(res)
+				// console.log(res)
 				let nowList = res.data.rows
 				this.lawList.push.apply(this.lawList, nowList)
 			},
@@ -113,8 +113,9 @@
 			},
 			// 聊天
 			chat(item) {
+				let link = encodeURIComponent(JSON.stringify(item.img))
 				uni.navigateTo({
-					url: `/pages/Chat/Chat?openid=${item.openId}&name=${item.name}&img=${item.img}`
+					url: `/pages/Chat/Chat?openid=${item.openId}&name=${item.name}&img=${link}`
 				})
 			}
 		}

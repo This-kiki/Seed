@@ -134,6 +134,8 @@
 					toOpenid: this.toInfo.toOpenid
 				})
 				console.log(res)
+				if (res.data.ms.length == 0)
+					return
 				let leaveList = res.data.ms[0].content.split("*chat*")
 				leaveList.forEach((item) => {
 					let chat = {
