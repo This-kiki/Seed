@@ -207,6 +207,21 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/LawInfoDetail/LawInfoDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/PreviewEditor/PreviewEditor",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/Editor/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

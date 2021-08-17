@@ -8,9 +8,16 @@
 				<text>标题</text>
 				<input type="text" v-model="title" />
 			</view>
+			<view class="brief">
+				<text>简介</text>
+				<textarea type="text" v-model="brief" />
+			</view>
 			<view class="content">
 				<text>内容</text>
-				<textarea type="text" v-model="content" />
+				<rich-text :nodes="content"></rich-text>
+				<view class="richText" @click="richText()">
+					点击编辑内容
+				</view>
 			</view>
 			<view class="release" @click="release()">
 				<text class="iconfont icon-submit"></text>
@@ -34,22 +41,51 @@
 				// 修改的id
 				id: '',
 				title: "",
+				brief: "",
 				content: ""
 			};
 		},
+		onShow() {
+			this.getLocalData()
+		},
 		onLoad(options) {
 			if (options.id) {
+				console.log(options)
 				this.id = options.id
 				this.title = options.title
-				this.content = options.content
+				this.brief = options.brief
 				this.setNav.navTitle = "修改法律常识"
 			}
 		},
 		methods: {
+			//获取本地内容
+			getLocalData(){
+				if(uni.getStorageSync("lawEdit")){
+					let data = uni.getStorageSync("lawEdit")
+					this.id = data.id
+					this.title = data.title
+					this.brief = data.brief
+					this.content = decodeURIComponent(this.$store.state.richText)
+				}
+			},
+			// 编辑富文本内容
+			richText() {
+				let data = {
+					id:this.id,
+					title:this.title,
+					brief:this.brief,
+				}
+				uni.setStorageSync("lawEdit",data)
+				uni.navigateTo({
+					url: "/pages/Editor/index"
+				})
+			},
+			// 发布
 			async release() {
 				let data = {
 					id: this.id,
 					title: this.title,
+					brief: this.brief,
 					content: this.content
 				}
 				let res = await this.$api.releaseLaw(data)
@@ -57,6 +93,7 @@
 					uni.showToast({
 						title: '发布成功'
 					})
+					uni.removeStorageSync("lawEdit")
 					setTimeout(() => {
 						uni.navigateBack({
 							delta: 1
@@ -94,7 +131,7 @@
 				}
 			}
 
-			.content {
+			.brief {
 				margin-top: 30rpx;
 
 				textarea {
@@ -103,6 +140,21 @@
 					border-radius: 10rpx;
 					padding: 20rpx;
 					letter-spacing: 1rpx;
+				}
+			}
+
+			.content {
+				margin-top: 30rpx;
+
+				.richText {
+					margin-top: 20rpx;
+					width: 180rpx;
+					text-align: center;
+					font-size: 28rpx;
+					padding: 6rpx 10rpx;
+					border-radius: 10rpx;
+					color: #4e8df6;
+					border: 1rpx #4e8df6 solid;
 				}
 			}
 

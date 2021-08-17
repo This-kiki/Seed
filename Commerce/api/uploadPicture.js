@@ -3,7 +3,7 @@ import store from '../store/index.js'
 function request(options) {
     return new Promise((res,rej) =>{
 		uni.uploadFile({
-			url: 'http://47.116.130.99:21587/seed/oss/uploadImag', //仅为示例，非真实的接口地址
+			url: 'https://hjzpzzh.com/seed/oss/uploadImag', //仅为示例，非真实的接口地址
 			header: {
 				"openid": store.state.openid
 			},

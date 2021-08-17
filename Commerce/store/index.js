@@ -6,6 +6,7 @@ const store = new Vuex.Store({
 	state: {
 		openid: '',
 		userMsg: '',
+		richText: ""
 	},
 	mutations: {
 		setOpenidSync(state, openid) {
@@ -16,13 +17,19 @@ const store = new Vuex.Store({
 			// console.log('userMsg',userMsg)
 			state.userMsg = userMsg
 		},
+		setRichText(state, richText) {
+			console.log('richText',richText)
+			state.richText = richText
+		}
 	},
 	actions: {
 		setOpenid(context, openid) {
 			context.commit('setOpenidSync', openid)
+		},
+		setRich(context,richText){
+			context.commit("setRichText",richText)
 		}
 	},
-	getters: {
-	}
+	getters: {}
 })
 export default store //导出store对象

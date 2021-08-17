@@ -193,6 +193,12 @@ export class Api {
 		return res.data
 	}
 
+	// 法律常识详情
+	getLawInfoDetail = async (data) => {
+		let res = await flyio.get(`/pro/lawyer/detail?id=${data.id}`)
+		return res.data
+	}
+
 	// 律师列表
 	getLawyerList = async (data) => {
 		let res = await flyio.get(`/pro/lawyer/lawer/${data.current}?key=${data.key}`)

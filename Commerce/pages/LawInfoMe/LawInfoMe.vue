@@ -7,12 +7,21 @@
 			<view class="lawBox" v-for="item in lawList" :key="item.id">
 				<view class="title">
 					{{item.title}}
+					<view class="seeDetail" @click="seeDetail(item.id)">
+						查看详情
+					</view>
 				</view>
 				<view class="content">
-					{{item.content}}
+					{{item.brief}}
 				</view>
-				<view class="date">
-					{{item.createTime }}
+				<view class="bottom">
+					<view class="date">
+						{{item.createTime }}
+					</view>
+					<view class="view">
+						<text class="iconfont icon-view"></text>
+						{{item.view}}
+					</view>
 				</view>
 				<view class="operate">
 					<view class="edit" @click="edit(item)">
@@ -72,7 +81,13 @@
 			//修改
 			edit(item) {
 				uni.navigateTo({
-					url: `/pages/LawRelease/LawRelease?id=${item.id}&title=${item.title}&content=${item.content}`
+					url: `/pages/LawRelease/LawRelease?id=${item.id}&title=${item.title}&brief=${item.brief}`
+				})
+			},
+			// 查看详情
+			seeDetail(id) {
+				uni.navigateTo({
+					url: `/pages/LawInfoDetail/LawInfoDetail?id=${id}`
 				})
 			}
 		}
@@ -104,6 +119,17 @@
 					color: #000;
 					position: relative;
 					margin-left: 20rpx;
+					display: flex;
+					justify-content: space-between;
+
+					.seeDetail {
+						font-size: 24rpx;
+						font-weight: normal;
+						padding: 6rpx 10rpx;
+						border-radius: 10rpx;
+						color: #4e8df6;
+						border: 1rpx solid #4e8df6;
+					}
 				}
 
 				.title:before {
@@ -125,12 +151,26 @@
 					line-height: 48rpx;
 				}
 
-				.date {
-					color: #333;
-					font-size: 26rpx;
+				.bottom {
+					color: #999;
+					font-size: 22rpx;
 					padding-top: 16rpx;
 					margin-top: 16rpx;
 					border-top: 1rpx #ccc solid;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.date {}
+
+					.view {
+						display: flex;
+						align-items: center;
+
+						.iconfont {
+							margin-right: 8rpx;
+						}
+					}
 				}
 
 				.operate {

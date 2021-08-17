@@ -88,7 +88,7 @@ export default {
 					success: function(login_res) {
 						console.log('login_res',login_res)
 						uni.request({
-							url: 'http://47.116.130.99:21587/seed/user/getOpenid',
+							url: 'https://hjzpzzh.com/seed/user/getOpenid',
 							method: 'POST',
 							header: {
 								'content-type': 'application/json'
