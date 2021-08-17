@@ -1,11 +1,19 @@
 <template>
   <div>
+    <el-row>
+      <el-col :span="2" :offset="21">
+        <el-button @click="exportCompany" style="margin: 15px 0" round type="success" plain icon="el-icon-document-copy" size="small">导出公司信息</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" class="demo-table-expand" label-width="180px">
             <el-form-item label="地址">
               <span>{{ props.row.address }}</span>
+            </el-form-item>
+            <el-form-item label="经营状态">
+              <span>{{ props.row.manageStatus }}</span>
             </el-form-item>
             <el-form-item label="公司联系电话">
               <span>{{ props.row.companyPhone }}</span>
@@ -16,6 +24,21 @@
             <el-form-item label="电子邮箱">
               <span>{{ props.row.email }}</span>
             </el-form-item>
+            <el-form-item label="经营范围">
+              <span>{{ props.row.manageArea }}</span>
+            </el-form-item>
+            <el-form-item label="注册资金">
+              <span>{{ props.row.money }}</span>
+            </el-form-item>
+            <el-form-item label="企业人数">
+              <span>{{ props.row.num }}</span>
+            </el-form-item>
+            <el-form-item label="hr性别">
+              <span>{{ props.row.sex }}</span>
+            </el-form-item>
+            <el-form-item label="信用代码">
+              <span>{{ props.row.creditCode }}</span>
+            </el-form-item>
             <el-form-item label="头像">
               <img :src="props.row.img" alt="">
               <!-- <span>{{ props.row.img }}</span> -->
@@ -23,27 +46,6 @@
             <el-form-item label="营业执照照片">
               <img :src="props.row.license" alt="">
               <!-- <span>{{ props.row.address }}</span> -->
-            </el-form-item>
-            <el-form-item label="经营范围">
-              <span>{{ props.row.manageArea }}</span>
-            </el-form-item>
-            <el-form-item label="注册资金">
-              <span>{{ props.row.money }}</span>
-            </el-form-item>
-            <el-form-item label="hr姓名">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="企业人数">
-              <span>{{ props.row.num }}</span>
-            </el-form-item>
-            <el-form-item label="hr手机号">
-              <span>{{ props.row.phone }}</span>
-            </el-form-item>
-            <el-form-item label="法人代表名字">
-              <span>{{ props.row.representative }}</span>
-            </el-form-item>
-            <el-form-item label="hr性别">
-              <span>{{ props.row.sex }}</span>
             </el-form-item>
             <!-- <el-form-item label="创建时间">
               <span>{{ props.row.time }}</span>
@@ -53,11 +55,13 @@
       </el-table-column>
       <el-table-column prop="companyName" label="公司名" width="150">
       </el-table-column>
-      <el-table-column prop="creditCode" label="信用代码" width="100">
+      <el-table-column prop="name" label="hr电话" width="150">
+      </el-table-column>
+      <el-table-column prop="phone" label="hr姓名" width="150">
+      </el-table-column>
+      <el-table-column prop="representative" label="法人代表" width="150">
       </el-table-column>
       <el-table-column prop="industry" label="行业" width="150">
-      </el-table-column>
-      <el-table-column prop="manageStatus" label="经营状态" width="150">
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>
@@ -69,6 +73,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- <el-pagination background layout="prev, pager, next" style="margin: 20px" :total="current.total" :current-page.sync="current.current" @current-change="getAllCompany"></el-pagination> -->
     <div>
       <el-dialog title="活动详情" :visible.sync="viewVisible" width="35%">
         <div v-html="actData.content"></div>
@@ -123,6 +128,14 @@ export default {
           })
           this.getAllCompany()
         }
+      })
+    },
+    exportCompany() {
+      this.$http.exportCompany().then(() => {
+        this.$message({
+          message: 'excel已导出',
+          type: 'success',
+        })
       })
     },
   },

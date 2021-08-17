@@ -116,6 +116,17 @@ export default {
       // 创建编辑器
       editor.create()
       this.editor = editor
+
+      if (this.$route.query.id) {
+        this.id = this.$route.query.id
+        // console.log('id:', this.id)
+        var getAPI = { id: this.id }
+        this.$http.getOneInfo(getAPI).then((res) => {
+          // console.log('id:', res)
+          this.addForm = res.data.Info
+          this.editor.txt.html(this.addForm.content)
+        })
+      }
     },
 
     copyUrl(row) {
@@ -157,54 +168,66 @@ export default {
       }
     },
     submit() {
-      if (this.imgList[0]) {
-        this.addForm.imag = this.imgList[0].img
-      }
-      switch (this.addForm.category) {
-        case 1:
-          this.$http.addSeedInfo(this.addForm).then((res) => {
-            // console.log(res)
-            if (res.code == 20000) {
-              this.$message({
-                message: '添加资讯成功',
-                type: 'success',
-              })
-            }
-          })
-          break
-        case 2:
-          this.$http.addMemberInfo(this.addForm).then((res) => {
-            // console.log(res)
-            if (res.code == 20000) {
-              this.$message({
-                message: '添加资讯成功',
-                type: 'success',
-              })
-            }
-          })
-          break
-        case 3:
-          this.$http.addCompanyInfo(this.addForm).then((res) => {
-            // console.log(res)
-            if (res.code == 20000) {
-              this.$message({
-                message: '添加资讯成功',
-                type: 'success',
-              })
-            }
-          })
-          break
-        case 4:
-          this.$http.addCountryInfo(this.addForm).then((res) => {
-            // console.log(res)
-            if (res.code == 20000) {
-              this.$message({
-                message: '添加资讯成功',
-                type: 'success',
-              })
-            }
-          })
-          break
+      if (this.addForm.id) {
+        this.$http.editOneInfo(this.addForm).then((res) => {
+          // console.log(res)
+          if (res.code == 20000) {
+            this.$message({
+              message: '修改资讯成功',
+              type: 'success',
+            })
+          }
+        })
+      } else {
+        if (this.imgList[0]) {
+          this.addForm.imag = this.imgList[0].img
+        }
+        switch (this.addForm.category) {
+          case 1:
+            this.$http.addSeedInfo(this.addForm).then((res) => {
+              // console.log(res)
+              if (res.code == 20000) {
+                this.$message({
+                  message: '添加资讯成功',
+                  type: 'success',
+                })
+              }
+            })
+            break
+          case 2:
+            this.$http.addMemberInfo(this.addForm).then((res) => {
+              // console.log(res)
+              if (res.code == 20000) {
+                this.$message({
+                  message: '添加资讯成功',
+                  type: 'success',
+                })
+              }
+            })
+            break
+          case 3:
+            this.$http.addCompanyInfo(this.addForm).then((res) => {
+              // console.log(res)
+              if (res.code == 20000) {
+                this.$message({
+                  message: '添加资讯成功',
+                  type: 'success',
+                })
+              }
+            })
+            break
+          case 4:
+            this.$http.addCountryInfo(this.addForm).then((res) => {
+              // console.log(res)
+              if (res.code == 20000) {
+                this.$message({
+                  message: '添加资讯成功',
+                  type: 'success',
+                })
+              }
+            })
+            break
+        }
       }
     },
   },

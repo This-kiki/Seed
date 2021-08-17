@@ -1,5 +1,10 @@
 <template>
   <div>
+    <el-row>
+      <el-col :span="2" :offset="21">
+        <el-button @click="exportMember" style="margin: 15px 0" round type="success" plain icon="el-icon-document-copy" size="small">导出会员信息</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -72,6 +77,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import URL from '../../api/api'
 export default {
   data() {
     return {
@@ -135,6 +142,26 @@ export default {
           })
           this.getAllMember()
         }
+      })
+    },
+    exportMember() {
+      axios
+        .get(URL.BASE_URL_DEV + '/admin/user/getAllMemberDtlInfoToExcel', {
+          responseType: 'blob',
+          headers: {
+            token: localStorage.getItem('seed_token'),
+          },
+        })
+        .then((res) => {
+          let blob = new Blob([res], { type: 'application/vnd.ms-excel' }) // res就是接口返回的文件流了
+          let objectUrl = URL.createObjectURL(blob)
+          window.location.href = objectUrl
+        })
+      this.$http.exportMember().then((res) => {
+        this.$message({
+          message: 'excel已导出',
+          type: 'success',
+        })
       })
     },
   },

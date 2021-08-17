@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <el-button type="primary" plain circle @click="viewApplyActivity(scope.row)" icon="el-icon-view" size="small"></el-button>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyActivity(scope.row,0)">
-            <el-button slot="reference" type="danger" plain circle icon="el-icon-check" size="small"></el-button>
+            <el-button slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyActivity(scope.row,1)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
@@ -91,7 +91,7 @@ export default {
       this.$http.handleApplyActivity(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '操作成功',
+            message: '审核成功',
             type: 'success',
           })
           this.getAllApplyActivity()

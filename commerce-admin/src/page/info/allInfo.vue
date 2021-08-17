@@ -24,15 +24,14 @@
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-button type="primary" plain circle @click="viewInfo(scope.row)" icon="el-icon-view" size="small"></el-button>
-          <el-button type="primary" plain circle @click="editInfo(scope.row)" icon="el-icon-edit-outline" size="small"></el-button>
+          <el-button type="primary" plain circle @click="editInfo(scope.row)" icon="el-icon-edit-outline" size="small" style="margin: 0 10px"></el-button>
           <el-popconfirm confirm-button-text='好的' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定删除该活动吗" @confirm="deleteInfo(scope.row)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background layout="prev, pager, next" :total="current.total">
-    </el-pagination>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllInfo"></el-pagination>
     <div>
       <el-dialog title="资讯详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
@@ -171,7 +170,7 @@ export default {
     },
     editInfo(row) {
       this.$router.push({
-        path: '/index/releaseActivities',
+        path: '/index/releaseInfo',
         query: { id: row.id },
       })
     },

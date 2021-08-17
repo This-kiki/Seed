@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <el-button type="primary" plain circle @click="viewApplyCompany(scope.row)" icon="el-icon-view" size="small"></el-button>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyCompany(scope.row,0)">
-            <el-button slot="reference" type="danger" plain circle icon="el-icon-check" size="small"></el-button>
+            <el-button slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyCompany(scope.row,1)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
@@ -21,6 +21,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getApplyCompany"></el-pagination>
     <div>
       <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
@@ -107,6 +108,7 @@ export default {
       let getAPI = { current: this.current.current }
       this.$http.getApplyCompany(getAPI).then((res) => {
         // console.log(res)
+        this.current.total = res.data.total
         var resp = res.data.rows
         this.tableData = resp
       })
@@ -122,7 +124,7 @@ export default {
       this.$http.adoptApplyCompany(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '操作成功',
+            message: '审核成功',
             type: 'success',
           })
           this.getApplyCompany()

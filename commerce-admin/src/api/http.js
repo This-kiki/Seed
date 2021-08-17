@@ -50,6 +50,14 @@ export default {
             method: 'get',
         })
     },
+    // 查询某个活动
+    getOneActivity(data) {
+        return service({
+            url: '/activity/actDetail',
+            method: 'get',
+            params: data
+        })
+    },
     // 发布活动
     addActivity(data) {
         return service({
@@ -200,6 +208,13 @@ export default {
             data: data
         })
     },
+    // 导出所有公司
+    exportCompany() {
+        return service({
+            url: '/admin/company/getAllCompanyDtlInfoToExcel',
+            method: 'get',
+        })
+    },
     // 通过公司申请
     adoptApplyCompany(data) {
         return service({
@@ -258,6 +273,13 @@ export default {
             url: '/admin/user/delMember',
             method: 'post',
             data: data
+        })
+    },
+    // 导出所有会员
+    exportMember() {
+        return service({
+            url: '/admin/user/getAllMemberDtlInfoToExcel',
+            method: 'get',
         })
     },
     // 通过会员申请

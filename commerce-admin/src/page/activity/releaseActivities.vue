@@ -97,9 +97,15 @@ export default {
       this.editor = editor
 
       // 获取id
-      if (this.$route.params.id) {
-        this.id = this.$route.params.id
-        // this.editor.txt.html('<p>啊大苏打</p>')
+      if (this.$route.query.id) {
+        this.id = this.$route.query.id
+        // console.log('id:', this.id)
+        var getAPI = { id: this.id }
+        this.$http.getOneActivity(getAPI).then((res) => {
+          this.addForm = res.data.acts
+          console.log(this.addForm)
+          this.editor.txt.html(this.addForm.content)
+        })
       }
     },
 
@@ -142,18 +148,35 @@ export default {
       }
     },
     submit() {
-      if (this.imgList[0]) {
-        this.addForm.img = this.imgList[0].img
-      }
-      this.$http.addActivity(this.addForm).then((res) => {
-        if (res.code == 20000) {
-          this.$message({
-            message: '发布活动成功',
-            type: 'success',
-          })
+      if (this.addForm.id) {
+        this.$http.editActivity(this.addForm).then((res) => {
+          if (res.code == 20000) {
+            this.$message({
+              message: '发布活动成功',
+              type: 'success',
+            })
+            this.$router.push({
+              path: '/index/allActivities',
+            })
+          }
+        })
+      } else {
+        if (this.imgList[0]) {
+          this.addForm.img = this.imgList[0].img
         }
-        // console.log(res)
-      })
+        this.$http.addActivity(this.addForm).then((res) => {
+          if (res.code == 20000) {
+            this.$message({
+              message: '发布活动成功',
+              type: 'success',
+            })
+            this.$router.push({
+              path: '/index/allActivities',
+            })
+          }
+          // console.log(res)
+        })
+      }
     },
   },
   beforeDestroy() {
