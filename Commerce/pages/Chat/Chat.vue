@@ -5,7 +5,7 @@
 		<!-- 聊天主体 -->
 		<view class="mainContaienr">
 			<view class="chatBox" v-for="(item,index) in chatList" :key="index" :class="item.flag==1?'user':'company'">
-				<view class="avatar">
+				<view class="avatar" @click="seeUserDetail(toInfo.toOpenid,item.flag)">
 					<image :src="item.img" mode=""></image>
 				</view>
 				<view class="content">
@@ -242,6 +242,17 @@
 					}
 				})
 			},
+			// 查看用户详情
+			seeUserDetail(id, flag) {
+				if (flag == 2)
+					uni.navigateTo({
+						url: `/pages/UserListDetail/UserListDetail?id=${id}`
+					})
+				else
+					uni.navigateTo({
+						url: `/pages/UserListDetail/UserListDetail?id=${this.openid}`
+					})
+			}
 		}
 	}
 </script>
