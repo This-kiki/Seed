@@ -22,7 +22,6 @@
               type="textarea"
               placeholder="请设置种子会地址"
               v-model="address"
-              maxlength="30"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -50,7 +49,6 @@
               type="textarea"
               placeholder="请设置种子会章程"
               v-model="constitution"
-              maxlength="30"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -78,7 +76,6 @@
               type="textarea"
               placeholder="请设置种子会架构"
               v-model="framework"
-              maxlength="30"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -106,7 +103,33 @@
               type="textarea"
               placeholder="请设置种子会介绍"
               v-model="introduce"
-              maxlength="30"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+    <el-row>
+      <div class="title">· 设置联系人姓名电话</div>
+      <el-col :span="2" :offset="22">
+        <div style="margin: 10px 0">
+          <el-button
+            type="success"
+            @click="setContact"
+            icon="el-icon-plus"
+            size="small"
+            plain
+          >
+            提 交</el-button
+          >
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <el-form ref="form" :model="contact" label-width="120px">
+          <el-form-item label="联系人姓名电话">
+            <el-input
+              type="textarea"
+              placeholder="格式：张三+11011001100/李四+11211221122"
+              v-model="contact"
             ></el-input>
           </el-form-item>
         </el-form>
@@ -123,6 +146,7 @@ export default {
       constitution: "",
       framework: "",
       introduce: "",
+      contact: "",
     };
   },
   methods: {
@@ -160,6 +184,26 @@ export default {
     },
     setIntroduce() {
       this.$http.setConstitution({ content: this.introduce }).then((res) => {
+        if (res.code == 20000) {
+          this.$message({
+            message: "设置成功",
+            type: "success",
+          });
+        }
+      });
+    },
+    setContact() {
+      let list = this.contact.split("/");
+      let data = [];
+      list.forEach((item) => {
+        let str = item.split("+");
+        data.push({
+          name: str[0],
+          phone: str[1],
+        });
+      });
+      console.log(data);
+      this.$http.setContact(data).then((res) => {
         if (res.code == 20000) {
           this.$message({
             message: "设置成功",
