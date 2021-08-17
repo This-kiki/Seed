@@ -59,9 +59,9 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="150">
       </el-table-column>
-      <el-table-column prop="phone" label="手机号码" width="100">
+      <el-table-column prop="phone" label="手机号码" width="180">
       </el-table-column>
-      <el-table-column prop="position" label="工作单位职位" width="150">
+      <el-table-column prop="position" label="工作单位职位" width="180">
       </el-table-column>
       <el-table-column prop="" label="">
       </el-table-column>
@@ -78,59 +78,77 @@
       <el-dialog title="修改会员信息" :visible.sync="editVisible" width="45%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
           <el-form-item label="姓名">
-            <span>{{ editForm.name }}</span>
+            <!-- <span>{{ editForm.name }}</span> -->
+            <el-input v-model="editForm.name"></el-input>
           </el-form-item>
           <el-form-item label="手机号码">
-            <span>{{ editForm.phone }}</span>
+            <el-input v-model="editForm.phone"></el-input>
+            <!-- <span>{{ editForm.phone }}</span> -->
           </el-form-item>
           <el-form-item label="工作单位职位">
-            <span>{{ editForm.position }}</span>
+            <el-input v-model="editForm.position"></el-input>
+            <!-- <span>{{ editForm.position }}</span> -->
           </el-form-item>
           <el-form-item label="身份证号码">
-            <span>{{ editForm.idNum }}</span>
+            <el-input v-model="editForm.idNum"></el-input>
+            <!-- <span>{{ editForm.idNum }}</span> -->
           </el-form-item>
           <el-form-item label="职位">
-            <span>{{ getsbuLevel(editForm.subLevel) }}</span>
+            <el-select v-model="editForm.subLevel" placeholder="职位">
+              <el-option v-for="(item,index) in rolls" :key="index" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <!-- <span>{{ getsbuLevel(editForm.subLevel) }}</span> -->
           </el-form-item>
           <el-form-item label="电子邮箱">
-            <span>{{ editForm.email }}</span>
+            <el-input v-model="editForm.email"></el-input>
+            <!-- <span>{{ editForm.email }}</span> -->
           </el-form-item>
-          <!-- <el-form-item label="手机号码">
-              <span>{{ editForm.phone }}</span>
-            </el-form-item> -->
           <el-form-item label="专业">
-            <span>{{ editForm.major }}</span>
+            <el-input v-model="editForm.major"></el-input>
+            <!-- <span>{{ editForm.major }}</span> -->
           </el-form-item>
           <el-form-item label="性别">
-            <span>{{ editForm.sex==0?'男':'女' }}</span>
+            <el-select v-model="editForm.sex" placeholder="性别">
+              <el-option v-for="(item,index) in sexList" :key="index" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <!-- <span>{{ editForm.sex==0?'男':'女' }}</span> -->
           </el-form-item>
           <el-form-item label="出生日期">
-            <span>{{ editForm.birth }}</span>
+            <el-input v-model="editForm.birth"></el-input>
+            <!-- <span>{{ editForm.birth }}</span> -->
           </el-form-item>
           <el-form-item label="民族">
-            <span>{{ editForm.nation }}</span>
+            <el-input v-model="editForm.nation"></el-input>
+            <!-- <span>{{ editForm.nation }}</span> -->
           </el-form-item>
           <el-form-item label="籍贯">
-            <span>{{ editForm.place }}</span>
+            <el-input v-model="editForm.place"></el-input>
+            <!-- <span>{{ editForm.place }}</span> -->
           </el-form-item>
           <el-form-item label="政治面貌">
-            <span>{{ editForm.polity }}</span>
+            <el-input v-model="editForm.polity"></el-input>
+            <!-- <span>{{ editForm.polity }}</span> -->
           </el-form-item>
           <el-form-item label="现任工作单位">
-            <span>{{ editForm.work }}</span>
+            <el-input v-model="editForm.work"></el-input>
+            <!-- <span>{{ editForm.work }}</span> -->
           </el-form-item>
-          <!-- <el-form-item label="工作单位职位">
-              <span>{{ editForm.position }}</span>
-            </el-form-item> -->
           <el-form-item label="在读/毕业学校">
-            <span>{{ editForm.school }}</span>
+            <el-input v-model="editForm.school"></el-input>
+            <!-- <span>{{ editForm.school }}</span> -->
           </el-form-item>
           <el-form-item label="头像">
             <img :src="editForm.img" alt="">
           </el-form-item>
           <el-form-item label="个人简介">
-            <span>{{ editForm.introduce }}</span>
+            <el-input v-model="editForm.introduce"></el-input>
+            <!-- <span>{{ editForm.introduce }}</span> -->
           </el-form-item>
+          <el-row>
+            <el-col :span="3" :offset="22">
+              <el-button @click="editSubmit">修改</el-button>
+            </el-col>
+          </el-row>
         </el-form>
       </el-dialog>
     </div>
@@ -150,6 +168,50 @@ export default {
       },
       editVisible: false,
       editForm: {},
+      rolls: [
+        {
+          label: '荣誉会长',
+          value: 4,
+        },
+        {
+          label: '会长',
+          value: 5,
+        },
+        {
+          label: '副会长',
+          value: 6,
+        },
+        {
+          label: '执行委员会成员',
+          value: 7,
+        },
+        {
+          label: '秘书长',
+          value: 8,
+        },
+        {
+          label: '会计',
+          value: 9,
+        },
+        {
+          label: '出纳',
+          value: 10,
+        },
+        {
+          label: '会员',
+          value: 11,
+        },
+      ],
+      sexList: [
+        {
+          label: '男',
+          value: 0,
+        },
+        {
+          label: '女',
+          value: 1,
+        },
+      ],
     }
   },
   mounted() {
@@ -231,6 +293,19 @@ export default {
       this.editVisible = true
       this.editForm = row
       console.log(row)
+    },
+    editSubmit() {
+      console.log(this.editForm)
+      this.$http.editMember(this.editForm).then((res) => {
+        if (res.code == 20000) {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+          })
+          this.getAllMember()
+          this.editVisible = false
+        }
+      })
     },
   },
 }
