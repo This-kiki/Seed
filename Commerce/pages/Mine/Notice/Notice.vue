@@ -48,7 +48,11 @@
 				// 聊天列表
 				chatList: [],
 				// 离线列表
-				leaveList: []
+				leaveList: [],
+				// 聊天用户列表
+				chatUsers: [],
+				// 离线用户列表
+				leaveUsers: []
 			}
 		},
 		onShow() {
@@ -57,6 +61,38 @@
 			this.getLocal()
 		},
 		methods: {
+			// 判断离线用户是否为聊天用户
+			checkUser() {
+				this.leaveUsers.forEach((item, i) => {
+					if (this.chatUsers.includes(item)) {
+						this.leaveUsers.splice(i, 1)
+					}
+				})
+				// console.log("now",this.leaveUsers)
+				this.leaveList.forEach(async item => {
+					if (this.leaveUsers.includes(item.openid)) {
+						let res = await this.$api.getUserDetail({
+							openid: item.openid
+						})
+						// console.log(res)
+						let userInfo = {
+							img: "",
+							name: "未知用户"
+						}
+						if (res.code == 20000)
+							userInfo = res.data.userDetailInfo
+						let chat = {
+							toOpenid: item.openid,
+							img: userInfo.img,
+							name: userInfo.name,
+							time: item.time,
+							content: item.content
+						}
+						if (item.content != "")
+							this.chatList.push(chat)
+					}
+				})
+			},
 			// 渲染离线消息
 			getLeaveStatus(id) {
 				let leave = {}
@@ -69,7 +105,7 @@
 			// 接受离线消息
 			async getLeaveMessage() {
 				let res = await this.$api.getLeaveMessage()
-				console.log(res)
+				// console.log(res)
 				let leaveData = res.data.ms
 				leaveData.forEach(item => {
 					let list = item.content.split("*chat*")
@@ -80,8 +116,12 @@
 					leave.time = item.createTime
 					leave.openid = item.toOpenId
 					this.leaveList.push(leave)
+					this.leaveUsers.push(item.toOpenId)
 				})
 				// console.log(this.leaveList)
+				// console.log("chat", this.chatUsers)
+				// console.log("leave", this.leaveUsers)
+				this.checkUser()
 			},
 			// 获取本地聊天记录
 			getLocal() {
@@ -94,12 +134,12 @@
 							content: item.chatList[item.chatList.length - 1].content
 						}
 						this.chatList.push(chat)
+						this.chatUsers.push(item.info.toOpenid)
 					})
 					// console.log(this.chatList)
 					this.getLeaveMessage()
 				} else {
 					this.getLeaveMessage()
-					return
 				}
 			},
 			// 聊天
@@ -139,6 +179,7 @@
 						width: 80rpx;
 						height: 80rpx;
 						border-radius: 10rpx;
+						background-color: lightblue;
 						position: relative;
 
 						image {

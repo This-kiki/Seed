@@ -49,8 +49,8 @@
 				openid: "",
 				// 对方的信息
 				toInfo: {
-					toOpenid: 'sfa',
-					name: "葛济维",
+					toOpenid: 'test',
+					name: "张三",
 					img: "https://th.bing.com/th/id/R.7379c1da3d35c4cce3132b6e50831d2d?rik=x6bJ9QmLO%2bfD8w&riu=http%3a%2f%2fimg2.woyaogexing.com%2f2017%2f08%2f21%2fdfb354693dd7a31b!400x400_big.jpg&ehk=8p%2f1vyyl3pssF7Ztu5AT2NOmoZfLV%2bffolvw%2fdz2BjM%3d&risl=&pid=ImgRaw&r=0"
 				},
 				// 离线记录
@@ -91,11 +91,11 @@
 						flag = i
 				})
 				console.log("flag", flag)
-				let time= new Date()
+				let time = new Date()
 				let chatItem = {
 					info: this.toInfo,
 					chatList: this.chatList,
-					time: time.toLocaleString( )
+					time: time.toLocaleString()
 				}
 				if (flag == -1) {
 					chat.push(chatItem)
@@ -146,11 +146,11 @@
 						this.scrollBottom()
 					}
 				})
+				// 接受后删除离线消息
 				let data = {
 					toOpenid: this.toInfo.toOpenid,
-					content: ""
 				}
-				await this.$api.sendLeaveMessage(data)
+				await this.$api.deleteLeaveMessage(data)
 			},
 			// 发送消息
 			sendMessage() {
@@ -184,7 +184,7 @@
 				if (this.IsOpen) return
 				// 连接
 				this.SocketTask = uni.connectSocket({
-					url: `ws://47.116.130.99:21587/seed/websocket/${this.openid}`,
+					url: `wss://hjzpzzh.com/seed/websocket/${this.openid}`,
 					complete: () => {}
 				});
 				if (!this.SocketTask) return;
@@ -226,7 +226,7 @@
 						this.leaveContent = this.leaveContent + "*chat*" + this.chatList[this.chatList.length -
 							1].content
 						let data = {
-							toOpenid: this.openid,
+							toOpenid: this.toInfo.toOpenid,
 							content: this.leaveContent
 						}
 						await this.$api.sendLeaveMessage(data)

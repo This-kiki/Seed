@@ -233,6 +233,12 @@ export class Api {
 		return res.data
 	}
 
+	// 删除离线消息
+	deleteLeaveMessage = async (data) => {
+		let res = await flyio.post(`/user/msgDel?toOpenid=${data.toOpenid}`)
+		return res.data
+	}
+
 	//投递简历
 	submitResume = async (data) => {
 		let res = await flyio.post(`/pro/resume/submit?companyInterviewId=${data.companyInterviewId}`)
