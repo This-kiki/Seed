@@ -52,14 +52,14 @@
 				<text>经营状态</text>
 				<input class="input-box" type="text" v-model="companyMsg.manageStatus" placeholder-class="place" />
 			</view>
-<!-- 			<view class="picker-box">
-				<text>生日</text>
-				<picker class="picker" mode="date" v-model="companyMsg.birth" @change="bindDateChange">
+			<view class="picker-box">
+				<text>创建时间</text>
+				<picker class="picker" mode="date" v-model="companyMsg.time" @change="bindDateChange">
 					<view class="picker-text">
-						{{companyMsg.birth}}
+						{{companyMsg.time}}
 					</view>
 				</picker>
-			</view> -->
+			</view>
 			<view class="avatar" @tap="licenseAvatarChoose">
 				<view  class="imgAvatar">
 					<view class="iavatar" :style="'background: url('+companyMsg.license+') no-repeat center/cover #eeeeee;'"></view>
@@ -146,7 +146,7 @@
 				this.companyMsg.sex = this.sexlist[e.detail.value].id;
 			},
 			bindDateChange(e) {
-				this.companyMsg.birth = e.detail.value;
+				this.companyMsg.time = e.detail.value;
 			},
 			save() {
 				uni.showLoading({
