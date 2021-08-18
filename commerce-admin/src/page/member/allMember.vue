@@ -2,14 +2,26 @@
   <div>
     <el-row>
       <el-col class="topLine">
-        <el-form ref="form" :model="name" label-width="50px">
-          <el-form-item label="搜索">
+        <el-form class="search" ref="form" :model="name">
+          <el-form-item>
             <el-input
               type="text"
               placeholder="请输入姓名"
               v-model="name"
+              style="margin-top: 10px"
             ></el-input>
           </el-form-item>
+          <div>
+            <el-button
+              @click="searchMember()"
+              style="margin: 15px 10px"
+              round
+              type="success"
+              plain
+              size="small"
+              >点击搜索</el-button
+            >
+          </div>
         </el-form>
         <div>
           <el-button
@@ -161,15 +173,15 @@
             <!-- <span>{{ editForm.major }}</span> -->
           </el-form-item>
           <el-form-item label="性别">
-            <el-select v-model="editForm.sex" placeholder="性别">
+            <!-- <el-select v-model="editForm.sex" placeholder="性别">
               <el-option
                 v-for="(item, index) in sexList"
                 :key="index"
                 :label="item.label"
                 :value="item.value"
               ></el-option>
-            </el-select>
-            <!-- <span>{{ editForm.sex==0?'男':'女' }}</span> -->
+            </el-select> -->
+            <span>{{ editForm.sex == 0 ? "男" : "女" }}</span>
           </el-form-item>
           <el-form-item label="出生日期">
             <el-input v-model="editForm.birth"></el-input>
@@ -224,7 +236,11 @@ export default {
       },
       editVisible: false,
       editForm: {},
-      name: ""
+      name: "",
+      sexList: [
+        { label: "男", value: 0 },
+        { label: "女", value: 1 },
+      ],
     };
   },
   mounted() {
@@ -310,13 +326,20 @@ export default {
         }
       });
     },
+    searchMember() {
+      console.log("搜索");
+    },
   },
 };
 </script>
 <style scoped>
-.topLine{
+.topLine {
   display: flex;
   justify-content: space-between;
+  align-content: center;
+}
+.search {
+  display: flex;
   align-content: center;
 }
 </style>
