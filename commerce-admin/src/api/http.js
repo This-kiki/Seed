@@ -262,6 +262,7 @@ export default {
         return service({
             url: '/admin/user/findAllDetailInfo',
             method: 'get',
+            params:data
         })
     },
     // 获取所有申请会员

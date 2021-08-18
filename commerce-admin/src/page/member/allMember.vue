@@ -279,7 +279,7 @@ export default {
     },
     getAllMember() {
       // let getAPI = { current: this.current.current }
-      this.$http.getMember().then((res) => {
+      this.$http.getMember({name:this.name}).then((res) => {
         // console.log(res)
         var resp = res.data.userList;
         this.tableData = resp;
@@ -327,7 +327,7 @@ export default {
       });
     },
     searchMember() {
-      console.log("搜索");
+      this.getAllMember()
     },
   },
 };
