@@ -18,6 +18,7 @@ import login from '../page/login/login.vue'
 import allLayer from '../page/layer/allLayer.vue'
 import layerApplication from '../page/layer/layerApplication.vue'
 import releaseLawInfo from "../page/layer/releaseLawInfo.vue"
+import lawInfoList from "../page/layer/lawInfoList.vue"
 import addAdmin from '../page/superAdmin/addAdmin.vue'
 import allAdmin from '../page/superAdmin/allAdmin.vue'
 import layout from '../page/appPage/page.vue'
@@ -102,6 +103,10 @@ export const routerMap = [{
       name: "发布法律常识",
       path: "releaseLawInfo",
       component: releaseLawInfo
+    }, {
+      name: "法律常识列表",
+      path: "lawInfoList",
+      component: lawInfoList
     },
     {
       name: '帮助',
