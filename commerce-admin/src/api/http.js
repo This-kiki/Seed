@@ -386,5 +386,35 @@ export default {
             method: "post",
             params: data
         })
+    },
+    // 获取所有轮播图
+    getAllCarousel() {
+        return service({
+            url: "/admin/oss/findAllImag",
+            method: "get"
+        })
+    },
+    //  上传首页轮播图
+    uploadHomeCarousel(data) {
+        return service({
+            url: "/admin/oss/uploadDynamicIntroImag",
+            method: "post",
+            params: data
+        })
+    },
+    // 上传种子会轮播图
+    uploadSeedCarousel(data) {
+        return service({
+            url: "/admin/oss/uploadSeedIntroImag",
+            method: "post",
+            params: data
+        })
+    },
+    // 删除轮播图
+    deleteCarousel(data) {
+        return service({
+            url: `/admin/oss/delImagByID/${data.id}`,
+            method: "get",
+        })
     }
 }
