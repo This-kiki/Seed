@@ -16,7 +16,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <el-form ref="form" :model="address" label-width="100px">
+        <el-form ref="form" label-width="100px">
           <el-form-item label="种子会地址">
             <el-input
               type="textarea"
@@ -43,7 +43,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <el-form ref="form" :model="constitution" label-width="100px">
+        <el-form ref="form" label-width="100px">
           <el-form-item label="种子会章程">
             <el-input
               type="textarea"
@@ -70,7 +70,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <el-form ref="form" :model="framework" label-width="100px">
+        <el-form ref="form" label-width="100px">
           <el-form-item label="种子会架构">
             <el-input
               type="textarea"
@@ -97,7 +97,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <el-form ref="form" :model="introduce" label-width="100px">
+        <el-form ref="form" label-width="100px">
           <el-form-item label="种子会介绍">
             <el-input
               type="textarea"
@@ -124,7 +124,7 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <el-form ref="form" :model="contact" label-width="120px">
+        <el-form ref="form" label-width="120px">
           <el-form-item label="联系人姓名电话">
             <el-input
               type="textarea"

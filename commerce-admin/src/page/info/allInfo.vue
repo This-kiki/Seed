@@ -98,6 +98,7 @@ export default {
             resp[i].type = '未知'
           }
         }
+        this.current.total = Math.ceil(res.data.total/20)
         this.tableData = resp
       })
     },

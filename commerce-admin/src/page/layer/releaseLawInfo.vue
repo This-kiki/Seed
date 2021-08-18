@@ -132,16 +132,16 @@ export default {
       this.editor = editor;
 
       // 获取id
-      //   if (this.$route.query.id) {
-      //     this.id = this.$route.query.id;
-      //     // console.log('id:', this.id)
-      //     var getAPI = { id: this.id };
-      //     this.$http.getOneActivity(getAPI).then((res) => {
-      //       this.addForm = res.data.acts;
-      //       console.log(this.addForm);
-      //       this.editor.txt.html(this.addForm.content);
-      //     });
-      //   }
+      if (this.$route.query.id) {
+        this.id = this.$route.query.id;
+        // console.log('id:', this.id)
+        var getAPI = { id: this.id };
+        this.$http.getLawInfoDetail(getAPI).then((res) => {
+          this.addForm = res.data.rows;
+          console.log(this.addForm);
+          this.editor.txt.html(this.addForm.content);
+        });
+      }
     },
 
     copyUrl(row) {

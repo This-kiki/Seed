@@ -262,7 +262,7 @@ export default {
         return service({
             url: '/admin/user/findAllDetailInfo',
             method: 'get',
-            params:data
+            params: data
         })
     },
     // 获取所有申请会员
@@ -309,7 +309,7 @@ export default {
             url: "/admin/user/delOneApplyMeeting",
             method: "get",
             params: data
-        })  
+        })
     },
     // 设置种子会地址
     setAddress(data) {
@@ -359,6 +359,32 @@ export default {
             url: "/admin/lawer/pub",
             method: 'post',
             data
+        })
+    },
+
+    // 法律常识列表
+    getLawInfoList(data) {
+        return service({
+            url: `/pro/lawyer/list/${data.current}`,
+            method: "get",
+            params: data
+        })
+    },
+
+    // 法律常识详情
+    getLawInfoDetail(data) {
+        return service({
+            url: "/pro/lawyer/detail",
+            method: "get",
+            params: data
+        })
+    },
+    // 删除发布的常识
+    deleteLawInfo(data) {
+        return service({
+            url: "/admin/lawer/delCommon",
+            method: "post",
+            params: data
         })
     }
 }

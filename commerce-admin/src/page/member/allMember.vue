@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col class="topLine">
-        <el-form class="search" ref="form" :model="name">
+        <el-form class="search" ref="form">
           <el-form-item>
             <el-input type="text" placeholder="请输入姓名" v-model="name" style="margin-top: 10px"></el-input>
           </el-form-item>
