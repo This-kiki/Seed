@@ -2,11 +2,9 @@
 	<view class="container">
 		<view class="ui-all">
 			<view class="avatar" @tap="avatarChoose">
-				<view  class="imgAvatar">
-					<view class="iavatar" :style="'background: url('+ApplyMember.img+') no-repeat center/cover #eeeeee;'"></view>
-				</view>
-				<text v-if="ApplyMember.img">修改头像</text>
-				<text v-if="!ApplyMember.img">选择头像</text>
+				<view class="imgAvatar"><view class="iavatar" :style="'background: url(' + ApplyMember.img + ') no-repeat center/cover #eeeeee;'"></view></view>
+				<text v-if="ApplyMember.img">修改个人免冠证件照</text>
+				<text v-if="!ApplyMember.img">选择个人免冠证件照</text>
 			</view>
 			<view class="text-box">
 				<text>姓名</text>
@@ -14,10 +12,8 @@
 			</view>
 			<view class="picker-box">
 				<text>申请职位</text>
-				<picker class="picker" mode='selector' range-key="name" v-model="ApplyMember.sex" @change="bindLevelChange" :range="levelList">
-					<view class="picker-text">
-						{{ApplyMember.level==0?'总经理':ApplyMember.level==1?'产品经理':ApplyMember.level==2?'部门经理':''}}
-					</view>
+				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.level" @change="bindLevelChange" :range="levelList">
+					<view class="picker-text">{{ getsbuLevel(ApplyMember.level) }}</view>
 				</picker>
 			</view>
 			<view class="text-box">
@@ -27,17 +23,13 @@
 			<view class="picker-box">
 				<text>生日</text>
 				<picker class="picker" mode="date" v-model="ApplyMember.birth" @change="bindDateChange">
-					<view class="picker-text">
-						{{ApplyMember.birth}}
-					</view>
+					<view class="picker-text">{{ ApplyMember.birth }}</view>
 				</picker>
 			</view>
 			<view class="picker-box">
 				<text>性别</text>
-				<picker class="picker" mode='selector' range-key="name" v-model="ApplyMember.sex" @change="bindSexChange" :range="sexlist">
-					<view class="picker-text">
-						{{ApplyMember.sex==0?'男':ApplyMember.sex==1?'女':''}}
-					</view>
+				<picker class="picker" mode="selector" range-key="name" v-model="ApplyMember.sex" @change="bindSexChange" :range="sexlist">
+					<view class="picker-text">{{ ApplyMember.sex == 0 ? '男' : ApplyMember.sex == 1 ? '女' : '' }}</view>
 				</picker>
 			</view>
 			<view class="text-box">
@@ -86,128 +78,186 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				temp: null,
-				ApplyMember: {
-					  img: "",
-					  name: "",
-					  idNum: "",
-					  birth: "",
-					  sex: 3,
-					  place: "",
-					  polity: "",
-					  nation: "",
-					  phone: "",
-					  email: "",
-					  school: "",
-					  major: "",
-					  work: "",
-					  position: "",
-					  introduce: "",
-					  level: null,
-				},
-				sexlist: [{
+export default {
+	data() {
+		return {
+			temp: null,
+			ApplyMember: {
+				img: '',
+				name: '',
+				idNum: '',
+				birth: '',
+				sex: 3,
+				place: '',
+				polity: '',
+				nation: '',
+				phone: '',
+				email: '',
+				school: '',
+				major: '',
+				work: '',
+				position: '',
+				introduce: '',
+				level: null
+			},
+			sexlist: [
+				{
 					id: 0,
 					name: '男'
-				}, {
+				},
+				{
 					id: 1,
 					name: '女'
-				}],
-				levelList: [{
-					id: 0,
-					name: '总经理'
-				},{
-					id: 1,
-					name: '产品经理'
-				},{
-					id: 2,
-					name: '部门经理'
-				}],
-			}
-
+				}
+			],
+			levelList: [
+				{
+					label: '荣誉会长',
+					value: 4
+				},
+				{
+					label: '会长',
+					value: 5
+				},
+				{
+					label: '副会长',
+					value: 6
+				},
+				{
+					label: '执行委员会成员',
+					value: 7
+				},
+				{
+					label: '秘书长',
+					value: 8
+				},
+				{
+					label: '会计',
+					value: 9
+				},
+				{
+					label: '出纳',
+					value: 10
+				},
+				{
+					label: '会员',
+					value: 11
+				}
+			]
+		};
+	},
+	methods: {
+		bindLevelChange(e) {
+			this.ApplyMember.level = this.levelList[e.detail.value].value;
 		},
-		methods: {
-			bindLevelChange(e) {
-				this.ApplyMember.level = this.levelList[e.detail.value].id;
-			},
-			bindSexChange(e) {
-				this.ApplyMember.sex = this.sexlist[e.detail.value].id;
-			},
-			bindDateChange(e) {
-				this.ApplyMember.birth = e.detail.value;
-			},
-			avatarChoose() {
-				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					success(res) {
-						const tempFilePaths = res.tempFilePaths
-						that.temp = tempFilePaths
-						that.ApplyMember.img = tempFilePaths[0]
-						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
-						// 	console.log(res)
-						// })
-					}
+		bindSexChange(e) {
+			this.ApplyMember.sex = this.sexlist[e.detail.value].id;
+		},
+		bindDateChange(e) {
+			this.ApplyMember.birth = e.detail.value;
+		},
+		getsbuLevel(key) {
+			switch (key) {
+				case 4:
+					return '荣誉会长';
+					break;
+				case 5:
+					return '会长';
+					break;
+				case 6:
+					return '副会长';
+					break;
+				case 7:
+					return '执行委员会成员';
+					break;
+				case 8:
+					return '秘书长';
+					break;
+				case 9:
+					return '会计';
+					break;
+				case 10:
+					return '出纳';
+					break;
+				case 11:
+					return '会员';
+					break;
+				default:
+					break;
+			}
+		},
+		avatarChoose() {
+			let that = this;
+			uni.chooseImage({
+				count: 1,
+				sizeType: ['original', 'compressed'],
+				sourceType: ['album', 'camera'],
+				success(res) {
+					const tempFilePaths = res.tempFilePaths;
+					that.temp = tempFilePaths;
+					that.ApplyMember.img = tempFilePaths[0];
+					// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
+					// 	console.log(res)
+					// })
+				}
+			});
+		},
+		save() {
+			uni.showLoading({
+				 title: '正在提交',
+			})
+			if (!this.temp && !this.ApplyMember.img) {
+				uni.showToast({
+					title: '请选择头像'
 				});
-			},
-			save() {
-				if(!this.temp && !this.ApplyMember.img) {
-					uni.showToast({
-						title: '请选择头像',
-					})
-				}else if(this.temp) {
-					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
-						// console.log(res)
-						var obj = this.ApplyMember
-						obj.img = res.data.url
-						this.$api.applyMember(obj).then((res) => {
-							if(res.code == 20000){
-								uni.showToast({
-									title: '修改成功',
-									duration: 2000
-								});
-								uni.navigateBack({
-									
-								})
-							}
-						})
-					})
-				}else if(this.ApplyMember.img) {
-					var obj = this.ApplyMember
-					this.$api.applyMember(obj).then((res) => {
-						if(res.code == 20000){
+				uni.hideLoading()
+			} else if (this.temp) {
+				this.$api.uploadPicture({ tempFilePaths: this.temp }).then(res => {
+					// console.log(res)
+					var obj = this.ApplyMember;
+					obj.openId = uni.getStorageSync('openid');
+					obj.img = res.data.url;
+					this.$api.applyMember(obj).then(res => {
+						if (res.code == 20000) {
 							uni.showToast({
-								title: '修改成功',
+								title: '提交成功',
 								duration: 2000
 							});
-							uni.navigateBack({
-								
-							})
+							uni.navigateBack({});
 						}
-					})
-				}else {
-					uni.showToast({
-						title: '请选择头像',
-					})
-				}
-			},
-			isPoneAvailable(poneInput) {
-				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if (!myreg.test(poneInput)) {
-					return false;
-				} else {
-					return true;
-				}
-			},
+						uni.hideLoading()
+					});
+				});
+			} else if (this.ApplyMember.img) {
+				var obj = this.ApplyMember;
+				this.$api.applyMember(obj).then(res => {
+					if (res.code == 20000) {
+						uni.showToast({
+							title: '提交成功',
+							duration: 2000
+						});
+						uni.navigateBack({});
+					}
+					uni.hideLoading()
+				});
+			} else {
+				uni.showToast({
+					title: '请选择头像'
+				});
+				uni.hideLoading()
+			}
 		},
-		onLoad() {			
+		isPoneAvailable(poneInput) {
+			var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+			if (!myreg.test(poneInput)) {
+				return false;
+			} else {
+				return true;
+			}
 		}
-
-	}
+	},
+	onLoad() {}
+};
 </script>
 
 <style lang="scss">
@@ -275,7 +325,7 @@
 				font-size: 28rpx;
 			}
 			.place {
-				color: rgb(200,200,200);
+				color: rgb(200, 200, 200);
 			}
 		}
 		.textarea-box {
@@ -304,7 +354,7 @@
 				border: solid 1px #f2f2f2;
 			}
 			.place {
-				color: rgb(200,200,200);
+				color: rgb(200, 200, 200);
 			}
 		}
 		.picker-box {

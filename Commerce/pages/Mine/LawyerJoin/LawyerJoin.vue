@@ -5,14 +5,14 @@
 				<view  class="imgAvatar">
 					<view class="iavatar" :style="'background: url('+layerMsg.img+') no-repeat center/cover #eeeeee;'"></view>
 				</view>
-				<text v-if="layerMsg.img">修改头像</text>
-				<text v-if="!layerMsg.img">选择头像</text>
+				<text v-if="layerMsg.img">修改个人免冠证件照</text>
+				<text v-if="!layerMsg.img">选择个人免冠证件照</text>
 			</view>
 			<view class="text-box">
 				<text>姓名</text>
 				<input class="input-box" type="text" v-model="layerMsg.name" placeholder-class="place" />
 			</view>
-			<view class="text-box">
+			<!-- <view class="text-box">
 				<text>身份证</text>
 				<input class="input-box" type="text" v-model="layerMsg.idNum" placeholder-class="place" />
 			</view>
@@ -23,7 +23,7 @@
 						{{layerMsg.birth}}
 					</view>
 				</picker>
-			</view>
+			</view> -->
 			<view class="picker-box">
 				<text>性别</text>
 				<picker class="picker" mode='selector' range-key="name" v-model="layerMsg.sex" @change="bindSexChange" :range="sexlist">
@@ -53,7 +53,7 @@
 				<input class="input-box" type="text" v-model="layerMsg.email" placeholder-class="place" />
 			</view>
 			<view class="text-box">
-				<text>学校</text>
+				<text>毕业学校</text>
 				<input class="input-box" type="text" v-model="layerMsg.school" placeholder-class="place" />
 			</view>
 			<view class="text-box">
@@ -64,12 +64,12 @@
 				<text>工作单位</text>
 				<input class="input-box" type="text" v-model="layerMsg.work" placeholder-class="place" />
 			</view>
-			<view class="text-box">
+			<!-- <view class="text-box">
 				<text>工作职位</text>
 				<input class="input-box" type="text" v-model="layerMsg.position" placeholder-class="place" />
-			</view>
+			</view> -->
 			<view class="textarea-box">
-				<text>简介</text>
+				<text>简介（可填写自己擅长领域...）</text>
 				<textarea class="textarea" placeholder-class="place" v-model="layerMsg.introduce"></textarea>
 			</view>
 			<view class="text-box">

@@ -28,7 +28,8 @@
 		methods: {
 			getActivity() {
 				this.$api.getActivityState().then((res) => {
-					var resp = res.data.data.act
+					console.log(res.data.data)
+					var resp = res.data.data.acts.data.act
 					for(var i=0;i<resp.length;i++) {
 						if(resp[i].status == 0){
 							resp[i].type = '待审核'

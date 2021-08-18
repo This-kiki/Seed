@@ -42,13 +42,13 @@ export default {
 	methods: {
 		go(id) {
 			uni.navigateTo({
-				url: 'DetailedInfo/DetailedInfo?activityId='+id,
+				url: '../DetailedInfo/DetailedInfo?infoId='+id,
 			});
 			// console.log(this.$refs[id][0])
-			this.$refs[id][0].viewsAdd();
+			// this.$refs[id][0].viewsAdd();
 		},
 		async init() {
-			this.currentT = this.current
+			this.contentT = this.content
 			this.current = {
 				currentPage: 0, // 当前页码
 				totalPages: 0 // 总页数
