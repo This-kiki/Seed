@@ -132,7 +132,7 @@ export default {
     deleteInfo(row) {
       // console.log(row)
       var postAPI = { id: row.id };
-      this.$http.deleteOneInfo(postAPI).then((res) => {
+      this.$http.deleteLawInfo(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
             message: "删除成功",

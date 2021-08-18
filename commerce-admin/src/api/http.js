@@ -378,5 +378,13 @@ export default {
             method: "get",
             params: data
         })
+    },
+    // 删除发布的常识
+    deleteLawInfo(data) {
+        return service({
+            url: "/admin/lawer/delCommon",
+            method: "post",
+            params: data
+        })
     }
 }
