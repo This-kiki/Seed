@@ -19,6 +19,8 @@ import http from './api/http.js'
 Vue.prototype.$http = http
 
 
+import "./static/base.css"
+
 const app = new Vue({
   store,
   router,

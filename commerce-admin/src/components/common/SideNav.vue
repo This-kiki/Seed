@@ -24,6 +24,7 @@
         <template slot="title"><i class="el-icon-message"></i>律师管理</template>
         <el-menu-item index="/index/allLayer">所有律师</el-menu-item>
         <el-menu-item index="/index/layerApplication">律师入会审核</el-menu-item>
+        <el-menu-item index="/index/releaseLawInfo">发布法律常识</el-menu-item>
       </el-submenu>
       <el-submenu index="4">
         <template slot="title"><i class="el-icon-message"></i>资讯管理</template>

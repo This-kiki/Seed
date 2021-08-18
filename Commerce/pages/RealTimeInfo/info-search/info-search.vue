@@ -78,7 +78,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .search {
 	position: fixed;
 	top: 0;

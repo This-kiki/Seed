@@ -1,20 +1,14 @@
 <template>
   <div class="header-wraper">
-    <el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-
+    <el-menu
+      theme="dark"
+      default-active="1"
+      class="el-menu-demo"
+      mode="horizontal"
+    >
       <li class="title">
         <i class="el-icon-menu"></i>
-        <span>后台管理系统模板</span>
-      </li>
-      <li class="user">
-        <el-dropdown trigger="click">
-          <span class="el-dropdown-link">
-            monster1935<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <span>濠江珠浦种子会后台管理系统</span>
       </li>
     </el-menu>
   </div>
@@ -24,50 +18,18 @@
 <script>
 export default {
   data() {
-    return {
-      options: [
-        {
-          label: 'test1',
-          value: 1,
-        },
-        {
-          label: 'test2',
-          value: 2,
-        },
-        {
-          label: 'test3',
-          value: 3,
-        },
-        {
-          label: 'test4',
-          value: 4,
-        },
-        {
-          label: 'test5',
-          value: 5,
-        },
-        {
-          label: 'test6',
-          value: 6,
-        },
-        {
-          label: 'test7',
-          value: 7,
-        },
-      ],
-      value: 1,
-    }
+    return {};
   },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath)
-    },
-  },
-}
+  methods: {},
+};
 </script>
 
 
 <style media="screen">
+.el-menu-demo {
+  width: 100%;
+  background-color: #1e1e1e;
+}
 .header-wraper li {
   float: left;
   margin-right: 20px;
