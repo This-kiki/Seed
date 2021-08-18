@@ -208,6 +208,8 @@
 				margin-top: 10rpx;
 
 				text {
+					display: inline-block;
+					width: 120rpx;
 					font-size: 26rpx;
 					color: #333;
 					margin-right: 20rpx;

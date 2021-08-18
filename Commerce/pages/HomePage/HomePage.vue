@@ -29,7 +29,7 @@
 					法律援助
 				</view>
 			</view>
-			<view class="bottom">
+			<view class="bottom" v-if="flag==0">
 				<view class="left">
 					<view class="title">
 						申请入会
@@ -149,16 +149,23 @@
 				// 会员列表
 				userList: [],
 				// 会员单位列表
-				companyList: []
+				companyList: [],
+				// 是否是会员
+				flag: 0
 			}
 		},
 		created() {
+			this.checkUser()
 			this.getHomeCarousel()
 			this.getManagerList()
 			this.getUserList()
 			this.getCompanyList()
 		},
 		methods: {
+			// 判断是否为会员
+			checkUser() {
+				this.flag = uni.getStorageSync("identity")
+			},
 			//首页轮播图
 			async getHomeCarousel() {
 				let res = await this.$api.getHomeCarousel()
