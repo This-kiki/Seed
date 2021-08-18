@@ -173,7 +173,7 @@ export default {
         });
     },
     setFramework() {
-      this.$http.setConstitution({ content: this.framework }).then((res) => {
+      this.$http.setFramework({ content: this.framework }).then((res) => {
         if (res.code == 20000) {
           this.$message({
             message: "设置成功",
@@ -183,7 +183,7 @@ export default {
       });
     },
     setIntroduce() {
-      this.$http.setConstitution({ content: this.introduce }).then((res) => {
+      this.$http.setIntroduce({ content: this.introduce }).then((res) => {
         if (res.code == 20000) {
           this.$message({
             message: "设置成功",

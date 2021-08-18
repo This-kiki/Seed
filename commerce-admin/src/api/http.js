@@ -302,6 +302,14 @@ export default {
             params: data
         })
     },
+    // 驳回会员申请
+    deleteApplyMember(data) {
+        return service({
+            url: "/admin/user/delOneApplyMeeting",
+            method: "get",
+            params: data
+        })  
+    },
     // 设置种子会地址
     setAddress(data) {
         return service({
