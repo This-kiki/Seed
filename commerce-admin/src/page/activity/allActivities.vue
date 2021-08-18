@@ -5,7 +5,7 @@
       </el-table-column>
       <el-table-column prop="alNum" label="已报名" width="100">
       </el-table-column>
-       <el-table-column prop="num" label="总人数" width="100">
+      <el-table-column prop="num" label="总人数" width="100">
       </el-table-column>
       <el-table-column label="状态" width="100">
         <template slot-scope="scope">
@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllActivity"></el-pagination>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="Math.ceil(current.total/20)" :current-page.sync="current.current" @current-change="getAllActivity"></el-pagination>
     <div>
       <el-dialog title="活动详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
@@ -64,7 +64,7 @@ export default {
       this.$http.getActivity(getAPI).then((res) => {
         // console.log(res)
         var resp = res.data.act
-        this.current.total = res.data.total
+        this.current.total = Math.ceil(res.data.total / 20)
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {
             resp[i].type = '进行中'

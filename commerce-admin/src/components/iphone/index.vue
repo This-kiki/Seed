@@ -98,8 +98,8 @@ export default {
 .iphone-screen {
   background: rgb(247, 245, 245);
   border: 1px solid #fff;
-  height: 820px;
-  width: 400px;
+  height: 780px;
+  width: 380px;
   margin: 0 auto;
   /* border: 2px solid rgba(221, 215, 215, 0.9); */
   border-radius: 5px;

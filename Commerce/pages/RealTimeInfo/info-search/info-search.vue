@@ -45,7 +45,7 @@ export default {
 				url: '../DetailedInfo/DetailedInfo?infoId='+id,
 			});
 			// console.log(this.$refs[id][0])
-			// this.$refs[id][0].viewsAdd();
+			this.$refs[id][0].viewsAdd();
 		},
 		async init() {
 			this.contentT = this.content

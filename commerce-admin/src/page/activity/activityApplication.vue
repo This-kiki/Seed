@@ -12,15 +12,16 @@
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-button type="primary" plain circle @click="viewApplyActivity(scope.row)" icon="el-icon-view" size="small"></el-button>
-          <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyActivity(scope.row,0)">
+          <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyActivity(scope.row,1)">
             <el-button style="margin: 0 10px" slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
-          <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyActivity(scope.row,1)">
+          <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyActivity(scope.row,2)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllApplyActivity"></el-pagination>
     <div>
       <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
         <el-descriptions :column='1' border>
@@ -57,6 +58,7 @@ export default {
       let getAPI = { current: this.current.current }
       this.$http.getApplyActivity(getAPI).then((res) => {
         // console.log(res)
+        this.current.total = Math.ceil(res.data.total / 20)
         var resp = res.data.applyAct
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {

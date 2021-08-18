@@ -122,7 +122,7 @@ export default {
               resp[i].type = '种子会动态'
               this.tableData.push(resp[i])
             }
-            this.current.total = res.data.total
+            this.current.total = Math.ceil(res.data.total / 20)
           })
           break
         case 2:
@@ -133,7 +133,7 @@ export default {
               resp[i].type = '会员风采'
               this.tableData.push(resp[i])
             }
-            this.current.total = res.data.total
+            this.current.total = Math.ceil(res.data.total / 20)
           })
           break
         case 3:
@@ -144,7 +144,7 @@ export default {
               resp[i].type = '会员单位'
               this.tableData.push(resp[i])
             }
-            this.current.total = res.data.total
+            this.current.total = Math.ceil(res.data.total / 20)
           })
           break
         case 4:
@@ -155,7 +155,7 @@ export default {
               resp[i].type = '家乡新闻'
               this.tableData.push(resp[i])
             }
-            this.current.total = res.data.total
+            this.current.total = Math.ceil(res.data.total / 20)
           })
           break
       }
