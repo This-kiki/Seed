@@ -70,7 +70,7 @@
 			</view>
 		</view>
 		<!-- 操作 -->
-		<view class="operateContainer">
+		<view class="operateContainer" v-if="flag == 0">
 			<view class="addEdit" @click="addResume()">
 				<text class="iconfont icon-xiugai"></text>
 				{{addEdit}}
@@ -81,7 +81,7 @@
 			</view>
 		</view>
 		<view class="noData" v-if="resumeInfo==null">
-			暂无简历
+			添加简历前须完善个人资料
 		</view>
 	</view>
 </template>
@@ -100,25 +100,37 @@
 				// 简历信息
 				resumeInfo: {},
 				// 添加/修改
-				addEdit: "修改"
+				addEdit: "修改",
+				// 是否是投递简历页面跳转
+				flag: 0,
 			}
 		},
 		onShow() {
 			this.getResume()
 		},
+		onLoad(options) {
+			if (options.info) {
+				this.flag = 1
+				this.setNav.navTitle = "简历详情"
+				this.resumeInfo = JSON.parse(options.info)
+			}
+		},
 		methods: {
 			// 获取自己的简历
 			async getResume() {
+				if (this.flag == 1) {
+					return
+				}
 				let res = await this.$api.getResume()
 				// console.log(res)
 				this.resumeInfo = res.data.resume
 				if (this.resumeInfo == null) {
 					this.addEdit = "添加"
-					uni.showModal({
-						content: "请先完善用户个人信息",
-						confirmText: '确定',
-						cancelText: '取消',
-					})
+					// uni.showModal({
+					// 	content: "请先完善用户个人信息",
+					// 	confirmText: '确定',
+					// 	cancelText: '取消',
+					// })
 				}
 			},
 			// 会员删除简历
@@ -141,7 +153,7 @@
 				}
 			},
 			// 添加/修改简历
-			addResume() {
+			async addResume() {
 				if (this.resumeInfo)
 					uni.navigateTo({
 						url: `/pages/JobResumeAdd/JobResumeAdd?id=${this.resumeInfo.id}`
@@ -150,7 +162,7 @@
 					uni.navigateTo({
 						url: `/pages/JobResumeAdd/JobResumeAdd`
 					})
-			}
+			},
 		}
 	}
 </script>
@@ -177,6 +189,7 @@
 				margin: 10rpx auto;
 				background-color: lightblue;
 				border-radius: 14rpx;
+				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 				image {
 					width: 100%;
@@ -241,7 +254,8 @@
 				border-radius: 10rpx;
 			}
 		}
-		.noData{
+
+		.noData {
 			margin: 300rpx auto;
 			text-align: center;
 			color: #999;

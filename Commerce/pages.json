@@ -222,17 +222,21 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/RealTimeInfo/info-search/info-search",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/JobResumeList/JobResumeList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+
 		}
-        ,{
-            "path" : "pages/RealTimeInfo/info-search/info-search",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

@@ -57,6 +57,10 @@
 						<text class="iconfont icon-xiugai"></text>
 						修改
 					</view>
+					<view class="resume" @click="seeResume(item.id)">
+						<text class="iconfont icon-geren"></text>
+						简历
+					</view>
 				</view>
 			</view>
 		</view>
@@ -179,9 +183,15 @@
 				}
 			},
 			// 修改招聘信息
-			editJobNeed(id){
+			editJobNeed(id) {
 				uni.navigateTo({
 					url: `/pages/JobRelease/JobRelease?id=${id}`
+				})
+			},
+			// 查看招聘简历
+			seeResume(id) {
+				uni.navigateTo({
+					url: `/pages/JobResumeList/JobResumeList?id=${id}`
 				})
 			}
 		}
@@ -338,7 +348,8 @@
 					justify-content: space-around;
 
 					.delete,
-					.edit {
+					.edit,
+					.resume {
 						.iconfont {
 							margin-right: 10rpx;
 						}
@@ -354,6 +365,11 @@
 
 					.edit {
 						background-color: #61afef;
+					}
+
+					.resume {
+						background-color: #d19a66;
+
 					}
 				}
 			}
