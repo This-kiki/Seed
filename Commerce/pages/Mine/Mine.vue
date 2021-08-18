@@ -12,10 +12,10 @@
 					</view>
 				</view>
 				<view class="m-page-headMsg">
-					<!-- <image class="m-page-headimg" src="" mode=""></image> -->
-					<open-data class="m-page-headimg" type="userAvatarUrl"></open-data>
-					<open-data class="m-page-name" type="userNickName"></open-data>
-					<!-- <view class="m-page-name"></view> -->
+					<image class="m-page-headimg" :src="userMsg.img" mode=""></image>
+					<!-- <open-data class="m-page-headimg" type="userAvatarUrl"></open-data> -->
+					<!-- <open-data class="m-page-name" type="userNickName"></open-data> -->
+					<view class="m-page-name">{{ userMsg.name }}</view>
 				</view>
 				<view class="m-page-join" @click="go('joinPage/joinPage')">
 					<view class="m-page-jointitle">
@@ -70,7 +70,7 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-					<view class="m-page-listitem" @click="go('joinPage/joinPage')">
+					<view class="m-page-listitem" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
 						<view class="m-page-listitemtitle">
 							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 							<span class="iconfont m-page-listitemimg">&#xe612;</span>
@@ -129,9 +129,21 @@
 					navTitle: "我的",
 					bgColor: "#9370DB"
 				},
+				userMsg: {}
 			}
 		},
+		onShow() {
+			this.getUserInfo()
+		},
 		methods: {
+			getUserInfo() {
+				this.$api.getUserMsg().then(userMsg_res => {
+					console.log('基本信息',userMsg_res.data.userBaseInfo)
+					this.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+					this.userMsg = userMsg_res.data.userBaseInfo
+				});
+			},
 			go(path) {
 				uni.navigateTo({
 					url: path

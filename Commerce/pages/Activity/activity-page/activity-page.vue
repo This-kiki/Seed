@@ -39,7 +39,7 @@ export default {
 			let resp
 			var getAPI = {current: 1,limit: 20}
 			await this.$api.getActivity(getAPI).then((res)=> {
-				// console.log('种子会资讯',res)
+				// console.log('活动',res)
 				resp = res.data
 				this.current.currentPage=this.current.currentPage+1
 			})
@@ -53,7 +53,7 @@ export default {
 			let resp
 			var getAPI = {current: this.current.currentPage,limit: 20}
 			await this.$api.getActivity(getAPI).then((res)=> {
-				// console.log('种子会资讯',res)
+				// console.log('活动',res)
 				resp = res.data
 				this.current.currentPage=this.current.currentPage+1
 			})
