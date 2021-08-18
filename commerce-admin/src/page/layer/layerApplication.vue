@@ -21,6 +21,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getApplyLayer"></el-pagination> -->
     <div>
       <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
@@ -88,7 +89,7 @@ export default {
       tableData: [],
       current: {
         current: 0,
-        total: 0,
+        total: 1,
       },
       viewVisible: false,
       actData: {},
@@ -102,7 +103,9 @@ export default {
       let getAPI = { current: this.current.current }
       this.$http.getApplyLayer(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.rows.data.rows
+        // this.current.total = Math.ceil(res.data.total / 20)
+        console.log(res.data)
+        var resp = res.data.rows
         this.tableData = resp
       })
     },
