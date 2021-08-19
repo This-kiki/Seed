@@ -132,6 +132,13 @@
 			},
 			// 聊天
 			chat(item) {
+				if (this.id == uni.getStorageSync("openid")) {
+					uni.showToast({
+						icon: "none",
+						title: "不能和自己聊天"
+					})
+					return
+				}
 				let link = encodeURIComponent(JSON.stringify(this.userInfo.img))
 				uni.navigateTo({
 					url: `/pages/Chat/Chat?openid=${this.id}&name=${this.userInfo.name}&img=${link}`
