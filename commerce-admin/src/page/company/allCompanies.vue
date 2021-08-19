@@ -2,26 +2,13 @@
   <div>
     <el-row>
       <el-col :span="2" :offset="21">
-        <el-button
-          @click="exportCompany"
-          style="margin: 15px 0"
-          round
-          type="success"
-          plain
-          icon="el-icon-document-copy"
-          size="small"
-          >导出公司信息</el-button
-        >
+        <el-button @click="exportCompany" style="margin: 15px 0" round type="success" plain icon="el-icon-document-copy" size="small">导出公司信息</el-button>
       </el-col>
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form
-            label-position="left"
-            class="demo-table-expand"
-            label-width="180px"
-          >
+          <el-form label-position="left" class="demo-table-expand" label-width="180px">
             <el-form-item label="地址">
               <span>{{ props.row.address }}</span>
             </el-form-item>
@@ -46,8 +33,14 @@
             <el-form-item label="企业人数">
               <span>{{ props.row.num }}</span>
             </el-form-item>
+            <el-form-item label="hr姓名">
+              <span>{{ props.row.name }}</span>
+            </el-form-item>
+            <el-form-item label="hr电话">
+              <span>{{ props.row.phone }}</span>
+            </el-form-item>
             <el-form-item label="hr性别">
-              <span>{{ props.row.sex }}</span>
+              <span>{{ props.row.sex==0?'男':'女' }}</span>
             </el-form-item>
             <el-form-item label="信用代码">
               <span>{{ props.row.creditCode }}</span>
@@ -68,9 +61,9 @@
       </el-table-column>
       <el-table-column prop="companyName" label="公司名" width="150">
       </el-table-column>
-      <el-table-column prop="name" label="hr电话" width="150">
+      <el-table-column prop="phone" label="hr电话" width="150">
       </el-table-column>
-      <el-table-column prop="phone" label="hr姓名" width="150">
+      <el-table-column prop="name" label="hr姓名" width="150">
       </el-table-column>
       <el-table-column prop="representative" label="法人代表" width="150">
       </el-table-column>
@@ -79,22 +72,8 @@
       <el-table-column prop="" label=""> </el-table-column>
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定删除该公司吗"
-            @confirm="deleteCompany(scope.row)"
-          >
-            <el-button
-              slot="reference"
-              type="danger"
-              plain
-              circle
-              icon="el-icon-delete"
-              size="small"
-            ></el-button>
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定删除该公司吗" @confirm="deleteCompany(scope.row)">
+            <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -119,55 +98,54 @@ export default {
       },
       viewVisible: false,
       actData: {},
-    };
+    }
   },
   mounted() {
-    this.getAllCompany();
+    this.getAllCompany()
   },
   methods: {
     getAllCompany() {
-      let getAPI = { current: this.current.current };
+      let getAPI = { current: this.current.current }
       this.$http.getCompany(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.companyList;
-        this.tableData = resp;
-      });
+        var resp = res.data.companyList
+        this.tableData = resp
+      })
     },
     viewCompany(row) {
-      this.actData = row;
-      this.viewVisible = true;
+      this.actData = row
+      this.viewVisible = true
     },
     editCompany(row) {
       this.$router.push({
-        path: "/index/releaseActivities",
+        path: '/index/releaseActivities',
         query: { id: row.id },
-      });
+      })
     },
     deleteCompany(row) {
       // console.log(row)
-      var postAPI = { openid: row.openid };
+      var postAPI = { openid: row.openid }
       this.$http.deleteCompany(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: "删除成功",
-            type: "success",
-          });
-          this.getAllCompany();
+            message: '删除成功',
+            type: 'success',
+          })
+          this.getAllCompany()
         }
-      });
+      })
     },
     exportCompany() {
-      let link = document.createElement("a");
-      link.style.display = "none";
-      link.href =
-        "https://hjzpzzh.com/seed/admin/company/getAllCompanyDtlInfoToExcel";
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-      document.body.removeChild(link);
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = 'https://hjzpzzh.com/seed/admin/company/getAllCompanyDtlInfoToExcel'
+      document.body.appendChild(link)
+      link.click()
+      window.URL.revokeObjectURL(link.href)
+      document.body.removeChild(link)
     },
   },
-};
+}
 </script>
 <style scoped>
 </style>
