@@ -227,6 +227,11 @@
 					uni.showToast({
 						title: "申请成功"
 					})
+				} else if (res.code == 10001) {
+					uni.showToast({
+						icon:"none",
+						title: "请先添加简历"
+					})
 				}
 			}
 		}

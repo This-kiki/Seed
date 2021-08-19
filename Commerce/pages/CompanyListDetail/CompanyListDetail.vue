@@ -212,9 +212,10 @@
 					font-size: 28rpx;
 
 					text {
+						display: inline-block;
+						width: 150rpx;
 						font-size: 24rpx;
 						color: #333;
-						margin-right: 20rpx;
 					}
 
 					.intro {

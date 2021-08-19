@@ -64,7 +64,7 @@ export class Api {
 	}
 	// 查询咨询
 	searchIfo = async (data) => {
-		let res = await flyio.post("/info/PageFindDynamic/" + data.current+ "/20",data)
+		let res = await flyio.post("/info/PageFindDynamic/" + data.current + "/20", data)
 		return res.data
 	}
 
@@ -301,6 +301,13 @@ export class Api {
 	// 修改招聘信息
 	editJobNeed = async (data) => {
 		let res = await flyio.post("/hr/companyInterview/update", data)
+		return res.data
+	}
+
+	// hr 获取投递招聘信息的会员列表
+	getSubmitResumeList = async (data) => {
+		let res = await flyio.get(
+			`/pro/resume/getSumbit/${data.current}/${data.limit}?companyInfoId=${data.companyInfoId}`)
 		return res.data
 	}
 }

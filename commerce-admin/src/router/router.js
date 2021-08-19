@@ -22,6 +22,8 @@ import lawInfoList from "../page/layer/lawInfoList.vue"
 import addAdmin from '../page/superAdmin/addAdmin.vue'
 import allAdmin from '../page/superAdmin/allAdmin.vue'
 import layout from '../page/appPage/page.vue'
+import allCarousel from "../page/carousel/allCarousel.vue"
+import releaseCarousel from "../page/carousel/releaseCarousel.vue"
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -107,6 +109,14 @@ export const routerMap = [{
       name: "法律常识列表",
       path: "lawInfoList",
       component: lawInfoList
+    },{
+      name: "轮播图列表",
+      path: "allCarousel",
+      component: allCarousel
+    },{
+      name: "上传轮播图",
+      path: "releaseCarousel",
+      component: releaseCarousel
     },
     {
       name: '帮助',
