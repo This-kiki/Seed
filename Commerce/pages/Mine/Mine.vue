@@ -33,12 +33,12 @@
 						<!-- <image class="m-page-joinicon" src="" mode=""></image> -->
 					</view>
 				</view>
-				<view class="m-page-join" v-if="userMsg.identity!=0">
+				<view class="m-page-join" @click="go('joinPage/joinPage')" v-if="userMsg.identity!=0">
 					<view class="m-page-jointitle">
 						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-joinimg">&#xe638;</span>
 						<view class="m-page-jointext">
-							你好，尊贵的{{userMsg.identity==2?'律师':userMsg.identity==3?'会员单位':'会员'}}
+							您是尊贵的{{userMsg.identity==2?'律师':userMsg.identity==3?'会员单位':'会员'}}
 						</view>
 					</view>
 				</view>
@@ -244,7 +244,7 @@
 }
 .m-page-join {
 	width: 95%;
-	height: 42rpx;
+	height: 55rpx;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

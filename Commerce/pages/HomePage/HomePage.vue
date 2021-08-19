@@ -163,8 +163,10 @@
 		},
 		methods: {
 			// 判断是否为会员
-			checkUser() {
-				this.flag = uni.getStorageSync("identity")
+			async checkUser() {
+				let res = await this.$api.getUserMsg()
+				this.flag = res.data.userBaseInfo.identity
+				console.log("身份",this.flag)
 			},
 			//首页轮播图
 			async getHomeCarousel() {
