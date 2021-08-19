@@ -129,7 +129,7 @@
 			return {
 				setNav: {
 					titleColor: "black",
-					navTitle: "珠浦种子会",
+					navTitle: "濠江区珠浦种子会",
 					bgColor: "white"
 				},
 				// 指示点
