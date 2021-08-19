@@ -17,7 +17,7 @@
 					<!-- <open-data class="m-page-name" type="userNickName"></open-data> -->
 					<view class="m-page-name">{{ userMsg.name }}</view>
 				</view>
-				<view class="m-page-join" @click="go('joinPage/joinPage')">
+				<view class="m-page-join" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
 					<view class="m-page-jointitle">
 						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-joinimg">&#xe638;</span>
@@ -31,6 +31,15 @@
 						</view>
 						<span class="iconfont m-page-joinicon">&#xe623;</span>
 						<!-- <image class="m-page-joinicon" src="" mode=""></image> -->
+					</view>
+				</view>
+				<view class="m-page-join" @click="go('joinPage/joinPage')" v-if="userMsg.identity!=0">
+					<view class="m-page-jointitle">
+						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
+						<span class="iconfont m-page-joinimg">&#xe638;</span>
+						<view class="m-page-jointext">
+							您是尊贵的{{userMsg.identity==2?'律师':userMsg.identity==3?'会员单位':'会员'}}
+						</view>
 					</view>
 				</view>
 			</view>
