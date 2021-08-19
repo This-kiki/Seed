@@ -70,8 +70,9 @@
       <el-table-column prop="industry" label="行业" width="150">
       </el-table-column>
       <el-table-column prop="" label=""> </el-table-column>
-      <el-table-column fixed="right" label="操作" width="180" align="center">
+      <el-table-column fixed="right" label="操作" width="150" align="center">
         <template slot-scope="scope">
+          <el-button style="marginRight: 10px" type="primary" plain circle icon="el-icon-edit-outline" size="small" @click="editCompany(scope.row)"></el-button>
           <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定删除该公司吗" @confirm="deleteCompany(scope.row)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
@@ -80,8 +81,56 @@
     </el-table>
     <!-- <el-pagination background layout="prev, pager, next" style="margin: 20px" :total="Math.ceil(current.total/20)" :current-page.sync="current.current" @current-change="getAllCompany"></el-pagination> -->
     <div>
-      <el-dialog title="活动详情" :visible.sync="viewVisible" width="35%">
-        <div v-html="actData.content"></div>
+      <el-dialog title="修改公司信息" :visible.sync="editVisible" width="45%">
+        <el-form label-position="left" class="demo-table-expand" label-width="180px">
+          <el-form-item label="地址">
+            <!-- <span>{{ editForm.name }}</span> -->
+            <el-input v-model="editForm.address"></el-input>
+          </el-form-item>
+          <el-form-item label="经营状态">
+            <el-input v-model="editForm.manageStatus"></el-input>
+            <!-- <span>{{ editForm.phone }}</span> -->
+          </el-form-item>
+          <el-form-item label="公司联系电话">
+            <el-input v-model="editForm.companyPhone"></el-input>
+            <!-- <span>{{ editForm.position }}</span> -->
+          </el-form-item>
+          <el-form-item label="公司介绍">
+            <el-input v-model="editForm.content"></el-input>
+            <!-- <span>{{ editForm.idNum }}</span> -->
+          </el-form-item>
+          <el-form-item label="电子邮箱">
+            <el-input v-model="editForm.email"></el-input>
+            <!-- <span>{{ editForm.email }}</span> -->
+          </el-form-item>
+          <el-form-item label="经营范围">
+            <el-input v-model="editForm.manageArea"></el-input>
+            <!-- <span>{{ editForm.major }}</span> -->
+          </el-form-item>
+          <el-form-item label="注册资金">
+            <el-input v-model="editForm.money"></el-input>
+            <!-- <span>{{ editForm.birth }}</span> -->
+          </el-form-item>
+          <el-form-item label="企业人数">
+            <el-input v-model="editForm.num"></el-input>
+            <!-- <span>{{ editForm.nation }}</span> -->
+          </el-form-item>
+          <el-form-item label="信用代码">
+            <el-input v-model="editForm.creditCode"></el-input>
+            <!-- <span>{{ editForm.place }}</span> -->
+          </el-form-item>
+          <el-form-item label="头像">
+            <img :src="editForm.img" alt="" />
+          </el-form-item>
+          <el-form-item label="营业执照照片">
+            <img :src="editForm.license" alt="" />
+          </el-form-item>
+          <el-row>
+            <el-col :span="3" :offset="22">
+              <el-button @click="editSubmit">修改</el-button>
+            </el-col>
+          </el-row>
+        </el-form>
       </el-dialog>
     </div>
   </div>
@@ -96,8 +145,8 @@ export default {
         current: 0,
         total: 0,
       },
-      viewVisible: false,
-      actData: {},
+      editVisible: false,
+      editForm: {},
     }
   },
   mounted() {
@@ -112,15 +161,9 @@ export default {
         this.tableData = resp
       })
     },
-    viewCompany(row) {
-      this.actData = row
-      this.viewVisible = true
-    },
     editCompany(row) {
-      this.$router.push({
-        path: '/index/releaseActivities',
-        query: { id: row.id },
-      })
+      this.editForm = row
+      this.editVisible = true
     },
     deleteCompany(row) {
       // console.log(row)
@@ -144,8 +187,25 @@ export default {
       window.URL.revokeObjectURL(link.href)
       document.body.removeChild(link)
     },
+    editSubmit() {
+      console.log(this.editForm)
+      this.$http.editCompany(this.editForm).then((res) => {
+        if (res.code == 20000) {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+          })
+          this.getAllCompany()
+          this.editVisible = false
+        }
+      })
+    },
   },
 }
 </script>
 <style scoped>
+img {
+  max-width: 500px;
+  height: auto;
+}
 </style>

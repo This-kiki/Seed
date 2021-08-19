@@ -1,7 +1,7 @@
 <template>
 	<view class="body">
 		<view class="act-list">
-			<view class="act-list-item" v-for="(item,index) in dataList">
+			<view class="act-list-item" v-for="(item,index) in dataList" @tap="go(item.actId)">
 				<view class="act-title">
 					{{item.name}}
 				</view>
@@ -26,6 +26,11 @@
 			this.getActivity()
 		},
 		methods: {
+			go(id) {
+				uni.navigateTo({
+					url: '../../Activity/ActivityInfo/ActivityInfo?activityId='+id,
+				});
+			},
 			getActivity() {
 				this.$api.getActivityState().then((res) => {
 					console.log(res.data.data)

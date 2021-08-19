@@ -227,6 +227,14 @@ export default {
             params: data
         })
     },
+    // 修改公司信息
+    editCompany(data) {
+        return service({
+            url: '/company/updateCompanyDetailInfo',
+            method: 'post',
+            data: data
+        })
+    },
     // 获取所有律师
     getLayer(data) {
         return service({
@@ -263,6 +271,13 @@ export default {
             url: '/admin/user/findAllDetailInfo',
             method: 'get',
             params: data
+        })
+    },
+    // 分页获取所有会员
+    getMemberA(data) {
+        return service({
+            url: '/admin/user/pageFindAllDetailInfo/'+ data.current +'/20',
+            method: 'get',
         })
     },
     // 获取所有申请会员

@@ -75,13 +75,14 @@
       <el-table-column prop="" label=""> </el-table-column>
       <el-table-column fixed="right" label="操作" width="130" align="center">
         <template slot-scope="scope">
-          <el-button style="marginright: 10px" type="primary" plain circle icon="el-icon-edit-outline" size="small" @click="editMember(scope.row)"></el-button>
+          <el-button style="marginRight: 10px" type="primary" plain circle icon="el-icon-edit-outline" size="small" @click="editMember(scope.row)"></el-button>
           <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定删除该会员吗" @confirm="deleteMember(scope.row)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllMemberA"></el-pagination>
     <div>
       <el-dialog title="修改会员信息" :visible.sync="editVisible" width="45%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
@@ -221,7 +222,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllMember()
+    this.getAllMemberA()
   },
   methods: {
     getsbuLevel(key) {
@@ -254,6 +255,15 @@ export default {
           break
       }
     },
+    getAllMemberA() {
+      let getAPI = { current: this.current.current }
+      this.$http.getMemberA(getAPI).then((res) => {
+        console.log(res)
+        var resp = res.data.rows
+        this.current.total = Math.ceil(res.data.total / 20)
+        this.tableData = resp
+      })
+    },
     getAllMember() {
       // let getAPI = { current: this.current.current }
       this.$http.getMember({ name: this.name }).then((res) => {
@@ -271,7 +281,7 @@ export default {
             message: '删除成功',
             type: 'success',
           })
-          this.getAllMember()
+          this.getAllMemberA()
         }
       })
     },
@@ -297,12 +307,16 @@ export default {
             message: '修改成功',
             type: 'success',
           })
-          this.getAllMember()
+          this.getAllMemberA()
           this.editVisible = false
         }
       })
     },
     searchMember() {
+      this.current = {
+        current: 0,
+        total: 0,
+      }
       this.getAllMember()
     },
   },
@@ -317,5 +331,9 @@ export default {
 .search {
   display: flex;
   align-content: center;
+}
+img {
+  max-width: 500px;
+  height: auto;
 }
 </style>
