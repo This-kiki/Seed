@@ -33,7 +33,7 @@ export default {
 	methods: {
 		go(id) {
 			uni.navigateTo({
-				url: 'DetailedInfo/DetailedInfo?activityId='+id,
+				url: 'DetailedInfo/DetailedInfo?infoId='+id,
 			});
 			// console.log(this.$refs[id][0])
 			this.$refs[id][0].viewsAdd();

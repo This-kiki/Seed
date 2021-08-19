@@ -1,7 +1,7 @@
 <template>
   <div class="hm-news-card">
     <div class="container">
-      <div class="box" @click="onClick">
+      <div class="box">
         <img v-if='options.imag' class="img" :src="options.imag" />
         <span class="title">{{ options.title }}</span>
         <span class="summary">{{ options.simpleContent }}</span>
