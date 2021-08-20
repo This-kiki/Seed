@@ -73,7 +73,7 @@
 			<i class="iconfont icon-shanchu" @tap="clear"></i>
 			<i :class="'iconfont icon-direction-rtl ' + (formats.direction === 'rtl' ? 'ql-active' : '')"
 				data-name="direction" data-value="rtl"></i>
-			<i class="iconfont icon-baocun" @tap="store" id="1"></i>
+			<text class="submit" @tap="store" id="1">确定</text>
 		</view>
 		<t-color-picker ref="colorPicker" :color="color" @confirm="confirm" @cancel="cancel"></t-color-picker>
 	</view>
@@ -257,4 +257,11 @@
 </script>
 <style>
 	@import "./editor.css";
+
+	.submit {
+		color: #4e8df6;
+		font-size: 28rpx;
+		border-radius: 8rpx;
+		font-weight: bold;
+	}
 </style>

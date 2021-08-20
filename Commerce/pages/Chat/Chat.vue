@@ -66,7 +66,8 @@
 			console.log(this.toInfo.img)
 			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
-
+			
+			this.getUserDetail()
 			this.getLocalMessage()
 			this.getLeaveMessage()
 			this.openSocket()
@@ -79,6 +80,15 @@
 			this.setLocal()
 		},
 		methods: {
+			// 获取用户头像和名字 修改头像或姓名情况
+			async getUserDetail() {
+				let res = await this.$api.getUserDetail({
+					openid: this.toInfo.toOpenid
+				})
+				let userInfo = res.data.userDetailInfo
+				this.toInfo.name = userInfo.name
+				this.toInfo.img = userInfo.img
+			},
 			// 将本地聊天加入缓存
 			setLocal() {
 				if (this.chatList.length == 0)
@@ -97,7 +107,7 @@
 				let chatItem = {
 					info: this.toInfo,
 					chatList: this.chatList,
-					time: time.toLocaleString()
+					time: this.dateFormat("YY-mm-dd HH:MM:SS",time)
 				}
 				if (flag == -1) {
 					chat.push(chatItem)
@@ -105,6 +115,26 @@
 					chat[flag] = chatItem
 				}
 				uni.setStorageSync("chat", chat)
+			},
+			// 时间转字符串
+			dateFormat(fmt, date) {
+			    let ret;
+			    const opt = {
+			        "Y+": date.getFullYear().toString(),        // 年
+			        "m+": (date.getMonth() + 1).toString(),     // 月
+			        "d+": date.getDate().toString(),            // 日
+			        "H+": date.getHours().toString(),           // 时
+			        "M+": date.getMinutes().toString(),         // 分
+			        "S+": date.getSeconds().toString()          // 秒
+			        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+			    };
+			    for (let k in opt) {
+			        ret = new RegExp("(" + k + ")").exec(fmt);
+			        if (ret) {
+			            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+			        };
+			    };
+			    return fmt;
 			},
 			// 获取本地消息
 			getLocalMessage() {

@@ -56,6 +56,7 @@
 					<span class="iconfont m-page-boximg">&#xe601;</span>
 					<view class="m-page-boxtext">
 						消息
+						<text class="new" v-if="leaveFlag==1"></text>
 					</view>
 				</view>
 				<view class="m-page-box">
@@ -112,7 +113,7 @@
 						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view>
-<!-- 					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
+					<!-- 					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
 						<view class="m-page-listitemtitle">
 							<span class="iconfont m-page-listitemimg">&#xe642;</span>
 							<view class="m-page-listitemtext">
@@ -129,8 +130,7 @@
 
 <script>
 	export default {
-		components:{
-		},
+		components: {},
 		data() {
 			return {
 				setNav: {
@@ -138,16 +138,18 @@
 					navTitle: "我的",
 					bgColor: "#9370DB"
 				},
-				userMsg: {}
+				userMsg: {},
+				leaveFlag: 0
 			}
 		},
 		onShow() {
 			this.getUserInfo()
+			this.getLeaveMessage()
 		},
 		methods: {
 			getUserInfo() {
 				this.$api.getUserMsg().then(userMsg_res => {
-					console.log('基本信息',userMsg_res.data.userBaseInfo)
+					console.log('基本信息', userMsg_res.data.userBaseInfo)
 					this.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
 					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
 					this.userMsg = userMsg_res.data.userBaseInfo
@@ -158,206 +160,252 @@
 					url: path
 				});
 			},
+			async getLeaveMessage() {
+				let res = await this.$api.getLeaveMessage()
+				console.log(res)
+				if (res.data.ms.length != 0)
+					this.leaveFlag = 1
+				else
+					this.leaveFlag = 0
+				console.log(this.leaveFlag)
+			}
 		}
 	}
 </script>
 
 <style>
-.mine-page {
-	
-}
-.m-page {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-}
-.m-page-top {
-	width: 100%;
-	height: 280rpx;
-	background-color: rgb(147,112,219);
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-}
-.m-page-tag {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	font-size: 25rpx;
-	margin-top: 25rpx;
-}
-.m-page-t {
-	padding: 0 10rpx;
-	height: 40rpx;
-	background-color: rgba(43,40,167,0.5);
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	border-radius: 20rpx 0 0 20rpx;
-	/* opacity: 0.8; */
-}
-.m-page-t-point {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	margin-right: 10rpx;
-	font-size: 15rpx;
-	color: rgb(254,167,38);
-}
-.m-page-t-text {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	font-size: 22rpx;
-	color: rgb(255,255,253);
-	letter-spacing: 5rpx;
-}
-.m-page-headMsg {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-}
-.m-page-headimg {
-	height: 110rpx;
-	width: 110rpx;
-	border-radius: 60rpx;
-	overflow: hidden;
-	border: 2rpx solid rgb(255,105,180);
-	margin-left: 40rpx;
-}
-.m-page-name {
-	margin-left: 30rpx;
-	font-size: 37rpx;
-	font-weight: 600;
-	font-family: YouYuan;
-	letter-spacing: 10rpx;
-}
-.m-page-join {
-	width: 95%;
-	height: 42rpx;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	background-image: linear-gradient(to right, rgb(4,5,10) , rgb(79,79,90));
-	border-radius: 15rpx 15rpx 0rpx 0rpx;
-	letter-spacing: 6rpx;
-}
-.m-page-jointitle {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	padding-left: 30rpx;
-}
-.m-page-joinimg {
-	font-size: 28rpx;
-	color: rgb(238,215,191);
-	margin-right: 15rpx;
-}
-.m-page-jointext {
-	font-size: 25rpx;
-	color: rgb(238,215,191);
-}
-.m-page-jointile {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-	padding-right: 10rpx;
-}
-.m-page-joinicon{
-	font-size: 22rpx;
-	color: rgb(238,215,191);
-}
+	.mine-page {}
 
-.m-page-middle {
-	width: 100%;
-	height: 200rpx;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
-	background-color: rgb(255,255,255);
-	border-bottom: 1rpx solid rgb(225, 225, 225);
-}
-.m-page-box {
-	height: 140rpx;
-	width: 33%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-}
-.m-page-box:active{
-	background-color: rgb(247, 247, 247);
-}
-.m-page-boxborder {
-	border-left: 1rpx solid rgb(229, 229, 229);
-	border-right: 1rpx solid rgb(229, 229, 229);
-}
-.m-page-boximg {
-	font-size: 60rpx;
-}
-.m-page-boxtext {
-	font-size: 25rpx;
-	font-family: Yuanti;
-	letter-spacing: 10rpx;
-}
-.m-page-bottom {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-}
-.m-page-list {
-	width: 100%;
-	background-color: rgb(255,255,255);
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-}
-.m-page-listitem {
-	width: 100%;
-	height: 100rpx;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1rpx solid rgb(229, 229, 229);
-}
-.m-page-listitem:active {
-	background-color: rgb(247, 247, 247);
-}
-.m-page-listitemtitle {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	margin-left: 50rpx;
-}
-.m-page-listitemimg {
-	font-size: 35rpx;
-	margin-right: 20rpx;
-}
-.m-page-listitemtext {
-	font-size: 28rpx;
-	letter-spacing: 5rpx;
-}
-.m-page-listitemicon {
-	font-size: 30rpx;
-	margin-right: 25rpx;
-}
+	.m-page {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.m-page-top {
+		width: 100%;
+		height: 280rpx;
+		background-color: rgb(147, 112, 219);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.m-page-tag {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		font-size: 25rpx;
+		margin-top: 25rpx;
+	}
+
+	.m-page-t {
+		padding: 0 10rpx;
+		height: 40rpx;
+		background-color: rgba(43, 40, 167, 0.5);
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		border-radius: 20rpx 0 0 20rpx;
+		/* opacity: 0.8; */
+	}
+
+	.m-page-t-point {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		margin-right: 10rpx;
+		font-size: 15rpx;
+		color: rgb(254, 167, 38);
+	}
+
+	.m-page-t-text {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		font-size: 22rpx;
+		color: rgb(255, 255, 253);
+		letter-spacing: 5rpx;
+	}
+
+	.m-page-headMsg {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.m-page-headimg {
+		height: 110rpx;
+		width: 110rpx;
+		border-radius: 60rpx;
+		overflow: hidden;
+		border: 2rpx solid rgb(255, 105, 180);
+		margin-left: 40rpx;
+	}
+
+	.m-page-name {
+		margin-left: 30rpx;
+		font-size: 37rpx;
+		font-weight: 600;
+		font-family: YouYuan;
+		letter-spacing: 10rpx;
+	}
+
+	.m-page-join {
+		width: 95%;
+		height: 42rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-image: linear-gradient(to right, rgb(4, 5, 10), rgb(79, 79, 90));
+		border-radius: 15rpx 15rpx 0rpx 0rpx;
+		letter-spacing: 6rpx;
+	}
+
+	.m-page-jointitle {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		padding-left: 30rpx;
+	}
+
+	.m-page-joinimg {
+		font-size: 28rpx;
+		color: rgb(238, 215, 191);
+		margin-right: 15rpx;
+	}
+
+	.m-page-jointext {
+		font-size: 25rpx;
+		color: rgb(238, 215, 191);
+	}
+
+	.m-page-jointile {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		padding-right: 10rpx;
+	}
+
+	.m-page-joinicon {
+		font-size: 22rpx;
+		color: rgb(238, 215, 191);
+	}
+
+	.m-page-middle {
+		width: 100%;
+		height: 200rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		background-color: rgb(255, 255, 255);
+		border-bottom: 1rpx solid rgb(225, 225, 225);
+	}
+
+	.m-page-box {
+		height: 140rpx;
+		width: 33%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+
+	.m-page-box:active {
+		background-color: rgb(247, 247, 247);
+	}
+
+	.m-page-boxborder {
+		border-left: 1rpx solid rgb(229, 229, 229);
+		border-right: 1rpx solid rgb(229, 229, 229);
+	}
+
+	.m-page-boximg {
+		font-size: 60rpx;
+	}
+
+	.m-page-boxtext {
+		font-size: 25rpx;
+		font-family: Yuanti;
+		letter-spacing: 10rpx;
+		position: relative;
+	}
+
+	.m-page-boxtext .new {
+		width: 20rpx;
+		height: 20rpx;
+		border-radius: 10rpx;
+		background-color: red;
+		position: absolute;
+		top: -90rpx;
+		right: -30rpx;
+	}
+
+	.m-page-bottom {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.m-page-list {
+		width: 100%;
+		background-color: rgb(255, 255, 255);
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.m-page-listitem {
+		width: 100%;
+		height: 100rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1rpx solid rgb(229, 229, 229);
+	}
+
+	.m-page-listitem:active {
+		background-color: rgb(247, 247, 247);
+	}
+
+	.m-page-listitemtitle {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		margin-left: 50rpx;
+	}
+
+	.m-page-listitemimg {
+		font-size: 35rpx;
+		margin-right: 20rpx;
+	}
+
+	.m-page-listitemtext {
+		font-size: 28rpx;
+		letter-spacing: 5rpx;
+	}
+
+	.m-page-listitemicon {
+		font-size: 30rpx;
+		margin-right: 25rpx;
+	}
 </style>
