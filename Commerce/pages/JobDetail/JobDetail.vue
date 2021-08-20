@@ -197,17 +197,6 @@
 					type: 1,
 					title: jobInfo.job,
 					summary: jobInfo.brief,
-					success: function(res) {
-						uni.showToast({
-							title: "分享成功"
-						})
-					},
-					fail: function(err) {
-						uni.showToast({
-							icon: "none",
-							title: "分享失败"
-						})
-					}
 				});
 			},
 			// 聊天
