@@ -202,7 +202,7 @@
 			width: 100%;
 
 			.swiper {
-				height: 250rpx;
+				height: 300rpx;
 
 				.swiper-item {
 					width: 94%;
