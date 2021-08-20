@@ -45,7 +45,7 @@
 			<view class="companyInfo">
 				<view class="title">
 					公司信息
-					<text @click="companyDetail(companyInfo.id)">查看详情</text>
+					<text @click="companyDetail(companyInfo.openId)">查看详情</text>
 				</view>
 				<view class="name">
 					{{companyInfo.companyName}}
@@ -65,7 +65,7 @@
 					</view>
 					<view class="address">
 						<text>地址：</text>
-						{{companyInfo.addresss}}
+						{{companyInfo.address}}
 					</view>
 					<view class="intro">
 						{{companyInfo.content}}
