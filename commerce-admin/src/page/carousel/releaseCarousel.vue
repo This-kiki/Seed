@@ -133,8 +133,6 @@ export default {
 .hid {
   left: 10px;
   top: 0px;
-  height: 0px;
-  width: 0px;
   background-color: white;
   position: absolute;
   z-index: -1;

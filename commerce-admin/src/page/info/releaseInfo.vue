@@ -134,6 +134,7 @@ export default {
       var input = document.getElementById('input')
       input.value = row.img // 修改文本框的内容
       input.select() // 选中文本
+      console.log(input.value)
       document.execCommand('copy') // 执行浏览器复制命令
       _th.$notify({
         message: '已复制到剪切板',
@@ -242,8 +243,6 @@ export default {
 .hid {
   left: 10px;
   top: 0px;
-  height: 0px;
-  width: 0px;
   background-color: white;
   position: absolute;
   z-index: -1;

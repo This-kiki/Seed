@@ -12,8 +12,8 @@
 			</view>
 			<view class="picker-box">
 				<text>申请职位</text>
-				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.level" @change="bindLevelChange" :range="levelList">
-					<view class="picker-text">{{ getsbuLevel(ApplyMember.level) }}</view>
+				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.subLevel" @change="bindLevelChange" :range="levelList">
+					<view class="picker-text">{{ getsbuLevel(ApplyMember.subLevel) }}</view>
 				</picker>
 			</view>
 			<view class="text-box">
@@ -98,7 +98,7 @@ export default {
 				work: '',
 				position: '',
 				introduce: '',
-				level: null
+				subLevel: 100
 			},
 			sexlist: [
 				{
@@ -152,13 +152,25 @@ export default {
 			for(let key  in obj){
 					// console.log(key + '---' + obj[key])
 				if(obj[key] == ''){
-					return false
+					if(key == 'sex'){
+						if(obj[key] == 3){
+							return false
+						}
+					}else if(key == 'subLevel') {
+						if(obj[key] == 100){
+							return false
+						}
+					}else{
+						console.log(key + '---' + obj[key])
+						return false
+					}
 				}
 			}
+			console.log(obj)
 			return true
 		},
 		bindLevelChange(e) {
-			this.ApplyMember.level = this.levelList[e.detail.value].value;
+			this.ApplyMember.subLevel = this.levelList[e.detail.value].value;
 		},
 		bindSexChange(e) {
 			this.ApplyMember.sex = this.sexlist[e.detail.value].id;
@@ -217,48 +229,42 @@ export default {
 				uni.showLoading({
 					 title: '正在提交',
 				})
-				if (!this.temp && !this.ApplyMember.img) {
-					uni.showToast({
-						title: '请选择头像',
-						icon: 'none'
-					});
-					uni.hideLoading()
-				} else if (this.temp) {
-					this.$api.uploadPicture({ tempFilePaths: this.temp }).then(res => {
+				this.$api.uploadPicture({ tempFilePaths: this.temp })
+					.then(res => {
 						// console.log(res)
 						var obj = this.ApplyMember;
 						obj.openId = uni.getStorageSync('openid');
 						obj.img = res.data.url;
-						this.$api.applyMember(obj).then(res => {
-							if (res.code == 20000) {
+						obj.level = 0;
+						this.$api.applyMember(obj)
+						.then(resa => {
+							if (resa.success == true) {
 								uni.showToast({
 									title: '提交成功',
 									duration: 2000
 								});
 								uni.navigateBack({});
+							}else {
+								uni.showToast({
+									title: resa.message,
+									icon: 'none'
+								})
 							}
 							uni.hideLoading()
-						});
-					});
-				} else if (this.ApplyMember.img) {
-					var obj = this.ApplyMember;
-					this.$api.applyMember(obj).then(res => {
-						if (res.code == 20000) {
+						})
+						.catch((err) => {
 							uni.showToast({
-								title: '提交成功',
-								duration: 2000
-							});
-							uni.navigateBack({});
-						}
-						uni.hideLoading()
-					});
-				} else {
-					uni.showToast({
-						title: '请选择头像',
-						icon: 'none'
-					});
-					uni.hideLoading()
-				}
+								title: '提交失败，请重新提交',
+								icon: 'none'
+							})
+						})
+					})
+					.catch((err) => {
+						uni.showToast({
+							title: '图片上传失败',
+							icon: 'none'
+						})
+					})
 			}else {
 				uni.showToast({
 					title: '请完整填写表格',

@@ -12,7 +12,7 @@
 				<text>姓名</text>
 				<input class="input-box" type="text" v-model="layerMsg.name" placeholder-class="place" />
 			</view>
-			<!-- <view class="text-box">
+			<view class="text-box">
 				<text>身份证</text>
 				<input class="input-box" type="text" v-model="layerMsg.idNum" placeholder-class="place" />
 			</view>
@@ -20,10 +20,10 @@
 				<text>生日</text>
 				<picker class="picker" mode="date" v-model="layerMsg.birth" @change="bindDateChange">
 					<view class="picker-text">
-						{{layerMsg.birth}}
+						{{layerMsg.birth?layerMsg.birth:''}}
 					</view>
 				</picker>
-			</view> -->
+			</view>
 			<view class="picker-box">
 				<text>性别</text>
 				<picker class="picker" mode='selector' range-key="name" v-model="layerMsg.sex" @change="bindSexChange" :range="sexlist">
@@ -64,10 +64,10 @@
 				<text>工作单位</text>
 				<input class="input-box" type="text" v-model="layerMsg.work" placeholder-class="place" />
 			</view>
-			<!-- <view class="text-box">
+			<view class="text-box">
 				<text>工作职位</text>
 				<input class="input-box" type="text" v-model="layerMsg.position" placeholder-class="place" />
-			</view> -->
+			</view>
 			<view class="textarea-box">
 				<text>简介（可填写自己擅长领域...）</text>
 				<textarea class="textarea" placeholder-class="place" v-model="layerMsg.introduce"></textarea>
@@ -91,21 +91,21 @@
 			return {
 				temp: null,
 				layerMsg: {
-					img: "",
-					name: "",
-					idNum: "",
-					birth: "",
+					img: '',
+					name: '',
+					idNum: '',
+					birth: '',
 					sex: 3,
-					place: "",
-					polity: "",
-					nation: "",
-					phone: "",
-					email: "",
-					school: "",
-					major: "",
-					work: "",
-					position: "",
-					introduce: "",
+					place: '',
+					polity: '',
+					nation: '',
+					phone: '',
+					email: '',
+					school: '',
+					major: '',
+					work: '',
+					position: '',
+					introduce: '',
 					workNum: '' ,
 					workplace: '',
 				},
@@ -121,11 +121,18 @@
 		},
 		methods: {
 			judge() {
-				var obj = this.ApplyMember
+				var obj = this.layerMsg
 				for(let key  in obj){
 						// console.log(key + '---' + obj[key])
 					if(obj[key] == ''){
-						return false
+						if(key == 'sex'){
+							if(obj[key] == 3){
+								return false
+							}
+						}else{
+							console.log(key + '---' + obj[key])
+							return false
+						}
 					}
 				}
 				return true
@@ -143,7 +150,7 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success(res) {
-						// const tempFilePaths = res.tempFilePaths
+						const tempFilePaths = res.tempFilePaths
 						// let resSize = res.tempFiles[0].size;
 						// if(resSize > 20971520){
 						// 	uni.showToast({
@@ -164,47 +171,43 @@
 			},
 			save() {
 				if(this.judge() == true) {
-					if(!this.temp && !this.layerMsg.img) {
-						uni.showToast({
-							title: '请选择头像',
-							icon: 'none'
-						})
-					}else if(this.temp) {
-						this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
+					uni.showLoading({
+						title:'正在提交'
+					})
+					this.$api.uploadPicture({tempFilePaths: this.temp})
+						.then((res) => {
 							// console.log(res)
 							var obj = this.layerMsg
 							obj.img = res.data.url
-							this.$api.applyLayer(obj).then((res) => {
-								if(res.code == 20000){
+							this.$api.applyLayer(obj)
+								.then((res) => {
+									if(res.success == true){
+										uni.showToast({
+											title: '提交成功',
+											duration: 2000
+										});
+										uni.navigateBack({})
+									}else {
+										uni.showToast({
+											title: res.message,
+											icon: 'none'
+										})
+									}
+									uni.hideLoading()
+								})
+								.catch((err) => {
 									uni.showToast({
-										title: '修改成功',
-										duration: 2000
-									});
-									uni.navigateBack({
-										
+										title: '提交失败，请重新提交',
+										icon: 'none'
 									})
-								}
+								})
+						})
+						.catch((err) => {
+							uni.showToast({
+								title: '图片上传失败',
+								icon: 'none'
 							})
 						})
-					}else if(this.layerMsg.img) {
-						var obj = this.layerMsg
-						this.$api.applyLayer(obj).then((res) => {
-							if(res.code == 20000){
-								uni.showToast({
-									title: '修改成功',
-									duration: 2000
-								});
-								uni.navigateBack({
-									
-								})
-							}
-						})
-					}else {
-						uni.showToast({
-							title: '请选择头像',
-							icon: 'none'
-						})
-					}
 				}else {
 					uni.showToast({
 						title: '请完整填写表格',

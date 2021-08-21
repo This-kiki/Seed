@@ -102,7 +102,29 @@
 						// console.log(res)
 						var obj = this.mineMsg
 						obj.img = res.data.url
-						this.$api.changeUserMsg(obj).then((res) => {
+						this.$api.changeUserMsg(obj)
+							.then((res) => {
+								if(res.code == 20000){
+									uni.showToast({
+										title: '修改成功',
+										duration: 2000
+									});
+									uni.navigateBack({
+										
+									})
+								}
+							})
+							.catch((err) => {
+								uni.showToast({
+									title: '提交失败，请重新提交',
+									icon: 'none'
+								})
+							})
+					})
+				}else if(this.mineMsg.img) {
+					var obj = this.mineMsg
+					this.$api.changeUserMsg(obj)
+						.then((res) => {
 							if(res.code == 20000){
 								uni.showToast({
 									title: '修改成功',
@@ -113,27 +135,19 @@
 								})
 							}
 						})
-					})
-				}else if(this.mineMsg.img) {
-					var obj = this.mineMsg
-					this.$api.changeUserMsg(obj).then((res) => {
-						if(res.code == 20000){
+						.catch((err) => {
 							uni.showToast({
-								title: '修改成功',
-								duration: 2000
-							});
-							uni.navigateBack({
-								
+								title: '提交失败，请重新提交',
+								icon: 'none'
 							})
-						}
-					})
+						})
 				}else {
 					uni.showToast({
 						title: '请选择头像',
 						icon: 'none'
 					})
 				}
-				// // console.log(this.mineMsg);
+				// console.log(this.mineMsg);
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;

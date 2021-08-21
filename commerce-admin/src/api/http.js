@@ -203,9 +203,8 @@ export default {
     // 删除公司
     deleteCompany(data) {
         return service({
-            url: '/admin/company/delCompany',
+            url: '/admin/company/delCompany?openid='+data.openid,
             method: 'post',
-            data: data
         })
     },
     // 导出所有公司
