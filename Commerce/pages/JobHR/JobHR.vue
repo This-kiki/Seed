@@ -150,7 +150,7 @@
 				this.inputValue = ""
 				this.jobList = []
 				this.current = 1
-				this.getJobList()
+				this.getUserInfo()
 			},
 			// 跳转页面
 			goPage(page) {
