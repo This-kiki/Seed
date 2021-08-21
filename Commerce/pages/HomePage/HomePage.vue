@@ -29,7 +29,7 @@
 					法律援助
 				</view>
 			</view>
-			<view class="bottom" v-if="flag==1">
+			<view class="bottom" v-if="flag==0">
 				<view class="left">
 					<view class="title">
 						申请入会
