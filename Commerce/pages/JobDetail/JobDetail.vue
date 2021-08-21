@@ -201,6 +201,13 @@
 			},
 			// 聊天
 			chat() {
+				if (this.hrInfo.openId == uni.getStorageSync("openid")) {
+					uni.showToast({
+						icon: "none",
+						title: "不能和自己聊天"
+					})
+					return
+				}
 				let link = encodeURIComponent(JSON.stringify(this.hrInfo.img))
 				uni.navigateTo({
 					url: `/pages/Chat/Chat?openid=${this.hrInfo.openId}&name=${this.hrInfo.name}&img=${link}`
@@ -218,7 +225,7 @@
 					})
 				} else if (res.code == 10001) {
 					uni.showToast({
-						icon:"none",
+						icon: "none",
 						title: "请先添加简历"
 					})
 				}

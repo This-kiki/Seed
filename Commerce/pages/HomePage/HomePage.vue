@@ -29,7 +29,7 @@
 					法律援助
 				</view>
 			</view>
-			<view class="bottom" v-if="flag==0">
+			<view class="bottom" v-if="flag==1" style="background: url(../../static/img/2.jpeg) center center;">
 				<view class="left">
 					<view class="title">
 						申请入会
@@ -166,7 +166,7 @@
 			async checkUser() {
 				let res = await this.$api.getUserMsg()
 				this.flag = res.data.userBaseInfo.identity
-				console.log("身份",this.flag)
+				console.log("身份", this.flag)
 			},
 			//首页轮播图
 			async getHomeCarousel() {
@@ -295,7 +295,6 @@
 					background-color: #4e8df6;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
 					image {
 						width: 100%;
 						height: 100%;
@@ -324,27 +323,32 @@
 					color: #141414;
 					font-weight: bold;
 					letter-spacing: 2rpx;
-					text-shadow: 0 4rpx 8rpx #eee;
+					// text-shadow: 0 4rpx 8rpx #eee;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 				}
 
 				.intro {
-					background: url(../../static/img/jieshao.jpg) left top no-repeat;
+					background: url("https://images.pexels.com/photos/6678097/pexels-photo-6678097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500") center center;
+					// background: url(../../static/img/1.jpeg) center center;
+					// background: url(../../static/img/jieshao.jpg) left top no-repeat;
 					background-size: 100% auto;
 				}
 
 				.news {
-					background: url(../../static/img/dongtai.jpg) right top no-repeat;
+					// background: url(../../static/img/dongtai.jpg) right top no-repeat;
+					background: url(../../static/img/2.jpeg) center center;
 					background-size: 100% auto;
 				}
 
 				.activity {
-					background: url(../../static/img/huodong.jpg);
+					background: url(../../static/img/3.jpeg) center center;
+					// background: url(../../static/img/huodong.jpg);
 					background-size: 100% auto;
 				}
 
 				.suggest {
-					background: url(../../static/img/jianyi.jpg) center center;
+					// background: url(../../static/img/jianyi.jpg) center center;
+					background: url(../../static/img/4.jpeg) center center;
 					background-size: 100% auto;
 				}
 			}
@@ -353,20 +357,22 @@
 				box-sizing: border-box;
 				width: 98%;
 				margin: 20rpx auto 0;
-				padding: 0rpx 0rpx;
 				border-radius: 14rpx;
 				display: flex;
 				justify-content: space-around;
+				align-items: center;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-				background: url(../../static/img/shenqing.jpg)center center;
+
+				// background: url(../../static/img/shenqing.jpg)center center;
 				background-size: 100% auto;
 
 				.left {
 					background-color: #ffffffaa;
-					padding: 30rpx 90rpx;
+					padding: 30rpx 110rpx 30rpx 70rpx;
 
 					.title {
 						font-weight: bold;
+						font-size: 28rpx;
 					}
 
 					.light {
@@ -394,7 +400,7 @@
 
 		.managerContainer {
 			width: 92%;
-			margin: 20rpx auto 0;
+			margin: 30rpx auto 0;
 
 			.titleLine {
 				display: flex;
@@ -420,14 +426,14 @@
 				position: absolute;
 				width: 8rpx;
 				height: 36rpx;
-				background-color: lightblue;
+				background-color: #4e8df6;
 				top: 3rpx;
 				left: -20rpx;
 				border-radius: 5rpx;
 			}
 
 			.managerBox {
-				margin-top: 15rpx;
+				margin-top: 20rpx;
 				overflow-x: auto;
 				white-space: nowrap;
 				padding-bottom: 14rpx;
@@ -438,8 +444,8 @@
 					width: 150rpx;
 					// background-color: lightblue;
 					margin-right: 20rpx;
-					border-radius: 14rpx;
-					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+					border-radius: 10rpx;
+					// box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 					.img {
 						width: 100%;
@@ -463,15 +469,14 @@
 						text-align: center;
 
 						.work {
-							font-size: 26rpx;
-							margin-top: 10rpx;
+							font-size: 22rpx;
+							margin-top: 6rpx;
 							font-weight: bold;
 						}
 
 						.name {
 							font-size: 26rpx;
-							margin-top: 8rpx;
-
+							letter-spacing: 1rpx;
 						}
 					}
 				}

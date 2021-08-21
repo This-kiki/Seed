@@ -28,6 +28,9 @@
 					</view>
 				</view>
 				<view class="bottom">
+					<view class="chat" @click="chat(item)">
+						微聊
+					</view>
 					<view class="detail" @click="seeDetail(item)">
 						查看详情
 					</view>
@@ -71,11 +74,25 @@
 				this.resumeList = res.data.resume
 			},
 			// 查看简历详情
-			seeDetail(item){
+			seeDetail(item) {
 				uni.navigateTo({
 					url: `/pages/JobResume/JobResume?info=${JSON.stringify(item)}`
 				})
-			}
+			},
+			// 聊天
+			chat(item) {
+				if (item.openId == uni.getStorageSync("openid")) {
+					uni.showToast({
+						icon: "none",
+						title: "不能和自己聊天"
+					})
+					return
+				}
+				let link = encodeURIComponent(JSON.stringify(item.img))
+				uni.navigateTo({
+					url: `/pages/Chat/Chat?openid=${item.openId}&name=${item.name}&img=${link}`
+				})
+			},
 		}
 	}
 </script>
@@ -147,7 +164,8 @@
 					display: flex;
 					justify-content: flex-end;
 
-					.detail {
+					.detail,
+					.chat {
 						font-size: 24rpx;
 						border: 1rpx #4e8df6 solid;
 						padding: 6rpx 10rpx;
@@ -155,6 +173,11 @@
 						color: #4e8df6;
 						width: 100rpx;
 						text-align: center;
+						letter-spacing: 1rpx;
+					}
+
+					.chat {
+						margin-right: 20rpx;
 					}
 				}
 			}
