@@ -1,10 +1,15 @@
 <template>
 	<view>
-		<view class="info-title">
-			{{dataForm.title}}
+		<view class="white-bord" v-if="!dataForm">
+			加载中
 		</view>
-		<view class="info-content" v-html="dataForm.content">
-			
+		<view v-if="dataForm">
+			<view class="info-title">
+				{{dataForm.title}}
+			</view>
+			<view class="info-content" v-html="dataForm.content">
+				
+			</view>
 		</view>
 	</view>
 </template>
@@ -40,5 +45,13 @@
 }
 .info-content {
 	padding: 20rpx;
+}
+.white-bord {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	font-size: 40rpx;
 }
 </style>

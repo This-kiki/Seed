@@ -1,5 +1,8 @@
 <template>
 	<view class="body">
+		<view class="white-bord">
+			您还未参加活动哦，快去参加吧
+		</view>
 		<view class="act-list">
 			<view class="act-list-item" v-for="(item,index) in dataList" @tap="go(item.actId)">
 				<view class="act-title">
@@ -117,5 +120,13 @@
 	margin-right: 30rpx;
 	letter-spacing: 3rpx;
 	padding-bottom: 4rpx;
+}
+.white-bord {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	font-size: 35rpx;
 }
 </style>

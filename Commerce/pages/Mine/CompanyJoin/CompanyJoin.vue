@@ -142,6 +142,16 @@
 			}
 		},
 		methods: {
+			judge() {
+				var obj = this.companyMsg
+				for(let key  in obj){
+						// console.log(key + '---' + obj[key])
+					if(obj[key] == ''){
+						return false
+					}
+				}
+				return true
+			},
 			bindSexChange(e) {
 				this.companyMsg.sex = this.sexlist[e.detail.value].id;
 			},
@@ -149,44 +159,54 @@
 				this.companyMsg.time = e.detail.value;
 			},
 			save() {
-				uni.showLoading({
-					title:'正在提交'
-				})
-				if(!this.temp && !this.temp1) {
-					uni.showToast({
-						title: '请选择公司标着图片和营业执照',
+				if(this.judge() == true) {
+					uni.showLoading({
+						title:'正在提交'
 					})
-				}else if(this.temp || this.temp1) {
-					this.$api.uploadPicture({tempFilePaths: this.temp}).then((img_res) => {
-						// console.log(img_res)
-						var obj = this.companyMsg
-						obj.img = img_res.data.url
-						this.$api.uploadPicture({tempFilePaths: this.temp1}).then((license_res) => {
-							obj.license = license_res.data.url
-							obj.openId = uni.getStorageSync('openid');
-							this.$api.applyComopany(obj).then((res) => {
-								if(res.code == 20000){
-									uni.showToast({
-										title: '申请成功',
-										duration: 2000
-									});
-									uni.navigateBack({
-										
-									})
-								}
-								uni.hideLoading()
+					if(!this.temp && !this.temp1) {
+						uni.showToast({
+							title: '请选择公司标着图片和营业执照',
+						})
+					}else if(this.temp || this.temp1) {
+						this.$api.uploadPicture({tempFilePaths: this.temp}).then((img_res) => {
+							// console.log(img_res)
+							var obj = this.companyMsg
+							obj.img = img_res.data.url
+							this.$api.uploadPicture({tempFilePaths: this.temp1}).then((license_res) => {
+								obj.license = license_res.data.url
+								obj.openId = uni.getStorageSync('openid');
+								this.$api.applyComopany(obj).then((res) => {
+									if(res.code == 20000){
+										uni.showToast({
+											title: '申请成功',
+											duration: 2000
+										});
+										uni.navigateBack({
+											
+										})
+									}
+									uni.hideLoading()
+								})
 							})
 						})
-					})
-					.catch((err) => {
-						uni.showToast({
-							title: '申请失败',
+						.catch((err) => {
+							uni.showToast({
+								title: '申请失败',
+								icon: 'none'
+							})
 						})
-					})
+					}else {
+						uni.showToast({
+							title: '请选择公司标着图片和营业执照',
+							icon: 'none'
+						})
+					}
 				}else {
 					uni.showToast({
-						title: '请选择头像',
-					})
+						title: '请完整填写表格',
+						icon: 'none'
+					});
+					return false
 				}
 			},
 			isPoneAvailable(poneInput) {

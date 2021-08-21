@@ -95,6 +95,7 @@
 				if(!this.temp && !this.mineMsg.img) {
 					uni.showToast({
 						title: '请选择头像',
+						icon: 'none'
 					})
 				}else if(this.temp) {
 					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
@@ -129,6 +130,7 @@
 				}else {
 					uni.showToast({
 						title: '请选择头像',
+						icon: 'none'
 					})
 				}
 				// // console.log(this.mineMsg);

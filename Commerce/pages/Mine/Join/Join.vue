@@ -147,6 +147,16 @@ export default {
 		};
 	},
 	methods: {
+		judge() {
+			var obj = this.ApplyMember
+			for(let key  in obj){
+					// console.log(key + '---' + obj[key])
+				if(obj[key] == ''){
+					return false
+				}
+			}
+			return true
+		},
 		bindLevelChange(e) {
 			this.ApplyMember.level = this.levelList[e.detail.value].value;
 		},
@@ -203,20 +213,35 @@ export default {
 			});
 		},
 		save() {
-			uni.showLoading({
-				 title: '正在提交',
-			})
-			if (!this.temp && !this.ApplyMember.img) {
-				uni.showToast({
-					title: '请选择头像'
-				});
-				uni.hideLoading()
-			} else if (this.temp) {
-				this.$api.uploadPicture({ tempFilePaths: this.temp }).then(res => {
-					// console.log(res)
+			if(this.judge() == true) {
+				uni.showLoading({
+					 title: '正在提交',
+				})
+				if (!this.temp && !this.ApplyMember.img) {
+					uni.showToast({
+						title: '请选择头像',
+						icon: 'none'
+					});
+					uni.hideLoading()
+				} else if (this.temp) {
+					this.$api.uploadPicture({ tempFilePaths: this.temp }).then(res => {
+						// console.log(res)
+						var obj = this.ApplyMember;
+						obj.openId = uni.getStorageSync('openid');
+						obj.img = res.data.url;
+						this.$api.applyMember(obj).then(res => {
+							if (res.code == 20000) {
+								uni.showToast({
+									title: '提交成功',
+									duration: 2000
+								});
+								uni.navigateBack({});
+							}
+							uni.hideLoading()
+						});
+					});
+				} else if (this.ApplyMember.img) {
 					var obj = this.ApplyMember;
-					obj.openId = uni.getStorageSync('openid');
-					obj.img = res.data.url;
 					this.$api.applyMember(obj).then(res => {
 						if (res.code == 20000) {
 							uni.showToast({
@@ -227,24 +252,19 @@ export default {
 						}
 						uni.hideLoading()
 					});
-				});
-			} else if (this.ApplyMember.img) {
-				var obj = this.ApplyMember;
-				this.$api.applyMember(obj).then(res => {
-					if (res.code == 20000) {
-						uni.showToast({
-							title: '提交成功',
-							duration: 2000
-						});
-						uni.navigateBack({});
-					}
+				} else {
+					uni.showToast({
+						title: '请选择头像',
+						icon: 'none'
+					});
 					uni.hideLoading()
-				});
-			} else {
+				}
+			}else {
 				uni.showToast({
-					title: '请选择头像'
+					title: '请完整填写表格',
+					icon: 'none'
 				});
-				uni.hideLoading()
+				return false
 			}
 		},
 		isPoneAvailable(poneInput) {

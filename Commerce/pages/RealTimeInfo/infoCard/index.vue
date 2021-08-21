@@ -2,7 +2,8 @@
   <div class="hm-news-card">
     <div class="container">
       <div class="box">
-        <img v-if='options.imag' class="img" :src="options.imag" />
+		<div class="img" v-if="options.imag" :style="'background-image: url('+ options.imag+');'"></div>
+        <!-- <img v-if='options.imag' class="img" :src="options.imag" /> -->
         <span class="title">{{ options.title }}</span>
         <span class="summary">{{ options.simpleContent }}</span>
         <div class="row_2" />

@@ -120,6 +120,16 @@
 
 		},
 		methods: {
+			judge() {
+				var obj = this.ApplyMember
+				for(let key  in obj){
+						// console.log(key + '---' + obj[key])
+					if(obj[key] == ''){
+						return false
+					}
+				}
+				return true
+			},
 			bindSexChange(e) {
 				this.layerMsg.sex = this.sexlist[e.detail.value].id;
 			},
@@ -133,7 +143,17 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success(res) {
-						const tempFilePaths = res.tempFilePaths
+						// const tempFilePaths = res.tempFilePaths
+						// let resSize = res.tempFiles[0].size;
+						// if(resSize > 20971520){
+						// 	uni.showToast({
+						// 		title: "上传的图片大小不超过20m",
+						// 		icon: 'none',
+						// 		duration: 2000,
+						// 		mask: true
+						// 	});
+						// 	return
+						// }
 						that.temp = tempFilePaths
 						that.layerMsg.img = tempFilePaths[0]
 						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
@@ -143,15 +163,31 @@
 				});
 			},
 			save() {
-				if(!this.temp && !this.layerMsg.img) {
-					uni.showToast({
-						title: '请选择头像',
-					})
-				}else if(this.temp) {
-					this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
-						// console.log(res)
+				if(this.judge() == true) {
+					if(!this.temp && !this.layerMsg.img) {
+						uni.showToast({
+							title: '请选择头像',
+							icon: 'none'
+						})
+					}else if(this.temp) {
+						this.$api.uploadPicture({tempFilePaths: this.temp}).then((res) => {
+							// console.log(res)
+							var obj = this.layerMsg
+							obj.img = res.data.url
+							this.$api.applyLayer(obj).then((res) => {
+								if(res.code == 20000){
+									uni.showToast({
+										title: '修改成功',
+										duration: 2000
+									});
+									uni.navigateBack({
+										
+									})
+								}
+							})
+						})
+					}else if(this.layerMsg.img) {
 						var obj = this.layerMsg
-						obj.img = res.data.url
 						this.$api.applyLayer(obj).then((res) => {
 							if(res.code == 20000){
 								uni.showToast({
@@ -163,24 +199,18 @@
 								})
 							}
 						})
-					})
-				}else if(this.layerMsg.img) {
-					var obj = this.layerMsg
-					this.$api.applyLayer(obj).then((res) => {
-						if(res.code == 20000){
-							uni.showToast({
-								title: '修改成功',
-								duration: 2000
-							});
-							uni.navigateBack({
-								
-							})
-						}
-					})
+					}else {
+						uni.showToast({
+							title: '请选择头像',
+							icon: 'none'
+						})
+					}
 				}else {
 					uni.showToast({
-						title: '请选择头像',
-					})
+						title: '请完整填写表格',
+						icon: 'none'
+					});
+					return false
 				}
 			},
 			isPoneAvailable(poneInput) {
