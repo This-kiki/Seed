@@ -29,7 +29,7 @@
 					法律援助
 				</view>
 			</view>
-			<view class="bottom" v-if="flag==1" style="background: url(../../static/img/2.jpeg) center center;">
+			<view class="bottom" v-if="flag==1">
 				<view class="left">
 					<view class="title">
 						申请入会
@@ -295,6 +295,7 @@
 					background-color: #4e8df6;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+
 					image {
 						width: 100%;
 						height: 100%;
@@ -328,8 +329,7 @@
 				}
 
 				.intro {
-					background: url("https://images.pexels.com/photos/6678097/pexels-photo-6678097.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500") center center;
-					// background: url(../../static/img/1.jpeg) center center;
+					background: url(../../static/img/1.jpeg) center center;
 					// background: url(../../static/img/jieshao.jpg) left top no-repeat;
 					background-size: 100% auto;
 				}
@@ -363,6 +363,7 @@
 				align-items: center;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
+				background: url(../../static/img/5.jpeg)center center;
 				// background: url(../../static/img/shenqing.jpg)center center;
 				background-size: 100% auto;
 
