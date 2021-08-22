@@ -23,7 +23,7 @@
     </el-table>
     <!-- <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getApplyLayer"></el-pagination> -->
     <div>
-      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
+      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="45%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
           <el-form-item label="姓名">
             <span>{{ actData.name }}</span>
@@ -132,4 +132,8 @@ export default {
 }
 </script>
 <style scoped>
+img {
+  max-width: 400px;
+  height: auto;
+}
 </style>

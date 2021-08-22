@@ -23,7 +23,7 @@
               <span>{{ props.row.idNum }}</span>
             </el-form-item>
             <el-form-item label="职位">
-              <span>{{ getsbuLevel(props.row.subLevel) }}</span>
+              <span>{{ getsubLevel(props.row.subLevel) }}</span>
             </el-form-item>
             <el-form-item label="电子邮箱">
               <span>{{ props.row.email }}</span>
@@ -106,7 +106,7 @@
             <el-select v-model="editForm.subLevel" placeholder="职位">
               <el-option v-for="(item, index) in rolls" :key="index" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <!-- <span>{{ getsbuLevel(editForm.subLevel) }}</span> -->
+            <!-- <span>{{ getsubLevel(editForm.subLevel) }}</span> -->
           </el-form-item>
           <el-form-item label="电子邮箱">
             <el-input v-model="editForm.email"></el-input>
@@ -225,7 +225,7 @@ export default {
     this.getAllMemberA()
   },
   methods: {
-    getsbuLevel(key) {
+    getsubLevel(key) {
       switch (key) {
         case 4:
           return '荣誉会长'
@@ -333,7 +333,7 @@ export default {
   align-content: center;
 }
 img {
-  max-width: 500px;
+  max-width: 400px;
   height: auto;
 }
 </style>

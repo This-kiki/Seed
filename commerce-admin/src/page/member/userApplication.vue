@@ -6,69 +6,28 @@
       </el-table-column>
       <el-table-column prop="phone" label="手机号" width="150">
       </el-table-column>
+      <el-table-column prop="phone" label="申请职位" width="150">
+        <template slot-scope="scope">
+          {{ getsubLevel(scope.row.subLevel) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="" label=""> </el-table-column>
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            circle
-            @click="viewApplyMember(scope.row)"
-            icon="el-icon-view"
-            size="small"
-          ></el-button>
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定通过该申请吗"
-            @confirm="handleApplyMember(scope.row, 0)"
-          >
-            <el-button
-              slot="reference"
-              type="success"
-              plain
-              circle
-              icon="el-icon-check"
-              size="small"
-            ></el-button>
+          <el-button type="primary" plain circle @click="viewApplyMember(scope.row)" icon="el-icon-view" size="small"></el-button>
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyMember(scope.row, 0)">
+            <el-button style="margin: 0 10px" slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定驳回该申请吗"
-            @confirm="handleApplyMember(scope.row, 1)"
-          >
-            <el-button
-              slot="reference"
-              type="danger"
-              plain
-              circle
-              icon="el-icon-close"
-              size="small"
-            ></el-button>
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyMember(scope.row, 1)">
+            <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      style="margin: 20px"
-      :page-count="current.total"
-      :current-page.sync="current.current"
-      @current-change="getApplyMember"
-    ></el-pagination>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getApplyMember"></el-pagination>
     <div>
-      <el-dialog title="申请人详情" :visible.sync="viewVisible" width="30%">
-        <el-form
-          label-position="left"
-          class="demo-table-expand"
-          label-width="180px"
-        >
+      <el-dialog title="申请人详情" :visible.sync="viewVisible" width="45%">
+        <el-form label-position="left" class="demo-table-expand" label-width="180px">
           <el-form-item label="姓名">
             <span>{{ actData.name }}</span>
           </el-form-item>
@@ -131,53 +90,87 @@ export default {
       },
       viewVisible: false,
       actData: {},
-    };
+    }
   },
   mounted() {
-    this.getApplyMember();
+    this.getApplyMember()
   },
   methods: {
+    getsubLevel(key) {
+      switch (key) {
+        case 4:
+          return '荣誉会长'
+          break
+        case 5:
+          return '会长'
+          break
+        case 6:
+          return '副会长'
+          break
+        case 7:
+          return '执行委员会成员'
+          break
+        case 8:
+          return '秘书长'
+          break
+        case 9:
+          return '会计'
+          break
+        case 10:
+          return '出纳'
+          break
+        case 11:
+          return '会员'
+          break
+        default:
+          break
+      }
+    },
     getApplyMember() {
-      let getAPI = { current: this.current.current };
+      let getAPI = { current: this.current.current }
       this.$http.getApplyMember(getAPI).then((res) => {
         // console.log(res)
-        this.current.total = Math.ceil(res.data.total / 20);
-        var resp = res.data.rows;
-        this.tableData = resp;
-      });
+        this.current.total = Math.ceil(res.data.total / 20)
+        var resp = res.data.rows
+        this.tableData = resp
+      })
     },
     viewApplyMember(row) {
-      this.actData = row;
-      this.viewVisible = true;
+      this.actData = row
+      this.viewVisible = true
     },
     handleApplyMember(row, result) {
       var postAPI = {
         openid: row.openId,
-      };
+      }
       if (result == 0) {
         this.$http.adoptApplyMember(postAPI).then((res) => {
           if (res.code == 20000) {
             this.$message({
-              message: "操作成功",
-              type: "success",
-            });
-            this.getApplyMember();
+              message: '操作成功',
+              type: 'success',
+            })
+            this.getApplyMember()
           }
-        });
+        })
       } else {
         this.$http.deleteApplyMember(postAPI).then((res) => {
           if (res.code == 20000) {
             this.$message({
-              message: "操作成功",
-              type: "success",
-            });
-            this.getApplyMember();
+              message: '操作成功',
+              type: 'success',
+            })
+            this.getApplyMember()
           }
-        });
+        })
       }
     },
   },
-};
+}
 </script>
 <style scoped>
+img {
+  max-width: 400px;
+  height: auto;
+}
 </style>

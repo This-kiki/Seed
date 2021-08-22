@@ -23,7 +23,7 @@
     </el-table>
     <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllApplyActivity"></el-pagination>
     <div>
-      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
+      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="45%">
         <el-descriptions :column='1' border>
           <el-descriptions-item label="姓名">{{actData.username}}</el-descriptions-item>
           <el-descriptions-item label="性别">{{actData.sex}}</el-descriptions-item>

@@ -13,7 +13,7 @@
 			<view class="picker-box">
 				<text>申请职位</text>
 				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.subLevel" @change="bindLevelChange" :range="levelList">
-					<view class="picker-text">{{ getsbuLevel(ApplyMember.subLevel) }}</view>
+					<view class="picker-text">{{ getsubLevel(ApplyMember.subLevel) }}</view>
 				</picker>
 			</view>
 			<view class="text-box">
@@ -178,7 +178,7 @@ export default {
 		bindDateChange(e) {
 			this.ApplyMember.birth = e.detail.value;
 		},
-		getsbuLevel(key) {
+		getsubLevel(key) {
 			switch (key) {
 				case 4:
 					return '荣誉会长';

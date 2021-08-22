@@ -253,7 +253,7 @@ export default {
         return service({
             url: '/admin/lawer/del',
             method: 'post',
-            data: data
+            params: data
         })
     },
     // 通过律师申请

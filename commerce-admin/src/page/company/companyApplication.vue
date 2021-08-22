@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <el-button type="primary" plain circle @click="viewApplyCompany(scope.row)" icon="el-icon-view" size="small"></el-button>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyCompany(scope.row,0)">
-            <el-button slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
+            <el-button style="margin: 0 10px" slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
           <el-popconfirm confirm-button-text='确定' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyCompany(scope.row,1)">
             <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
@@ -23,7 +23,7 @@
     </el-table>
     <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="Math.ceil(current.total/20)" :current-page.sync="current.current" @current-change="getApplyCompany"></el-pagination>
     <div>
-      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="30%">
+      <el-dialog title="活动申请详情" :visible.sync="viewVisible" width="45%">
         <el-form label-position="left" class="demo-table-expand" label-width="180px">
           <el-form-item label="公司名">
             <span>{{ actData.companyName }}</span>
@@ -135,4 +135,8 @@ export default {
 }
 </script>
 <style scoped>
+img {
+  max-width: 400px;
+  height: auto;
+}
 </style>
