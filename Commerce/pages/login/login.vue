@@ -3,9 +3,13 @@
 		<!-- 登录后使用open-data -->
 		<view class="userinfo">
 			<!-- 登录组件 https://developers.weixin.qq.com/miniprogram/dev/api/wx.getUserInfo.html -->
-			<view class="msg">
-				<open-data class="headimg" type="userAvatarUrl"></open-data>
-				<open-data class="name" type="userNickName"></open-data>
+			<view class="msg" v-show="hasUserInfo">
+				<!-- <open-data class="headimg" type="userAvatarUrl"></open-data> -->
+				<!-- <open-data class="name" type="userNickName"></open-data> -->
+				<image class="headimg" :src="userInfo.avatarUrl" mode=""></image>
+				<view class="name">
+					{{ userInfo.nickName?'userInfo.nickName':' ' }}
+				</view>
 			</view>
 			<button class="loginbtn" v-if="!hasUserInfo" @tap="getUserProfile">授权登录</button>
 		</view>
