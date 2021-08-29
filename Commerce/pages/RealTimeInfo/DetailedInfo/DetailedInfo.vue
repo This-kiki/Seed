@@ -30,20 +30,49 @@
 				</view>
 			</view>
 		</view>
+		<view class="reply-box">
+			<view class="reply-box-input" @tap="showReview">
+				<span class="iconfont reply-box-text">&#xe615;</span>
+				<span class="reply-box-text">写评论...</span>
+			</view>
+		</view>
 		<popup-layer ref="popupRef" :direction="'top'" v-model="boolShow">
 			<view class="reply-page">
-				<view class="reply-close">X</view>
+				<span class="iconfont reply-close" @tap="closeReply">&#xe614;</span>
+				<view class="comment-list">
+					<view class="comment-item" @tap="showReply">
+						<image class="comment-item-head" src="../../../static/logo.png" mode=""></image>
+						<!-- <view class="comment-item-head">
+							
+						</view> -->
+						<view class="comment-text">
+							<view class="comment-item-user">我太难了</view>
+							<view class="comment-item-content">我读书不多，纯属为了生活，但是“求偶”这个词不是用来形容动物的吗</view>
+							<view class="comment-item-tile"><view class="comment-item-time">18分钟前</view></view>
+						</view>
+					</view>
+				</view>
 			</view>
+			<view class="reply-box">
+				<view class="reply-box-input" @tap="showReview2">
+					<span class="iconfont reply-box-text">&#xe615;</span>
+					<span class="reply-box-text">写评论...</span>
+				</view>
+			</view>
+			<ygc-comment ref="ygcComment2" :placeholder="'发布评论'" @pubComment="pubComment"></ygc-comment>
 		</popup-layer>
+		<ygc-comment ref="ygcComment" :placeholder="'发布评论'" @pubComment="pubComment"></ygc-comment>
 	</view>
 </template>
 
 <script>
 import popupLayer from '../../../components/popup-layer/popup-layer.vue';
+import ygcComment from '../../../components/ygc-comment/ygc-comment.vue';
 export default {
 	props: ['infoId'],
 	components: {
-		popupLayer
+		popupLayer,
+		ygcComment
 	},
 	data() {
 		return {
@@ -64,12 +93,32 @@ export default {
 		},
 		showReply() {
 			this.$refs.popupRef.show();
+		},
+		closeReply() {
+			this.$refs.popupRef.close();
+		},
+		showReview() {
+			this.$refs.ygcComment.toggleMask('show');
+		},
+		showReview2() {
+			this.$refs.ygcComment2.toggleMask('show');
+		},
+		pubComment(content) {
+			let getAPI = {
+				infoId: this.infoId,
+				content: content,
+				// commentId: '111'
+			}
+			console.log(getAPI)
+			this.$api.postReply(getAPI).then((res) => {
+				console.log(res)
+			})
 		}
 	}
 };
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .info-title {
 	margin: 20rpx 10rpx;
 	font-size: 35rpx;
@@ -89,94 +138,122 @@ export default {
 .comment {
 	width: 100%;
 	margin-bottom: 100rpx;
-	.comment-head {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		width: 100%;
-		.comment-reviewnum {
-			font-size: 30rpx;
-			font-weight: 700;
-			margin-left: 30rpx;
-		}
-		.comment-fabulousnum {
-			font-size: 27rpx;
-			margin-right: 30rpx;
-			color: rgb(153, 153, 153);
-		}
-	}
-	.comment-list {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		margin-top: 20rpx;
-		.comment-item {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-			width: 100%;
-			padding: 10rpx 0;
-			.comment-item-head {
-				height: 8vw;
-				width: 8vw;
-				border-radius: 500rpx;
-				margin: 0 10rpx;
-			}
-			.comment-text {
-				width: 85vw;
-				display: flex;
-				flex-direction: column;
-				justify-content: flex-start;
-				.comment-item-user {
-					font-size: 28rpx;
-					font-weight: 700;
-					margin-bottom: 10rpx;
-					letter-spacing: 5rpx;
-				}
-				.comment-item-content {
-					font-size: 27rpx;
-				}
-				.comment-item-tile {
-					display: flex;
-					flex-direction: row;
-					justify-content: flex-start;
-					align-items: center;
-					margin-top: 20rpx;
-					.comment-item-reply {
-						width: 130rpx;
-						height: 50rpx;
-						border-radius: 30rpx;
-						background-color: rgb(246, 246, 246);
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						.comment-item-reply-text {
-							font-size: 25rpx;
-							color: rgb(35, 35, 35);
-							margin-bottom: 4rpx;
-						}
-						.comment-item-to {
-							font-size: 25rpx;
-							color: rgb(35, 35, 35);
-						}
-					}
-					.comment-item-time {
-						font-size: 25rpx;
-						color: rgb(152, 152, 152);
-						margin-left: 30rpx;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				}
-			}
-		}
-		.comment-item:active {
-			background-color: rgb(247, 247, 247);
-		}
-	}
-	.reply-page {
-	}
+}
+.comment-head {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+.comment-reviewnum {
+	font-size: 30rpx;
+	font-weight: 700;
+	margin-left: 30rpx;
+}
+.comment-fabulousnum {
+	font-size: 27rpx;
+	margin-right: 30rpx;
+	color: rgb(153, 153, 153);
+}
+.comment-list {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-top: 20rpx;
+}
+.comment-item {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+	padding: 10rpx 0;
+}
+.comment-item-head {
+	height: 8vw;
+	width: 8vw;
+	border-radius: 500rpx;
+	margin: 0 10rpx;
+}
+.comment-text {
+	width: 85vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+.comment-item-user {
+	font-size: 28rpx;
+	font-weight: 700;
+	margin-bottom: 10rpx;
+	letter-spacing: 5rpx;
+}
+.comment-item-content {
+	font-size: 27rpx;
+}
+.comment-item-tile {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 20rpx;
+}
+.comment-item-reply {
+	width: 130rpx;
+	height: 50rpx;
+	border-radius: 30rpx;
+	background-color: rgb(246, 246, 246);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 30rpx;
+}
+.comment-item-reply-text {
+	font-size: 25rpx;
+	color: rgb(35, 35, 35);
+	margin-bottom: 4rpx;
+}
+.comment-item-to {
+	font-size: 25rpx;
+	color: rgb(35, 35, 35);
+}
+.comment-item-time {
+	font-size: 25rpx;
+	color: rgb(152, 152, 152);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.comment-item:active {
+	background-color: rgb(247, 247, 247);
+}
+.reply-close {
+	font-size: 40rpx;
+	margin: 15rpx;
+}
+.reply-box {
+	position: fixed;
+	bottom: 0rpx;
+	z-index: 10;
+	background-color: rgb(255,255,255);
+	width: 100%;
+	height: 90rpx;
+	border-top: 1rpx solid rgb(244, 244, 244);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.reply-box-input {
+	width: 90%;
+	height: 60rpx;
+	border-radius: 50rpx;
+	background-color: rgb(241,241,241);
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.reply-box-text {
+	font-size: 26rpx;
+	color: rgb(34,34,34);
+	margin-left: 20rpx;
 }
 </style>

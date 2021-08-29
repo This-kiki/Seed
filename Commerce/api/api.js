@@ -310,6 +310,17 @@ export class Api {
 			`/pro/resume/getSumbit/${data.current}/${data.limit}?companyInfoId=${data.companyInfoId}`)
 		return res.data
 	}
+	
+	// 发布评论
+	postReply = async (data) => {
+		let res
+		if(data.commentId){
+			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}&commentId=${data.commentId}`)
+		}else{
+			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}`)
+		}
+		return res.data
+	}
 }
 
 
