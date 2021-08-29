@@ -59,7 +59,7 @@ export class Api {
 	}
 	// 获取某个资讯具体内容
 	getOneInfo = async (data) => {
-		let res = await flyio.get("/info/findDynamic/" + data.id)
+		let res = await flyio.get("/info/findAllDynamicDetail?id=" + data.id)
 		return res.data
 	}
 	// 查询咨询
@@ -319,6 +319,18 @@ export class Api {
 		}else{
 			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}`)
 		}
+		return res.data
+	}
+	
+	// 获取评论下面的回复
+	getReply = async (data) => {
+		let res = await flyio.get(`/pro/comment/getReplyComment?commentId=${data.commentId}`)
+		return res.data
+	}
+	
+	// 删除评论
+	deleteReply = async (data) => {
+		let res = await flyio.get(`/pro/comment/del?id=${data.id}`)
 		return res.data
 	}
 }
