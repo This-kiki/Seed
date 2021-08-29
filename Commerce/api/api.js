@@ -333,6 +333,24 @@ export class Api {
 		let res = await flyio.get(`/pro/comment/del?id=${data.id}`)
 		return res.data
 	}
+	
+	//获得所有资讯
+	getAllHomeInfo = async ()=>{
+		let res = await flyio.get("/info/findAllDynamic")
+		return res.data
+	}
+	
+	// 获得置顶资讯
+	getTopHomeInfo = async ()=>{
+		let res = await flyio.get("/info/findAllDynamicTop")
+		return res.data
+	}
+	
+	// 发布资讯
+	submitInfo = async (data)=>{
+		let res = await flyio.post("/info/addInfo",data)
+		return res.data
+	}
 }
 
 
