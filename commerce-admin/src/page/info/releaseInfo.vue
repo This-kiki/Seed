@@ -30,11 +30,10 @@
         </el-col>
       </el-row>
     </div>
-    <div class="ac-middle">
+    <!-- <div class="ac-middle">
       <el-row style="margin: 10px 0;">
         <el-col :span="2" :offset="22">
           <div>
-            <!-- <input type="file" id="filed" accept="image/gif,image/jpeg,image/jpg,image/png" hidden="" @change="filePreview"> -->
             <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
             <el-button type="primary" @click="uploadImg" icon="el-icon-upload" round size="small" plain> 上传图片</el-button>
           </div>
@@ -56,7 +55,7 @@
           </el-table-column>
         </el-table>
       </div>
-    </div>
+    </div> -->
     <div class="ac-botom">
       <h3>内容预览：</h3>
       <iphone :title="addForm.title" :content="addForm.content" ref="iphone"></iphone>
@@ -108,17 +107,6 @@ export default {
     this.init()
   },
   methods: {
-    getImgs() {
-      var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim
-      var imgsrcArr = []
-      let tem
-      while ((tem = reg.exec(this.addForm.content))) {
-        imgsrcArr.push(tem[2])
-      }
-      console.log(JSON.stringify(imgsrcArr))
-      return JSON.stringify(imgsrcArr)
-      // return imgsrcArr
-    },
     init() {
       const editor = new wangEditor(`#demo1`)
       editor.config.menus = [
@@ -213,6 +201,7 @@ export default {
     },
     submit() {
       this.addForm.imag = getImgs(this.addForm.content)
+      console.log(this.addForm)
       if (this.addForm.id) {
         // if (this.imgList) {
         // this.addForm.imag = imgList

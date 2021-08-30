@@ -24,11 +24,10 @@
         </el-col>
       </el-row>
     </div>
-    <div class="ac-middle">
+    <!-- <div class="ac-middle">
       <el-row style="margin: 10px 0">
         <el-col :span="2" :offset="22">
           <div>
-            <!-- <input type="file" id="filed" accept="image/gif,image/jpeg,image/jpg,image/png" hidden="" @change="filePreview"> -->
             <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display: none" @change="changeImage($event)" ref="avatarInput" />
             <el-button type="primary" @click="uploadImg" icon="el-icon-upload" round size="small" plain>
               上传图片</el-button>
@@ -50,7 +49,7 @@
           </el-table-column>
         </el-table>
       </div>
-    </div>
+    </div> -->
     <div class="ac-botom">
       <h3>内容预览：</h3>
       <iphone :title="addForm.title" :content="addForm.content"></iphone>
@@ -88,11 +87,42 @@ export default {
   methods: {
     init() {
       const editor = new wangEditor(`#demo1`)
-      // 配置 onchange 回调函数，将数据同步到 vue 中
+      editor.config.menus = [
+        'head',
+        'bold',
+        'fontSize',
+        'fontName',
+        'foreColor',
+        'backColor',
+        'image',
+        'table',
+        'splitLine',
+      ]
+      editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
+      editor.config.showLinkImg = false
+      editor.config.uploadFileName = 'file'
+      editor.config.debug = true // 开启debug模式
+      editor.config.uploadImgHeaders = {
+        token: localStorage.getItem('token'), // 设置请求头
+      }
+      editor.config.uploadImgHooks = {
+        // 图片上传并返回结果，但图片插入错误时触发
+        fail: function (xhr, editor, result) {
+          console.log('上传出错', result)
+        },
+        success: function (xhr, editor, result) {
+          // 图片上传并返回结果，图片插入成功之后触发
+          console.log(result, '<success>')
+        },
+        customInsert: function (insertImgFn, result) {
+          console.log('customInsert', result)
+          insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+        },
+      }
       editor.config.onchange = (newHtml) => {
         this.addForm.content = newHtml
       }
-      // 创建编辑器
+
       editor.create()
       this.editor = editor
 
@@ -148,9 +178,10 @@ export default {
       }
     },
     submit() {
-      if (this.imgList[0]) {
-        this.addForm.img = this.imgList[0].img
-      }
+      // if (this.imgList[0]) {
+      //   this.addForm.img = this.imgList[0].img
+      // }
+      // this.addForm.img = getImg(this.addForm.content)
       this.$http.releaseLawInfo(this.addForm).then((res) => {
         if (res.code == 20000) {
           this.$message({
