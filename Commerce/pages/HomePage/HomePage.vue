@@ -12,6 +12,9 @@
 			</view>
 			<view class="add" @click="openSubmit()">
 				+
+				<view class="text">
+					发布
+				</view>
 			</view>
 		</view>
 		<!-- 去除留白 -->
@@ -70,6 +73,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- 加载 -->
+		<view class="loadMore" @click="loadMore()">
+			点击加载更多
+		</view>
 		<!-- 发布 -->
 		<uni-popup ref="popup" type="bottom">
 			<view class="submitContainer">
@@ -100,7 +107,7 @@
 				setNav: {
 					titleColor: "black",
 					navTitle: "濠江区珠浦种子会",
-					bgColor: "#4e8df6"
+					bgColor: "#fff"
 				},
 				// 所有资讯列表
 				infoList: [],
@@ -136,8 +143,8 @@
 				active: 0,
 				// 是否会员
 				flag: 0,
-				aaa: '',
-				bbb: ""
+				// 页数
+				current: 1,
 			}
 		},
 		created() {
@@ -151,6 +158,11 @@
 				this.flag = res.data.userBaseInfo.identity
 				console.log("身份", this.flag)
 			},
+			// 加载更多
+			loadMore() {
+				this.current++
+				this.getAllHomeInfo()
+			},
 			// 获取置顶资讯
 			async getTopHomeInfo() {
 				let res = await this.$api.getTopHomeInfo()
@@ -160,7 +172,8 @@
 				this.topList = list
 				this.topList.forEach(item => {
 					item.isTop = true
-					item.imag = JSON.parse(item.imag)
+					if (item.imag != '')
+						item.imag = JSON.parse(item.imag)
 					if (item.imag.length > 1) {
 						item.isImg = true
 					}
@@ -169,11 +182,14 @@
 			},
 			// 获取所有资讯列表
 			async getAllHomeInfo() {
-				let res = await this.$api.getAllHomeInfo()
+				let res = await this.$api.getAllHomeInfo({
+					current: this.current
+				})
 				// console.log(res)
 				this.infoList = res.data.AllDynamic
 				this.infoList.forEach(item => {
-					item.imag = JSON.parse(item.imag)
+					if (item.imag != '')
+						item.imag = JSON.parse(item.imag)
 					if (item.imag.length > 1) {
 						item.isImg = true
 					}
@@ -300,16 +316,23 @@
 			.add {
 				position: absolute;
 				right: 20rpx;
-				bottom: 10rpx;
+				bottom: 24rpx;
 				color: #fff;
 				background-color: #4e8df6;
-				width: 50rpx;
-				height: 50rpx;
-				line-height: 46rpx;
+				width: 44rpx;
+				height: 44rpx;
+				line-height: 42rpx;
 				font-size: 38rpx;
 				font-weight: bold;
 				text-align: center;
-				border-radius: 25rpx;
+				border-radius: 22rpx;
+
+				.text {
+					color: #333;
+					font-size: 18rpx;
+					font-weight: normal;
+					margin-top: -8rpx;
+				}
 			}
 		}
 
@@ -435,6 +458,14 @@
 					}
 				}
 			}
+		}
+
+		.loadMore {
+			text-align: center;
+			font-size: 26rpx;
+			color: #999;
+			margin-top: 16rpx;
+			padding-bottom: 50rpx;
 		}
 
 		.submitContainer {

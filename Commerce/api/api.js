@@ -335,8 +335,8 @@ export class Api {
 	}
 	
 	//获得所有资讯
-	getAllHomeInfo = async ()=>{
-		let res = await flyio.get("/info/findAllDynamic")
+	getAllHomeInfo = async (data)=>{
+		let res = await flyio.get(`/info/findAllDynamic/${data.current}`)
 		return res.data
 	}
 	
