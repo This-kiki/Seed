@@ -235,6 +235,11 @@
 				"navigationStyle": "custom"
 			}
 
+		}, {
+			"path": "pages/InfoSubmit/InfoSubmit",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

@@ -1,0 +1,701 @@
+<template>
+	<view class="submitContainer">
+		<!-- 顶部 -->
+		<topBar :nav="setNav" :loading="setLoading"></topBar>
+		<!-- 标题 -->
+		<view class="title">
+			<input type="text" v-model="infoForm.title" placeholder="请输入标题(5-20个字)" maxlength="20" />
+		</view>
+		<!-- 类型 -->
+		<view class="category">
+			<text>请选择资讯类型</text>
+			<picker @change="selectCategory" range-key="name" :value="index" :range="categoryList">
+				<view class="uni-input">{{categoryList[infoForm.category].name}}</view>
+			</picker>
+		</view>
+		<!-- 置顶 -->
+		<view class="top">
+			<text>是否置顶</text>
+			<picker @change="selectTop" :value="index" :range="topList">
+				<view class="uni-input">{{topList[infoForm.top]}}</view>
+			</picker>
+		</view>
+		<!-- 简介 -->
+		<view class="intro">
+			<textarea v-model="infoForm.simpleContent" placeholder="请输入简介(100字以内)" maxlength="100" />
+		</view>
+		<!-- 资讯主体 -->
+		<view class="mainContainer">
+			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文"
+				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" @focus="showOperate = true">
+			</editor>
+		</view>
+		<!-- 操作栏 -->
+		<view class="operate" v-if="showOperate">
+			<view class="operateLine">
+
+				<view class="icon">
+					<view class="iconfont icon-tupian" @touchend.stop="insertImage()">
+					</view>
+					<view class="iconfont icon-text1" @click="selectTap(1)" :class="tapSelect==1?'selectColor':''">
+					</view>
+					<view class="iconfont icon-text" @click="selectTap(2)" :class="tapSelect==2?'selectColor':''">
+					</view>
+					<view class="iconfont icon-undo1" @tap="undo">
+					</view>
+					<view class="iconfont icon-redo1" @tap="redo">
+					</view>
+				</view>
+				<view class="ready">
+					<view class="preview" @tap="preview">
+						预览
+					</view>
+					<view class="submit" @tap="submit">
+						发布
+					</view>
+				</view>
+			</view>
+			<view class="setText" v-if="tapSelect==1">
+				<view class="textStyle">
+					<text>文字格式</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="iconfont icon-cuti" data-name="bold"
+							:class="textStyle.includes(0)?'selectBgColor':''" @click="selectTextStyle(0)">
+						</view>
+						<view class="iconfont icon-xieti" data-name="italic"
+							:class="textStyle.includes(1)?'selectBgColor':''" @click="selectTextStyle(1)">
+						</view>
+						<view class="iconfont icon-Underline" data-name="underline"
+							:class="textStyle.includes(2)?'selectBgColor':''" @click="selectTextStyle(2)">
+						</view>
+						<view class="iconfont icon-strikethrough" data-name="strike"
+							:class="textStyle.includes(3)?'selectBgColor':''" @click="selectTextStyle(3)">
+						</view>
+					</view>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="small common" data-name="header" :data-value="5"
+							:class="textSize==0?'selectBgColor':''" @click="selectTextSize(0)">小
+						</view>
+						<view class="normal common" data-name="header" :data-value="4"
+							:class="textSize==1?'selectBgColor':''" @click="selectTextSize(1)">标准
+						</view>
+						<view class="big common" data-name="header" :data-value="3"
+							:class="textSize==2?'selectBgColor':''" @click="selectTextSize(2)">大
+						</view>
+						<view class="bigger common" data-name="header" :data-value="2"
+							:class="textSize==3?'selectBgColor':''" @click="selectTextSize(3)">超大
+						</view>
+					</view>
+				</view>
+				<view class="textColor">
+					<text>文字颜色</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="common color1" data-name="color" :class="textColor==0?'selectColorMain':''"
+							data-value="#222222" @click="selectColorMain(0)">
+						</view>
+						<view class="common color2" data-name="color" :class="textColor==1?'selectColorMain':''"
+							data-value="#707070" @click="selectColorMain(1)">
+						</view>
+						<view class="common color3" data-name="color" :class="textColor==2?'selectColorMain':''"
+							data-value="#ef4142" @click="selectColorMain(2)">
+						</view>
+						<view class="common color4" data-name="color" :class="textColor==3?'selectColorMain':''"
+							data-value="#fe7527" @click="selectColorMain(3)">
+						</view>
+						<view class="common color5" data-name="color" :class="textColor==4?'selectColorMain':''"
+							data-value="#01aa54" @click="selectColorMain(4)">
+						</view>
+						<view class="common color6" data-name="color" :class="textColor==5?'selectColorMain':''"
+							data-value="#0289e5" @click="selectColorMain(5)">
+						</view>
+						<view class="common color7" data-name="color" :class="textColor==6?'selectColorMain':''"
+							data-value="#742bff" @click="selectColorMain(6)">
+						</view>
+					</view>
+				</view>
+				<view class="highColor">
+					<text>高亮颜色</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="common color1" data-name="backgroundColor" :class="textHigh==0?'selectColorMain':''" data-value="#ffffff" @click="selectColorBg(0)">无
+						</view>
+						<view class="common color2" data-name="backgroundColor" :class="textHigh==1?'selectColorMain':''"  data-value="#707070" @click="selectColorBg(1)">
+						</view>
+						<view class="common color3" data-name="backgroundColor" :class="textHigh==2?'selectColorMain':''"  data-value="#ef4142" @click="selectColorBg(2)">
+						</view>
+						<view class="common color4" data-name="backgroundColor" :class="textHigh==3?'selectColorMain':''"  data-value="#fe7527" @click="selectColorBg(3)">
+						</view>
+						<view class="common color5" data-name="backgroundColor" :class="textHigh==4?'selectColorMain':''"  data-value="#01aa54" @click="selectColorBg(4)">
+						</view>
+						<view class="common color6" data-name="backgroundColor" :class="textHigh==5?'selectColorMain':''"  data-value="#0289e5" @click="selectColorBg(5)">
+						</view>
+						<view class="common color7" data-name="backgroundColor" :class="textHigh==6?'selectColorMain':''"  data-value="#742bff" @click="selectColorBg(6)">
+						</view>
+					</view>
+				</view>
+				<view class="alignStyle">
+					<text>对齐方式</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="iconfont icon-zuoyouduiqi" :class="textAlign==0?'selectBgColor':''" data-name="align" data-value="justify" @click="selectTextAlign(0)">
+						</view>
+						<view class="iconfont icon-zuoduiqi" :class="textAlign==1?'selectBgColor':''" data-name="align" data-value="left" @click="selectTextAlign(1)">
+						</view>
+						<view class="iconfont icon-juzhongduiqi" :class="textAlign==2?'selectBgColor':''" data-name="align" data-value="center" @click="selectTextAlign(2)">
+						</view>
+						<view class="iconfont icon-youduiqi" :class="textAlign==3?'selectBgColor':''" data-name="align" data-value="right" @click="selectTextAlign(3)">
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="setOther" v-if="tapSelect==2">
+				<view class="listStyle">
+					<text>列表</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="iconfont icon-youxupailie" data-name="list" data-value="ordered">
+						</view>
+						<view class="iconfont icon-wuxupailie" data-name="list" data-value="bullet">
+						</view>
+						<view class="iconfont icon--checklist" data-name="list" data-value="check">
+						</view>
+					</view>
+				</view>
+				<view class="lineStyle">
+					<text>分割线</text>
+					<view class="selectMain" @touchend.stop="format">
+						<view class="iconfont icon-fengexian" @tap="insertDivider">
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				setNav: {
+					titleColor: "black",
+					navTitle: "发布资讯",
+					bgColor: "white",
+					isShowBackBtn: true,
+					backBtnColor: "black"
+				},
+				// 分类列表
+				categoryList: [{
+						id: 1,
+						name: "种子会动态"
+					},
+					{
+						id: 2,
+						name: "会员风采"
+					},
+					{
+						id: 3,
+						name: "会员单位"
+					},
+					{
+						id: 4,
+						name: "家乡新闻"
+					},
+					{
+						id: 5,
+						name: "普通资讯"
+					},
+				],
+				// 置顶
+				topList: ["否", "是"],
+				// 发布表单
+				infoForm: {
+					title: "",
+					simpleContent: "",
+					category: 0,
+					content: "",
+					imag: "",
+					top: 0,
+				},
+				// 图片数组
+				imgList: [],
+				// context 样式
+				formats: {},
+				// 操作栏选择
+				tapSelect: 0,
+				// 是否显示操作栏
+				showOperate: false,
+				// 字体样式选择
+				textStyle: [],
+				// 字体大小选择
+				textSize: 1,
+				// 字体颜色选择
+				textColor: 0,
+				// 字体高亮选择
+				textHigh: 0,
+				// 对齐方式选择
+				textAlign: 0,
+			};
+		},
+		methods: {
+			// 选择类型
+			selectCategory(e) {
+				this.infoForm.category = parseInt(e.detail.value)
+			},
+			// 是否置顶
+			selectTop(e) {
+				this.infoForm.top = parseInt(e.detail.value)
+			},
+			// 编辑器初始化
+			onEditorReady() {
+				let that = this
+				uni.createSelectorQuery().select('#editor').context(function(res) {
+					that.editorCtx = res.context;
+				}).exec();
+			},
+			// 样式改变时
+			onStatusChange(e) {
+				this.formats = e.detail;
+				// console.log(this.formats)
+			},
+			// 设置样式
+			format(e) {
+				let {
+					name,
+					value
+				} = e.target.dataset;
+				if (!name) return;
+				this.editorCtx.format(name, value);
+			},
+			// 操作栏选择
+			selectTap(num) {
+				if (num == this.tapSelect) {
+					this.tapSelect = 0
+				} else {
+					this.tapSelect = num
+				}
+			},
+			// 撤销
+			undo() {
+				this.editorCtx.undo();
+			},
+			// 返回
+			redo() {
+				this.editorCtx.redo();
+			},
+			// 插入图片
+			insertImage() {
+				const that = this;
+				uni.chooseImage({
+					success: async (chooseImageRes) => {
+						const tempFilePaths = chooseImageRes.tempFilePaths;
+						await uni.uploadFile({
+							url: 'https://hjzpzzh.com/seed/oss/uploadImag',
+							filePath: tempFilePaths[0],
+							name: 'file',
+						}).then((uploadFileRes) => {
+							let url = JSON.parse(uploadFileRes[1].data).data.url
+							that.editorCtx.insertImage({
+								src: url,
+								data: {
+									id: 'abcd',
+									role: 'god'
+								},
+								width: '80%',
+								success: function() {
+									console.log('insert image success');
+								}
+							});
+						})
+					}
+				});
+			},
+			// 获得图片列表
+			getImgList(e) {
+				let html = e.detail.html
+				let img = html.split("src=\"")
+				let img1 = []
+				img.forEach(item => {
+					if (item.slice(0, 4) == 'http') {
+						img1.push(item)
+					}
+				})
+				let img2 = []
+				img1.forEach(item => {
+					let url = item.split("\" width")[0]
+					img2.push(url)
+				})
+				this.infoForm.imag = JSON.stringify(img2)
+			},
+			// 插入分割线
+			insertDivider() {
+				this.editorCtx.insertDivider({
+					success: function() {
+						console.log('insert divider success');
+					}
+				});
+			},
+			// 预览
+			preview() {
+				let that = this
+				this.editorCtx.getContents({
+					success: function(res) {
+						uni.navigateTo({
+							url: `/pages/PreviewEditor/PreviewEditor?rich=${encodeURIComponent(res.html)}`
+						});
+					}
+				});
+			},
+			// 发布
+			submit() {
+				let that = this
+				this.editorCtx.getContents({
+					success: function(res) {
+						that.infoForm.content = res.html
+						that.infoForm.category++
+						console.log(that.infoForm)
+						uni.showModal({
+							title: '提示',
+							content: '确定发布？',
+							success: function(res) {
+								if (res.confirm) {
+									that.submitInfo()
+								} else if (res.cancel) {
+									return
+								}
+							}
+						})
+					}
+				});
+			},
+			// 发布资讯
+			async submitInfo() {
+				let res = await this.$api.submitInfo(this.infoForm)
+				if (res.code == 20000) {
+					uni.showToast({
+						title: "发布成功"
+					})
+					uni.navigateBack()
+				} else {
+					uni.showToast({
+						title: "发布失败，请联系管理员",
+						icon: "none"
+					})
+				}
+			},
+			// 选择字体样式
+			selectTextStyle(num) {
+				if (this.textStyle.includes(num)) {
+					this.textStyle = this.textStyle.filter(item => {
+						return item != num
+					})
+				} else {
+					this.textStyle.push(num)
+				}
+				// console.log(this.textStyle)
+			},
+			// 选择字体大小
+			selectTextSize(num) {
+				this.textSize = num
+			},
+			// 选择字体颜色
+			selectColorMain(num) {
+				this.textColor = num
+			},
+			// 选择高亮颜色
+			selectColorBg(num){
+				this.textHigh = num
+			},
+			// 选择对齐方式
+			selectTextAlign(num){
+				this.textAlign = num
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import "../Editor/assets/iconfont.css";
+
+	.selectColor {
+		color: #4e8df6;
+	}
+
+	.selectBgColor {
+		background-color: #e7e7e7 !important;
+	}
+
+	.selectColorMain {
+		height: 70rpx !important;
+		width: 70rpx !important;
+		border-radius: 35rpx !important;
+		line-height: 70rpx!important;
+		box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+	}
+
+	.submitContainer {
+		background-color: #fff;
+
+		.title {
+			border-bottom: 4rpx solid #eee;
+
+			input {
+				height: 100rpx;
+				font-size: 50rpx;
+				padding: 10rpx 40rpx;
+				letter-spacing: 1rpx;
+			}
+		}
+
+		.category,
+		.top {
+			padding: 20rpx 40rpx;
+			border-bottom: 4rpx solid #eee;
+			font-size: 30rpx;
+
+			text {
+				color: #808080;
+			}
+
+			picker {
+				margin-top: 10rpx;
+			}
+		}
+
+		.intro {
+			border-bottom: 4rpx solid #eee;
+
+			textarea {
+				height: 300rpx;
+				font-size: 30rpx;
+				padding: 20rpx 40rpx;
+				letter-spacing: 1rpx;
+			}
+		}
+
+		.mainContainer {
+			padding: 20rpx 40rpx;
+			editor{
+				min-height: 100vh;
+			}
+		}
+
+		.operate {
+			position: fixed;
+			bottom: 20rpx;
+			width: 100%;
+			background-color: #fff;
+			border-top: 8rpx solid #eee;
+
+			.operateLine {
+				border-bottom: 2rpx solid #eee;
+				display: flex;
+				padding: 20rpx 10rpx;
+
+				.icon {
+					width: 76%;
+					display: flex;
+					justify-content: space-around;
+
+					.icon-tupian,
+					.icon-text1 {
+						font-size: 50rpx;
+					}
+
+					.icon-text {
+						font-size: 42rpx;
+					}
+
+					.icon-undo1,
+					.icon-redo1 {
+						font-size: 40rpx;
+						font-weight: bold;
+					}
+				}
+
+				.ready {
+					flex: 1;
+					display: flex;
+					border-left: 2rpx solid #eee;
+
+					.submit,
+					.preview {
+						display: block;
+						color: #4e8df6;
+						font-size: 30rpx;
+						font-weight: bold;
+						margin-left: 20rpx;
+						letter-spacing: 1rpx;
+
+					}
+				}
+
+			}
+
+			.setText {
+				height: 500rpx;
+				overflow-y: auto;
+
+				.textStyle,
+				.alignStyle {
+					padding: 20rpx 0;
+
+					text {
+						font-size: 20rpx;
+						letter-spacing: 1rpx;
+						color: #666;
+						padding: 20rpx 40rpx 0;
+					}
+
+					.selectMain {
+						width: 90%;
+						margin: 20rpx auto 0;
+						height: 100rpx;
+						display: flex;
+						justify-content: space-around;
+						box-sizing: border-box;
+
+						.iconfont,
+						.common {
+							width: 25%;
+							height: 100rpx;
+							line-height: 100rpx;
+							font-size: 40rpx;
+							background-color: #fafafa;
+							display: block;
+							text-align: center;
+						}
+
+						.small {
+							font-size: 26rpx;
+						}
+
+						.normal {
+							font-size: 30rpx;
+						}
+
+						.big {
+							font-size: 34rpx;
+						}
+
+						.bigger {
+							font-size: 38rpx;
+						}
+					}
+				}
+
+				.textColor,
+				.highColor {
+					padding: 20rpx 0;
+
+					text {
+						font-size: 20rpx;
+						letter-spacing: 1rpx;
+						color: #666;
+						padding: 20rpx 40rpx 0;
+					}
+
+					.selectMain {
+						width: 90%;
+						margin: 20rpx auto 0;
+						display: flex;
+						justify-content: space-around;
+						box-sizing: border-box;
+						align-items: center;
+
+						.common {
+							height: 60rpx;
+							width: 60rpx;
+							border-radius: 30rpx;
+						}
+
+						.color1 {
+							background-color: #222222;
+						}
+
+						.color2 {
+							background-color: #707070;
+						}
+
+						.color3 {
+							background-color: #ef4142;
+						}
+
+						.color4 {
+							background-color: #fe7527;
+						}
+
+						.color5 {
+							background-color: #01aa54;
+						}
+
+						.color6 {
+							background-color: #0289e5;
+						}
+
+						.color7 {
+							background-color: #742bff;
+						}
+					}
+				}
+
+				.highColor {
+					.color1 {
+						background-color: #fff !important;
+						text-align: center;
+						font-size: 24rpx;
+						line-height: 60rpx;
+					}
+				}
+			}
+
+			.setOther {
+				height: 500rpx;
+				overflow-y: auto;
+
+				.listStyle,
+				.lineStyle {
+					padding: 20rpx 0;
+
+					text {
+						font-size: 20rpx;
+						letter-spacing: 1rpx;
+						color: #666;
+						padding: 20rpx 40rpx 0;
+					}
+
+					.selectMain {
+						width: 90%;
+						margin: 20rpx auto 0;
+						height: 100rpx;
+						display: flex;
+						box-sizing: border-box;
+
+						.iconfont {
+							width: 25%;
+							height: 100rpx;
+							line-height: 100rpx;
+							font-size: 40rpx;
+							background-color: #fafafa;
+							display: block;
+							text-align: center;
+						}
+
+						.small {
+							font-size: 26rpx;
+						}
+
+						.normal {
+							font-size: 30rpx;
+						}
+
+						.big {
+							font-size: 34rpx;
+						}
+
+						.bigger {
+							font-size: 38rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+</style>
