@@ -1,66 +1,54 @@
 <template>
-  <div class="home">
-    <h3>wangEditor with vue</h3>
-    <div id="demo1"></div>
-    <button type="button" class="btn" @click="getEditorData">获取当前内容</button>
-    <h3>内容预览：</h3>
-    <!-- <textarea name="" id="" cols="170" rows="20" readonly v-model="editorData"></textarea> -->
-    <div v-html="editorData"></div>
+  <div>
+    <p>
+      wangEditor 上传图片
+    </p>
+    <div id="div1"></div>
   </div>
 </template>
 
 <script>
-// 引入 wangEditor
-import wangEditor from 'wangeditor'
-
+import Wangeditor from 'wangeditor'
 export default {
+  mounted() {
+    const editor = new Wangeditor('#div1')
+
+    editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
+    editor.config.showLinkImg = false
+
+    editor.config.uploadFileName = 'file'
+    editor.config.debug = true // 开启debug模式
+    editor.config.uploadImgHeaders = {
+      token: localStorage.getItem('token'), // 设置请求头
+    }
+    editor.config.uploadImgHooks = {
+      // 图片上传并返回结果，但图片插入错误时触发
+      fail: function (xhr, editor, result) {
+        console.log('上传出错', result)
+      },
+      success: function (xhr, editor, result) {
+        // 图片上传并返回结果，图片插入成功之后触发
+        console.log(result, '<success>')
+      },
+      customInsert: function (insertImgFn, result) {
+        console.log('customInsert', result)
+        insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+      },
+    }
+
+    editor.create()
+  },
   data() {
     return {
       editor: null,
-      editorData: '',
     }
-  },
-  mounted() {
-    const editor = new wangEditor(`#demo1`)
-
-    // 配置 onchange 回调函数，将数据同步到 vue 中
-    editor.config.onchange = (newHtml) => {
-      this.editorData = newHtml
-    }
-
-    // 创建编辑器
-    editor.create()
-
-    this.editor = editor
-  },
-  methods: {
-    getEditorData() {
-      // 通过代码获取编辑器内容
-      let data = this.editor.txt.html()
-      alert(data)
-    },
-  },
-  beforeDestroy() {
-    // 调用销毁 API 对当前编辑器实例进行销毁
-    this.editor.destroy()
-    this.editor = null
   },
 }
 </script>
+
 <style scoped>
-.home {
-  width: 1200px;
-  margin: auto;
-  position: relative;
-}
-.btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-h3 {
-  margin: 30px 0 15px;
+#editor {
+  width: 80%;
+  margin: 0 auto;
 }
 </style>

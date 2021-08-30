@@ -59,7 +59,7 @@
     </div>
     <div class="ac-botom">
       <h3>内容预览：</h3>
-      <iphone :title="addForm.title" :content="addForm.content"></iphone>
+      <iphone :title="addForm.title" :content="addForm.content" ref="iphone"></iphone>
     </div>
     <textarea class="hid" id="input"></textarea>
   </div>
@@ -67,6 +67,7 @@
 <script>
 import wangEditor from 'wangeditor'
 import iphone from '../../components/iphone/index.vue'
+import { getImgs } from '../../utils/common'
 export default {
   components: {
     iphone,
@@ -82,7 +83,7 @@ export default {
         imag: '',
         category: '',
       },
-      imgList: [],
+      imgList: null,
       typeList: [
         {
           id: 1,
@@ -107,13 +108,55 @@ export default {
     this.init()
   },
   methods: {
+    getImgs() {
+      var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim
+      var imgsrcArr = []
+      let tem
+      while ((tem = reg.exec(this.addForm.content))) {
+        imgsrcArr.push(tem[2])
+      }
+      console.log(JSON.stringify(imgsrcArr))
+      return JSON.stringify(imgsrcArr)
+      // return imgsrcArr
+    },
     init() {
       const editor = new wangEditor(`#demo1`)
-      // 配置 onchange 回调函数，将数据同步到 vue 中
+      editor.config.menus = [
+        'head',
+        'bold',
+        'fontSize',
+        'fontName',
+        'foreColor',
+        'backColor',
+        'image',
+        'table',
+        'splitLine',
+      ]
+      editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
+      editor.config.showLinkImg = false
+      editor.config.uploadFileName = 'file'
+      editor.config.debug = true // 开启debug模式
+      editor.config.uploadImgHeaders = {
+        token: localStorage.getItem('token'), // 设置请求头
+      }
+      editor.config.uploadImgHooks = {
+        // 图片上传并返回结果，但图片插入错误时触发
+        fail: function (xhr, editor, result) {
+          console.log('上传出错', result)
+        },
+        success: function (xhr, editor, result) {
+          // 图片上传并返回结果，图片插入成功之后触发
+          console.log(result, '<success>')
+        },
+        customInsert: function (insertImgFn, result) {
+          console.log('customInsert', result)
+          insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+        },
+      }
       editor.config.onchange = (newHtml) => {
         this.addForm.content = newHtml
       }
-      // 创建编辑器
+
       editor.create()
       this.editor = editor
 
@@ -169,7 +212,11 @@ export default {
       }
     },
     submit() {
+      this.addForm.imag = getImgs(this.addForm.content)
       if (this.addForm.id) {
+        // if (this.imgList) {
+        // this.addForm.imag = imgList
+        // }
         this.$http.editOneInfo(this.addForm).then((res) => {
           // console.log(res)
           if (res.code == 20000) {
@@ -180,9 +227,9 @@ export default {
           }
         })
       } else {
-        if (this.imgList[0]) {
-          this.addForm.imag = this.imgList[0].img
-        }
+        // if (this.imgList) {
+        //   this.addForm.imag = imgList
+        // }
         switch (this.addForm.category) {
           case 1:
             this.$http.addSeedInfo(this.addForm).then((res) => {

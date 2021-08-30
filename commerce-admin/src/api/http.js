@@ -126,9 +126,9 @@ export default {
         })
     },
     // 获取所有资讯
-    getAllInfo() {
+    getAllInfo(data) {
         return service({
-            url: '/info/findAllDynamic',
+            url: '/info/findAllDynamic/'+data.current,
             method: 'get',
         })
     },
