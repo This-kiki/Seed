@@ -130,7 +130,11 @@
 				let res = await this.$api.getCollectionInfo()
 				// console.log(res)
 				let list = res.data.info
-				list.forEach(item => {
+				list.forEach((item, i) => {
+					if (item == null) {
+						list.splice(i, 1)
+						return
+					}
 					if (item.imag != '')
 						item.imag = JSON.parse(item.imag)
 					if (item.imag.length > 1) {
