@@ -175,6 +175,7 @@
 
 			.main {
 				display: flex;
+				justify-content: flex-end;
 				font-size: 22rpx;
 				margin-top: 10rpx;
 				color: #aaa;
