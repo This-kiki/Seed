@@ -26,7 +26,7 @@
 			<view class="img" :style="{backgroundImage:'url('+imag+')'}" v-if="item.imag&&!isImg">
 			</view>
 			<view class="imgContainer" v-if="isImg">
-				<view class="imgBox" v-for="(i,index) in item.imag.slice(0,3)" :key="index">
+				<view class="imgBox" v-for="(i,index) in imagArr.slice(0,3)" :key="index">
 					<image :src="i" mode=""></image>
 				</view>
 			</view>
@@ -60,7 +60,8 @@
 			return {
 				view: 0,
 				isImg: false,
-				imag: ""
+				imag: "",
+				imagArr:[]
 			};
 		},
 		created() {
@@ -68,6 +69,7 @@
 				this.item.imag = JSON.parse(this.item.imag)
 			if (this.item.imag.length > 1) {
 				this.isImg = true
+				this.imagArr = this.item.imag
 			}else{
 				this.imag = this.item.imag[0]
 			}
@@ -175,6 +177,7 @@
 
 			.main {
 				display: flex;
+				justify-content: flex-end;
 				font-size: 22rpx;
 				margin-top: 10rpx;
 				color: #aaa;

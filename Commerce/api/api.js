@@ -317,7 +317,7 @@ export class Api {
 		if (data.commentId) {
 			res = await flyio.get(
 				`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}&commentId=${data.commentId}`
-				)
+			)
 		} else {
 			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}`)
 		}
@@ -359,20 +359,21 @@ export class Api {
 		let res = await flyio.get(`/info/delInfo?id=${data.id}`)
 		return res.data
 	}
-	
+
 	// 修改资讯
 	updateInfo = async (data) => {
-		let res = await flyio.post("/info/updateInfo",data)
+		let res = await flyio.post("/info/updateInfo", data)
 		return res.data
 	}
 	// 点赞资讯
 	praiseInfo = async (data) => {
-		let res = await flyio.get("/info/like?id="+data.id)
+		let res = await flyio.get("/info/like?id=" + data.id)
 		return res.data
 	}
 	// 点赞资讯
 	collectInfo = async (data) => {
-		let res = await flyio.get("/info/col?id="+data.id)
+		let res = await flyio.get("/info/col?id=" + data.id)
+		return res.data
 	}
 	// 获得我的收藏列表
 	getCollectionInfo = async () => {

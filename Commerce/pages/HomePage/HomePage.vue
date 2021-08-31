@@ -63,9 +63,9 @@
 						<view class="view">
 							{{item.view}} 浏览
 						</view>
-						<!-- <view class="love">
+						<view class="love">
 							{{item.love}} 点赞
-						</view> -->
+						</view>
 						<view class="time">
 							{{item.createTime.slice(0,10)}}
 						</view>
