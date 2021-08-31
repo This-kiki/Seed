@@ -2,6 +2,17 @@
 	<view class="infoContainer">
 		<!-- 顶部 -->
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
+		<!-- 操作栏 -->
+		<view class="operateContainer">
+			<view class="release" @click="goPage('JobMe')">
+				<text class="iconfont icon-submit"></text>
+				我的发布
+			</view>
+			<view class="collect" @click="goPage('JobResume')">
+				<text class="iconfont icon-jianli"></text>
+				我的收藏
+			</view>
+		</view>
 		<!-- 资讯列表 -->
 		<view class="infoList">
 			<view class="infoBox" v-for="item in infoList" :key="item.id">
@@ -124,9 +135,9 @@
 				}
 			},
 			// 修改资讯
-			editInfo(id){
+			editInfo(id) {
 				uni.navigateTo({
-					url:`/pages/InfoSubmit/InfoSubmit?id=${id}`
+					url: `/pages/InfoSubmit/InfoSubmit?id=${id}`
 				})
 			}
 		}
@@ -135,6 +146,33 @@
 
 <style lang="scss">
 	.infoContainer {
+		.operateContainer {
+			width: 96%;
+			margin: 20rpx auto 0;
+			background-color: #fff;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			padding: 20rpx;
+			box-sizing: border-box;
+			border-radius: 14rpx;
+			display: flex;
+
+			.iconfont {
+				color: blue;
+				font-size: 40rpx;
+				margin-right: 6rpx;
+				font-weight: bold;
+			}
+
+			.release,
+			.collect {
+				margin-right: 18rpx;
+				background-color: #eee;
+				padding: 10rpx;
+				box-sizing: border-box;
+				border-radius: 10rpx;
+			}
+		}
+
 		.infoList {
 			width: 94%;
 			margin: 0rpx auto;

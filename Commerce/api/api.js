@@ -365,6 +365,12 @@ export class Api {
 		let res = await flyio.post("/info/updateInfo",data)
 		return res.data
 	}
+	
+	// 获得我的收藏列表
+	getCollectionInfo = async () => {
+		let res = await flyio.get("/info/getMyCol")
+		return res.data
+	}
 }
 
 
