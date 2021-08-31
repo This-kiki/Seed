@@ -62,7 +62,8 @@
 					if(res.data.code == 20000) {
 						uni.showToast({
 							title: '已提交报名，等待管理员审核',
-							duration: 2000
+							duration: 2000,
+							icon: 'none'
 						});
 					}else if(res.data.code == 2002){
 						uni.showToast({

@@ -11,14 +11,14 @@
       </el-col>
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="id" label="资讯ID" width="300"> </el-table-column>
-      <el-table-column prop="title" label="资讯名" width="250">
+      <!-- <el-table-column prop="id" label="资讯ID" width="300"> </el-table-column> -->
+      <el-table-column prop="title" label="资讯名" width="200">
       </el-table-column>
       <el-table-column prop="type" label="类型" width="100"> </el-table-column>
       <el-table-column prop="createTime" label="发布时间" width="200">
       </el-table-column>
-      <el-table-column prop="simpleContent" label="主要内容"> </el-table-column>
-      <el-table-column prop="" label=""> </el-table-column>
+      <el-table-column prop="simpleContent" label="主要内容"></el-table-column>
+      <!-- <el-table-column prop="" label=""></el-table-column> -->
       <el-table-column fixed="right" label="置顶资讯" width="180" align="center">
         <template slot-scope="scope">
           <el-popconfirm v-if="scope.row.top==0" confirm-button-text='好的' cancel-button-text='取消' icon="el-icon-info" icon-color="red" title="置顶这个资讯吗" @confirm="topInfo(scope.row,1)">
