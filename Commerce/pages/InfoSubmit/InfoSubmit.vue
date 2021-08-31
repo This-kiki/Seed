@@ -392,7 +392,7 @@
 								if (res.confirm) {
 									if (that.flag == 1) {
 										that.submitInfo()
-									}else{
+									} else {
 										that.editInfo()
 									}
 								} else if (res.cancel) {
@@ -407,10 +407,13 @@
 			async submitInfo() {
 				let res = await this.$api.submitInfo(this.infoForm)
 				if (res.code == 20000) {
-					uni.showToast({
-						title: "发布成功"
+					uni.showModal({
+						title: "发布成功,等待管理员审核",
+						showCancel: false,
+						success: function(res) {
+							uni.navigateBack()
+						}
 					})
-					uni.navigateBack()
 				} else {
 					uni.showToast({
 						title: "发布失败，请联系管理员",
