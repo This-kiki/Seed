@@ -1,5 +1,7 @@
 <template>
 	<view class="body">
+		<!-- 顶部 -->
+		<topBar :nav="setNav"></topBar>
 		<view v-if="!dataList[0]" class="white-bord">
 			您还未参加活动哦，快去参加吧
 		</view>
@@ -22,6 +24,13 @@
 	export default {
 		data() {
 			return {
+				setNav: {
+					titleColor: "black",
+					navTitle: "我的活动",
+					bgColor: "white",
+					isShowBackBtn: true,
+					backBtnColor: "black"
+				},
 				dataList: []
 			}
 		},
@@ -52,11 +61,11 @@
 			},
 			getColor(type) {
 				if(type == 0){
-					return '#79b9b7';
+					return '#0289e5';
 				}else if(type == 1){
-					return '#44ce80';
+					return '#01aa54';
 				}else if(type == 2){
-					return '#d7da1e';
+					return '#ef4142';
 				}
 			}
 		}
@@ -111,9 +120,9 @@
 	font-size: 27rpx;
 	width: 130rpx;
 	height: 40rpx;
-	border-radius: 20rpx;
+	border-radius: 14rpx;
 	background-color: rgb(168,166,167);
-	color: rgb(255, 220, 220);
+	color: #fff;
 	display: flex;
 	justify-content: center;
 	align-items: center;
