@@ -14,12 +14,12 @@
 			</picker>
 		</view>
 		<!-- 置顶 -->
-		<view class="top">
+		<!-- <view class="top">
 			<text>是否置顶</text>
 			<picker @change="selectTop" :value="index" :range="topList">
 				<view class="uni-input">{{topList[infoForm.top]}}</view>
 			</picker>
-		</view>
+		</view> -->
 		<!-- 简介 -->
 		<view class="intro">
 			<textarea v-model="infoForm.simpleContent" placeholder="请输入简介(100字以内)" maxlength="100" />
@@ -265,9 +265,6 @@
 				})
 				// console.log(res)
 				this.infoForm = res.data.info
-				if (!this.infoForm.hasOwnProperty("top")) {
-					this.infoForm.top = 0
-				}
 				this.editorCtx.setContents({
 					html: this.infoForm.content
 				})

@@ -58,7 +58,7 @@
 					</view>
 					<view class="main">
 						<view class="top" v-if="item.isTop">
-							置顶
+							★
 						</view>
 						<view class="view">
 							{{item.view}} 浏览
@@ -444,6 +444,8 @@
 
 					.main {
 						display: flex;
+						justify-content: flex-end;
+						align-items: center;
 						font-size: 22rpx;
 						margin-top: 10rpx;
 						color: #aaa;
@@ -457,6 +459,7 @@
 						.top {
 							color: #4e8df6;
 							font-weight: bold;
+							font-size: 30rpx;
 						}
 					}
 				}
