@@ -47,7 +47,7 @@ export default {
 				navTitle: '资讯',
 				bgColor: 'white'
 			},
-			items: ['种子会动态', '会员单位', '会员风采', '家乡新闻','置顶咨询'],
+			items: ['种子会动态', '会员单位', '会员风采', '家乡新闻','精选'],
 			current: 0
 		};
 	},
