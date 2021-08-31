@@ -373,6 +373,10 @@ export class Api {
 	// 点赞资讯
 	collectInfo = async (data) => {
 		let res = await flyio.get("/info/col?id="+data.id)
+	}
+	// 获得我的收藏列表
+	getCollectionInfo = async () => {
+		let res = await flyio.get("/info/getMyCol")
 		return res.data
 	}
 }
