@@ -1,9 +1,9 @@
 <template>
 	<view class="body">
-		<view class="white-bord">
+		<view v-if="!dataList[0]" class="white-bord">
 			您还未参加活动哦，快去参加吧
 		</view>
-		<view class="act-list">
+		<view v-if="dataList[0]" class="act-list">
 			<view class="act-list-item" v-for="(item,index) in dataList" @tap="go(item.actId)">
 				<view class="act-title">
 					{{item.name}}
@@ -36,7 +36,6 @@
 			},
 			getActivity() {
 				this.$api.getActivityState().then((res) => {
-					console.log(res.data.data)
 					var resp = res.data.data.act
 					for(var i=0;i<resp.length;i++) {
 						if(resp[i].status == 0){
@@ -48,6 +47,7 @@
 						}
 					}
 					this.dataList = resp
+					// console.log(this.dataList)
 				})
 			},
 			getColor(type) {

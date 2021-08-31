@@ -7,6 +7,7 @@ import allCompanies from '../page/company/allCompanies.vue'
 import companyApplication from '../page/company/companyApplication.vue'
 import allInfo from '../page/info/allInfo.vue'
 import releaseInfo from '../page/info/releaseInfo.vue'
+import infoApplication from '../page/info/infoApplication.vue'
 import allMember from '../page/member/allMember.vue'
 import allUser from '../page/member/allUser.vue'
 import userApplication from '../page/member/userApplication.vue'
@@ -70,13 +71,17 @@ export const routerMap = [{
       path: 'companyApplication',
       component: companyApplication
     }, {
-      name: '所有咨询',
+      name: '所有资讯',
       path: 'allInfo',
       component: allInfo
     }, {
-      name: '发布咨询',
+      name: '发布资讯',
       path: 'releaseInfo',
       component: releaseInfo
+    },{
+      name: '资讯审核',
+      path: 'infoApplication',
+      component: infoApplication
     }, {
       name: '所有会员',
       path: 'allMember',

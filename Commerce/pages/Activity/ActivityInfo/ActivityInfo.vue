@@ -61,12 +61,12 @@
 					uni.hideLoading()
 					if(res.data.code == 20000) {
 						uni.showToast({
-							title: '参加成功',
+							title: '已提交报名，等待管理员审核',
 							duration: 2000
 						});
 					}else if(res.data.code == 2002){
 						uni.showToast({
-							title: '已报名，等待管理员审核',
+							title: '已报名，请勿重复提交',
 							duration: 2000,
 							icon: 'none'
 						});

@@ -94,6 +94,7 @@ export default {
         'fontName',
         'foreColor',
         'backColor',
+        'justify',
         'image',
         'table',
         'splitLine',

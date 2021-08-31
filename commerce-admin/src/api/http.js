@@ -132,6 +132,13 @@ export default {
             method: 'get',
         })
     },
+    // 获取资讯置顶
+    getToppingInfo(data) {
+        return service({
+            url: '/info/findAllDynamicTop',
+            method: 'get',
+        })
+    },
     // 查询资讯
     getOneInfo(data) {
         return service({
@@ -174,7 +181,7 @@ export default {
     // 修改资讯内容
     editOneInfo(data) {
         return service({
-            url: '/admin/info/alterDynamic/' + data.id,
+            url: '/info/updateInfo',
             method: 'post',
             data: data
         })
@@ -182,7 +189,21 @@ export default {
     // 删除咨询
     deleteOneInfo(data) {
         return service({
-            url: '/admin/info/delSeedDynamic/' + data.id,
+            url: '/info/delInfo?id=' + data.id,
+            method: 'get',
+        })
+    },
+    // 获取所有资讯审核
+    getApplyInfo(data) {
+        return service({
+            url: '/admin/info/getCheckInfo/' + data.current,
+            method: 'get',
+        })
+    },
+    // 通过资讯审核
+    applyInfo(data) {
+        return service({
+            url: '/admin/info/check?id='+data.id+'&status='+data.status,
             method: 'get',
         })
     },

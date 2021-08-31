@@ -116,9 +116,9 @@ export default {
         'fontName',
         'foreColor',
         'backColor',
+        'justify',
         'image',
         'table',
-        'splitLine',
       ]
       editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
       editor.config.showLinkImg = false
@@ -201,6 +201,7 @@ export default {
     },
     submit() {
       this.addForm.imag = getImgs(this.addForm.content)
+      this.addForm.status = 1
       console.log(this.addForm)
       if (this.addForm.id) {
         // if (this.imgList) {

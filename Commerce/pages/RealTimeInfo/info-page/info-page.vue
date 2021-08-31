@@ -77,6 +77,16 @@
 							this.current.currentPage = this.current.currentPage + 1
 						})
 						break;
+					case 4:
+						await this.$api.getTopHomeInfo(getAPI).then((res) => {
+							// console.log('种子会资讯',res)
+							resp = ''
+							// this.current.totalPages = resp.data.total
+							this.current.totalPages = 1
+							this.list = res.data.AllDynamic
+							this.current.currentPage = this.current.currentPage + 1
+						})
+						break;
 				}
 				if (resp) {
 					this.current.totalPages = resp.data.total

@@ -71,7 +71,7 @@
 			}else{
 				this.imag = this.item.imag[0]
 			}
-			console.log(this.item)
+			// console.log(this.item)
 			this.view = this.item.view;
 		},
 		methods: {

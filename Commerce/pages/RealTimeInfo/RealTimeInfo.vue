@@ -24,6 +24,9 @@
 				<view v-show="current === 3">
 					<page :pageType="3"></page>
 				</view>
+				<view v-show="current === 4">
+					<page :pageType="4"></page>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -44,7 +47,7 @@ export default {
 				navTitle: '资讯',
 				bgColor: 'white'
 			},
-			items: ['种子会动态', '会员单位', '会员风采', '家乡新闻'],
+			items: ['种子会动态', '会员单位', '会员风采', '家乡新闻','置顶咨询'],
 			current: 0
 		};
 	},

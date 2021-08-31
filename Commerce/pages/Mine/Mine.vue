@@ -149,7 +149,7 @@
 		methods: {
 			getUserInfo() {
 				this.$api.getUserMsg().then(userMsg_res => {
-					console.log('基本信息', userMsg_res.data.userBaseInfo)
+					// console.log('基本信息', userMsg_res.data.userBaseInfo)
 					this.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
 					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
 					this.userMsg = userMsg_res.data.userBaseInfo
@@ -162,12 +162,12 @@
 			},
 			async getLeaveMessage() {
 				let res = await this.$api.getLeaveMessage()
-				console.log(res)
+				// console.log(res)
 				if (res.data.ms.length != 0)
 					this.leaveFlag = 1
 				else
 					this.leaveFlag = 0
-				console.log(this.leaveFlag)
+				// console.log(this.leaveFlag)
 			}
 		}
 	}
