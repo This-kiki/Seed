@@ -146,6 +146,13 @@ export default {
             method: 'get',
         })
     },
+    // 模糊查询资讯
+    searchInfo(data) {
+        return service({
+            url: '/info/findSomeDynamic/' + data.keyword,
+            method: 'get',
+        })
+    },
     // 添加会员单位资讯
     addCompanyInfo(data) {
         return service({
