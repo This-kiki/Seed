@@ -148,7 +148,7 @@
 			}
 		},
 		created() {
-			this.getTopHomeInfo()
+			// this.getTopHomeInfo()
 			this.checkUser()
 		},
 		onShow() {

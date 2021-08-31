@@ -59,12 +59,11 @@
 						<text class="new" v-if="leaveFlag==1"></text>
 					</view>
 				</view>
-				<view class="m-page-box">
-					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
-					<!-- <span class="iconfont m-page-boximg">&#xe601;</span>
+				<view class="m-page-box" @click="go('/pages/InfoMe/InfoMe')">
+					<span class="iconfont m-page-boximg">&#xe6c9;</span>
 					<view class="m-page-boxtext">
-						消息
-					</view> -->
+						我的资讯
+					</view>
 				</view>
 			</view>
 			<view class="m-page-bottom">

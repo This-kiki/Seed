@@ -1,15 +1,14 @@
 <template>
 	<view>
-		<!-- <loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages"
+		<loading ref="loadRefresh" :currentPage="current.currentPage" :totalPages="current.totalPages"
 			@loadMore="loadMore" @refresh="refresh">
 			<view slot="content-list" class="page">
+				<!-- 数据列表 -->
+				<view class="infoList" v-for="(item, index) in list" :key="index" @click="go(item.id)">
+					<news-card :item="item" :ref="item.id"></news-card>
+				</view>
 			</view>
-		</loading> -->
-
-		<!-- 数据列表 -->
-		<view class="infoList" v-for="(item, index) in list" :key="index" @click="go(item.id)">
-			<news-card :item="item" :ref="item.id"></news-card>
-		</view>
+		</loading>
 	</view>
 </template>
 

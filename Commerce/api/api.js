@@ -310,45 +310,59 @@ export class Api {
 			`/pro/resume/getSumbit/${data.current}/${data.limit}?companyInfoId=${data.companyInfoId}`)
 		return res.data
 	}
-	
+
 	// 发布评论
 	postReply = async (data) => {
 		let res
-		if(data.commentId){
-			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}&commentId=${data.commentId}`)
-		}else{
+		if (data.commentId) {
+			res = await flyio.get(
+				`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}&commentId=${data.commentId}`
+				)
+		} else {
 			res = await flyio.get(`/pro/comment/pub?infoId=${data.infoId}&content=${data.content}`)
 		}
 		return res.data
 	}
-	
+
 	// 获取评论下面的回复
 	getReply = async (data) => {
 		let res = await flyio.get(`/pro/comment/getReplyComment?commentId=${data.commentId}`)
 		return res.data
 	}
-	
+
 	// 删除评论
 	deleteReply = async (data) => {
 		let res = await flyio.get(`/pro/comment/del?id=${data.id}`)
 		return res.data
 	}
-	
+
 	//获得所有资讯
-	getAllHomeInfo = async (data)=>{
-		let res = await flyio.get(`/info/findAllDynamic/${data.current}`)
+	getAllHomeInfo = async (data) => {
+		let res = await flyio.get(`/info/findAllDynamic/${data.current}?openid=${data.openid?data.openid:''}`)
 		return res.data
 	}
-	
+
 	// 获得置顶资讯
-	getTopHomeInfo = async ()=>{
+	getTopHomeInfo = async () => {
 		let res = await flyio.get("/info/findAllDynamicTop")
 		return res.data
 	}
-	
+
 	// 发布资讯
-	submitInfo = async (data)=>{
-		let res = await flyio.post("/info/addInfo",data)
+	submitInfo = async (data) => {
+		let res = await flyio.post("/info/addInfo", data)
+		return res.data
+	}
+
+	// 删除资讯
+	deleteInfo = async (data) => {
+		let res = await flyio.get(`/info/delInfo?id=${data.id}`)
+		return res.data
+	}
+	
+	// 修改资讯
+	updateInfo = async (data) => {
+		let res = await flyio.post("/info/updateInfo",data)
 		return res.data
 	}
 }

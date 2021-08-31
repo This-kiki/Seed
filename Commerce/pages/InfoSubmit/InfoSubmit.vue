@@ -116,32 +116,43 @@
 				<view class="highColor">
 					<text>高亮颜色</text>
 					<view class="selectMain" @touchend.stop="format">
-						<view class="common color1" data-name="backgroundColor" :class="textHigh==0?'selectColorMain':''" data-value="#ffffff" @click="selectColorBg(0)">无
+						<view class="common color1" data-name="backgroundColor"
+							:class="textHigh==0?'selectColorMain':''" data-value="#ffffff" @click="selectColorBg(0)">无
 						</view>
-						<view class="common color2" data-name="backgroundColor" :class="textHigh==1?'selectColorMain':''"  data-value="#707070" @click="selectColorBg(1)">
+						<view class="common color2" data-name="backgroundColor"
+							:class="textHigh==1?'selectColorMain':''" data-value="#707070" @click="selectColorBg(1)">
 						</view>
-						<view class="common color3" data-name="backgroundColor" :class="textHigh==2?'selectColorMain':''"  data-value="#ef4142" @click="selectColorBg(2)">
+						<view class="common color3" data-name="backgroundColor"
+							:class="textHigh==2?'selectColorMain':''" data-value="#ef4142" @click="selectColorBg(2)">
 						</view>
-						<view class="common color4" data-name="backgroundColor" :class="textHigh==3?'selectColorMain':''"  data-value="#fe7527" @click="selectColorBg(3)">
+						<view class="common color4" data-name="backgroundColor"
+							:class="textHigh==3?'selectColorMain':''" data-value="#fe7527" @click="selectColorBg(3)">
 						</view>
-						<view class="common color5" data-name="backgroundColor" :class="textHigh==4?'selectColorMain':''"  data-value="#01aa54" @click="selectColorBg(4)">
+						<view class="common color5" data-name="backgroundColor"
+							:class="textHigh==4?'selectColorMain':''" data-value="#01aa54" @click="selectColorBg(4)">
 						</view>
-						<view class="common color6" data-name="backgroundColor" :class="textHigh==5?'selectColorMain':''"  data-value="#0289e5" @click="selectColorBg(5)">
+						<view class="common color6" data-name="backgroundColor"
+							:class="textHigh==5?'selectColorMain':''" data-value="#0289e5" @click="selectColorBg(5)">
 						</view>
-						<view class="common color7" data-name="backgroundColor" :class="textHigh==6?'selectColorMain':''"  data-value="#742bff" @click="selectColorBg(6)">
+						<view class="common color7" data-name="backgroundColor"
+							:class="textHigh==6?'selectColorMain':''" data-value="#742bff" @click="selectColorBg(6)">
 						</view>
 					</view>
 				</view>
 				<view class="alignStyle">
 					<text>对齐方式</text>
 					<view class="selectMain" @touchend.stop="format">
-						<view class="iconfont icon-zuoyouduiqi" :class="textAlign==0?'selectBgColor':''" data-name="align" data-value="justify" @click="selectTextAlign(0)">
+						<view class="iconfont icon-zuoyouduiqi" :class="textAlign==0?'selectBgColor':''"
+							data-name="align" data-value="justify" @click="selectTextAlign(0)">
 						</view>
-						<view class="iconfont icon-zuoduiqi" :class="textAlign==1?'selectBgColor':''" data-name="align" data-value="left" @click="selectTextAlign(1)">
+						<view class="iconfont icon-zuoduiqi" :class="textAlign==1?'selectBgColor':''" data-name="align"
+							data-value="left" @click="selectTextAlign(1)">
 						</view>
-						<view class="iconfont icon-juzhongduiqi" :class="textAlign==2?'selectBgColor':''" data-name="align" data-value="center" @click="selectTextAlign(2)">
+						<view class="iconfont icon-juzhongduiqi" :class="textAlign==2?'selectBgColor':''"
+							data-name="align" data-value="center" @click="selectTextAlign(2)">
 						</view>
-						<view class="iconfont icon-youduiqi" :class="textAlign==3?'selectBgColor':''" data-name="align" data-value="right" @click="selectTextAlign(3)">
+						<view class="iconfont icon-youduiqi" :class="textAlign==3?'selectBgColor':''" data-name="align"
+							data-value="right" @click="selectTextAlign(3)">
 						</view>
 					</view>
 				</view>
@@ -232,9 +243,35 @@
 				textHigh: 0,
 				// 对齐方式选择
 				textAlign: 0,
+				// 是否是修改
+				flag: 1,
+				// 修改的id
+				editId: ""
 			};
 		},
+		onLoad(options) {
+			if (options.id) {
+				this.editId = options.id
+				this.setNav.navTitle = "修改资讯"
+				this.flag = 2
+				this.getInfoDetail(options.id)
+			}
+		},
 		methods: {
+			// 获得资讯详情
+			async getInfoDetail(id) {
+				let res = await this.$api.getOneInfo({
+					id
+				})
+				// console.log(res)
+				this.infoForm = res.data.info
+				if (!this.infoForm.hasOwnProperty("top")) {
+					this.infoForm.top = 0
+				}
+				this.editorCtx.setContents({
+					html: this.infoForm.content
+				})
+			},
 			// 选择类型
 			selectCategory(e) {
 				this.infoForm.category = parseInt(e.detail.value)
@@ -356,7 +393,11 @@
 							content: '确定发布？',
 							success: function(res) {
 								if (res.confirm) {
-									that.submitInfo()
+									if (that.flag == 1) {
+										that.submitInfo()
+									}else{
+										that.editInfo()
+									}
 								} else if (res.cancel) {
 									return
 								}
@@ -376,6 +417,22 @@
 				} else {
 					uni.showToast({
 						title: "发布失败，请联系管理员",
+						icon: "none"
+					})
+				}
+			},
+			// 修改资讯
+			async editInfo() {
+				this.infoForm.id = this.editId
+				let res = await this.$api.updateInfo(this.infoForm)
+				if (res.code == 20000) {
+					uni.showToast({
+						title: "修改成功"
+					})
+					uni.navigateBack()
+				} else {
+					uni.showToast({
+						title: "修改失败，请联系管理员",
 						icon: "none"
 					})
 				}
@@ -400,11 +457,11 @@
 				this.textColor = num
 			},
 			// 选择高亮颜色
-			selectColorBg(num){
+			selectColorBg(num) {
 				this.textHigh = num
 			},
 			// 选择对齐方式
-			selectTextAlign(num){
+			selectTextAlign(num) {
 				this.textAlign = num
 			}
 		}
@@ -426,7 +483,7 @@
 		height: 70rpx !important;
 		width: 70rpx !important;
 		border-radius: 35rpx !important;
-		line-height: 70rpx!important;
+		line-height: 70rpx !important;
 		box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 	}
 
@@ -472,7 +529,8 @@
 
 		.mainContainer {
 			padding: 20rpx 40rpx;
-			editor{
+
+			editor {
 				min-height: 100vh;
 			}
 		}
