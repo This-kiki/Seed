@@ -151,6 +151,9 @@
 			this.getTopHomeInfo()
 			this.checkUser()
 		},
+		onShow() {
+			this.getTopHomeInfo()			
+		},
 		methods: {
 			// 判断是否为会员
 			async checkUser() {

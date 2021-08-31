@@ -26,7 +26,7 @@
 		</view>
 		<!-- 资讯主体 -->
 		<view class="mainContainer">
-			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文"
+			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
 				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" @focus="showOperate = true">
 			</editor>
 		</view>
