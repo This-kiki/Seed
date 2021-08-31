@@ -60,8 +60,7 @@
 		}, {
 			"path": "pages/Mine/MineMsg/MineMsg",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
 
 		}, {
@@ -80,10 +79,8 @@
 		}, {
 			"path": "pages/Mine/Contact/Contact",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
-
 		}, {
 			"path": "pages/Activity/ActivityInfo/ActivityInfo",
 			"style": {
@@ -94,8 +91,7 @@
 		}, {
 			"path": "pages/Mine/MineActivity/MineActivity",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
 
 		}, {

@@ -1,31 +1,35 @@
 <template>
-	<view class="contactContainer infoContainer">
-		<view class="titleLine">
+	<view class="">
+		<!-- 顶部 -->
+		<topBar :nav="setNav"></topBar>
+		<view class="contactContainer infoContainer">
+			<!-- <view class="titleLine">
 			<view class="title">
 				联系我们
 			</view>
-		</view>
-		<view class="main">
-			<view class="address" @click="copy(address)">
-				<view class="title">
-					商会地址
-				</view>
-				<view class="info">
-					<view class="text">
-						{{address}}
+		</view> -->
+			<view class="main">
+				<view class="address" @click="copy(address)">
+					<view class="title">
+						商会地址
 					</view>
-					<view class="iconfont icon-weizhi"></view>
-				</view>
-			</view>
-			<view class="phone">
-				<view class="title">
-					联系电话
-				</view>
-				<view class="info" v-for="(item,index) in phoneList" :key="index" @click="callPhone(item.phone)">
-					<view class="text">
-						{{item.phone}} {{item.name}}
+					<view class="info">
+						<view class="text">
+							{{address}}
+						</view>
+						<view class="iconfont icon-weizhi"></view>
 					</view>
-					<view class="iconfont icon-dianhua"></view>
+				</view>
+				<view class="phone">
+					<view class="title">
+						联系电话
+					</view>
+					<view class="info" v-for="(item,index) in phoneList" :key="index" @click="callPhone(item.phone)">
+						<view class="text">
+							{{item.phone}} {{item.name}}
+						</view>
+						<view class="iconfont icon-dianhua"></view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -36,6 +40,13 @@
 	export default {
 		data() {
 			return {
+				setNav: {
+					titleColor: "black",
+					navTitle: "联系我们",
+					bgColor: "white",
+					isShowBackBtn: true,
+					backBtnColor: "black"
+				},
 				// 地址
 				address: "",
 				// 电话

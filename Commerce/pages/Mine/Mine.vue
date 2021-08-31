@@ -48,14 +48,14 @@
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
 					<span class="iconfont m-page-boximg">&#xe622;</span>
 					<view class="m-page-boxtext">
-						活动
+						我的活动
 					</view>
 				</view>
 				<view class="m-page-box m-page-boxborder" @click="go('Notice/Notice')">
 					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
 					<span class="iconfont m-page-boximg">&#xe601;</span>
 					<view class="m-page-boxtext">
-						消息
+						我的消息
 						<text class="new" v-if="leaveFlag==1"></text>
 					</view>
 				</view>
@@ -340,7 +340,7 @@
 	.m-page-boxtext {
 		font-size: 25rpx;
 		font-family: Yuanti;
-		letter-spacing: 10rpx;
+		letter-spacing: 2rpx;
 		position: relative;
 	}
 
