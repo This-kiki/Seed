@@ -104,8 +104,7 @@
 		}, {
 			"path": "pages/Mine/joinPage/joinPage",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationStyle": "custom"
 			}
 
 		}, {

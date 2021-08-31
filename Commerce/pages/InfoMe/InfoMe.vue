@@ -4,11 +4,11 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 操作栏 -->
 		<view class="operateContainer">
-			<view class="release" @click="goPage('JobMe')">
+			<view class="release" @click="getAllHomeInfo()">
 				<text class="iconfont icon-submit"></text>
 				我的发布
 			</view>
-			<view class="collect" @click="goPage('JobResume')">
+			<view class="collect" @click="getCollectionInfo()">
 				<text class="iconfont icon-jianli"></text>
 				我的收藏
 			</view>
@@ -48,7 +48,7 @@
 								{{item.createTime.slice(0,10)}}
 							</view>
 						</view>
-						<view class="operate">
+						<view class="operate" v-if="flag==1">
 							<view class="delete" @click="deleteInfo(item.id)">
 								删除
 							</view>
@@ -61,8 +61,11 @@
 			</view>
 		</view>
 		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
+		<view class="loadMore" @click="loadMore()" v-if="flag==1&&infoList.length!=0">
 			点击加载更多
+		</view>
+		<view class="loadMore" v-if="infoList.length==0">
+			暂无数据
 		</view>
 	</view>
 </template>
@@ -82,12 +85,16 @@
 				infoList: [],
 				// 页数
 				current: 1,
+				// 是否收藏
+				flag: 1
 			};
 		},
 		onShow() {
-			this.current = 1
-			this.infoList = []
-			this.getAllHomeInfo()
+			if (this.flag == 1) {
+				this.current = 1
+				this.infoList = []
+				this.getAllHomeInfo()
+			}
 		},
 		methods: {
 			// 加载更多
@@ -97,6 +104,11 @@
 			},
 			// 获取所有资讯列表
 			async getAllHomeInfo() {
+				if (this.flag == 2) {
+					this.current = 1
+					this.infoList = []
+					this.flag = 1
+				}
 				let res = await this.$api.getAllHomeInfo({
 					current: this.current,
 					openid: uni.getStorageSync("openid")
@@ -111,6 +123,21 @@
 					}
 				})
 				this.infoList.push.apply(this.infoList, list);
+			},
+			// 获取收藏列表
+			async getCollectionInfo() {
+				this.flag = 2
+				let res = await this.$api.getCollectionInfo()
+				// console.log(res)
+				let list = res.data.info
+				list.forEach(item => {
+					if (item.imag != '')
+						item.imag = JSON.parse(item.imag)
+					if (item.imag.length > 1) {
+						item.isImg = true
+					}
+				})
+				this.infoList = list
 			},
 			// 查看资讯详情
 			seeInfoDetail(infoId) {
