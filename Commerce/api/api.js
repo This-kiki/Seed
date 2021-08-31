@@ -365,7 +365,15 @@ export class Api {
 		let res = await flyio.post("/info/updateInfo",data)
 		return res.data
 	}
-	
+	// 点赞资讯
+	praiseInfo = async (data) => {
+		let res = await flyio.get("/info/like?id="+data.id)
+		return res.data
+	}
+	// 点赞资讯
+	collectInfo = async (data) => {
+		let res = await flyio.get("/info/col?id="+data.id)
+	}
 	// 获得我的收藏列表
 	getCollectionInfo = async () => {
 		let res = await flyio.get("/info/getMyCol")

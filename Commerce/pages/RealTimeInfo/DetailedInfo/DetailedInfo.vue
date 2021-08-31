@@ -3,6 +3,10 @@
 		<view class="white-bord" v-if="!dataForm">加载中</view>
 		<view v-if="dataForm">
 			<view class="info-title">{{ dataForm.title }}</view>
+			<view class="collect-box">
+				<view :style="'color:' + praiseColor + ';'" class="iconfont collect-icon" @click="praise">&#xe64e;</view>
+				<view :style="'color:' + collectColor + ';'" class="iconfont collect-icon" @click="collect">&#xe616;</view>
+			</view>
 			<view class="info-content" v-html="dataForm.content"></view>
 			<!-- 评论 -->
 			<view class="comment">
@@ -100,7 +104,9 @@ export default {
 			commentForm: null,
 			actComment: null,
 			actCommentReply: null,
-			boolShow: true
+			boolShow: true,
+			praiseColor: '#000000',
+			collectColor: '#000000'
 		};
 	},
 	mounted() {
@@ -112,6 +118,7 @@ export default {
 			this.$api.getOneInfo(getAPI).then(res => {
 				this.dataForm = res.data.info;
 				this.commentForm = res.data.comment
+				this.collectColor = (res.data.info.col===1?'#00aaff':'#000000')
 				// console.log(res.data.Info)
 			});
 		},
@@ -228,12 +235,48 @@ export default {
 				timeSpanStr = year + '-' + month + '-' + day;
 			}
 			return timeSpanStr;
-		}
+		},
+		praise() {
+			if(this.praiseColor == '#ff0000'){
+				return
+			}else{
+				let getAPI = {
+					id: this.infoId
+				}
+				this.$api.praiseInfo(getAPI).then((res) => {
+					if(res.success){
+						this.praiseColor = '#ff0000'
+					}
+				})
+			}
+		},
+		collect() {
+			let getAPI = {
+				id: this.infoId
+			}
+			this.$api.collectInfo(getAPI).then((res) => {
+				if(res.success){
+					this.getInfo()
+				}
+			})
+		},
 	}
 };
 </script>
 
 <style scoped>
+.collect-box {
+	height: 100rpx;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+.collect-icon {
+	font-size: 40rpx;
+	margin: 0 20rpx;
+}
 .info-title {
 	margin: 20rpx 10rpx;
 	font-size: 35rpx;
