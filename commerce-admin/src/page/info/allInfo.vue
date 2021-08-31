@@ -1,6 +1,16 @@
 <template>
   <div>
     <el-row style="margin: 10px 0">
+      <el-col :span="5" :offset="5">
+        <el-form class="search" ref="form">
+          <el-form-item>
+            <el-input type="text" placeholder="请输入姓名" v-model="name" style="margin-top: 10px"></el-input>
+          </el-form-item>
+          <div>
+            <el-button @click="searchMember()" style="margin: 15px 10px" round type="success" plain size="small">点击搜索</el-button>
+          </div>
+        </el-form>
+      </el-col>
       <el-col :span="2" :offset="22">
         <div>
           <el-select v-model="current.type" placeholder="请选择" @change="handleSelectChange">
@@ -237,4 +247,8 @@ export default {
 }
 </script>
 <style scoped>
+.search {
+  display: flex;
+  align-content: center;
+}
 </style>
