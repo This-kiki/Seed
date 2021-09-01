@@ -23,7 +23,7 @@
 			</view>
 		</view>
 		<view class="bottom">
-			<view class="img" :style="{backgroundImage:'url('+imag+')'}" v-if="item.imag&&!isImg">
+			<view class="img" :style="{backgroundImage:'url('+imag+')'}" v-if="imag!=''&&!isImg">
 			</view>
 			<view class="imgContainer" v-if="isImg">
 				<view class="imgBox" v-for="(i,index) in imagArr.slice(0,3)" :key="index">
