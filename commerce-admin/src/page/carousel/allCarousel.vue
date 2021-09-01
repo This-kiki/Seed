@@ -13,8 +13,6 @@
           <span>{{ getPosition(scope.row.flag) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="flag" label="资讯id">
-      </el-table-column>
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-popconfirm
