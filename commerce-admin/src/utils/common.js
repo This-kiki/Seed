@@ -6,7 +6,12 @@ export function getImgs(content) {
     imgsrcArr.push(tem[2])
   }
   // console.log(JSON.stringify(imgsrcArr))
-  return JSON.stringify(imgsrcArr)
+  if(imgsrcArr[0]){
+    return JSON.stringify(imgsrcArr)
+  }else {
+    return ''
+  }
+  // return JSON.stringify(imgsrcArr)
 }
 export function getImg(content) {
   var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim

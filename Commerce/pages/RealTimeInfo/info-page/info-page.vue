@@ -4,7 +4,7 @@
 			@loadMore="loadMore" @refresh="refresh">
 			<view slot="content-list" class="page">
 				<!-- 数据列表 -->
-				<view class="infoList" v-for="(item, index) in list" :key="index" @click="go(item.id)">
+				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
 				</view>
 			</view>

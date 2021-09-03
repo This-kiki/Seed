@@ -214,6 +214,7 @@ export default {
               message: '修改资讯成功',
               type: 'success',
             })
+            this.$router.push({ path: 'allInfo' })
           }
         })
       } else {
@@ -229,6 +230,7 @@ export default {
                   message: '添加资讯成功',
                   type: 'success',
                 })
+                this.$router.push({ path: 'allInfo' })
               }
             })
             break
@@ -240,6 +242,7 @@ export default {
                   message: '添加资讯成功',
                   type: 'success',
                 })
+                this.$router.push({ path: 'allInfo' })
               }
             })
             break
@@ -251,6 +254,7 @@ export default {
                   message: '添加资讯成功',
                   type: 'success',
                 })
+                this.$router.push({ path: 'allInfo' })
               }
             })
             break
@@ -262,6 +266,7 @@ export default {
                   message: '添加资讯成功',
                   type: 'success',
                 })
+                this.$router.push({ path: 'allInfo' })
               }
             })
             break

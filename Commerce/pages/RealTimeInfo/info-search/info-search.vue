@@ -12,7 +12,7 @@
 				<view slot="content-list" class="page">
 					<!-- 数据列表 -->
 					<view v-for="(item, index) in list" :key="index" @click="go(item.id)">
-						<news-card :options="item" :ref="item.id"></news-card>
+						<news-card :item="item" :ref="item.id"></news-card>
 					</view>
 				</view>
 			</loading>

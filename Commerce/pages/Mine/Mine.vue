@@ -11,11 +11,17 @@
 						</view>
 					</view>
 				</view>
-				<view class="m-page-headMsg">
+				<view class="m-page-headMsg" v-if="userMsg.name">
 					<image class="m-page-headimg" :src="userMsg.img" mode=""></image>
+					<view class="m-page-name">{{ userMsg.name }}</view>
 					<!-- <open-data class="m-page-headimg" type="userAvatarUrl"></open-data> -->
 					<!-- <open-data class="m-page-name" type="userNickName"></open-data> -->
-					<view class="m-page-name">{{ userMsg.name }}</view>
+				</view>
+				<view class="m-page-headMsg login-box" v-if="!userMsg.name" @tap="getUserProfile">
+					<view class="login">
+						授权登录
+					</view>
+					<span class="iconfont login-icon">&#xe623;</span>
 				</view>
 				<view class="m-page-join" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
 					<view class="m-page-jointitle">
@@ -167,7 +173,59 @@
 				else
 					this.leaveFlag = 0
 				// console.log(this.leaveFlag)
-			}
+			},
+			getUserProfile: function(e) {
+				let that = this;
+				uni.getUserProfile({
+					desc: '业务需要',
+					success: res => {
+						// console.log('seed_userInfo',res);
+						uni.setStorage({
+							key: 'seed_userInfo',
+							data: res.userInfo,
+							// success: function() {
+							// 	that.userAuthorized();
+							// }
+						});
+						var obj = {
+							name: res.userInfo.nickName,
+							img: res.userInfo.avatarUrl,
+							openId: uni.getStorageSync('openid')
+						};
+						this.$api.changeUserMsg(obj).then(respo => {
+							if (respo.code == 20000) {
+								uni.showToast({
+									title: '个人信息已同步',
+									duration: 2000,
+									icon: 'none'
+								});
+								that.getUserInfo()
+							}
+						});
+						//拿到信息处理业务
+						// that.$api.getUserMsg().then(memberMsg_res => {
+						// 	console.log('基本信息', memberMsg_res.data.userBaseInfo);
+						// 	if (!memberMsg_res.data.userBaseInfo.name && !memberMsg_res.data.userBaseInfo.img) {
+						// 		var obj = {
+						// 			name: res.userInfo.nickName,
+						// 			img: res.userInfo.avatarUrl
+						// 		};
+						// 		this.$api.changeUserMsg(obj).then(respo => {
+						// 			if (respo.code == 20000) {
+						// 				uni.showToast({
+						// 					title: '个人信息已同步',
+						// 					duration: 2000
+						// 				});
+						// 			}
+						// 		});
+						// 	}
+						// });
+					},
+					fail: err => {
+						console.log('err', err);
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -248,7 +306,7 @@
 		width: 110rpx;
 		border-radius: 60rpx;
 		overflow: hidden;
-		border: 2rpx solid rgb(255, 105, 180);
+		border: 2rpx solid 	rgb(246, 255, 161);
 		margin-left: 40rpx;
 	}
 
@@ -258,6 +316,28 @@
 		font-weight: 600;
 		font-family: YouYuan;
 		letter-spacing: 10rpx;
+	}
+	
+	.login-box {
+		color: rgb(255,255,255);
+	}
+	
+	.login-box:active {
+		color: #e9ec3d;
+	}
+	
+	.login {
+		/* width: 100%; */
+		margin: 0 20rpx 0 50rpx;
+		/* color: rgb(255,255,255); */
+		font-size: 38rpx;
+		font-weight: 700;
+	}
+	
+	.login-icon {
+		font-size: 36rpx;
+		font-weight: 700;
+		/* color: rgb(255,255,255); */
 	}
 
 	.m-page-join {

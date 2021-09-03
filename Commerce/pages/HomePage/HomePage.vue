@@ -315,6 +315,10 @@
 					content: "",
 				}
 			}
+			
+			.select::-webkit-scrollbar {
+				display: none;
+			}
 
 			.add {
 				position: absolute;
