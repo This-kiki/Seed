@@ -32,13 +32,21 @@
 					</view>
 				</picker>
 			</view>
-			<view class="text-box">
+			<view class="picker-box">
 				<text>籍贯</text>
-				<input class="input-box" type="text" v-model="layerMsg.place" placeholder-class="place" />
+				<picker class="picker" mode="region" v-model="layerMsg.place" @change="bindRegionChange">
+					<view class="picker-text">{{ layerMsg.place }}</view>
+				</picker>
 			</view>
-			<view class="text-box">
+<!-- 			<view class="text-box">
 				<text>政治面貌</text>
 				<input class="input-box" type="text" v-model="layerMsg.polity" placeholder-class="place" />
+			</view> -->
+			<view class="picker-box">
+				<text>政治面貌</text>
+				<picker class="picker" mode="selector" range-key="label" v-model="layerMsg.polity" @change="bindPolityChange" :range="polityList">
+					<view class="picker-text">{{ layerMsg.polity }}</view>
+				</picker>
 			</view>
 			<view class="text-box">
 				<text>民族</text>
@@ -109,6 +117,60 @@
 					workNum: '' ,
 					workplace: '',
 				},
+				polityList: [
+					{
+						label: '中共党员',
+						value: 0
+					},
+					{
+						label: '中共预备党员',
+						value: 1
+					},
+					{
+						label: '共青团员',
+						value: 3
+					},
+					{
+						label: '无党派人士',
+						value: 4
+					},
+					{
+						label: '群众',
+						value: 5
+					},
+					{
+						label: '民革会员',
+						value: 6
+					},
+					{
+						label: '民盟盟员',
+						value: 7
+					},
+					{
+						label: '民建会员',
+						value: 8
+					},
+					{
+						label: '民进会员',
+						value: 9
+					},
+					{
+						label: '农工党党员',
+						value: 10
+					},
+					{
+						label: '致公党党员',
+						value: 11
+					},
+					{
+						label: '九三学社社员',
+						value: 12
+					},
+					{
+						label: '台盟盟员',
+						value: 13
+					}
+				],
 				sexlist: [{
 					id: 0,
 					name: '男'
@@ -142,6 +204,14 @@
 			},
 			bindDateChange(e) {
 				this.layerMsg.birth = e.detail.value;
+			},
+			bindPolityChange(e) {
+				this.layerMsg.polity = this.polityList[e.detail.value].label;
+				// console.log(this.polityList[e.detail.value].label)
+			},
+			bindRegionChange(e) {
+				// console.log(e)
+				this.layerMsg.place = e.detail.value.join('-');
 			},
 			avatarChoose() {
 				let that = this;
@@ -276,7 +346,7 @@
 		}
 		.text-box {
 			width: 100%;
-			height: 80rpx;
+			height: 100rpx;
 			display: flex;
 			flex-direction: row;
 			justify-content: flex-start;
@@ -299,6 +369,9 @@
 				color: rgb(200,200,200);
 			}
 		}
+		.text-box:hover {
+			background-color: #eaeaea;
+		}
 		.textarea-box {
 			width: 100%;
 			display: flex;
@@ -314,7 +387,7 @@
 				font-size: 28rpx;
 				margin-left: 30rpx;
 				width: 150rpx;
-				height: 80rpx;
+				height: 100rpx;
 			}
 			.textarea {
 				color: rgb(121, 121, 121);
@@ -330,7 +403,7 @@
 		}
 		.picker-box {
 			width: 100%;
-			height: 80rpx;
+			height: 100rpx;
 			display: flex;
 			display: flex;
 			flex-direction: row;
@@ -347,17 +420,20 @@
 			}
 			.picker {
 				width: 80%;
-				height: 80rpx;
+				height: 100rpx;
 			}
 			.picker-text {
 				color: rgb(121, 121, 121);
 				margin-left: 26rpx;
-				height: 80rpx;
+				height: 100rpx;
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
 			}
 		}
+	}
+	.picker-box:hover {
+		background-color: #eaeaea;
 	}
 	.save {
 		width: 80%;

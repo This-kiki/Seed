@@ -312,7 +312,7 @@
 		}
 		.text-box {
 			width: 100%;
-			height: 80rpx;
+			height: 100rpx;
 			display: flex;
 			flex-direction: row;
 			justify-content: flex-start;
@@ -335,6 +335,9 @@
 				color: rgb(200,200,200);
 			}
 		}
+		.text-box:hover {
+			background-color: #eaeaea;
+		}
 		.textarea-box {
 			width: 100%;
 			display: flex;
@@ -350,7 +353,7 @@
 				font-size: 28rpx;
 				margin-left: 30rpx;
 				width: 150rpx;
-				height: 80rpx;
+				height: 100rpx;
 			}
 			.textarea {
 				color: rgb(121, 121, 121);
@@ -366,7 +369,7 @@
 		}
 		.picker-box {
 			width: 100%;
-			height: 80rpx;
+			height: 100rpx;
 			display: flex;
 			display: flex;
 			flex-direction: row;
@@ -383,16 +386,19 @@
 			}
 			.picker {
 				width: 80%;
-				height: 80rpx;
+				height: 100rpx;
 			}
 			.picker-text {
 				color: rgb(121, 121, 121);
 				margin-left: 26rpx;
-				height: 80rpx;
+				height: 100rpx;
 				display: flex;
 				justify-content: flex-start;
 				align-items: center;
 			}
+		}
+		.picker-box:hover {
+			background-color: #eaeaea;
 		}
 	}
 	.save {
