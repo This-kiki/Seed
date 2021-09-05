@@ -242,6 +242,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/Map/Map",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

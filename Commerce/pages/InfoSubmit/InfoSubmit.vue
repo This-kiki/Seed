@@ -246,7 +246,9 @@
 				// 是否是修改
 				flag: 1,
 				// 修改的id
-				editId: ""
+				editId: "",
+				// 用户身份
+				identity: 0
 			};
 		},
 		onLoad(options) {
@@ -255,6 +257,36 @@
 				this.setNav.navTitle = "修改资讯"
 				this.flag = 2
 				this.getInfoDetail(options.id)
+			}
+		},
+		created() {
+			// 获取身份
+			this.identity = uni.getStorageSync("identity")
+			if (this.identity == 1) {
+				this.categoryList = [{
+						id: 2,
+						name: "会员风采"
+					},
+					{
+						id: 5,
+						name: "普通资讯"
+					}
+				]
+			} else if (this.identity == 2) {
+				this.categoryList = [{
+					id: 5,
+					name: "普通资讯"
+				}]
+			} else if (this.identity == 3) {
+				this.categoryList = [{
+						id: 3,
+						name: "会员单位"
+					},
+					{
+						id: 5,
+						name: "普通资讯"
+					},
+				]
 			}
 		},
 		methods: {

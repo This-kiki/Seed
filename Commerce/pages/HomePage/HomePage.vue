@@ -152,7 +152,8 @@
 			this.checkUser()
 		},
 		onShow() {
-			this.getTopHomeInfo()			
+			this.getTopHomeInfo()	
+			this.active = 0
 		},
 		methods: {
 			// 判断是否为会员

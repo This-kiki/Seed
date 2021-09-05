@@ -9,7 +9,7 @@
 			</view>
 		</view> -->
 			<view class="main">
-				<view class="address" @click="copy(address)">
+				<view class="address" @click="goMap()">
 					<view class="title">
 						商会地址
 					</view>
@@ -24,11 +24,11 @@
 					<view class="title">
 						联系电话
 					</view>
-					<view class="info" v-for="(item,index) in phoneList" :key="index" @click="callPhone(item.phone)">
+					<view class="info" v-for="(item,index) in phoneList" :key="index">
 						<view class="text">
 							{{item.phone}} {{item.name}}
 						</view>
-						<view class="iconfont icon-dianhua"></view>
+						<view class="iconfont icon-dianhua" @click="callPhone(item.phone)"></view>
 					</view>
 				</view>
 			</view>
@@ -65,26 +65,11 @@
 				this.address = data.address
 				this.phoneList = data.contact
 			},
-			// 信息复制到剪切板
-			copy(value) {
-				uni.showModal({
-					content: value,
-					confirmText: '复制内容',
-					success: res => {
-						if (res.confirm) {
-							uni.setClipboardData({
-								data: value,
-								success: () => {
-									uni.showToast({
-										title: '复制成功'
-									})
-								}
-							});
-						} else if (res.cancel) {
-							return
-						}
-					}
-				});
+			// 跳转地图
+			goMap(){
+				uni.navigateTo({
+					url: "/pages/Map/Map"
+				})
 			},
 			// 打电话
 			callPhone(phone) {
@@ -138,7 +123,7 @@
 
 			.phone {
 				.info {
-					margin-top: 20rpx;
+					margin-top: 40rpx;
 				}
 			}
 		}

@@ -48,7 +48,7 @@
 				</view>
 			</view>
 			<view class="main">
-				<view class="address" @click="copy(address)">
+				<view class="address" @click="goMap()">
 					<view class="title">
 						商会地址
 					</view>
@@ -183,6 +183,12 @@
 						}
 					}
 				});
+			},
+			// 跳转地图
+			goMap(){
+				uni.navigateTo({
+					url: "/pages/Map/Map"
+				})
 			},
 			// 打电话
 			callPhone(phone) {
@@ -341,7 +347,7 @@
 
 				.phone {
 					.info {
-						margin-top: 20rpx;
+						margin-top: 40rpx;
 					}
 				}
 			}
