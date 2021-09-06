@@ -15,13 +15,17 @@
 		</view>
 		<!-- 操作栏 -->
 		<view class="operateContainer">
-			<view class="lawyer" @click="goPage('JobMe')">
+			<view class="lawyer" v-if="identity!=3" @click="goPage('JobMe')">
 				<text class="iconfont icon-geren"></text>
 				我的求职
 			</view>
-			<view class="me" @click="goPage('JobResume')">
+			<view class="me" v-if="identity!=3" @click="goPage('JobResume')">
 				<text class="iconfont icon-jianli"></text>
 				我的简历
+			</view>
+			<view class="resume" @click="goPage('ResumeList')">
+				<text class="iconfont icon-jianli"></text>
+				简历列表
 			</view>
 			<view class="submit" @click="goPage('JobHR')" v-if="identity == 3">
 				<text class="iconfont icon-guanli"></text>
@@ -235,6 +239,7 @@
 
 			.lawyer,
 			.me,
+			.resume,
 			.submit {
 				margin-right: 18rpx;
 				background-color: #eee;

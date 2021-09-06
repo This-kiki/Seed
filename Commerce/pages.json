@@ -248,6 +248,18 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/ResumeList/ResumeList",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/ResumeDetail/ResumeDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

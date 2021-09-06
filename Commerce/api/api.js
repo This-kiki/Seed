@@ -380,6 +380,24 @@ export class Api {
 		let res = await flyio.get("/info/getMyCol")
 		return res.data
 	}
+	
+	// 获得简历列表
+	getResumeList = async (data) => {
+		let res = await flyio.get(`/pro/resume/getPublish/${data.current}/${data.limit}`)
+		return res.data
+	}
+	
+	// 发布简历
+	releaseResume = async (data) =>{
+		let res = await flyio.get(`/pro/resume/publish?publish=${data.publish}`)
+		return res.data
+	}
+	
+	// 简历详情
+	getResumeDetail = async (data) => {
+		let res = await flyio.get(`/pro/resume/getPublishDetail?id=${data.id}`)
+		return res.data
+	}
 }
 
 

@@ -4,6 +4,42 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<view class="mainContainer">
 			<view class="common">
+				<text>年龄</text>
+				<input type="text" v-model="resumeInfo.age" />
+			</view>
+			<view class="common">
+				<text>学历</text>
+				<input type="text" v-model="resumeInfo.education" />
+			</view>
+			<view class="common">
+				<text>求职区域</text>
+				<input type="text" v-model="resumeInfo.area" />
+			</view>
+			<view class="common">
+				<text>求职职位</text>
+				<input type="text" v-model="resumeInfo.position" />
+			</view>
+			<view class="common">
+				<text>期望薪资</text>
+				<input type="text" v-model="resumeInfo.pay" />
+			</view>
+			<view class="common">
+				<text>求职状态</text>
+				<picker @change="selectState" range-key="name" :value="index" :range="stateList">
+					<view class="text">{{stateList[resumeInfo.state].name}}</view>
+				</picker>
+			</view>
+			<view class="common">
+				<text>工作经历</text>
+				<view class="content">
+					<textarea type="text" v-model="resumeInfo.experience" />
+				</view>
+			</view>
+			<view class="common">
+				<text>工作经验时长</text>
+				<input type="text" v-model="resumeInfo.experienceTime" />
+			</view>
+			<view class="common">
 				<text>计算机水平</text>
 				<input type="text" v-model="resumeInfo.computer" />
 			</view>
@@ -82,6 +118,14 @@
 				},
 				// 添加表单
 				resumeInfo: {
+					age:"",
+					education: "",
+					area: "",
+					position: "",
+					pay: "",
+					state: "",
+					experience: "",
+					experienceTime: "",
 					award: "",
 					certificate: "",
 					computer: "",
@@ -94,7 +138,11 @@
 					marriage: "",
 					social: ""
 				},
-
+				// 状态列表
+				stateList:[
+					{name:"已经离职",id:1},
+					{name:"在职",id:2},
+				]
 			};
 		},
 		onLoad(options) {
@@ -127,6 +175,10 @@
 						title: "添加失败"
 					})
 				}
+			},
+			// 选择状态
+			selectState(e){
+				this.resumeInfo.state = parseInt(e.detail.value)
 			}
 		}
 	}

@@ -3,12 +3,44 @@
 		<!-- 顶部 -->
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 主体 -->
-		<view class="mainContainer" v-if="resumeInfo!=null">
+		<view class="mainContainer" v-if="isShow">
 			<view class="img">
 				<image :src="resumeInfo.img" mode=""></image>
 			</view>
 			<view class="name">
 				{{resumeInfo.name}}
+			</view>
+			<view class="common">
+				<text>年龄</text>
+				{{resumeInfo.age}}
+			</view>
+			<view class="common">
+				<text>学历</text>
+				{{resumeInfo.education}}
+			</view>
+			<view class="common">
+				<text>求职区域</text>
+				{{resumeInfo.area}}
+			</view>
+			<view class="common">
+				<text>求职职位</text>
+				{{resumeInfo.position}}
+			</view>
+			<view class="common">
+				<text>期望薪资</text>
+				{{resumeInfo.pay}}
+			</view>
+			<view class="common">
+				<text>求职状态</text>
+				{{resumeInfo.state == 0?"已经离职":"在职"}}
+			</view>
+			<view class="common">
+				<text>工作经历</text>
+				{{resumeInfo.experience}}
+			</view>
+			<view class="common">
+				<text>工作经验时长</text>
+				{{resumeInfo.experienceTime}}
 			</view>
 			<view class="common">
 				<text>计算机水平</text>
@@ -80,7 +112,7 @@
 				删除
 			</view>
 		</view>
-		<view class="noData" v-if="resumeInfo==null">
+		<view class="noData" v-if="!isShow">
 			添加简历前须完善个人资料
 		</view>
 	</view>
@@ -101,6 +133,8 @@
 				resumeInfo: {},
 				// 添加/修改
 				addEdit: "修改",
+				// 是否显示详情
+				isShow: true,
 				// 是否是投递简历页面跳转
 				flag: 0,
 			}
@@ -122,15 +156,11 @@
 					return
 				}
 				let res = await this.$api.getResume()
-				// console.log(res)
 				this.resumeInfo = res.data.resume
+				// console.log(this.resumeInfo)
 				if (this.resumeInfo == null) {
 					this.addEdit = "添加"
-					// uni.showModal({
-					// 	content: "请先完善用户个人信息",
-					// 	confirmText: '确定',
-					// 	cancelText: '取消',
-					// })
+					this.isShow= false
 				}
 			},
 			// 会员删除简历
