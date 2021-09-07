@@ -12,7 +12,8 @@
 					</view>
 				</view>
 				<view class="m-page-headMsg" v-if="userMsg.name">
-					<image class="m-page-headimg" :src="userMsg.img" mode=""></image>
+					<!-- <image class="m-page-headimg" :src="userMsg.img" mode=""></image> -->
+					<view class="m-page-headimg" :style="{backgroundImage:'url('+userMsg.img+')'}"></view>
 					<view class="m-page-name">{{ userMsg.name }}</view>
 					<!-- <open-data class="m-page-headimg" type="userAvatarUrl"></open-data> -->
 					<!-- <open-data class="m-page-name" type="userNickName"></open-data> -->
@@ -308,6 +309,10 @@
 		overflow: hidden;
 		border: 2rpx solid 	rgb(246, 255, 161);
 		margin-left: 40rpx;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		ovrflow: hidden;
 	}
 
 	.m-page-name {
