@@ -521,6 +521,8 @@
 
 	.submitContainer {
 		background-color: #fff;
+		max-height: 100vh;
+		overflow-y: hidden;
 
 		.title {
 			border-bottom: 4rpx solid #eee;
@@ -563,7 +565,7 @@
 			padding: 20rpx 40rpx;
 
 			editor {
-				min-height: 100vh;
+				height: 50vh;
 			}
 		}
 
