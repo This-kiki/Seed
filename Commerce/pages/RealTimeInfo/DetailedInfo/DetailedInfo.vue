@@ -23,7 +23,7 @@
 						:key="index">
 						<div class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
 						<view class="comment-text">
-							<view class="comment-item-user">{{ item.name }}</view>
+							<view class="comment-item-user">{{ item.name?item.name:' ' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
 							<view class="comment-item-tile">
 								<view class="comment-item-reply">
@@ -59,7 +59,7 @@
 				<view class="comment-item" style="border-bottom: 1rpx solid #e8e8e8;">
 					<div class="comment-item-head" :style="'background-image: url(' + actComment.img + ');'"></div>
 					<view class="comment-text" style="border: none">
-						<view class="comment-item-user">{{ actComment.name }}</view>
+						<view class="comment-item-user">{{ actComment.name?actComment.name:' ' }}</view>
 						<view class="comment-item-content">{{ actComment.content }}</view>
 						<view class="comment-item-tile">
 							<view class="comment-item-time">{{ formatMsgTime(actComment.createTime) }}</view>
@@ -73,7 +73,7 @@
 					<view class="comment-item" v-for="(item,index) in actCommentReply" :key="index">
 						<div class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
 						<view class="comment-text">
-							<view class="comment-item-user">{{ item.name }}</view>
+							<view class="comment-item-user">{{ item.name?item.name:' ' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
 							<view class="comment-item-tile">
 								<view class="comment-item-time">{{ formatMsgTime(item.createTime) }}</view>
