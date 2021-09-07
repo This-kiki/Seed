@@ -97,6 +97,9 @@
 			getUserInfo() {
 				this.$api.getUserMsg().then((res) => {
 					this.mineMsg = res.data.userBaseInfo
+					if(this.mineMsg.place == null){
+						this.mineMsg.place = ""
+					}
 				})
 			},
 			bindSexChange(e) {
