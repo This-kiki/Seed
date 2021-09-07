@@ -164,6 +164,12 @@
 					if (res.success) {
 						this.$refs.ygcComment.toggleMask();
 						this.getInfo()
+					}else {
+						uni.showToast({
+							title: res.message,
+							duration: 1000,
+							icon: 'none'
+						});
 					}
 				})
 			},
@@ -185,6 +191,12 @@
 							this.actCommentReply = res.data.comments
 							// console.log(res)
 						})
+					}else {
+						uni.showToast({
+							title: res.message,
+							duration: 1000,
+							icon: 'none'
+						});
 					}
 				})
 			},
