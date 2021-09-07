@@ -152,6 +152,8 @@
 			this.checkUser()
 		},
 		onShow() {
+			this.current = 1
+			this.infoList = []
 			this.getTopHomeInfo()	
 			this.active = 0
 		},

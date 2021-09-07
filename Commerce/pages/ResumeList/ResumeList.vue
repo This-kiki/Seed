@@ -110,7 +110,7 @@
 									url: "/pages/JobResume/JobResume"
 								})
 							} else if (res.cancel) {
-								return
+								uni.navigateBack()
 							}
 						}
 					})

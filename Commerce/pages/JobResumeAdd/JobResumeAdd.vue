@@ -118,12 +118,12 @@
 				},
 				// 添加表单
 				resumeInfo: {
-					age:"",
+					age: "",
 					education: "",
 					area: "",
 					position: "",
 					pay: "",
-					state: "",
+					state: 0,
 					experience: "",
 					experienceTime: "",
 					award: "",
@@ -139,9 +139,14 @@
 					social: ""
 				},
 				// 状态列表
-				stateList:[
-					{name:"已经离职",id:1},
-					{name:"在职",id:2},
+				stateList: [{
+						name: "已经离职",
+						id: 0
+					},
+					{
+						name: "在职",
+						id: 1
+					},
 				]
 			};
 		},
@@ -155,8 +160,12 @@
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
-				// console.log(res)
-				this.resumeInfo = res.data.resume
+				let resumeInfo = res.data.resume
+				if (resumeInfo == null) {
+					return
+				} else {
+					this.resumeInfo = resumeInfo
+				}
 			},
 			// 添加简历
 			async addResume() {
@@ -177,7 +186,7 @@
 				}
 			},
 			// 选择状态
-			selectState(e){
+			selectState(e) {
 				this.resumeInfo.state = parseInt(e.detail.value)
 			}
 		}
