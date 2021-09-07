@@ -140,6 +140,7 @@
 			}
 		},
 		onShow() {
+			this.isShow = true
 			this.getResume()
 		},
 		onLoad(options) {

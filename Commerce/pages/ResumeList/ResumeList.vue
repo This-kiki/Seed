@@ -3,11 +3,11 @@
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
 		<!-- 发布 -->
-		<view class="release" @click="release()">
+		<view class="release" @click="getResume()" v-if="flag!=3">
 			发布
 		</view>
 		<!-- 撤回 -->
-		<view class="norelease" @click="norelease()">
+		<view class="norelease" @click="norelease()" v-if="flag!=3">
 			撤回
 		</view>
 		<!-- 简历列表 -->
@@ -82,11 +82,13 @@
 				// 当前页
 				current: 1,
 				// 简历列表
-				resumeList: []
+				resumeList: [],
+				// 是否有简历
+				flag: 0
 			};
 		},
 		onShow() {
-			this.getResume()
+			this.checkUser()
 			this.current = 1
 			this.resumeList = []
 			this.getResumeList()
@@ -95,6 +97,12 @@
 			this.loadMore()
 		},
 		methods: {
+			// 判断是否为会员
+			async checkUser() {
+				let res = await this.$api.getUserMsg()
+				this.flag = res.data.userBaseInfo.identity
+				console.log("身份", this.flag)
+			},
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
@@ -110,10 +118,12 @@
 									url: "/pages/JobResume/JobResume"
 								})
 							} else if (res.cancel) {
-								uni.navigateBack()
+								return
 							}
 						}
 					})
+				}else{
+					this.release()
 				}
 			},
 			// 获得简历列表
