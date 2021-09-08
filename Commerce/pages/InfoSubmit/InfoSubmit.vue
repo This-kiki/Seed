@@ -3,30 +3,36 @@
 		<!-- 顶部 -->
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 标题 -->
-		<view class="title">
+		<view class="title" v-if="!showEditor">
 			<input type="text" v-model="infoForm.title" placeholder="请输入标题(5-20个字)" maxlength="20" />
 		</view>
 		<!-- 类型 -->
-		<view class="category">
+		<view class="category" v-if="!showEditor">
 			<text>请选择资讯类型</text>
 			<picker @change="selectCategory" range-key="name" :value="index" :range="categoryList">
 				<view class="uni-input">{{categoryList[infoForm.category].name}}</view>
 			</picker>
 		</view>
 		<!-- 简介 -->
-		<view class="intro">
+		<view class="intro" v-if="!showEditor">
 			<textarea v-model="infoForm.simpleContent" placeholder="请输入简介(100字以内)" maxlength="100" />
 		</view>
 		<!-- 资讯主体 -->
 		<view class="mainContainer">
+			<view class="showBtn" @click="showEditor=!showEditor">
+				{{showEditor?"收回":"展开"}}
+			</view>
 			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
-				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" @focus="showOperate = true">
+				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
+				@focus="(showEditor=true)&(showOperate= true)">
 			</editor>
+			<!-- 占位框 -->
+			<view class="setBox" v-if="showEditor" :style="{height:keyboardHeight+'px'}">
+			</view>
 		</view>
 		<!-- 操作栏 -->
 		<view class="operate" v-if="showOperate">
 			<view class="operateLine">
-
 				<view class="icon">
 					<view class="iconfont icon-tupian" @touchend.stop="insertImage()">
 					</view>
@@ -222,8 +228,6 @@
 				formats: {},
 				// 操作栏选择
 				tapSelect: 0,
-				// 是否显示操作栏
-				showOperate: false,
 				// 字体样式选择
 				textStyle: [],
 				// 字体大小选择
@@ -240,6 +244,12 @@
 				editId: "",
 				// 用户身份
 				identity: 0,
+				// 是否展开编辑器
+				showEditor: false,
+				// 键盘高度
+				keyboardHeight: 0,
+				// 是否显示操作栏
+				showOperate: false
 			};
 		},
 		onLoad(options) {
@@ -251,6 +261,10 @@
 			}
 		},
 		created() {
+			uni.onKeyboardHeightChange(res => {
+				// console.log(res.height)
+				this.keyboardHeight = res.height
+			})
 			// 获取身份
 			this.identity = uni.getStorageSync("identity")
 			if (this.identity == 1) {
@@ -513,7 +527,7 @@
 	.submitContainer {
 		background-color: #fff;
 		max-height: 100vh;
-		overflow-y: hidden;
+		// overflow-y: hidden;
 
 		.title {
 			border-bottom: 4rpx solid #eee;
@@ -553,11 +567,24 @@
 		}
 
 		.mainContainer {
-			padding: 20rpx 40rpx;
+			padding: 0 40rpx 20rpx;
+
+			.showBtn {
+				float: right;
+				color: #6a9cf7;
+				letter-spacing: 2rpx;
+				font-size: 30rpx;
+				font-weight: bold;
+				// background-color: pink;
+				padding: 20rpx 0 0;
+				width: 100rpx;
+				height: 50rpx;
+				text-align: center;
+				line-height: 30rpx;
+			}
 
 			editor {
-				height: 50vh;
-				padding-bottom: 30rpx;
+				min-height: 74vh;
 			}
 		}
 

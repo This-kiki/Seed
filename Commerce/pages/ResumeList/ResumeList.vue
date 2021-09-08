@@ -100,7 +100,7 @@
 			// 判断是否为会员
 			async checkUser() {
 				let res = await this.$api.getUserMsg()
-				this.flag = res.data.userBaseInfo.identity
+				this.flag =  parseInt(res.data.userBaseInfo.identity)
 				console.log("身份", this.flag)
 			},
 			// 获取自己的简历

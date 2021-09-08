@@ -133,6 +133,7 @@
 			// 获取收藏列表
 			async getCollectionInfo() {
 				this.flag = 2
+				this.infoList = []
 				let res = await this.$api.getCollectionInfo()
 				// console.log(res)
 				let list = res.data.info

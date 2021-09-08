@@ -108,9 +108,7 @@
 				let data = {
 					openid: uni.getStorageSync("openid")
 				}
-				let res = await this.$api.getUserDetail({
-					openid: 'test'
-				})
+				let res = await this.$api.getUserDetail(data)
 				// console.log(res)
 				this.companyId = res.data.userDetailInfo.companyId
 				this.getJobList()
