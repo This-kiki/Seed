@@ -4,7 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 操作栏 -->
 		<view class="operateContainer">
-			<view class="release" @click="getAllHomeInfo()">
+			<view class="release" @click="getMeInfo()">
 				<text class="iconfont icon-submit"></text>
 				我的发布
 			</view>
@@ -97,6 +97,12 @@
 			}
 		},
 		methods: {
+			// 点击我的发布
+			getMeInfo() {
+				this.current = 1
+				this.infoList = []
+				this.getAllHomeInfo()
+			},
 			// 加载更多
 			loadMore() {
 				this.current++
@@ -108,10 +114,6 @@
 					this.current = 1
 					this.infoList = []
 					this.flag = 1
-				}
-				if(this.flag == 1){
-					this.current = 1
-					this.infoList = []
 				}
 				let res = await this.$api.getAllHomeInfo({
 					current: this.current,
