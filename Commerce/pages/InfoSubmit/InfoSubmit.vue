@@ -364,7 +364,7 @@
 									id: 'abcd',
 									role: 'god'
 								},
-								width: '80%',
+								width: '100%',
 								success: function() {
 									console.log('insert image success');
 								}
@@ -565,13 +565,14 @@
 			padding: 20rpx 40rpx;
 
 			editor {
-				height: 50vh;
+				height: 42vh;
 			}
 		}
 
 		.operate {
 			position: fixed;
-			bottom: 20rpx;
+			padding-bottom: 20rpx;
+			bottom: 0rpx;
 			width: 100%;
 			background-color: #fff;
 			border-top: 8rpx solid #eee;
