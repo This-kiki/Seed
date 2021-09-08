@@ -13,13 +13,6 @@
 				<view class="uni-input">{{categoryList[infoForm.category].name}}</view>
 			</picker>
 		</view>
-		<!-- 置顶 -->
-		<!-- <view class="top">
-			<text>是否置顶</text>
-			<picker @change="selectTop" :value="index" :range="topList">
-				<view class="uni-input">{{topList[infoForm.top]}}</view>
-			</picker>
-		</view> -->
 		<!-- 简介 -->
 		<view class="intro">
 			<textarea v-model="infoForm.simpleContent" placeholder="请输入简介(100字以内)" maxlength="100" />
@@ -214,8 +207,6 @@
 						name: "普通资讯"
 					},
 				],
-				// 置顶
-				topList: ["否", "是"],
 				// 发布表单
 				infoForm: {
 					title: "",
@@ -248,7 +239,7 @@
 				// 修改的id
 				editId: "",
 				// 用户身份
-				identity: 0
+				identity: 0,
 			};
 		},
 		onLoad(options) {
@@ -554,7 +545,7 @@
 			border-bottom: 4rpx solid #eee;
 
 			textarea {
-				height: 300rpx;
+				height: 180rpx;
 				font-size: 30rpx;
 				padding: 20rpx 40rpx;
 				letter-spacing: 1rpx;
@@ -565,7 +556,8 @@
 			padding: 20rpx 40rpx;
 
 			editor {
-				height: 42vh;
+				height: 50vh;
+				padding-bottom: 30rpx;
 			}
 		}
 

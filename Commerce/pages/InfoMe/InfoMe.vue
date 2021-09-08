@@ -109,6 +109,10 @@
 					this.infoList = []
 					this.flag = 1
 				}
+				if(this.flag == 1){
+					this.current = 1
+					this.infoList = []
+				}
 				let res = await this.$api.getAllHomeInfo({
 					current: this.current,
 					openid: uni.getStorageSync("openid")
