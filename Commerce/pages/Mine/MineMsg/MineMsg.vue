@@ -36,6 +36,10 @@
 					<input class="input-box" type="text" v-model="mineMsg.phone" placeholder-class="place" />
 				</view>
 				<view class="text-box">
+					<text>年级</text>
+					<input class="input-box" type="text" v-model="mineMsg.grade" placeholder-class="place" />
+				</view>
+				<view class="text-box">
 					<text>工作单位</text>
 					<input class="input-box" type="text" v-model="mineMsg.work" placeholder-class="place" />
 				</view>
@@ -69,6 +73,7 @@ export default {
 				sex: 3,
 				place: '',
 				phone: '',
+				grade: '',
 				work: '',
 				position: ''
 			},
@@ -95,14 +100,11 @@ export default {
 		getUserInfo() {
 			this.$api.getUserMsg().then(res => {
 				// this.mineMsg = res.data.userBaseInfo;
-				var obj = res.data.userBaseInfo
-				for(let key  in obj){
+				var obj = res.data.userBaseInfo;
+				for (let key in obj) {
 					// console.log(key,'-',obj[key])
-					this.mineMsg[key] = obj[key]
+					this.mineMsg[key] = obj[key];
 				}
-				// if (this.mineMsg.place == null) {
-				// 	this.mineMsg.place = '';
-				// }
 			});
 		},
 		bindSexChange(e) {
@@ -116,72 +118,79 @@ export default {
 			this.mineMsg.place = e.detail.value.join('-');
 		},
 		save() {
-			if (this.judge().status == true) {
-				uni.showLoading({
-					title: '正在提交'
-				});
-				if (this.temp) {
-					this.$api
-						.uploadPicture({
-							tempFilePaths: this.temp
-						})
-						.then(res => {
-							// console.log(res)
-							var obj = this.mineMsg;
-							obj.img = res.data.url;
-							this.$api
-								.changeUserMsg(obj)
-								.then(res => {
-									uni.hideLoading();
-									if (res.code == 20000) {
-										uni.showToast({
-											title: '修改成功',
-											duration: 2000
-										});
-										setTimeout(() => {
-											uni.navigateBack({});
-										}, 1000)
-									}
-								})
-								.catch(err => {
-									uni.hideLoading();
-									uni.showToast({
-										title: '提交失败，请重新提交',
-										icon: 'none'
-									});
-								});
-						});
-				} else if (this.mineMsg.img) {
-					var obj = this.mineMsg;
-					this.$api
-						.changeUserMsg(obj)
-						.then(res => {
-							uni.hideLoading();
-							if (res.code == 20000) {
-								uni.showToast({
-									title: '修改成功',
-									duration: 2000
-								});
-								setTimeout(() => {
-									uni.navigateBack({});
-								}, 1000)
-							}
-						})
-						.catch(err => {
-							uni.hideLoading();
-							uni.showToast({
-								title: '提交失败，请重新提交',
-								icon: 'none'
-							});
-						});
-				}
-			} else {
+			// if (this.judge().status == true) {
+			if (!this.mineMsg.name) {
 				uni.showToast({
-					title: this.judge().value,
+					title: '请填写姓名',
 					icon: 'none'
 				});
 				return false;
 			}
+			uni.showLoading({
+				title: '正在提交'
+			});
+			if (this.temp) {
+				this.$api
+					.uploadPicture({
+						tempFilePaths: this.temp
+					})
+					.then(res => {
+						// console.log(res)
+						var obj = this.mineMsg;
+						obj.img = res.data.url;
+						this.$api
+							.changeUserMsg(obj)
+							.then(res => {
+								uni.hideLoading();
+								if (res.code == 20000) {
+									uni.showToast({
+										title: '修改成功',
+										duration: 2000
+									});
+									setTimeout(() => {
+										uni.navigateBack({});
+									}, 1000);
+								}
+							})
+							.catch(err => {
+								uni.hideLoading();
+								uni.showToast({
+									title: '提交失败，请重新提交',
+									icon: 'none'
+								});
+							});
+					});
+			} else {
+				var obj = this.mineMsg;
+				this.$api
+					.changeUserMsg(obj)
+					.then(res => {
+						uni.hideLoading();
+						if (res.code == 20000) {
+							uni.showToast({
+								title: '修改成功',
+								duration: 2000
+							});
+							setTimeout(() => {
+								uni.navigateBack({});
+							}, 1000);
+						}
+					})
+					.catch(err => {
+						uni.hideLoading();
+						uni.showToast({
+							title: '提交失败，请重新提交',
+							icon: 'none'
+						});
+					});
+			}
+			// } else {
+			// 	uni.showToast({
+			// 		title: this.judge().value,
+			// 		icon: 'none'
+			// 	});
+			// 	return false;
+			// }
 		},
 		isPoneAvailable(poneInput) {
 			var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;

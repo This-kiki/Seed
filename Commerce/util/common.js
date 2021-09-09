@@ -110,6 +110,9 @@ let formVerification = [{
 },{
 	label: 'time',
 	value: '请填写注册时间'
+},{
+	label: 'grade',
+	value: '请填写年级'
 }]
 
 function findWord(word) {
