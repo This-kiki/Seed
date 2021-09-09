@@ -42,6 +42,10 @@
 				{{userInfo.major}}
 			</view>
 			<view class="common">
+				<text>年级</text>
+				{{userInfo.grade}}
+			</view>
+			<view class="common">
 				<text>工作单位</text>
 				{{userInfo.work}}
 			</view>
