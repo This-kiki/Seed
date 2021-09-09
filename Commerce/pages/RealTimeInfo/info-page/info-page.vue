@@ -88,7 +88,7 @@
 						break;
 				}
 				if (resp) {
-					this.current.totalPages = resp.data.total
+					this.current.totalPages = Math.ceil(resp.data.total / 20)
 					this.list = resp.data.rows
 				}
 			},
@@ -130,7 +130,7 @@
 						break;
 				}
 				if (resp) {
-					this.current.totalPages = resp.data.total
+					this.current.totalPages = Math.ceil(resp.data.total / 20)
 					for (var i = 0; i < resp.data.rows.length; i++) {
 						this.list.push(resp.data.rows[i])
 					}
