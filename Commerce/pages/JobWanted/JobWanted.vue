@@ -101,11 +101,34 @@
 		},
 		onLoad() {
 			this.checkIdentity()
+			this.getResume()
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
-		methods: {
+		methods: { // 获取自己的简历
+			async getResume() {
+				let res = await this.$api.getResume()
+				let resumeInfo = res.data.resume
+				// console.log(this.resumeInfo)
+				if (resumeInfo == null) {
+					uni.showModal({
+						title: '提示',
+						content: '请先添加简历！',
+						success: async function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/pages/JobResume/JobResume"
+								})
+							} else if (res.cancel) {
+								return
+							}
+						}
+					})
+				} else {
+					return
+				}
+			},
 			// 检查身份
 			checkIdentity() {
 				let identity = uni.getStorageSync("identity")
@@ -117,7 +140,7 @@
 						showCancel: false,
 						success() {
 							uni.reLaunch({
-								url:"/pages/HomePage/HomePage"
+								url: "/pages/HomePage/HomePage"
 							})
 						}
 					})

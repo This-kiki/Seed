@@ -4,8 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 详情 -->
 		<view class="mainContainer">
-			<view class="companyImg">
-				<image :src="companyInfo.img" mode=""></image>
+			<view class="companyImg" :style="{'background-image':'url('+companyInfo.img+')'}">
 			</view>
 			<view class="mainInfo">
 				<view class="left">
@@ -17,6 +16,9 @@
 					</view>
 				</view>
 				<view class="right">
+					<button class="share iconfont icon-share" hover-class='none' open-type="share"
+						@click="shareWechat()">
+					</button>
 					<view class="phone iconfont icon-dianhua" @click="callPhone()">
 					</view>
 					<view class="email iconfont icon-youxiang" @click="copy(companyInfo.email)">
@@ -50,8 +52,7 @@
 				</view>
 				<view class="common license">
 					<text>营业执照照片</text>
-					<view class="img">
-						<image :src="companyInfo.license" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+companyInfo.license+')'}">
 					</view>
 				</view>
 				<view class="common">
@@ -118,6 +119,16 @@
 					phoneNumber: this.companyInfo.phone
 				})
 			},
+			//分享
+			shareWechat() {
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 1,
+					title: this.companyInfo.companyName,
+					summary: this.companyInfo.content
+				});
+			},
 			// 信息复制到剪切板
 			copy(value) {
 				uni.showModal({
@@ -158,12 +169,9 @@
 				border-radius: 14rpx;
 				background-color: lightblue;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-				image {
-					width: 100%;
-					height: 100%;
-					border-radius: 14rpx;
-				}
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
 
 			}
 
@@ -201,6 +209,15 @@
 						text-align: center;
 						background-color: #eee;
 					}
+					button{
+						width: 80rpx!important;
+						height: 80rpx!important;
+						
+					}
+
+					button::after {
+						border: none;
+					}
 				}
 			}
 
@@ -227,14 +244,14 @@
 
 				.license {
 					.img {
-						background-color: lightblue;
+						width: 100%;
+						height: 400rpx;
 						margin-top: 10rpx;
-						border-radius: 10rpx;
-
-						image {
-							width: 100%;
-							border-radius: 10rpx;
-						}
+						border-radius: 14rpx;
+						background-color: lightblue;
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
 					}
 				}
 			}

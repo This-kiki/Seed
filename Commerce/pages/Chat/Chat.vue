@@ -5,8 +5,8 @@
 		<!-- 聊天主体 -->
 		<view class="mainContaienr">
 			<view class="chatBox" v-for="(item,index) in chatList" :key="index" :class="item.flag==1?'user':'company'">
-				<view class="avatar" @click="seeUserDetail(toInfo.toOpenid,item.flag)">
-					<image :src="item.img" mode=""></image>
+				<view class="avatar" :style="{'background-image':'url('+item.img+')'}"
+					@click="seeUserDetail(toInfo.toOpenid,item.flag)">
 				</view>
 				<view class="content">
 					{{item.content}}
@@ -66,7 +66,7 @@
 			console.log(this.toInfo.img)
 			this.setNav.navTitle = this.toInfo.name
 			this.openid = uni.getStorageSync("openid")
-			
+
 			this.getUserDetail()
 			this.getLocalMessage()
 			this.getLeaveMessage()
@@ -107,10 +107,10 @@
 				let chatItem = {
 					info: this.toInfo,
 					chatList: this.chatList,
-					time: this.dateFormat("YY-mm-dd HH:MM:SS",time)
+					time: this.dateFormat("YY-mm-dd HH:MM:SS", time)
 				}
 				if (flag == -1) {
-					chat.push(chatItem)
+					chat.unshift(chatItem)
 				} else {
 					chat[flag] = chatItem
 				}
@@ -118,23 +118,23 @@
 			},
 			// 时间转字符串
 			dateFormat(fmt, date) {
-			    let ret;
-			    const opt = {
-			        "Y+": date.getFullYear().toString(),        // 年
-			        "m+": (date.getMonth() + 1).toString(),     // 月
-			        "d+": date.getDate().toString(),            // 日
-			        "H+": date.getHours().toString(),           // 时
-			        "M+": date.getMinutes().toString(),         // 分
-			        "S+": date.getSeconds().toString()          // 秒
-			        // 有其他格式化字符需求可以继续添加，必须转化成字符串
-			    };
-			    for (let k in opt) {
-			        ret = new RegExp("(" + k + ")").exec(fmt);
-			        if (ret) {
-			            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-			        };
-			    };
-			    return fmt;
+				let ret;
+				const opt = {
+					"Y+": date.getFullYear().toString(), // 年
+					"m+": (date.getMonth() + 1).toString(), // 月
+					"d+": date.getDate().toString(), // 日
+					"H+": date.getHours().toString(), // 时
+					"M+": date.getMinutes().toString(), // 分
+					"S+": date.getSeconds().toString() // 秒
+					// 有其他格式化字符需求可以继续添加，必须转化成字符串
+				};
+				for (let k in opt) {
+					ret = new RegExp("(" + k + ")").exec(fmt);
+					if (ret) {
+						fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+					};
+				};
+				return fmt;
 			},
 			// 获取本地消息
 			getLocalMessage() {
@@ -311,12 +311,10 @@
 				.avatar {
 					width: 80rpx;
 					height: 80rpx;
-
-					image {
-						width: 100%;
-						height: 100%;
-						border-radius: 10rpx;
-					}
+					border-radius: 10rpx;
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: cover;
 				}
 
 				.content {

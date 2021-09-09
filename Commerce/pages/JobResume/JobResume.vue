@@ -4,8 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 主体 -->
 		<view class="mainContainer" v-if="isShow">
-			<view class="img">
-				<image :src="resumeInfo.img" mode=""></image>
+			<view class="img" :style="{'background-image':'url('+resumeInfo.img+')'}">
 			</view>
 			<view class="name">
 				{{resumeInfo.name}}
@@ -161,7 +160,7 @@
 				// console.log(this.resumeInfo)
 				if (this.resumeInfo == null) {
 					this.addEdit = "添加"
-					this.isShow= false
+					this.isShow = false
 				}
 			},
 			// 会员删除简历
@@ -171,17 +170,29 @@
 						icon: "none",
 						title: "请先添加简历"
 					})
+					return
 				}
-				let res = await this.$api.deleteResume({
-					id: this.resumeInfo.id
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除?',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.deleteResume({
+								id: that.resumeInfo.id
+							})
+							console.log(res)
+							if (res.code == 20000) {
+								uni.showToast({
+									title: "删除成功"
+								})
+								that.getResume()
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
 				})
-				console.log(res)
-				if (res.code == 20000) {
-					uni.showToast({
-						title: "删除成功"
-					})
-					this.getResume()
-				}
 			},
 			// 添加/修改简历
 			async addResume() {
@@ -221,12 +232,9 @@
 				background-color: lightblue;
 				border-radius: 14rpx;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-				image {
-					width: 100%;
-					height: 100%;
-					border-radius: 14rpx;
-				}
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
 			}
 
 			.name {

@@ -32,6 +32,30 @@
 				scale: 18
 			};
 		},
+		created() {
+			this.goMap()
+		},
+		methods: {
+			goMap() {
+				let endPoint = JSON.stringify({
+					'name': "汕头市濠江区珠浦社区康乐活动中心",
+					'location': {
+						'lng': 116.690369,
+						'lat': 23.293167
+					}
+				})
+				uni.navigateToMiniProgram({
+					appId: 'wx7643d5f831302ab0',
+					path: `pages/multiScheme/multiScheme?endLoc=${endPoint}`,
+					fail: function() {
+						wx.showToast({
+							icon: 'none',
+							title: '打开失败 请重试'
+						})
+					}
+				})
+			}
+		}
 	}
 </script>
 

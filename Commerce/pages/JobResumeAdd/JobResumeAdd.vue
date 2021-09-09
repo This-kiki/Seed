@@ -9,7 +9,9 @@
 			</view>
 			<view class="common">
 				<text>学历</text>
-				<input type="text" v-model="resumeInfo.education" />
+				<picker @change="selectEdu" v-model="resumeInfo.education" :range="eduList">
+					<view class="text">{{resumeInfo.education}}</view>
+				</picker>
 			</view>
 			<view class="common">
 				<text>求职区域</text>
@@ -53,7 +55,9 @@
 			</view>
 			<view class="common">
 				<text>婚姻状况</text>
-				<input type="text" v-model="resumeInfo.marriage" />
+				<picker @change="selectmarriage" v-model="resumeInfo.marriage" :range="marriageList">
+					<view class="text">{{resumeInfo.marriage}}</view>
+				</picker>
 			</view>
 			<view class="common">
 				<text>自我介绍</text>
@@ -119,7 +123,7 @@
 				// 添加表单
 				resumeInfo: {
 					age: "",
-					education: "",
+					education: "本科",
 					area: "",
 					position: "",
 					pay: "",
@@ -135,7 +139,7 @@
 					health: "",
 					hobby: "",
 					location: "",
-					marriage: "",
+					marriage: "未婚",
 					social: ""
 				},
 				// 状态列表
@@ -147,7 +151,11 @@
 						name: "在职",
 						id: 1
 					},
-				]
+				],
+				// 学历列表
+				eduList: ["研究生", "本科", "专科", "高中", "初中", "小学"],
+				// 婚姻状况
+				marriageList: ["未婚", "已婚"]
 			};
 		},
 		onLoad(options) {
@@ -169,6 +177,15 @@
 			},
 			// 添加简历
 			async addResume() {
+				for (let key in this.resumeInfo) {
+					if (!this.resumeInfo[key]) {
+						uni.showToast({
+							title: "请将简历填写完整",
+							icon: "none"
+						})
+						return
+					}
+				}
 				let res = await this.$api.addResume(this.resumeInfo)
 				console.log(res)
 				if (res.code == 20000) {
@@ -188,6 +205,14 @@
 			// 选择状态
 			selectState(e) {
 				this.resumeInfo.state = parseInt(e.detail.value)
+			},
+			// 选择学历
+			selectEdu(e) {
+				this.resumeInfo.education = this.eduList[e.detail.value]
+			},
+			// 选择婚姻状况
+			selectmarriage(e) {
+				this.resumeInfo.marriage = this.marriageList[e.detail.value]
 			}
 		}
 	}
@@ -219,7 +244,8 @@
 			}
 
 			input,
-			textarea {
+			textarea,
+			picker {
 				background-color: #f1f1f1;
 				margin-top: 10rpx;
 				padding: 10rpx;

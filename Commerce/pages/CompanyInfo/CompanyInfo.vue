@@ -7,8 +7,7 @@
 			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 				:duration="duration" :circular="circular">
 				<swiper-item v-for="item in carouselList" :key="item.id">
-					<view class="swiper-item">
-						<image :src="item" mode=""></image>
+					<view class="swiper-item" :style="{'background-image':'url('+item+')'}">
 					</view>
 				</swiper-item>
 			</swiper>
@@ -114,7 +113,7 @@
 				// 循环
 				circular: true,
 				// 轮播图列表
-				carouselList: [],				
+				carouselList: [],
 				// 商会介绍
 				info: "暂无",
 				// 商会框高度
@@ -137,7 +136,7 @@
 		},
 		methods: {
 			// 种子会轮播图
-			async getInfoCarousel(){
+			async getInfoCarousel() {
 				let res = await this.$api.getInfoCarousel()
 				// console.log(res)
 				this.carouselList = res.data.urlList
@@ -185,7 +184,7 @@
 				});
 			},
 			// 跳转地图
-			goMap(){
+			goMap() {
 				uni.navigateTo({
 					url: "/pages/Map/Map"
 				})
@@ -217,11 +216,9 @@
 					background-color: #4e8df6;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-					image{
-						width: 100%;
-						height: 100%;
-						border-radius: 16rpx;
-					}
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: cover;
 				}
 			}
 		}
