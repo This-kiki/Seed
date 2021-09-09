@@ -16,6 +16,9 @@
 					</view>
 				</view>
 				<view class="right">
+					<button class="share iconfont icon-share" hover-class='none' open-type="share"
+						@click="shareWechat()">
+					</button>
 					<view class="phone iconfont icon-dianhua" @click="callPhone()">
 					</view>
 					<view class="email iconfont icon-youxiang" @click="copy(companyInfo.email)">
@@ -116,6 +119,16 @@
 					phoneNumber: this.companyInfo.phone
 				})
 			},
+			//分享
+			shareWechat() {
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 1,
+					title: this.companyInfo.companyName,
+					summary: this.companyInfo.content
+				});
+			},
 			// 信息复制到剪切板
 			copy(value) {
 				uni.showModal({
@@ -195,6 +208,15 @@
 						border-radius: 30rpx;
 						text-align: center;
 						background-color: #eee;
+					}
+					button{
+						width: 80rpx!important;
+						height: 80rpx!important;
+						
+					}
+
+					button::after {
+						border: none;
 					}
 				}
 			}
