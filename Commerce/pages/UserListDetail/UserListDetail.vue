@@ -104,7 +104,12 @@
 				}
 				let res = await this.$api.getUserDetail(data)
 				console.log(res)
-				this.userInfo = res.data.userDetailInfo
+				let userInfo = res.data.userDetailInfo
+				for (let Key in userInfo) {
+					if (!userInfo[key])
+						userInfo[Key] = ""
+				}
+				this.userInfo = userInfo
 			},
 			// 打电话
 			callPhone() {

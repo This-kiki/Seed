@@ -118,7 +118,10 @@
 					var obj = res.data.userBaseInfo;
 					for (let key in obj) {
 						// console.log(key,'-',obj[key])
-						this.mineMsg[key] = obj[key];
+						if (obj[key])
+							this.mineMsg[key] = obj[key];
+						else
+							this.mineMsg[key] = ''
 					}
 				});
 			},

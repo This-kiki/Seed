@@ -6,11 +6,12 @@
 			<view class="msg" v-if="hasUserInfo">
 				<!-- <open-data class="headimg" type="userAvatarUrl"></open-data> -->
 				<!-- <open-data class="name" type="userNickName"></open-data> -->
-				<image class="headimg" :src="userInfo.img" mode=""></image>
+				<div class="page-headimg" :style="{'background-image': `url(${userInfo.img})`}"></div>
 				<view class="name">{{ userInfo.name ? userInfo.name : ' ' }}</view>
 			</view>
 			<view class="msg" v-if="!hasUserInfo">
-				<div v-if="!item.img" class="page-headimg" style="background-image: url('../../static/img/logo.png');"></div>
+				<div v-if="!item.img" class="page-headimg" style="background-image: url('../../static/img/logo.png');">
+				</div>
 				<view class="name">濠江区珠浦种子会</view>
 			</view>
 		</view>
@@ -18,194 +19,205 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			hasUserInfo: true, //是否授权登录
-			userInfo: null
-		};
-	},
+	export default {
+		data() {
+			return {
+				hasUserInfo: true, //是否授权登录
+				userInfo: null
+			};
+		},
 
-	onLoad() {
-		// 页面加载时使用用户授权逻辑，弹出确认的框
-		this.userAuthorized();
-	},
-	methods: {
-		getUserProfile: function(e) {
-			let that = this;
-			uni.getUserProfile({
-				desc: '业务需要',
-				success: res => {
-					// console.log('seed_userInfo',res);
-					uni.setStorage({
-						key: 'seed_userInfo',
-						data: res.userInfo,
-						success: function() {
-							that.userAuthorized();
-						}
+		onLoad() {
+			// 页面加载时使用用户授权逻辑，弹出确认的框
+			this.userAuthorized();
+		},
+		methods: {
+			getUserProfile: function(e) {
+				let that = this;
+				uni.getUserProfile({
+					desc: '业务需要',
+					success: res => {
+						// console.log('seed_userInfo',res);
+						uni.setStorage({
+							key: 'seed_userInfo',
+							data: res.userInfo,
+							success: function() {
+								that.userAuthorized();
+							}
+						});
+						//拿到信息处理业务
+						that.$api.getUserMsg().then(memberMsg_res => {
+							console.log('基本信息', memberMsg_res.data.userBaseInfo);
+							if (!memberMsg_res.data.userBaseInfo.name && !memberMsg_res.data
+								.userBaseInfo.img) {
+								var obj = {
+									name: res.userInfo.nickName,
+									img: res.userInfo.avatarUrl
+								};
+								this.$api.changeUserMsg(obj).then(respo => {
+									if (respo.code == 20000) {
+										uni.showToast({
+											title: '个人信息已同步',
+											duration: 2000
+										});
+									}
+								});
+							}
+						});
+					},
+					fail: err => {
+						console.log('err', err);
+					}
+				});
+			},
+			loginGo() {
+				let that = this;
+				const UserInfo = uni.getStorageSync('seed_userInfo');
+				that.$api.getUserMsg().then(userMsg_res => {
+					// console.log('基本信息',userMsg_res.data.userBaseInfo)
+					that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+					this.userInfo = userMsg_res.data.userBaseInfo;
+					if (userMsg_res.data.userBaseInfo.name) {
+						this.hasUserInfo = true;
+					} else {
+						this.hasUserInfo = false;
+					}
+				});
+				setTimeout(() => {
+					uni.reLaunch({
+						url: '/pages/HomePage/HomePage'
 					});
-					//拿到信息处理业务
-					that.$api.getUserMsg().then(memberMsg_res => {
-						console.log('基本信息', memberMsg_res.data.userBaseInfo);
-						if (!memberMsg_res.data.userBaseInfo.name && !memberMsg_res.data.userBaseInfo.img) {
-							var obj = {
-								name: res.userInfo.nickName,
-								img: res.userInfo.avatarUrl
-							};
-							this.$api.changeUserMsg(obj).then(respo => {
-								if (respo.code == 20000) {
-									uni.showToast({
-										title: '个人信息已同步',
-										duration: 2000
+				}, 1500);
+				// if (UserInfo) {
+				// 	that.$api.getUserMsg().then(userMsg_res => {
+				// 		// console.log('基本信息',userMsg_res.data.userBaseInfo)
+				// 		that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+				// 		uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+				// 		this.userInfo = userMsg_res.data.userBaseInfo
+				// 	});
+				// 	uni.reLaunch({ url: '/pages/HomePage/HomePage' });
+				// } else {
+				// 	this.hasUserInfo = false
+				// }
+			},
+			userAuthorized() {
+				let that = this;
+				// const UserInfo = uni.getStorageSync('seed_userInfo');
+				// if (UserInfo) {
+				// console.log('userInfo',UserInfo)
+				// this.hasUserInfo = true
+				//小程序通过uni.login()获取code
+				uni.login({
+					success: function(login_res) {
+						console.log('login_res', login_res);
+						uni.request({
+							url: 'https://hjzpzzh.com/seed/user/getOpenid',
+							method: 'POST',
+							header: {
+								'content-type': 'application/json'
+							},
+							data: JSON.stringify({
+								code: login_res.code //临时登录凭证
+							}),
+							success: function(openId_res) {
+								// 全局存储
+								console.log('return openID:', openId_res.data);
+								that.$store.dispatch('setOpenid', openId_res.data.data.openid)
+									.then(() => {
+										uni.setStorageSync('openid', openId_res.data.data
+											.openid);
+										that.loginGo();
+										console.log('openid存储成功');
+										// that.$api.getUserMsg().then(userMsg_res => {
+										// 	// console.log('基本信息',userMsg_res.data.userBaseInfo)
+										// 	that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+										// 	uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+										// });
 									});
-								}
-							});
-						}
-					});
-				},
-				fail: err => {
-					console.log('err', err);
-				}
-			});
-		},
-		loginGo() {
-			let that = this;
-			const UserInfo = uni.getStorageSync('seed_userInfo');
-			that.$api.getUserMsg().then(userMsg_res => {
-				// console.log('基本信息',userMsg_res.data.userBaseInfo)
-				that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
-				uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
-				this.userInfo = userMsg_res.data.userBaseInfo;
-				if (userMsg_res.data.userBaseInfo.name) {
-					this.hasUserInfo = true;
-				} else {
-					this.hasUserInfo = false;
-				}
-			});
-			setTimeout(() => {
-				uni.reLaunch({ url: '/pages/HomePage/HomePage' });
-			}, 1500);
-			// if (UserInfo) {
-			// 	that.$api.getUserMsg().then(userMsg_res => {
-			// 		// console.log('基本信息',userMsg_res.data.userBaseInfo)
-			// 		that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
-			// 		uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
-			// 		this.userInfo = userMsg_res.data.userBaseInfo
-			// 	});
-			// 	uni.reLaunch({ url: '/pages/HomePage/HomePage' });
-			// } else {
-			// 	this.hasUserInfo = false
-			// }
-		},
-		userAuthorized() {
-			let that = this;
-			// const UserInfo = uni.getStorageSync('seed_userInfo');
-			// if (UserInfo) {
-			// console.log('userInfo',UserInfo)
-			// this.hasUserInfo = true
-			//小程序通过uni.login()获取code
-			uni.login({
-				success: function(login_res) {
-					console.log('login_res', login_res);
-					uni.request({
-						url: 'https://hjzpzzh.com/seed/user/getOpenid',
-						method: 'POST',
-						header: {
-							'content-type': 'application/json'
-						},
-						data: JSON.stringify({
-							code: login_res.code //临时登录凭证
-						}),
-						success: function(openId_res) {
-							// 全局存储
-							console.log('return openID:', openId_res.data);
-							that.$store.dispatch('setOpenid', openId_res.data.data.openid).then(() => {
-								uni.setStorageSync('openid', openId_res.data.data.openid);
-								that.loginGo();
-								console.log('openid存储成功');
-								// that.$api.getUserMsg().then(userMsg_res => {
-								// 	// console.log('基本信息',userMsg_res.data.userBaseInfo)
-								// 	that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
-								// 	uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
-								// });
-							});
-							// uni.reLaunch({ url: '/pages/HomePage/HomePage' });
-						},
-						fail: function(error) {
-							//调用服务端登录接口失败
-							console.log(error);
-						}
-					});
-				},
-				fail(error) {
-					console.log('login error', error);
-				}
-			});
-			// } else {
-			// this.hasUserInfo = false
-			// }
+								// uni.reLaunch({ url: '/pages/HomePage/HomePage' });
+							},
+							fail: function(error) {
+								//调用服务端登录接口失败
+								console.log(error);
+							}
+						});
+					},
+					fail(error) {
+						console.log('login error', error);
+					}
+				});
+				// } else {
+				// this.hasUserInfo = false
+				// }
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss">
-.container {
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	.userinfo {
-		height: 90vh;
-		position: relative;
-		top: -10vh;
+	.container {
+		width: 100%;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		.loginbtn {
-			width: 400rpx;
-			height: 70rpx;
-			background-color: #4cd964;
-			border: 2rpx solid #aaaaff;
-			border-radius: 50rpx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-weight: 600;
-			color: #ffffff;
-			letter-spacing: 10rpx;
-		}
-		.msg {
-			margin: auto;
+		justify-content: center;
+
+		.userinfo {
+			height: 90vh;
+			position: relative;
+			top: -10vh;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			.headimg {
-				height: 150rpx;
-				width: 150rpx;
-				border-radius: 80rpx;
-				overflow: hidden;
-				margin-bottom: 40rpx;
+
+			.loginbtn {
+				width: 400rpx;
+				height: 70rpx;
+				background-color: #4cd964;
+				border: 2rpx solid #aaaaff;
+				border-radius: 50rpx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-weight: 600;
+				color: #ffffff;
+				letter-spacing: 10rpx;
 			}
-			.page-headimg {
-				height: 150rpx;
-				width: 150rpx;
-				border-radius: 80rpx;
-				overflow: hidden;
-				background-repeat: no-repeat;
-				background-position: center center;
-				background-size: cover;
-				ovrflow: hidden;
-				margin-bottom: 40rpx;
-			}
-			.name {
-				font-weight: 34rpx;
-				font-weight: 800;
-				color: #787878;
+
+			.msg {
+				margin: auto;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.headimg {
+					height: 150rpx;
+					width: 150rpx;
+					border-radius: 80rpx;
+					overflow: hidden;
+					margin-bottom: 40rpx;
+				}
+
+				.page-headimg {
+					height: 150rpx;
+					width: 150rpx;
+					border-radius: 80rpx;
+					overflow: hidden;
+					background-repeat: no-repeat;
+					background-position: center center;
+					background-size: cover;
+					ovrflow: hidden;
+					margin-bottom: 40rpx;
+				}
+
+				.name {
+					font-weight: 34rpx;
+					font-weight: 800;
+					color: #787878;
+				}
 			}
 		}
 	}
-}
 </style>

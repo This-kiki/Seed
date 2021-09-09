@@ -21,8 +21,10 @@
 					<!-- 某个评论 -->
 					<view class="comment-item" @click="showReply(item)" v-for="(item,index) in commentForm"
 						:key="index">
-						<div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
-						<div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
+						<div v-if="item.img" class="comment-item-head"
+							:style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="!item.img" class="comment-item-head"
+							style="background-image: url('../../../static/img/head.webp');"></div>
 						<view class="comment-text">
 							<view class="comment-item-user">{{ item.name?item.name:'游客' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
@@ -58,8 +60,10 @@
 					</view>
 				</view>
 				<view class="comment-item" style="border-bottom: 1rpx solid #e8e8e8;">
-					<div v-if="actComment.img" class="comment-item-head" :style="'background-image: url(' + actComment.img + ');'"></div>
-					<div v-if="!actComment.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
+					<div v-if="actComment.img" class="comment-item-head"
+						:style="'background-image: url(' + actComment.img + ');'"></div>
+					<div v-if="!actComment.img" class="comment-item-head"
+						style="background-image: url('../../../static/img/head.webp');"></div>
 					<view class="comment-text" style="border: none">
 						<view class="comment-item-user">{{ actComment.name?actComment.name:'游客' }}</view>
 						<view class="comment-item-content">{{ actComment.content }}</view>
@@ -73,8 +77,10 @@
 						{{ actCommentReply.length==0?'暂无评论回复':'全部回复' }}
 					</view>
 					<view class="comment-item" v-for="(item,index) in actCommentReply" :key="index">
-						<div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
-						<div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
+						<div v-if="item.img" class="comment-item-head"
+							:style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="!item.img" class="comment-item-head"
+							style="background-image: url('../../../static/img/head.webp');"></div>
 						<view class="comment-text">
 							<view class="comment-item-user">{{ item.name?item.name:'游客' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
@@ -167,7 +173,7 @@
 					if (res.success) {
 						this.$refs.ygcComment.toggleMask();
 						this.getInfo()
-					}else {
+					} else {
 						uni.showToast({
 							title: res.message,
 							duration: 1000,
@@ -194,7 +200,7 @@
 							this.actCommentReply = res.data.comments
 							// console.log(res)
 						})
-					}else {
+					} else {
 						uni.showToast({
 							title: res.message,
 							duration: 1000,
@@ -292,9 +298,16 @@
 				let res = await this.$api.collectInfo(getAPI)
 				// console.log(res)
 				if (res.code == 20000) {
-					uni.showToast({
-						title: "收藏成功"
-					})
+					if (this.collectColor == "#00aaff") {
+						uni.showToast({
+							icon: "none",
+							title: "取消收藏"
+						})
+					} else {
+						uni.showToast({
+							title: "收藏成功"
+						})
+					}
 					this.getInfo()
 				}
 			},
