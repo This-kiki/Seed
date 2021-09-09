@@ -105,9 +105,9 @@
 				let res = await this.$api.getUserDetail(data)
 				console.log(res)
 				let userInfo = res.data.userDetailInfo
-				for (let Key in userInfo) {
+				for (let key in userInfo) {
 					if (!userInfo[key])
-						userInfo[Key] = ""
+						userInfo[key] = ""
 				}
 				this.userInfo = userInfo
 			},
