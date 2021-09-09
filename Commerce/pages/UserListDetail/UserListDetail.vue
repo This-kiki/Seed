@@ -4,8 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 详情 -->
 		<view class="mainContaienr">
-			<view class="img">
-				<image :src="userInfo.img" mode=""></image>
+			<view class="img" :style="{'background-image':'url('+userInfo.img+')'}">
 			</view>
 			<view class="name">
 				{{userInfo.name}}
@@ -160,16 +159,13 @@
 			.img {
 				margin: 20rpx auto 0;
 				width: 200rpx;
-				height: 250rpx;
+				height: 280rpx;
 				background-color: lightblue;
 				border-radius: 14rpx;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-				image {
-					width: 100%;
-					height: 100%;
-					border-radius: 14rpx;
-				}
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
 			}
 
 			.name {

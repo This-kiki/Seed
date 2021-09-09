@@ -9,8 +9,7 @@
 			</view>
 			<view class="imgContainer">
 				<view class="imgBox" v-for="item in managerList" :key="item.openId" @click="seeDetail(item.openId)">
-					<view class="img">
-						<image :src="item.img" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+item.img+')'}">
 					</view>
 					<view class="work">
 						{{getIdentity(item.identity)}}
@@ -28,8 +27,7 @@
 			</view>
 			<view class="imgContainer">
 				<view class="imgBox" v-for="item in userList" :key="item.openId" @click="seeDetail(item.openId)">
-					<view class="img">
-						<image :src="item.img" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+item.img+')'}">
 					</view>
 					<view class="name">
 						{{item.name}}
@@ -59,11 +57,9 @@
 				flag: 1
 			};
 		},
-		created() {
-			this.checkIdentity()
-		},
 		onLoad(options) {
 			this.flag = options.flag
+			this.checkIdentity()
 			if (options.flag == 1)
 				this.setNav.navTitle = "管理层介绍"
 		},
@@ -71,9 +67,9 @@
 			// 检查身份
 			checkIdentity() {
 				let identity = uni.getStorageSync("identity")
-				if (identity == 0) {
+				if (identity == 0 && this.flag != 1) {
 					uni.showModal({
-						title:"暂无权限",
+						title: "暂无权限",
 						content: "请申请入会",
 						showCancel: false,
 						success() {
@@ -174,16 +170,13 @@
 
 					.img {
 						width: 100%;
-						height: 260rpx;
+						height: 280rpx;
 						background-color: lightblue;
 						border-radius: 14rpx;
 						box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 14rpx;
-						}
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
 					}
 
 					.work {

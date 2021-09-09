@@ -279,6 +279,7 @@
 			text-align: center;
 			line-height: 100rpx;
 			color: #666;
+			background-color: #fff;
 		}
 
 		.norelease {
@@ -293,6 +294,7 @@
 			text-align: center;
 			line-height: 100rpx;
 			color: #666;
+			background-color: #fff;
 		}
 
 		.loadMore {

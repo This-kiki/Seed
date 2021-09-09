@@ -4,8 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 详情 -->
 		<view class="mainContainer">
-			<view class="companyImg">
-				<image :src="companyInfo.img" mode=""></image>
+			<view class="companyImg" :style="{'background-image':'url('+companyInfo.img+')'}">
 			</view>
 			<view class="mainInfo">
 				<view class="left">
@@ -50,8 +49,7 @@
 				</view>
 				<view class="common license">
 					<text>营业执照照片</text>
-					<view class="img">
-						<image :src="companyInfo.license" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+companyInfo.license+')'}">
 					</view>
 				</view>
 				<view class="common">
@@ -158,12 +156,9 @@
 				border-radius: 14rpx;
 				background-color: lightblue;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-				image {
-					width: 100%;
-					height: 100%;
-					border-radius: 14rpx;
-				}
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
 
 			}
 
@@ -227,14 +222,14 @@
 
 				.license {
 					.img {
-						background-color: lightblue;
+						width: 100%;
+						height: 400rpx;
 						margin-top: 10rpx;
-						border-radius: 10rpx;
-
-						image {
-							width: 100%;
-							border-radius: 10rpx;
-						}
+						border-radius: 14rpx;
+						background-color: lightblue;
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
 					}
 				}
 			}

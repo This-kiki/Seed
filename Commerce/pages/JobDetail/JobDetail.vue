@@ -78,8 +78,7 @@
 					HR信息
 				</view>
 				<view class="detail">
-					<view class="img">
-						<image :src="hrInfo.img" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+hrInfo.img+')'}">
 					</view>
 					<view class="info">
 						<view class="name">
@@ -219,7 +218,7 @@
 					companyInterviewId: this.jobInfo.id
 				})
 				// console.log(res)
-				if (res.code == 3001) {
+				if (res.code == 20000) {
 					uni.showToast({
 						title: "申请成功"
 					})
@@ -227,6 +226,11 @@
 					uni.showToast({
 						icon: "none",
 						title: "请先添加简历"
+					})
+				} else if (res.code == 3001) {
+					uni.showToast({
+						icon: "none",
+						title: "简历已经提交 请勿重复申请"
 					})
 				}
 			}
@@ -403,12 +407,9 @@
 						height: 250rpx;
 						border-radius: 10rpx;
 						background-color: lightblue;
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 10rpx;
-						}
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
 					}
 
 					.info {

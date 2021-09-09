@@ -17,8 +17,7 @@
 		<view class="mainContainer">
 			<view class="lawyerBox" v-for="item in lawList" :key="item.id">
 				<view class="detail">
-					<view class="img">
-						<image :src="item.img" mode=""></image>
+					<view class="img" :style="{'background-image':'url('+item.img+')'}">
 					</view>
 					<view class="info">
 						<view class="name">
@@ -190,12 +189,10 @@
 					.img {
 						width: 200rpx;
 						height: 250rpx;
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 10rpx;
-						}
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
+						border-radius: 14rpx;
 					}
 
 					.info {

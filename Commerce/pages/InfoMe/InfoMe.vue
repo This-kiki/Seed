@@ -4,11 +4,11 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 操作栏 -->
 		<view class="operateContainer">
-			<view class="release" @click="getMeInfo()">
+			<view class="release" @click="getMeInfo()" :class="flag==1?'select':''">
 				<text class="iconfont icon-submit"></text>
 				我的发布
 			</view>
-			<view class="collect" @click="getCollectionInfo()">
+			<view class="collect" @click="getCollectionInfo()" :class="flag==2?'select':''">
 				<text class="iconfont icon-jianli"></text>
 				我的收藏
 			</view>
@@ -204,10 +204,13 @@
 			.release,
 			.collect {
 				margin-right: 18rpx;
-				background-color: #eee;
 				padding: 10rpx;
 				box-sizing: border-box;
 				border-radius: 10rpx;
+			}
+
+			.select {
+				background-color: #eee;
 			}
 		}
 

@@ -4,10 +4,9 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 聊天列表 -->
 		<view class="chatContainer">
-			<view class="chatBox" v-for="item in chatList" :key="item.toOpenid" @click="chat(item)">
-				<view class="left">
-					<view class="img">
-						<image :src="item.img" mode=""></image>
+			<view class="chatBox" v-for="item in chatList" :key="item.toOpenid" @longpress="showDelete = true">
+				<view class="left" @click="chat(item)">
+					<view class="img" :style="{'background-image':'url('+item.img+')'}">
 						<view class="new" v-if="getLeaveStatus(item.toOpenid).isLeave">
 							{{getLeaveStatus(item.toOpenid).num}}
 						</view>
@@ -21,10 +20,13 @@
 						</view>
 					</view>
 				</view>
-				<view class="right">
+				<view class="right" v-if="!showDelete">
 					<view class="time">
 						{{getLeaveStatus(item.toOpenid).isLeave?getLeaveStatus(item.toOpenid).time:item.time}}
 					</view>
+				</view>
+				<view class="delete" v-if="showDelete" @click="deleteChat(item.toOpenid)">
+					删除
 				</view>
 			</view>
 		</view>
@@ -52,24 +54,40 @@
 				// 聊天用户列表
 				chatUsers: [],
 				// 离线用户列表
-				leaveUsers: []
+				leaveUsers: [],
+				// 显示删除
+				showDelete: false
 			}
 		},
 		onShow() {
+			this.showDelete = false
 			this.chatList = []
 			this.leaveList = []
 			this.getLocal()
 		},
 		methods: {
+			// 删除聊天记录
+			deleteChat(id) {
+				let chat = uni.getStorageSync("chat")
+				chat.forEach((item, i) => {
+					if (item.info.toOpenid == id)
+						chat.splice(i, 1)
+				})
+				uni.setStorageSync("chat", chat)
+				this.showDelete = false
+				this.chatList = []
+				this.leaveList = []
+				this.getLocal()
+			},
 			// 判断离线用户是否为聊天用户
 			checkUser() {
-				let nowUsers= []
+				let nowUsers = []
 				this.leaveUsers.forEach((item, i) => {
 					if (!this.chatUsers.includes(item)) {
 						nowUsers.push(item)
 					}
 				})
-				console.log("now",nowUsers)
+				console.log("now", nowUsers)
 				this.leaveList.forEach(async item => {
 					if (nowUsers.includes(item.openid)) {
 						let res = await this.$api.getUserDetail({
@@ -182,12 +200,9 @@
 						border-radius: 10rpx;
 						background-color: lightblue;
 						position: relative;
-
-						image {
-							width: 100%;
-							height: 100%;
-							border-radius: 10rpx;
-						}
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: cover;
 
 						.new {
 							position: absolute;
@@ -232,6 +247,19 @@
 						letter-spacing: 1rpx;
 						color: #999;
 					}
+				}
+
+				.delete {
+					width: 100rpx;
+					height: 60rpx;
+					background-color: #ff4d4d;
+					color: #F1F1F1;
+					border-radius: 20rpx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					font-size: 26rpx;
+					letter-spacing: 2rpx;
 				}
 			}
 		}
