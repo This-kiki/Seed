@@ -4,11 +4,11 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 操作栏 -->
 		<view class="operateContainer">
-			<view :class="actPage==0?'collectAct':'collect'" @click="getMeInfo()">
+			<view class="release" @click="getMeInfo()" :class="flag==1?'select':''">
 				<text class="iconfont icon-submit"></text>
 				我的发布
 			</view>
-			<view :class="actPage==1?'collectAct':'collect'" @click="getCollectionInfo()">
+			<view class="collect" @click="getCollectionInfo()" :class="flag==2?'select':''">
 				<text class="iconfont icon-jianli"></text>
 				我的收藏
 			</view>
@@ -86,8 +86,7 @@
 				// 页数
 				current: 1,
 				// 是否收藏
-				flag: 1,
-				actPage: 0
+				flag: 1
 			};
 		},
 		onShow() {
@@ -103,7 +102,6 @@
 				this.current = 1
 				this.infoList = []
 				this.getAllHomeInfo()
-				this.actPage = 0
 			},
 			// 加载更多
 			loadMore() {
@@ -134,7 +132,6 @@
 			},
 			// 获取收藏列表
 			async getCollectionInfo() {
-				this.actPage = 1
 				this.flag = 2
 				this.infoList = []
 				let res = await this.$api.getCollectionInfo()
@@ -207,18 +204,13 @@
 			.release,
 			.collect {
 				margin-right: 18rpx;
-				background-color: #eee;
 				padding: 10rpx;
 				box-sizing: border-box;
 				border-radius: 10rpx;
 			}
-			
-			.collectAct {
-				margin-right: 18rpx;
-				background-color: #d0d0d0;
-				padding: 10rpx;
-				box-sizing: border-box;
-				border-radius: 10rpx;
+
+			.select {
+				background-color: #eee;
 			}
 		}
 
