@@ -103,6 +103,7 @@
 </template>
 
 <script>
+	import { regular } from '../../../util/common.js';
 	export default {
 		data() {
 			return {
@@ -142,22 +143,7 @@
 		},
 		methods: {
 			judge() {
-				var obj = this.companyMsg
-				console.log(obj)
-				for(let key  in obj){
-						// console.log(key + '---' + obj[key])
-					if(obj[key] == ''){
-						if(key == 'sex'){
-							if(obj[key] == 3){
-								return false
-							}
-						}else{
-							console.log(key + '---' + obj[key])
-							return false
-						}
-					}
-				}
-				return true
+				return regular(this.companyMsg);
 			},
 			bindSexChange(e) {
 				this.companyMsg.sex = this.sexlist[e.detail.value].id;
@@ -166,7 +152,7 @@
 				this.companyMsg.time = e.detail.value;
 			},
 			save() {
-				if(this.judge() == true) {
+				if(this.judge().status == true) {
 					uni.showLoading({
 						title:'正在提交'
 					})
@@ -181,21 +167,24 @@
 									obj.openId = uni.getStorageSync('openid');
 									this.$api.applyComopany(obj)
 										.then((res) => {
+											uni.hideLoading()
 											if(res.success == true){
 												uni.showToast({
 													title: '申请成功',
 													duration: 2000
 												});
-												uni.navigateBack({})
+												setTimeout(() => {
+													uni.navigateBack({});
+												}, 1000)
 											}else {
 												uni.showToast({
 													title: res.message,
 													icon: 'none'
 												})
 											}
-											uni.hideLoading()
 										})
 										.catch((err) => {
+											uni.hideLoading()
 											uni.showToast({
 												title: '提交失败，请重新提交',
 												icon: 'none'
@@ -203,6 +192,7 @@
 										})
 								})
 								.catch((err) => {
+									uni.hideLoading()
 									uni.showToast({
 										title: '图片上传失败',
 										icon: 'none'
@@ -210,6 +200,7 @@
 								})
 						})
 						.catch((err) => {
+							uni.hideLoading()
 							uni.showToast({
 								title: '图片上传失败',
 								icon: 'none'
@@ -217,7 +208,7 @@
 						})
 				}else {
 					uni.showToast({
-						title: '请完整填写表格',
+						title: this.judge().value,
 						icon: 'none'
 					});
 					return false

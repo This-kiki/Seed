@@ -10,9 +10,9 @@
 				<view class="name">{{ userInfo.name ? userInfo.name : ' ' }}</view>
 			</view>
 			<view class="msg" v-if="!hasUserInfo">
-				登陆中
+				<div v-if="!item.img" class="page-headimg" style="background-image: url('../../static/img/logo.png');"></div>
+				<view class="name">濠江区珠浦种子会</view>
 			</view>
-			<!-- <button class="loginbtn" v-if="!hasUserInfo" @tap="getUserProfile">授权登录</button> -->
 		</view>
 	</view>
 </template>
@@ -76,15 +76,15 @@ export default {
 				that.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
 				uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
 				this.userInfo = userMsg_res.data.userBaseInfo;
-				if(userMsg_res.data.userBaseInfo.name){
-					this.hasUserInfo = true
-				}else {
-					this.hasUserInfo = false
+				if (userMsg_res.data.userBaseInfo.name) {
+					this.hasUserInfo = true;
+				} else {
+					this.hasUserInfo = false;
 				}
 			});
 			setTimeout(() => {
 				uni.reLaunch({ url: '/pages/HomePage/HomePage' });
-			},1500)
+			}, 1500);
 			// if (UserInfo) {
 			// 	that.$api.getUserMsg().then(userMsg_res => {
 			// 		// console.log('基本信息',userMsg_res.data.userBaseInfo)
@@ -187,6 +187,17 @@ export default {
 				width: 150rpx;
 				border-radius: 80rpx;
 				overflow: hidden;
+				margin-bottom: 40rpx;
+			}
+			.page-headimg {
+				height: 150rpx;
+				width: 150rpx;
+				border-radius: 80rpx;
+				overflow: hidden;
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: cover;
+				ovrflow: hidden;
 				margin-bottom: 40rpx;
 			}
 			.name {

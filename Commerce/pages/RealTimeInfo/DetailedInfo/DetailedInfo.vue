@@ -21,9 +21,10 @@
 					<!-- 某个评论 -->
 					<view class="comment-item" @click="showReply(item)" v-for="(item,index) in commentForm"
 						:key="index">
-						<div class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
 						<view class="comment-text">
-							<view class="comment-item-user">{{ item.name?item.name:' ' }}</view>
+							<view class="comment-item-user">{{ item.name?item.name:'游客' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
 							<view class="comment-item-tile">
 								<view class="comment-item-reply">
@@ -57,9 +58,10 @@
 					</view>
 				</view>
 				<view class="comment-item" style="border-bottom: 1rpx solid #e8e8e8;">
-					<div class="comment-item-head" :style="'background-image: url(' + actComment.img + ');'"></div>
+					<div v-if="actComment.img" class="comment-item-head" :style="'background-image: url(' + actComment.img + ');'"></div>
+					<div v-if="!actComment.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
 					<view class="comment-text" style="border: none">
-						<view class="comment-item-user">{{ actComment.name?actComment.name:' ' }}</view>
+						<view class="comment-item-user">{{ actComment.name?actComment.name:'游客' }}</view>
 						<view class="comment-item-content">{{ actComment.content }}</view>
 						<view class="comment-item-tile">
 							<view class="comment-item-time">{{ formatMsgTime(actComment.createTime) }}</view>
@@ -71,9 +73,10 @@
 						{{ actCommentReply.length==0?'暂无评论回复':'全部回复' }}
 					</view>
 					<view class="comment-item" v-for="(item,index) in actCommentReply" :key="index">
-						<div class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+						<div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
 						<view class="comment-text">
-							<view class="comment-item-user">{{ item.name?item.name:' ' }}</view>
+							<view class="comment-item-user">{{ item.name?item.name:'游客' }}</view>
 							<view class="comment-item-content">{{ item.content }}</view>
 							<view class="comment-item-tile">
 								<view class="comment-item-time">{{ formatMsgTime(item.createTime) }}</view>

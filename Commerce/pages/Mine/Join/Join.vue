@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import { regular } from '../../../util/common.js';
 export default {
 	data() {
 		return {
@@ -206,26 +207,8 @@ export default {
 	},
 	methods: {
 		judge() {
-			var obj = this.ApplyMember
-			for(let key  in obj){
-					// console.log(key + '---' + obj[key])
-				if(obj[key] == ''){
-					if(key == 'sex'){
-						if(obj[key] == 3){
-							return false
-						}
-					}else if(key == 'subLevel') {
-						if(obj[key] == 100){
-							return false
-						}
-					}else{
-						console.log(key + '---' + obj[key])
-						return false
-					}
-				}
-			}
-			console.log(obj)
-			return true
+			// console.log(regular(this.ApplyMember))
+			return regular(this.ApplyMember);
 		},
 		bindLevelChange(e) {
 			this.ApplyMember.subLevel = this.levelList[e.detail.value].value;
@@ -241,7 +224,7 @@ export default {
 			this.ApplyMember.birth = e.detail.value;
 		},
 		bindRegionChange(e) {
-			console.log(e)
+			console.log(e);
 			this.ApplyMember.place = e.detail.value.join('-');
 		},
 		getsubLevel(key) {
@@ -291,60 +274,58 @@ export default {
 			});
 		},
 		save() {
-			if(this.judge() == true) {
+			if (this.judge().status == true) {
 				uni.showLoading({
-					 title: '正在提交',
-				})
-				this.$api.uploadPicture({ tempFilePaths: this.temp })
+					title: '正在提交'
+				});
+				this.$api
+					.uploadPicture({ tempFilePaths: this.temp })
 					.then(res => {
 						// console.log(res)
 						var obj = this.ApplyMember;
 						obj.openId = uni.getStorageSync('openid');
 						obj.img = res.data.url;
 						obj.level = 0;
-						this.$api.applyMember(obj)
-						.then(resa => {
-							if (resa.success == true) {
-								uni.showToast({
-									title: '提交成功',
-									duration: 2000
-								});
-								uni.navigateBack({});
-							}else {
-								uni.showToast({
-									title: resa.message,
-									icon: 'none'
-								})
-							}
-							uni.hideLoading()
-						})
-						.catch((err) => {
-							uni.showToast({
-								title: '提交失败，请重新提交',
-								icon: 'none'
+						this.$api
+							.applyMember(obj)
+							.then(resa => {
+								uni.hideLoading();
+								if (resa.success == true) {
+									uni.showToast({
+										title: '提交成功',
+										duration: 2000
+									});
+									setTimeout(() => {
+										uni.navigateBack({});
+									}, 1000)
+								} else {
+									uni.showToast({
+										title: resa.message,
+										icon: 'none'
+									});
+								}
 							})
-						})
+							.catch(err => {
+								uni.hideLoading();
+								uni.showToast({
+									title: '提交失败，请重新提交',
+									icon: 'none'
+								});
+							});
 					})
-					.catch((err) => {
+					.catch(err => {
+						uni.hideLoading();
 						uni.showToast({
 							title: '图片上传失败',
 							icon: 'none'
-						})
-					})
-			}else {
+						});
+					});
+			} else {
 				uni.showToast({
-					title: '请完整填写表格',
+					title: this.judge().value,
 					icon: 'none'
 				});
-				return false
-			}
-		},
-		isPoneAvailable(poneInput) {
-			var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-			if (!myreg.test(poneInput)) {
 				return false;
-			} else {
-				return true;
 			}
 		}
 	},

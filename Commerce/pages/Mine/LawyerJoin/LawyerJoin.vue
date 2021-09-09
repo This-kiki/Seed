@@ -2,9 +2,7 @@
 	<view class="container">
 		<view class="ui-all">
 			<view class="avatar" @tap="avatarChoose">
-				<view  class="imgAvatar">
-					<view class="iavatar" :style="'background: url('+layerMsg.img+') no-repeat center/cover #eeeeee;'"></view>
-				</view>
+				<view class="imgAvatar"><view class="iavatar" :style="'background: url(' + layerMsg.img + ') no-repeat center/cover #eeeeee;'"></view></view>
 				<text v-if="layerMsg.img">修改个人免冠证件照</text>
 				<text v-if="!layerMsg.img">选择个人免冠证件照</text>
 			</view>
@@ -19,17 +17,13 @@
 			<view class="picker-box">
 				<text>生日</text>
 				<picker class="picker" mode="date" v-model="layerMsg.birth" @change="bindDateChange">
-					<view class="picker-text">
-						{{layerMsg.birth?layerMsg.birth:''}}
-					</view>
+					<view class="picker-text">{{ layerMsg.birth ? layerMsg.birth : '' }}</view>
 				</picker>
 			</view>
 			<view class="picker-box">
 				<text>性别</text>
-				<picker class="picker" mode='selector' range-key="name" v-model="layerMsg.sex" @change="bindSexChange" :range="sexlist">
-					<view class="picker-text">
-						{{layerMsg.sex==0?'男':layerMsg.sex==1?'女':''}}
-					</view>
+				<picker class="picker" mode="selector" range-key="name" v-model="layerMsg.sex" @change="bindSexChange" :range="sexlist">
+					<view class="picker-text">{{ layerMsg.sex == 0 ? '男' : layerMsg.sex == 1 ? '女' : '' }}</view>
 				</picker>
 			</view>
 			<view class="picker-box">
@@ -38,7 +32,7 @@
 					<view class="picker-text">{{ layerMsg.place }}</view>
 				</picker>
 			</view>
-<!-- 			<view class="text-box">
+			<!-- 			<view class="text-box">
 				<text>政治面貌</text>
 				<input class="input-box" type="text" v-model="layerMsg.polity" placeholder-class="place" />
 			</view> -->
@@ -94,211 +88,196 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				temp: null,
-				layerMsg: {
-					img: '',
-					name: '',
-					idNum: '',
-					birth: '',
-					sex: 3,
-					place: '',
-					polity: '',
-					nation: '',
-					phone: '',
-					email: '',
-					school: '',
-					major: '',
-					work: '',
-					position: '',
-					introduce: '',
-					workNum: '' ,
-					workplace: '',
+import { regular } from '../../../util/common.js';
+export default {
+	data() {
+		return {
+			temp: null,
+			layerMsg: {
+				img: '',
+				name: '',
+				idNum: '',
+				birth: '',
+				sex: 3,
+				place: '',
+				polity: '',
+				nation: '',
+				phone: '',
+				email: '',
+				school: '',
+				major: '',
+				work: '',
+				position: '',
+				introduce: '',
+				workNum: '',
+				workplace: ''
+			},
+			polityList: [
+				{
+					label: '中共党员',
+					value: 0
 				},
-				polityList: [
-					{
-						label: '中共党员',
-						value: 0
-					},
-					{
-						label: '中共预备党员',
-						value: 1
-					},
-					{
-						label: '共青团员',
-						value: 3
-					},
-					{
-						label: '无党派人士',
-						value: 4
-					},
-					{
-						label: '群众',
-						value: 5
-					},
-					{
-						label: '民革会员',
-						value: 6
-					},
-					{
-						label: '民盟盟员',
-						value: 7
-					},
-					{
-						label: '民建会员',
-						value: 8
-					},
-					{
-						label: '民进会员',
-						value: 9
-					},
-					{
-						label: '农工党党员',
-						value: 10
-					},
-					{
-						label: '致公党党员',
-						value: 11
-					},
-					{
-						label: '九三学社社员',
-						value: 12
-					},
-					{
-						label: '台盟盟员',
-						value: 13
-					}
-				],
-				sexlist: [{
+				{
+					label: '中共预备党员',
+					value: 1
+				},
+				{
+					label: '共青团员',
+					value: 3
+				},
+				{
+					label: '无党派人士',
+					value: 4
+				},
+				{
+					label: '群众',
+					value: 5
+				},
+				{
+					label: '民革会员',
+					value: 6
+				},
+				{
+					label: '民盟盟员',
+					value: 7
+				},
+				{
+					label: '民建会员',
+					value: 8
+				},
+				{
+					label: '民进会员',
+					value: 9
+				},
+				{
+					label: '农工党党员',
+					value: 10
+				},
+				{
+					label: '致公党党员',
+					value: 11
+				},
+				{
+					label: '九三学社社员',
+					value: 12
+				},
+				{
+					label: '台盟盟员',
+					value: 13
+				}
+			],
+			sexlist: [
+				{
 					id: 0,
 					name: '男'
-				}, {
+				},
+				{
 					id: 1,
 					name: '女'
-				}],
-			}
-
-		},
-		methods: {
-			judge() {
-				var obj = this.layerMsg
-				for(let key  in obj){
-						// console.log(key + '---' + obj[key])
-					if(obj[key] == ''){
-						if(key == 'sex'){
-							if(obj[key] == 3){
-								return false
-							}
-						}else{
-							console.log(key + '---' + obj[key])
-							return false
-						}
-					}
 				}
-				return true
-			},
-			bindSexChange(e) {
-				this.layerMsg.sex = this.sexlist[e.detail.value].id;
-			},
-			bindDateChange(e) {
-				this.layerMsg.birth = e.detail.value;
-			},
-			bindPolityChange(e) {
-				this.layerMsg.polity = this.polityList[e.detail.value].label;
-				// console.log(this.polityList[e.detail.value].label)
-			},
-			bindRegionChange(e) {
-				// console.log(e)
-				this.layerMsg.place = e.detail.value.join('-');
-			},
-			avatarChoose() {
-				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					success(res) {
-						const tempFilePaths = res.tempFilePaths
-						// let resSize = res.tempFiles[0].size;
-						// if(resSize > 20971520){
-						// 	uni.showToast({
-						// 		title: "上传的图片大小不超过20m",
-						// 		icon: 'none',
-						// 		duration: 2000,
-						// 		mask: true
-						// 	});
-						// 	return
-						// }
-						that.temp = tempFilePaths
-						that.layerMsg.img = tempFilePaths[0]
-						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
-						// 	console.log(res)
-						// })
-					}
+			]
+		};
+	},
+	methods: {
+		judge() {
+			return regular(this.layerMsg);
+		},
+		bindSexChange(e) {
+			this.layerMsg.sex = this.sexlist[e.detail.value].id;
+		},
+		bindDateChange(e) {
+			this.layerMsg.birth = e.detail.value;
+		},
+		bindPolityChange(e) {
+			this.layerMsg.polity = this.polityList[e.detail.value].label;
+			// console.log(this.polityList[e.detail.value].label)
+		},
+		bindRegionChange(e) {
+			// console.log(e)
+			this.layerMsg.place = e.detail.value.join('-');
+		},
+		avatarChoose() {
+			let that = this;
+			uni.chooseImage({
+				count: 1,
+				sizeType: ['original', 'compressed'],
+				sourceType: ['album', 'camera'],
+				success(res) {
+					const tempFilePaths = res.tempFilePaths;
+					// let resSize = res.tempFiles[0].size;
+					// if(resSize > 20971520){
+					// 	uni.showToast({
+					// 		title: "上传的图片大小不超过20m",
+					// 		icon: 'none',
+					// 		duration: 2000,
+					// 		mask: true
+					// 	});
+					// 	return
+					// }
+					that.temp = tempFilePaths;
+					that.layerMsg.img = tempFilePaths[0];
+					// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
+					// 	console.log(res)
+					// })
+				}
+			});
+		},
+		save() {
+			if (this.judge().status == true) {
+				uni.showLoading({
+					title: '正在提交'
 				});
-			},
-			save() {
-				if(this.judge() == true) {
-					uni.showLoading({
-						title:'正在提交'
-					})
-					this.$api.uploadPicture({tempFilePaths: this.temp})
-						.then((res) => {
-							// console.log(res)
-							var obj = this.layerMsg
-							obj.img = res.data.url
-							this.$api.applyLayer(obj)
-								.then((res) => {
-									if(res.success == true){
-										uni.showToast({
-											title: '提交成功',
-											duration: 2000
-										});
-										uni.navigateBack({})
-									}else {
-										uni.showToast({
-											title: res.message,
-											icon: 'none'
-										})
-									}
-									uni.hideLoading()
-								})
-								.catch((err) => {
+				this.$api
+					.uploadPicture({ tempFilePaths: this.temp })
+					.then(res => {
+						// console.log(res)
+						var obj = this.layerMsg;
+						obj.img = res.data.url;
+						this.$api
+							.applyLayer(obj)
+							.then(res => {
+								uni.hideLoading();
+								if (res.success == true) {
 									uni.showToast({
-										title: '提交失败，请重新提交',
+										title: '提交成功',
+										duration: 2000
+									});
+									setTimeout(() => {
+										uni.navigateBack({});
+									}, 1000)
+								} else {
+									uni.showToast({
+										title: res.message,
 										icon: 'none'
-									})
-								})
-						})
-						.catch((err) => {
-							uni.showToast({
-								title: '图片上传失败',
-								icon: 'none'
+									});
+								}
 							})
-						})
-				}else {
-					uni.showToast({
-						title: '请完整填写表格',
-						icon: 'none'
+							.catch(err => {
+								uni.hideLoading();
+								uni.showToast({
+									title: '提交失败，请重新提交',
+									icon: 'none'
+								});
+							});
+					})
+					.catch(err => {
+						uni.hideLoading();
+						uni.showToast({
+							title: '图片上传失败',
+							icon: 'none'
+						});
 					});
-					return false
-				}
-			},
-			isPoneAvailable(poneInput) {
-				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if (!myreg.test(poneInput)) {
-					return false;
-				} else {
-					return true;
-				}
-			},
-		},
-		onLoad() {			
+			} else {
+				uni.showToast({
+					title: this.judge().value,
+					icon: 'none'
+				});
+				return false;
+			}
 		}
-
-	}
+	},
+	onLoad() {}
+};
 </script>
 
 <style lang="scss">
@@ -366,7 +345,7 @@
 				font-size: 28rpx;
 			}
 			.place {
-				color: rgb(200,200,200);
+				color: rgb(200, 200, 200);
 			}
 		}
 		.text-box:hover {
@@ -398,7 +377,7 @@
 				border: solid 1px #f2f2f2;
 			}
 			.place {
-				color: rgb(200,200,200);
+				color: rgb(200, 200, 200);
 			}
 		}
 		.picker-box {

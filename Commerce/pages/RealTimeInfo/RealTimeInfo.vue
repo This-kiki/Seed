@@ -9,14 +9,13 @@
 				<view class="topLine">
 					<view class="select">
 						<view class="common" v-for="item in items" :key="item.id" @click="setActive(item.id)">
-							<view :class="item.id==current?'login-text-act':'login-text'">
-								{{ item.name }}
-							</view>
-							<view :class="item.id==current?'login-bot-act':'login-bot'"></view>
-					</view>
+							<view :class="item.id == current ? 'login-text-act' : 'login-text'">{{ item.name }}</view>
+							<view :class="item.id == current ? 'login-bot-act' : 'login-bot'"></view>
+						</view>
 					</view>
 				</view>
 			</view>
+			<view style="height: 175rpx;"></view>
 			<view class="page-content">
 				<view v-show="current === 0"><page :pageType="0"></page></view>
 				<view v-show="current === 1"><page :pageType="1"></page></view>
@@ -69,7 +68,18 @@ export default {
 			current: 0
 		};
 	},
+	mounted() {
+		this.getCustom();
+	},
 	methods: {
+		getCustom() {
+			// 获取设备信息
+			uni.getSystemInfo({
+				success: e => {
+					console.log(e.safeArea.height - 87);
+				}
+			});
+		},
 		onClickItem(e) {
 			if (this.current !== e.currentIndex) {
 				this.current = e.currentIndex;
@@ -118,7 +128,6 @@ export default {
 	background-color: rgb(255, 255, 255);
 }
 .page-content {
-	padding-top: 175rpx;
 }
 .topLine {
 	position: fixed;
@@ -147,7 +156,7 @@ export default {
 			flex-direction: column;
 			align-items: center;
 			height: 75rpx;
-			
+
 			.login-text {
 				display: flex;
 				align-items: flex-start;
@@ -162,7 +171,7 @@ export default {
 				font-weight: 700;
 				margin: 10rpx 0 5rpx 0;
 			}
-			
+
 			.login-bot {
 				height: 6rpx;
 				width: 40rpx;
@@ -177,7 +186,7 @@ export default {
 			}
 		}
 	}
-	.select::-webkit-scrollbar { 
+	.select::-webkit-scrollbar {
 		display: none;
 	}
 }
