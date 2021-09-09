@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 顶部 -->
-		<topBar :nav="setNav"></topBar>
+		<topBar ref="topBar" :nav="setNav"></topBar>
 		<view class="top-nav-bar">
 			<view class="top-nav-to">
 				<view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view>
@@ -15,14 +15,14 @@
 					</view>
 				</view>
 			</view>
-			<view style="height: 175rpx;"></view>
-			<view class="page-content">
+			<view style="height: 83px;"></view>
+			<scroll-view :style="'height:'+contentHeight+ 'px;'" class="scroll" scroll-y="false">
 				<view v-show="current === 0"><page :pageType="0"></page></view>
 				<view v-show="current === 1"><page :pageType="1"></page></view>
 				<view v-show="current === 2"><page :pageType="2"></page></view>
 				<view v-show="current === 3"><page :pageType="3"></page></view>
 				<view v-show="current === 4"><page :pageType="4"></page></view>
-			</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -37,6 +37,7 @@ export default {
 	},
 	data() {
 		return {
+			contentHeight: 0,
 			setNav: {
 				titleColor: 'black',
 				navTitle: '资讯',
@@ -75,8 +76,10 @@ export default {
 		getCustom() {
 			// 获取设备信息
 			uni.getSystemInfo({
-				success: e => {
-					console.log(e.safeArea.height - 87);
+				success: e => {e.safeArea.bottom - 133 -this.$refs.topBar.getheight()
+					this.contentHeight = e.safeArea.bottom - 133 -this.$refs.topBar.getheight()
+					 console.log(this.contentHeight)
+					// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
 				}
 			});
 		},
@@ -121,13 +124,14 @@ export default {
 		letter-spacing: 3rpx;
 	}
 }
+// .scroll {
+// 	height: 641px;
+// }
 .top-nav-to {
 	width: 100%;
 	position: fixed;
 	z-index: 1;
 	background-color: rgb(255, 255, 255);
-}
-.page-content {
 }
 .topLine {
 	position: fixed;

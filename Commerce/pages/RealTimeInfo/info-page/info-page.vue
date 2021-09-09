@@ -135,13 +135,17 @@
 						this.list.push(resp.data.rows[i])
 					}
 				}
-				this.$refs.loadRefresh.completed()
+				setTimeout(() => {
+					this.$refs.loadRefresh.completed()
+				}, 800)
 			},
 			// 下拉刷新数据列表
 			async refresh() {
 				this.current.currentPage = 1
 				await this.init()
-				this.$refs.loadRefresh.completed()
+				setTimeout(() => {
+					this.$refs.loadRefresh.completed()
+				}, 800)
 			},
 			// 代码触发下拉刷新方法
 			runRefresh() {

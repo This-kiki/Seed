@@ -21,6 +21,7 @@
 		}, {
 			"path": "pages/RealTimeInfo/RealTimeInfo",
 			"style": {
+				"disableScroll": true,
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false

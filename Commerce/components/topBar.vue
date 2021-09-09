@@ -27,6 +27,7 @@
 			return {
 				statusBarHeight: 0,
 				titleBarHeight: 0,
+				height: 0
 			}
 		},
 		created() {
@@ -35,11 +36,12 @@
 				success: function(res) {
 					if (res.model.indexOf('iPhone') !== -1) {
 						that.titleBarHeight = 44 + 'px';
+						that.height = res.statusBarHeight+44
 					} else {
 						that.titleBarHeight = 48 + 'px';
+						that.height = res.statusBarHeight+48
 					}
 					that.statusBarHeight = res.statusBarHeight + 'px'
-
 				},
 
 			})
@@ -48,6 +50,9 @@
 			// 回到上一页
 			backTo() {
 				uni.navigateBack()
+			},
+			getheight() {
+				return this.height
 			}
 		}
 	}
