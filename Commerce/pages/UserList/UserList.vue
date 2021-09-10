@@ -125,7 +125,7 @@
 			// 查看详情
 			seeDetail(openId) {
 				uni.navigateTo({
-					url: `/pages/UserListDetail/UserListDetail?id=${openId}`
+					url: `/pages/UserListDetail/UserListDetail?id=${openId}&flag=${this.flag}`
 				})
 			},
 		}

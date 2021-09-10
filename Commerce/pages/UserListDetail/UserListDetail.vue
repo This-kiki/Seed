@@ -41,7 +41,7 @@
 				<text>专业</text>
 				{{userInfo.major}}
 			</view>
-			<view class="common">
+			<view class="common" v-if="flag == 2">
 				<text>年级</text>
 				{{userInfo.grade}}
 			</view>
@@ -73,11 +73,14 @@
 				// 会员id
 				id: "",
 				// 会员详情
-				userInfo: {}
+				userInfo: {},
+				// 是否会员
+				flag: 1,
 			};
 		},
 		onLoad(options) {
 			this.id = options.id
+			this.flag = options.flag
 			this.checkIdentity()
 		},
 		methods: {
