@@ -96,6 +96,7 @@ export default {
 	padding: 20rpx;
 }
 .bottom {
+	background-color: rgb(252,252,252);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

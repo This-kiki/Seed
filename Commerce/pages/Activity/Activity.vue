@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<topBar :nav="setNav"></topBar>
-		<page></page>
+		<topBar ref="topBar" :nav="setNav"></topBar>
+		<page :contentHeight="contentHeight"></page>
 	</view>
 </template>
 
@@ -13,6 +13,7 @@ export default {
 	},
 	data() {
 		return {
+			contentHeight: 0,
 			setNav: {
 				titleColor: "black",
 				navTitle: "活动",
@@ -20,7 +21,21 @@ export default {
 			},
 		};
 	},
-	methods: {}
+	mounted() {
+		this.getCustom();
+	},
+	methods: {
+		getCustom() {
+			// 获取设备信息
+			uni.getSystemInfo({
+				success: e => {
+					this.contentHeight = e.safeArea.bottom - 50 -this.$refs.topBar.getheight()
+					 // console.log(this.contentHeight)
+					// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
+				}
+			});
+		},
+	}
 };
 </script>
 

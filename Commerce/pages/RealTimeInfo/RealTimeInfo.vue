@@ -16,19 +16,19 @@
 				</view>
 			</view>
 			<view style="height: 83px;"></view>
-			<scroll-view :style="'height:'+contentHeight+ 'px;'" class="scroll" scroll-y="false">
-				<view v-show="current === 0"><page :pageType="0"></page></view>
-				<view v-show="current === 1"><page :pageType="1"></page></view>
-				<view v-show="current === 2"><page :pageType="2"></page></view>
-				<view v-show="current === 3"><page :pageType="3"></page></view>
-				<view v-show="current === 4"><page :pageType="4"></page></view>
-			</scroll-view>
+			<view :style="'height:'+contentHeight+ 'px;'" class="scroll">
+				<view v-show="current === 0"><page :contentHeight="contentHeight" :pageType="0"></page></view>
+				<view v-show="current === 1"><page :contentHeight="contentHeight" :pageType="1"></page></view>
+				<view v-show="current === 2"><page :contentHeight="contentHeight" :pageType="2"></page></view>
+				<view v-show="current === 3"><page :contentHeight="contentHeight" :pageType="3"></page></view>
+				<view v-show="current === 4"><page :contentHeight="contentHeight" :pageType="4"></page></view>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-import Page from '@/pages/RealTimeInfo/info-page/info-page.vue';
+import Page from '@/pages/RealTimeInfo/info-page/pageInfo.vue';
 import topNavBar from '@/components/info_Com/topNavBar/zzx-tabs.vue';
 export default {
 	components: {
@@ -76,9 +76,9 @@ export default {
 		getCustom() {
 			// 获取设备信息
 			uni.getSystemInfo({
-				success: e => {e.safeArea.bottom - 133 -this.$refs.topBar.getheight()
+				success: e => {
 					this.contentHeight = e.safeArea.bottom - 133 -this.$refs.topBar.getheight()
-					 console.log(this.contentHeight)
+					 // console.log(this.contentHeight)
 					// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
 				}
 			});

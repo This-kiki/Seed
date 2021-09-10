@@ -30,6 +30,7 @@
 		}, {
 			"path": "pages/Activity/Activity",
 			"style": {
+				"disableScroll": true,
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -38,6 +39,7 @@
 		}, {
 			"path": "pages/Mine/Mine",
 			"style": {
+				"disableScroll": true,
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
