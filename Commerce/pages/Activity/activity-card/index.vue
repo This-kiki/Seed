@@ -31,15 +31,7 @@ export default {
 	data() {
 		return {};
 	},
-	methods: {
-		getColor(s) {
-			if (s == 0) {
-				return '#3CB371';
-			} else if (s == 1) {
-				return '#808080';
-			}
-		}
-	},
+	methods: {},
 	computed: {
 		styleVar() {
 			return {
@@ -60,7 +52,10 @@ export default {
 	justify-content: center;
 	width: 95%;
 	border-radius: 10rpx;
-	box-shadow: 0px 0px 3px rgb(214, 214, 214);
+	box-shadow: 0px 0px 3px rgb(234, 234, 234);
+}
+.activity-card:active {
+	background-color: #e9eaec;
 }
 .act-card {
 	padding: 20rpx 0rpx;

@@ -122,7 +122,7 @@ export default {
 
 <style scoped>
 .page {
-	background-color: rgb(253, 253, 253);
+	background-color: rgb(243, 243, 243);
 }
 .bottom {
 	width: 100%;
