@@ -8,7 +8,8 @@
 			}" />
 			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
 		</view>
-		<view :style="{'height':titleBarHeight,'padding-top':statusBarHeight}"></view>
+		<!-- <view :style="{'height':titleBarHeight,'padding-top':statusBarHeight}"></view> -->
+		<view :style="'height:'+height+ 'px;'"></view>
 	</view>
 </template>
 <script>
@@ -58,7 +59,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.header {
 		box-sizing: content-box;
 		display: flex;
