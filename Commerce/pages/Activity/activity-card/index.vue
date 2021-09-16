@@ -1,35 +1,29 @@
 <template>
 	<view class="activity-card">
-	<view class="act-card">
-		<view class="act-card-content">
-			<img class="act-card-imag" :src="options.img" v-if="options.img" />
-			<view class="act-card-text" :style="options.img?'width: 55%;':'width: 100%;'">
-				<view class="act-card-title">
-					{{options.name}}
-				</view>
-				<view class="act-card-msg">
-					<view class="act-card-time">
-						{{options.createTime.slice(0,11)}}开始
-					</view>
-					<view class="act-card-quota">
-						名额：{{options.num}}
+		<view class="act-card">
+			<view class="act-card-content">
+				<img class="act-card-imag" :src="options.img" v-if="options.img" />
+				<view class="act-card-text" :style="options.img ? 'width: 55%;' : 'width: 100%;'">
+					<view class="act-card-title">{{ options.name }}</view>
+					<view class="act-card-msg">
+						<view class="act-card-time">{{ options.createTime.slice(0, 11) }}开始</view>
+						<view class="act-card-quota">名额：{{ options.num }}</view>
 					</view>
 				</view>
 			</view>
-		</view>
-		<view class="act-card-state">
-			<view class="act-card-statebtn" :style="'background-color:' + getColor(options.status) + ';'">
-				{{options.status==0?'进行中':'已结束'}}
+			<view class="act-card-state">
+				<u-tag text="已满员" class="act-card-statebtn" size="mini" type="warning" :show="options.num == 0" />
+				<u-tag text="进行中" class="act-card-statebtn" size="mini" type="success" :show="options.status != 1" />
+				<u-tag text="已结束" class="act-card-statebtn" size="mini" type="info" :show="options.status == 1" />
 			</view>
 		</view>
-	</view>
 	</view>
 </template>
 
 <script>
 export default {
-	name:'ActivityCard',
-	props:{
+	name: 'ActivityCard',
+	props: {
 		options: {
 			type: Object
 		}
@@ -39,33 +33,34 @@ export default {
 	},
 	methods: {
 		getColor(s) {
-			if(s == 0) {
-				return '#3CB371'
-			}else if(s == 1) {
-				return '#808080'
+			if (s == 0) {
+				return '#3CB371';
+			} else if (s == 1) {
+				return '#808080';
 			}
 		}
 	},
-	computed:{
+	computed: {
 		styleVar() {
 			return {
-				'--contextWidth': '55%',
-			}
-		},
+				'--contextWidth': '55%'
+			};
+		}
 	}
 };
 </script>
 
 <style scoped>
 .activity-card {
-	background-color: rgb(255,255,255);
+	background-color: rgb(255, 255, 255);
+	margin: 20rpx auto 0 auto;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
-	width: 100%;
-	margin-bottom: 15rpx;
-	box-shadow: 0px -1px 3px rgba(212, 212, 212, 0.3);
+	width: 95%;
+	border-radius: 10rpx;
+	box-shadow: 0px 0px 3px rgb(214, 214, 214);
 }
 .act-card {
 	padding: 20rpx 0rpx;
@@ -73,7 +68,6 @@ export default {
 	display: flex;
 	align-items: flex-start;
 	flex-direction: column;
-	box-shadow: 0px 1px 3px rgba(212, 212, 212, 0.3);
 }
 .act-card-content {
 	padding: 0 10rpx;
@@ -84,19 +78,17 @@ export default {
 	align-items: center;
 }
 .act-card-state {
-	padding: 0 10rpx;
 	margin-top: 15rpx;
-	width: 95%;
+	width: 93%;
 	display: flex;
-	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
-	padding: 0 20rpx;
 }
 .act-card-imag {
 	width: 40%;
 	height: 170rpx;
 	overflow: hidden;
+	border-radius: 10rpx;
 }
 .act-card-text {
 	margin-left: 30rpx;
@@ -111,10 +103,10 @@ export default {
 	font-weight: 600;
 	word-break: break-all;
 	text-overflow: ellipsis;
-	display: -webkit-box; 
-	-webkit-box-orient: vertical; 
-	-webkit-line-clamp: 2; 
-	overflow: hidden; 
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
 	letter-spacing: 3rpx;
 }
 .act-card-msg {
@@ -124,19 +116,13 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	font-size: 25rpx;
-	color: rgb(174,174,174);
+	color: rgb(174, 174, 174);
 }
-.act-card-time {}
-.act-card-quota {}
+.act-card-time {
+}
+.act-card-quota {
+}
 .act-card-statebtn {
-	font-size: 27rpx;
-	width: 130rpx;
-	height: 45rpx;
-	border-radius: 20rpx;
-	background-color: rgb(168,166,167);
-	color: rgb(243,237,239);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	margin-left: 10rpx;
 }
 </style>

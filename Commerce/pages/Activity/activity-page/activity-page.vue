@@ -131,5 +131,6 @@ export default {
 	font-size: 25rpx;
 	letter-spacing: 5rpx;
 	color: rgb(175, 175, 175);
+	margin-top: 30rpx;
 }
 </style>

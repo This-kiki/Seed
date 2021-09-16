@@ -3,23 +3,17 @@
 		<view class="act-title">{{ dataForm.name }}</view>
 		<view class="bot-num">剩余名额：{{ dataForm.num }}</view>
 		<view class="act-content" v-html="dataForm.content"></view>
+		<view style="height: 130rpx;"></view>
 		<view class="bottom">
-			<button class="share" hover-class="none" open-type="share" @click="shareAct(dataForm)">
-				<view class="iconfont icon-share"></view>
-			</button>
-			<view class="bot-btn" @click="joinActivity" v-if="apply == 0">
-				<!-- PARTICIPATE -->
-				我要参加
-			</view>
-			<view class="bot-btn" style="background-color: #b8b800;" v-if="apply == 1">
-				<!-- PARTICIPATE -->
-				已报名
-			</view>
-			<view class="bot-btn" style="background-color: #8f8f8f;" v-if="apply == 2">
-				<!-- PARTICIPATE -->
-				已结束
+			<u-button plain size="mini" shape="circle" class="share" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont icon-share"></view></u-button>
+			<view class="bot-btn">
+				<u-button plain type="success" size="medium" ripple @click="joinActivity" v-if="apply == 0">我要参加</u-button>
+				<u-button plain type="primary" size="medium" hover-class="none" v-if="apply == 1">已报名</u-button>
+				<u-button plain type="default" size="medium" hover-class="none" v-if="apply == 2">已结束</u-button>
+				<u-button plain type="warning" size="medium" hover-class="none" v-if="apply == 3">已满员</u-button>
 			</view>
 		</view>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -40,13 +34,17 @@ export default {
 			var getAPI = { id: this.activityId };
 			this.$api.getAcrivityDetails(getAPI).then(res => {
 				this.dataForm = res.data.data.acts;
-				if (res.data.data.apply == 1) {
-					this.apply = res.data.data.apply;
+				if (res.data.data.acts.num == 0) {
+					this.apply = 3;
 				} else {
-					if (res.data.data.acts.status == 0) {
-						this.apply = 0;
+					if (res.data.data.apply == 1) {
+						this.apply = res.data.data.apply;
 					} else {
-						this.apply = 2;
+						if (res.data.data.acts.status == 0) {
+							this.apply = 0;
+						} else {
+							this.apply = 2;
+						}
 					}
 				}
 				// console.log(res.data.data.acts)
@@ -59,16 +57,15 @@ export default {
 				console.log(res);
 				uni.hideLoading();
 				if (res.data.code == 20000) {
-					uni.showToast({
+					this.$refs.uToast.show({
 						title: '已提交报名，等待管理员审核',
-						duration: 2000,
-						icon: 'none'
+						type: 'success'
 					});
 				} else if (res.data.code == 2002) {
-					uni.showToast({
+					this.$refs.uToast.show({
 						title: '已报名，请勿重复提交',
-						duration: 2000,
-						icon: 'none'
+						type: 'warning',
+						url: '/pages/user/index'
 					});
 				}
 				this.getAcrivityDetails();
@@ -79,7 +76,7 @@ export default {
 				provider: 'weixin',
 				scene: 'WXSceneSession',
 				type: 1,
-				title: actInfo.name,
+				title: actInfo.name
 			});
 		}
 	}
@@ -96,14 +93,14 @@ export default {
 	padding: 20rpx;
 }
 .bottom {
-	background-color: rgb(252,252,252);
+	background-color: rgb(252, 252, 252);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
 	bottom: 0rpx;
 	width: 100%;
-	height: 150rpx;
+	height: 130rpx;
 	border-top: 2rpx solid #cccccc;
 	z-index: 1;
 }
@@ -117,27 +114,13 @@ export default {
 	letter-spacing: 5rpx;
 }
 .bot-btn {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 250rpx;
-	height: 80rpx;
-	border-radius: 60rpx;
-	background-color: #4cd964;
-	border: 2rpx solid #dee733;
 	margin-right: 40rpx;
 }
 .share {
-	background-color: #fff;
-	width: 60rpx;
-	height: 60rpx;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	margin: 0 50rpx;
 }
 .icon-share {
-	font-size: 40rpx;
+	font-size: 35rpx;
+	font-weight: 700;
 }
-
 </style>

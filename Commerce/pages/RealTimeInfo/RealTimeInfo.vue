@@ -5,24 +5,26 @@
 		<view class="top-nav-bar">
 			<view class="top-nav-to">
 				<view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view>
-				<!-- <top-nav-bar :items="items" :current="current" @clickItem="onClickItem" ref="mytabs"></top-nav-bar> -->
-				<view class="topLine">
-					<view class="select">
-						<view class="common" v-for="item in items" :key="item.id" @click="setActive(item.id)">
-							<view :class="item.id == current ? 'login-text-act' : 'login-text'">{{ item.name }}</view>
-							<view :class="item.id == current ? 'login-bot-act' : 'login-bot'"></view>
-						</view>
-					</view>
+				<view style="height: 75rpx;">
+					<u-tabs-swiper
+						ref="uTabs"
+						:list="items"
+						:current="current"
+						@change="tabsChange"
+						:is-scroll="true"
+						swiperWidth="750"
+						active-color="#3fbf00"
+						font-size="27"
+					></u-tabs-swiper>
+					<u-line color="#d4d4d4"></u-line>
 				</view>
 			</view>
 			<view style="height: 83px;"></view>
-			<view :style="'height:'+contentHeight+ 'px;'" class="scroll">
-				<view v-show="current === 0"><page :contentHeight="contentHeight" :pageType="0"></page></view>
-				<view v-show="current === 1"><page :contentHeight="contentHeight" :pageType="1"></page></view>
-				<view v-show="current === 2"><page :contentHeight="contentHeight" :pageType="2"></page></view>
-				<view v-show="current === 3"><page :contentHeight="contentHeight" :pageType="3"></page></view>
-				<view v-show="current === 4"><page :contentHeight="contentHeight" :pageType="4"></page></view>
-			</view>
+			<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" :style="'height:' + contentHeight + 'px;'">
+				<swiper-item class="swiper-item" v-for="(item, index) in items">
+					<Page :contentHeight="contentHeight" :pageType="item.id"></Page>
+				</swiper-item>
+			</swiper>
 		</view>
 	</view>
 </template>
@@ -66,7 +68,8 @@ export default {
 					id: 4
 				}
 			],
-			current: 0
+			current: 0, // tabs组件的current值，表示当前活动的tab选项
+			swiperCurrent: 0 // swiper组件的current值，表示当前那个swiper-item是活动的
 		};
 	},
 	mounted() {
@@ -74,11 +77,13 @@ export default {
 	},
 	methods: {
 		getCustom() {
+			console.log(this.contentHeight)
+			// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
 			// 获取设备信息
 			uni.getSystemInfo({
 				success: e => {
-					this.contentHeight = e.safeArea.bottom - 133 -this.$refs.topBar.getheight()
-					 // console.log(this.contentHeight)
+					this.contentHeight = e.safeArea.bottom - 133 - this.$refs.topBar.getheight();
+					console.log(this.contentHeight)
 					// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
 				}
 			});
@@ -95,7 +100,24 @@ export default {
 		},
 		setActive(id) {
 			this.current = id;
-		}
+		},
+
+		// tabs通知swiper切换
+		tabsChange(index) {
+			this.swiperCurrent = index;
+		},
+		// swiper-item左右移动，通知tabs的滑块跟随移动
+		transition(e) {
+			let dx = e.detail.dx;
+			this.$refs.uTabs.setDx(dx);
+		},
+		// swiper滑动结束，分别设置tabs和swiper的状态
+		animationfinish(e) {
+			let current = e.detail.current;
+			this.$refs.uTabs.setFinishCurrent(current);
+			this.swiperCurrent = current;
+			this.current = current;
+		},
 	}
 };
 </script>
@@ -134,11 +156,8 @@ export default {
 	background-color: rgb(255, 255, 255);
 }
 .topLine {
-	position: fixed;
 	border-bottom: 1rpx #eee solid;
 	background-color: #fff;
-	display: flex;
-	align-items: center;
 	width: 100%;
 	box-shadow: 0 0rpx 1rpx 0rpx rgba(100, 100, 100, 0.1), 0 1rpx 1rpx 0rpx rgba(140, 140, 140, 0.08);
 	height: 75rpx;
