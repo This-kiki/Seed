@@ -48,60 +48,60 @@ export default {
       },
       viewVisible: false,
       actData: {},
-    }
+    };
   },
   mounted() {
-    this.getAllApplyActivity()
+    this.getAllApplyActivity();
   },
   methods: {
     getAllApplyActivity() {
-      let getAPI = { current: this.current.current }
+      let getAPI = { current: this.current.current };
       this.$http.getApplyActivity(getAPI).then((res) => {
         // console.log(res)
-        this.current.total = Math.ceil(res.data.total / 20)
-        var resp = res.data.applyAct
+        this.current.total = Math.ceil(res.data.total / 20);
+        var resp = res.data.applyAct;
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {
-            resp[i].type = '未审核'
+            resp[i].type = "未审核";
           } else if (resp[i].status == 1) {
-            resp[i].type = '已通过'
+            resp[i].type = "已通过";
           } else if (resp[i].status == 2) {
-            resp[i].type = '已驳回'
+            resp[i].type = "已驳回";
           }
         }
-        this.tableData = resp
-      })
+        this.tableData = resp;
+      });
     },
     getColor(status) {
       if (status == 0) {
-        return '#32CD32'
+        return "#32CD32";
       } else if (status == 1) {
-        return '#696969'
+        return "#696969";
       } else {
-        return '#808000'
+        return "#808000";
       }
     },
     viewApplyActivity(row) {
-      this.actData = row
-      this.viewVisible = true
+      this.actData = row;
+      this.viewVisible = true;
     },
     handleApplyActivity(row, result) {
       var postAPI = {
         id: row.id,
         status: result,
-      }
+      };
       this.$http.handleApplyActivity(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '审核成功',
-            type: 'success',
-          })
-          this.getAllApplyActivity()
+            message: "审核成功",
+            type: "success",
+          });
+          this.getAllApplyActivity();
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 <style scoped>
 </style>

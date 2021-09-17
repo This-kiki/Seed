@@ -21,18 +21,18 @@
 </template>
 
 <script>
-import DataHeader from '../../components/common/DataHeader.vue'
-import SideNav from '../../components/common/SideNav.vue'
-import Nothing from '../../components/common/Nothing.vue'
+import DataHeader from "../../components/common/DataHeader.vue";
+import SideNav from "../../components/common/SideNav.vue";
+import Nothing from "../../components/common/Nothing.vue";
 
 export default {
   data() {
     return {
       pathName: this.$route.name,
-    }
+    };
   },
   created() {
-    console.log('APPCREATE')
+    console.log("APPCREATE");
   },
   components: {
     DataHeader,
@@ -41,10 +41,10 @@ export default {
   },
   watch: {
     $route: function () {
-      this.pathName = this.$route.name
+      this.pathName = this.$route.name;
     },
   },
-}
+};
 </script>
 
 <style>
