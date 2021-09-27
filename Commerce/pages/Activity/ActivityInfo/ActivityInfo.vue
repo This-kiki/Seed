@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class="act-title">{{ dataForm.name }}</view>
+	<view class="body">
+		<!-- <view class="act-title">{{ dataForm.name }}</view>
 		<view class="bot-num">剩余名额：{{ dataForm.num }}</view>
 		<view class="act-content" v-html="dataForm.content"></view>
 		<view style="height: 130rpx;"></view>
@@ -11,6 +11,20 @@
 				<u-button plain type="primary" size="medium" hover-class="none" v-if="apply == 1">已报名</u-button>
 				<u-button plain type="default" size="medium" hover-class="none" v-if="apply == 2">已结束</u-button>
 				<u-button plain type="warning" size="medium" hover-class="none" v-if="apply == 3">已满员</u-button>
+			</view>
+		</view> -->
+		<view class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
+		<view class="content">
+			<view class="content-reaction">
+				<view class="content-reaction-bot-btn">
+					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加</u-button>
+					<u-button shape="circle" plain type="primary" size="mini" hover-class="none" v-if="apply == 1">已报名</u-button>
+					<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
+					<u-button plain type="warning" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
+				</view>
+				<view class="iconfont content-reaction-like">
+					&#xe8ab;
+				</view>
 			</view>
 		</view>
 		<u-toast ref="uToast" />
@@ -83,44 +97,49 @@ export default {
 };
 </script>
 
-<style scoped>
-.act-title {
-	margin: 20rpx 10rpx;
-	font-size: 35rpx;
-	font-weight: 900;
-}
-.act-content {
-	padding: 20rpx;
-}
-.bottom {
-	background-color: rgb(252, 252, 252);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: fixed;
-	bottom: 0rpx;
-	width: 100%;
-	height: 130rpx;
-	border-top: 2rpx solid #cccccc;
-	z-index: 1;
-}
-.bot-num {
-	display: flex;
-	justify-content: flex-end;
-	font-size: 27rpx;
-	font-weight: 600;
-	color: #8b8b8b;
-	margin-right: 50rpx;
-	letter-spacing: 5rpx;
-}
-.bot-btn {
-	margin-right: 40rpx;
-}
-.share {
-	margin: 0 50rpx;
-}
-.icon-share {
-	font-size: 35rpx;
-	font-weight: 700;
-}
+<style lang="scss" scoped>
+	.body {
+		.backImg {
+			height: 400rpx;
+			width: 100%;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+		}
+		.content {
+			margin: 0 auto;
+			width: 90%;
+			height: 1500rpx;
+			background-color: #ffffff;
+			box-shadow: 0px 0px 4px rgb(111, 111, 111);
+			position: relative;
+			top: -150rpx;
+			.content-reaction {
+				position: relative;
+				top: -30rpx;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				align-items: center;
+				padding: 0 30rpx;
+				.content-reaction-bot-btn {
+					margin-right: 20rpx;
+				}
+				.content-reaction-like {
+					height: 60rpx;
+					width: 60rpx;
+					border-radius: 35rpx;
+					background-color: rgb(255,255,255);
+					box-shadow: 0px 0px 4px rgb(111, 111, 111);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					font-weight: 1000;
+					font-size: 35rpx;
+					color: rgb(171, 171, 171);
+				}
+			}
+		}
+	}
 </style>

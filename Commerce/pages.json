@@ -262,15 +262,6 @@
 				"navigationStyle": "custom"
 			}
 		}
-	    ,{
-            "path" : "pages/RealTimeInfo/RealTime",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

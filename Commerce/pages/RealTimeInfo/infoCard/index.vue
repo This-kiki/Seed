@@ -1,48 +1,67 @@
 <template>
-	<!-- <div class="hm-news-card">
-		<div class="container">
-			<div class="box">
-				<div class="img" v-if="options.imag" :style="'background-image: url(' + options.imag + ');'"></div>
-				<span class="title">{{ options.title }}</span>
-				<span class="summary">{{ options.simpleContent }}</span>
-				<div class="row_2" />
-				<div class="ft">
-					<span class="comments">{{ formatMsgTime(options.createTime) }}</span>
-					<span class="comments">{{ view }} 浏览</span>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<view class="infoBox" @click="onClick()">
 		<view class="top">
-			<view class="title">
-				{{item.title}}
+			<view class="top-head">
+				<view class="top-head-headimg" style="background-image: url(../../../static/img/head.webp);"></view>
+				<view class="top-head-author">
+					<view class="top-head-author-name oneline">
+						张立辛
+					</view>
+					<view class="top-head-author-identity oneline">
+						管理员
+					</view>
+				</view>
 			</view>
-			<view class="intro">
-				{{item.simpleContent}}
+			<view class="iconfont top-more">&#xe73a;</view>
+		</view>
+		<view class="middle">
+			<view class="middle-title">
+				<view class="middle-title-type">
+					<u-tag text="种子会咨讯" mode="light" size="mini" />
+				</view>
+				<view class="middle-title-text">
+					{{item.title}}
+				</view>
+			</view>
+			<view class="middle-content0" v-if="imagArr.length == 0">
+				<view class="middle-content0-text">
+					{{item.simpleContent}}
+				</view>
+			</view>
+			<view class="middle-content1" v-if="imagArr.length == 1">
+				<view class="middle-content1-text">
+					{{item.simpleContent}}
+				</view>
+				<view class="middle-content1-img" :style="'background-image: url('+ imagArr[0] +');'"></view>
+			</view>
+			<view class="middle-content3" v-if="imagArr.length == 3">
+				<view class="middle-content3-text">
+					{{item.simpleContent}}
+				</view>
+				<view class="middle-content3-imgs">
+
+					<view class="middle-content3-img" v-for="(img,index) in imagArr"
+						:style="'background-image: url('+ img +');'"></view>
+				</view>
 			</view>
 		</view>
 		<view class="bottom">
-			<view class="img" :style="{backgroundImage:'url('+imag+')'}" v-if="imag!=''&&!isImg">
-			</view>
-			<view class="imgContainer" v-if="isImg">
-				<view class="imgBox" v-for="(i,index) in imagArr.slice(0,3)" :key="index">
-					<image :src="i" mode=""></image>
+			<view class="bottom-data">
+				<view class="bottom-data-view">
+					<view class="iconfont bottom-data-view-icon">
+						&#xe624;
+					</view>
+					{{item.view}}
+				</view>
+				<view class="bottom-data-view">
+					<view class="iconfont bottom-data-view-icon">
+						&#xe601;
+					</view>
+					{{item.view}}
 				</view>
 			</view>
-			<view class="main">
-				<view class="top" v-if="item.isTop">
-					置顶
-				</view>
-				<view class="view">
-					{{item.view}} 浏览
-				</view>
-				<!-- <view class="love">
-				{{item.love}} 点赞
-			</view> -->
-				<view class="time">
-					{{item.createTime.slice(0,10)}}
-				</view>
+			<view class="bottom-tag">
+				<u-tag text="GET" type="success" mode="plain" />
 			</view>
 		</view>
 	</view>
@@ -59,20 +78,23 @@
 		data() {
 			return {
 				view: 0,
-				isImg: false,
 				imag: "",
-				imagArr:[]
+				imagArr: []
 			};
 		},
 		created() {
-			if (this.item.imag != '')
-				this.item.imag = JSON.parse(this.item.imag)
-			if (this.item.imag.length > 1) {
-				this.isImg = true
-				this.imagArr = this.item.imag
-			}else{
-				this.imag = this.item.imag[0]
+			if (this.item.imag != '') {
+				this.imagArr = JSON.parse(this.item.imag)
+			} else {
+				this.imagArr = []
 			}
+			// console.log(this.item.imag.length,this.item.imag)
+			// if (this.item.imag.length > 1) {
+			// 	this.isImg = true
+			// 	this.imagArr = this.item.imag
+			// } else {
+			// 	this.imag = this.item.imag[0]
+			// }
 			// console.log(this.item)
 			this.view = this.item.view;
 		},
@@ -122,75 +144,222 @@
 		}
 	};
 </script>
-<style lang="scss">
-	// @import './index.response.css';
-
+<style lang="scss" scoped>
 	.infoBox {
-		padding: 20rpx 0;
-		box-sizing: border-box;
-		border-bottom: 1rpx #eee solid;
+		width: 100vw;
+		margin: 10rpx auto;
+		padding: 10rpx 20rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgb(254, 254, 254);
 
 		.top {
-			.title {
-				font-size: 28rpx;
-				font-weight: bold;
-				letter-spacing: 1rpx;
-			}
+			width: 100%;
+			height: 70rpx;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
 
-			.intro {
-				font-size: 22rpx;
-				color: #666;
-				margin-top: 10rpx;
-				letter-spacing: 1rpx;
-			}
-		}
-
-		.bottom {
-			margin-top: 20rpx;
-
-			.img {
-				width: 100%;
-				height: 400rpx;
-				border-radius: 10rpx;
-				background-color: #4e8df6;
-				background-size: cover;
-				background-position: center;
-				background-repeat: no-repeat;
-			}
-
-			.imgContainer {
+			.top-head {
+				height: 100%;
 				display: flex;
+				flex-direction: row;
+				align-items: center;
 
-				.imgBox {
-					height: 150rpx;
-					width: 30%;
-					margin-right: 3%;
-					border-radius: 10rpx;
+				.top-head-headimg {
+					height: 70rpx;
+					width: 70rpx;
+					border-radius: 40rpx;
+					overflow: hidden;
+					background-repeat: no-repeat;
+					background-position: center center;
+					background-size: cover;
+				}
 
-					image {
-						height: 100%;
-						width: 100%;
-						border-radius: 10rpx;
+				.top-head-author {
+					width: 30vw;
+					height: 60rpx;
+					display: flex;
+					flex-direction: column;
+					margin-left: 15rpx;
+
+					.oneline {
+						display: flex;
+						align-items: center;
+						width: 30vw;
+						height: 30rpx;
+						overflow: hidden; //多出部分隐藏
+						white-space: nowrap; //一行显示
+						text-overflow: ellipsis; //是否显示省略号
+					}
+
+					.top-head-author-name {
+						font-size: 27rpx;
+						font-weight: 800;
+						letter-spacing: 3rpx;
+					}
+
+					.top-head-author-identity {
+						font-size: 22rpx;
+						color: rgb(170, 170, 170);
+						letter-spacing: 3rpx;
 					}
 				}
 			}
 
-			.main {
-				display: flex;
-				justify-content: flex-end;
-				font-size: 22rpx;
-				margin-top: 10rpx;
-				color: #aaa;
+			.top-more {
+				text-align: center;
+				color: rgb(170, 170, 170);
+				font-size: 40rpx;
+				height: 50rpx;
+				width: 50rpx;
+			}
 
-				.top,
-				.view,
-				.love {
-					margin-right: 10rpx;
+			.top-more:active {
+				border-radius: 30rpx;
+				background-color: rgb(230, 230, 230);
+			}
+		}
+
+		.middle {
+			width: 100%;
+			margin: 10rpx 0;
+
+			.middle-title {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.middle-title-text {
+					font-weight: 700;
+					font-size: 32rpx;
+					margin-left: 10rpx;
+					letter-spacing: 3rpx;
+				}
+			}
+
+			.middle-content0 {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 15rpx;
+
+				.middle-content0-text {
+					width: 100%;
+					max-height: 135rpx;
+					font-size: 30rpx;
+					letter-spacing: 2rpx;
+					line-height: 45rpx;
+					overflow: hidden;
+					display: -webkit-box;
+					text-overflow: ellipsis;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+				}
+			}
+
+			.middle-content1 {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 15rpx;
+
+				.middle-content1-text {
+					width: 65%;
+					height: 135rpx;
+					font-size: 30rpx;
+					letter-spacing: 2rpx;
+					line-height: 45rpx;
+					overflow: hidden;
+					display: -webkit-box;
+					text-overflow: ellipsis;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
 				}
 
-				.top {
-					color: #4e8df6;
-					font-weight: bold;
+				.middle-content1-img {
+					height: 150rpx;
+					width: 33%;
+					border-radius: 10rpx;
+					overflow: hidden;
+					background-repeat: no-repeat;
+					background-position: center center;
+					background-size: cover;
+				}
+			}
+
+			.middle-content3 {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-top: 15rpx;
+
+				.middle-content3-text {
+					width: 100%;
+					max-height: 90rpx;
+					font-size: 30rpx;
+					letter-spacing: 2rpx;
+					line-height: 45rpx;
+					overflow: hidden;
+					display: -webkit-box;
+					text-overflow: ellipsis;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+				}
+
+				.middle-content3-imgs {
+					width: 100%;
+					height: 150rpx;
+					margin-top: 15rpx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.middle-content3-img {
+						height: 150rpx;
+						width: 33%;
+						border-radius: 10rpx;
+						overflow: hidden;
+						background-repeat: no-repeat;
+						background-position: center center;
+						background-size: cover;
+					}
+				}
+			}
+		}
+
+		.bottom {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			.bottom-data {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.bottom-data-view {
+					font-size: 24rpx;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					margin-right: 20rpx;
+					color: rgb(116, 116, 116);
+
+					.bottom-data-view-icon {
+						font-weight: 900;
+						font-size: 30rpx;
+						margin-right: 6rpx;
+					}
 				}
 			}
 		}

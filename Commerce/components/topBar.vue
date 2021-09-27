@@ -7,6 +7,9 @@
 				color:nav.backBtnColor
 			}" />
 			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
+			<view class="search">
+				<view class="search-bar" @click="go()">搜索你感兴趣的~~</view>
+			</view>
 		</view>
 		<!-- <view :style="{'height':titleBarHeight,'padding-top':statusBarHeight}"></view> -->
 		<view :style="'height:'+height+ 'px;'"></view>
@@ -37,10 +40,10 @@
 				success: function(res) {
 					if (res.model.indexOf('iPhone') !== -1) {
 						that.titleBarHeight = 44 + 'px';
-						that.height = res.statusBarHeight+44
+						that.height = res.statusBarHeight + 44
 					} else {
 						that.titleBarHeight = 48 + 'px';
-						that.height = res.statusBarHeight+48
+						that.height = res.statusBarHeight + 48
 					}
 					that.statusBarHeight = res.statusBarHeight + 'px'
 				},
@@ -54,6 +57,12 @@
 			},
 			getheight() {
 				return this.height
+			},
+			go() {
+				var that = this
+				uni.navigateTo({
+					url: that.nav.searchUrl
+				})
 			}
 		}
 	}
@@ -75,11 +84,36 @@
 	.header .header-title {
 		font-weight: bold;
 		color: #fff;
-		width: 60%;
+		width: 80rpx;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		font-size: 36rpx;
+	}
+
+	.search {
+		width: 60%;
+		height: 60rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.search-bar {
+			width: 90%;
+			height: 60rpx;
+			border-radius: 40rpx;
+			border: 1rpx solid #f0f0f0;
+			background-color: rgb(248, 248, 248);
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			padding-left: 40rpx;
+			padding-bottom: 4rpx;
+			color: #adadad;
+			font-size: 24rpx;
+			font-weight: 500;
+			letter-spacing: 3rpx;
+		}
 	}
 
 	.yjs_text {

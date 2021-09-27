@@ -306,7 +306,6 @@
 		height: 110rpx;
 		width: 110rpx;
 		border-radius: 60rpx;
-		overflow: hidden;
 		border: 2rpx solid 	rgb(246, 255, 161);
 		margin-left: 40rpx;
 		background-repeat: no-repeat;

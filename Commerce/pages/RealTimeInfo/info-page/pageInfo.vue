@@ -195,10 +195,9 @@ export default {
 <style lang="scss">
 .page {
 	width: 100%;
-	background-color: rgb(255, 255, 255);
+	background-color: rgb(245,245,245);
 }
 .infoList {
-	width: 94%;
 	margin: 0rpx auto;
 }
 .bottom {

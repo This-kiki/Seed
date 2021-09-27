@@ -4,7 +4,7 @@
 		<topBar ref="topBar" :nav="setNav"></topBar>
 		<view class="top-nav-bar">
 			<view class="top-nav-to">
-				<view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view>
+				<!-- <view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view> -->
 				<view style="height: 75rpx;">
 					<u-tabs-swiper
 						ref="uTabs"
@@ -13,13 +13,13 @@
 						@change="tabsChange"
 						:is-scroll="true"
 						swiperWidth="750"
-						active-color="#3fbf00"
-						font-size="27"
+						active-color="#36c1ba"
+						font-size="28"
 					></u-tabs-swiper>
 					<u-line color="#d4d4d4"></u-line>
 				</view>
 			</view>
-			<view style="height: 83px;"></view>
+			<view style="height: 47px;"></view>
 			<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" :style="'height:' + contentHeight + 'px;'">
 				<swiper-item class="swiper-item" v-for="(item, index) in items">
 					<Page :contentHeight="contentHeight" :pageType="item.id"></Page>
@@ -43,7 +43,8 @@ export default {
 			setNav: {
 				titleColor: 'black',
 				navTitle: '资讯',
-				bgColor: 'white'
+				bgColor: 'white',
+				searchUrl: 'info-search/info-search'
 			},
 			// items: ['种子会动态', '会员单位', '会员风采', '家乡新闻', '精选'],
 			items: [
@@ -82,9 +83,8 @@ export default {
 			// 获取设备信息
 			uni.getSystemInfo({
 				success: e => {
-					this.contentHeight = e.safeArea.bottom - 133 - this.$refs.topBar.getheight();
+					this.contentHeight = e.safeArea.bottom - 97 - this.$refs.topBar.getheight();
 					console.log(this.contentHeight)
-					// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
 				}
 			});
 		},
