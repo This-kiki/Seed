@@ -13,12 +13,16 @@
 				<u-button plain type="warning" size="medium" hover-class="none" v-if="apply == 3">已满员</u-button>
 			</view>
 		</view> -->
-		<view class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
+		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
+		<!-- <view v-if="!dataForm.img" class="backImg" style="background-image: url(../../../static/hm-news-card/images/img_22726_0_0.png)"></view> -->
+		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png"></u-image>
 		<view class="content">
 			<view class="content-reaction">
 				<view class="content-reaction-bot-btn">
-					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加</u-button>
-					<u-button shape="circle" plain type="primary" size="mini" hover-class="none" v-if="apply == 1">已报名</u-button>
+					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
+					</u-button>
+					<u-button shape="circle" plain type="primary" size="mini" hover-class="none" v-if="apply == 1">已报名
+					</u-button>
 					<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
 					<u-button plain type="warning" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
 				</view>
@@ -80,82 +84,89 @@
 </template>
 
 <script>
-export default {
-	props: ['activityId'],
-	data() {
-		return {
-			dataForm: {},
-			apply: ''
-		};
-	},
-	mounted() {
-		this.getAcrivityDetails();
-	},
-	methods: {
-		getAcrivityDetails() {
-			var getAPI = { id: this.activityId };
-			this.$api.getAcrivityDetails(getAPI).then(res => {
-				this.dataForm = res.data.data.acts;
-				if (res.data.data.acts.num == 0) {
-					this.apply = 3;
-				} else {
-					if (res.data.data.apply == 1) {
-						this.apply = res.data.data.apply;
+	export default {
+		props: ['activityId'],
+		data() {
+			return {
+				dataForm: {},
+				apply: ''
+			};
+		},
+		mounted() {
+			this.getAcrivityDetails();
+		},
+		methods: {
+			getAcrivityDetails() {
+				var getAPI = {
+					id: this.activityId
+				};
+				this.$api.getAcrivityDetails(getAPI).then(res => {
+					this.dataForm = res.data.data.acts;
+					if (res.data.data.acts.num == 0) {
+						this.apply = 3;
 					} else {
-						if (res.data.data.acts.status == 0) {
-							this.apply = 0;
+						if (res.data.data.apply == 1) {
+							this.apply = res.data.data.apply;
 						} else {
-							this.apply = 2;
+							if (res.data.data.acts.status == 0) {
+								this.apply = 0;
+							} else {
+								this.apply = 2;
+							}
 						}
 					}
-				}
-				// console.log(res.data.data.acts)
-			});
-		},
-		joinActivity() {
-			uni.showLoading();
-			var postAPI = { id: this.activityId };
-			this.$api.participateActivity(postAPI).then(res => {
-				console.log(res);
-				uni.hideLoading();
-				if (res.data.code == 20000) {
-					this.$refs.uToast.show({
-						title: '已提交报名，等待管理员审核',
-						type: 'success'
-					});
-				} else if (res.data.code == 2002) {
-					this.$refs.uToast.show({
-						title: '已报名，请勿重复提交',
-						type: 'warning',
-						url: '/pages/user/index'
-					});
-				}
-				this.getAcrivityDetails();
-			});
-		},
-		shareAct(actInfo) {
-			uni.share({
-				provider: 'weixin',
-				scene: 'WXSceneSession',
-				type: 1,
-				title: actInfo.name
-			});
+					// console.log(res.data.data.acts)
+				});
+			},
+			joinActivity() {
+				uni.showLoading();
+				var postAPI = {
+					id: this.activityId
+				};
+				this.$api.participateActivity(postAPI).then(res => {
+					console.log(res);
+					uni.hideLoading();
+					if (res.data.code == 20000) {
+						this.$refs.uToast.show({
+							title: '已提交报名，等待管理员审核',
+							type: 'success'
+						});
+					} else if (res.data.code == 2002) {
+						this.$refs.uToast.show({
+							title: '已报名，请勿重复提交',
+							type: 'warning',
+							url: '/pages/user/index'
+						});
+					}
+					this.getAcrivityDetails();
+				});
+			},
+			shareAct(actInfo) {
+				uni.share({
+					provider: 'weixin',
+					scene: 'WXSceneSession',
+					type: 1,
+					title: actInfo.name
+				});
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
 	.body {
-		background-color: rgb(248,248,248);
+		background-color: rgb(248, 248, 248);
+
 		.backImg {
+			vertical-align: middle;
 			height: 400rpx;
 			width: 100%;
-			overflow: hidden;
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-size: cover;
+			// overflow: hidden;
+			// background-repeat: no-repeat;
+			// background-position: center center;
+			// background-size: cover;
 		}
+
 		.content {
 			margin: 0 auto;
 			width: 93%;
@@ -163,6 +174,7 @@ export default {
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
 			position: relative;
 			top: -150rpx;
+
 			.content-reaction {
 				position: relative;
 				top: -30rpx;
@@ -171,14 +183,16 @@ export default {
 				justify-content: flex-end;
 				align-items: center;
 				padding: 0 30rpx;
+
 				.content-reaction-bot-btn {
 					margin-right: 20rpx;
 				}
+
 				.content-reaction-like {
 					height: 60rpx;
 					width: 60rpx;
 					border-radius: 35rpx;
-					background-color: rgb(255,255,255);
+					background-color: rgb(255, 255, 255);
 					box-shadow: 0px 0px 4px rgb(111, 111, 111);
 					display: flex;
 					justify-content: center;
@@ -188,12 +202,14 @@ export default {
 					color: rgb(171, 171, 171);
 				}
 			}
+
 			.content-title {
 				margin: 0 auto;
 				width: 94%;
 				font-size: 35rpx;
 				font-weight: 1000;
 			}
+
 			.content-msgs {
 				width: 100%;
 				display: flex;
@@ -201,6 +217,7 @@ export default {
 				justify-content: center;
 				align-items: center;
 				margin: 20rpx 0;
+
 				.content-msgs-item {
 					display: flex;
 					flex-direction: row;
@@ -208,15 +225,18 @@ export default {
 					width: 90%;
 					height: 80rpx;
 					align-items: center;
+
 					.content-msgs-item-icon {
 						font-size: 38rpx;
 						color: rgb(182, 182, 182);
 					}
+
 					.content-msgs-item-key {
 						font-size: 28rpx;
 						color: rgb(191, 191, 191);
 						margin: 0 15rpx 0 5rpx;
 					}
+
 					.content-msgs-item-value {
 						font-size: 27rpx;
 						color: rgb(79, 79, 79);
@@ -224,6 +244,7 @@ export default {
 				}
 			}
 		}
+
 		.contenttext {
 			margin: 0 auto;
 			width: 93%;
@@ -232,19 +253,22 @@ export default {
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
 			position: relative;
 			padding: 30rpx 0;
+
 			.contenttext-content {
 				width: 94%;
 				margin: 0 auto;
+
 				.contenttext-content-name {
 					font-size: 28rpx;
 					color: rgb(159, 159, 159);
 					margin: 10rpx 0 60rpx 0;
 				}
+
 				.contenttext-content-value {
 					font-size: 30rpx;
 				}
 			}
-			
+
 		}
 	}
 </style>

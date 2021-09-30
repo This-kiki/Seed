@@ -17,7 +17,7 @@
 		<view class="middle">
 			<view class="middle-title">
 				<view class="middle-title-type">
-					<u-tag :text="getCategory(item.category)" mode="plain" size="mini" style="font-weight: 800;" color="" />
+					<u-tag :text="getCategory(item.category)" mode="plain" size="mini" />
 				</view>
 				<view class="middle-title-text">
 					{{item.title}}
@@ -65,7 +65,8 @@
 				</view>
 			</view>
 			<view class="bottom-tag">
-				<u-tag text="GET" type="success" mode="plain" />
+				<!-- <u-tag text="GET" type="success" mode="plain" /> -->
+				{{ formatMsgTime(item.createTime) }}
 			</view>
 		</view>
 		<u-popup v-model="dialog" mode="bottom" :mask="false" :closeable="true" height="100">
@@ -428,6 +429,11 @@
 						margin-right: 6rpx;
 					}
 				}
+			}
+			.bottom-tag {
+				font-size: 24rpx;
+				color: rgb(116, 116, 116);
+				margin-right: 20rpx;
 			}
 		}
 	}
