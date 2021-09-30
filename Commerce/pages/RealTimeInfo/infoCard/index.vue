@@ -419,7 +419,7 @@
 					display: flex;
 					flex-direction: row;
 					align-items: center;
-					margin-right: 20rpx;
+					margin-right: 40rpx;
 					color: rgb(116, 116, 116);
 
 					.bottom-data-view-icon {
