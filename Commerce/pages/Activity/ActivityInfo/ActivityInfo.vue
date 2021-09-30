@@ -158,7 +158,7 @@ export default {
 		}
 		.content {
 			margin: 0 auto;
-			width: 92%;
+			width: 93%;
 			background-color: #ffffff;
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
 			position: relative;
@@ -226,7 +226,7 @@ export default {
 		}
 		.contenttext {
 			margin: 0 auto;
-			width: 92%;
+			width: 93%;
 			top: -140rpx;
 			background-color: #ffffff;
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
