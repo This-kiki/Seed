@@ -1,7 +1,8 @@
 <template>
 	<view>
-		<scroll-view :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true" refresher-enabled="true"
-			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+		<scroll-view ref="scroll" :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true"
+			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
+			@scrolltolower="loadMore">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
@@ -10,6 +11,16 @@
 				<view v-if="!loadmore" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
+		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
+			<button open-type="share" class="share" @click="shareInfo">
+				<view class="iconfont share-icon">
+					&#xe63f;
+				</view>
+				<view class="share-content">
+					分享
+				</view>
+			</button>
+		</u-popup>
 	</view>
 </template>
 
@@ -30,13 +41,31 @@
 				loading: false,
 				loadmore: true,
 				loadmoreIng: false,
-				loadmoreText: '加载更多'
+				loadmoreText: '加载更多',
+
+				dialog: false,
+				shareId: ''
 			};
 		},
 		mounted() {
 			this.init();
 		},
 		methods: {
+			shareInfo() {
+				this.dialog = false
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 1,
+					title: '张立辛',
+					summary: '张立辛'
+				});
+				console.log('000')
+			},
+			dialogFather(id) {
+				this.shareId = id
+				this.dialog = true
+			},
 			go(id) {
 				uni.navigateTo({
 					url: 'DetailedInfo/DetailedInfo?infoId=' + id
@@ -49,56 +78,13 @@
 				let resp;
 				var getAPI = {
 					current: 1,
-					limit: 20
+					pageType: this.pageType
 				};
-				switch (this.pageType) {
-					case 0:
-						await this.$api.getSeedInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 1:
-						await this.$api.getCompanyInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 2:
-						await this.$api.getMemberInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 3:
-						await this.$api.getCountryInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 4:
-						await this.$api.getTopHomeInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = '';
-							this.current.totalPages = 1;
-							this.current.currentPage = this.current.currentPage + 1;
-							this.loadmore = false
-							if (res.data.AllDynamic.length == 0) {
-								this.loadmore = false;
-							} else {
-								this.list = res.data.AllDynamic;
-								setTimeout(function() {
-									// console.log('结束了', that.loading);
-									that.loading = false;
-								}, 500);
-							}
-						});
-						break;
-				}
+				await this.$api.getAllInfo(getAPI).then(res => {
+					// console.log('种子会资讯',res)
+					resp = res;
+					this.current.currentPage = this.current.currentPage + 1;
+				});
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
@@ -125,43 +111,21 @@
 				let resp;
 				var getAPI = {
 					current: this.current.currentPage,
-					limit: 20
+					pageType: this.pageType
 				};
-				switch (this.pageType) {
-					case 0:
-						await this.$api.getSeedInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 1:
-						await this.$api.getCompanyInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 2:
-						await this.$api.getMemberInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-					case 3:
-						await this.$api.getCountryInfo(getAPI).then(res => {
-							// console.log('种子会资讯',res)
-							resp = res;
-							this.current.currentPage = this.current.currentPage + 1;
-						});
-						break;
-				}
+				await this.$api.getAllInfo(getAPI).then(res => {
+					// console.log('种子会资讯',res)
+					resp = res;
+					this.current.currentPage = this.current.currentPage + 1;
+				});
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
 						setTimeout(function() {
 							that.loadmore = false;
+							that.$nextTick(() => {
+								that.$refs.scroll.scrollTo(0, 200);
+							})
 						}, 500);
 					} else {
 						for (var i = 0; i < resp.data.rows.length; i++) {
@@ -205,5 +169,33 @@
 		letter-spacing: 5rpx;
 		color: rgb(175, 175, 175);
 		margin-top: 30rpx;
+	}
+
+	.share {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		border: 0!important;
+		outline: none;
+		background-color: rgb(255,255,255);
+
+		.share-icon {
+			font-size: 40rpx;
+			font-weight: 800;
+			color: rgb(130, 130, 130);
+			margin: 0 30rpx 0 40rpx;
+		}
+
+		.share-content {
+			font-size: 30rpx;
+			font-weight: 800;
+			color: rgb(91, 91, 91);
+		}
+	}
+
+	.share:active {
+		background-color: rgb(227, 227, 227);
 	}
 </style>

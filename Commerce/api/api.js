@@ -32,31 +32,12 @@ export class Api {
 		return res.data
 	}
 
-	// 获取会员信息
-	getMemberMsg = async () => {
-		let res = await flyio.get("/user/findDetailInfo")
+	// 获取资讯
+	getAllInfo = async (data) => {
+		let res = await flyio.get("/info/PageLawer/"+ data.current + "/20" +"?id=" + data.pageType)
 		return res.data
 	}
-	// 获取会员单位资讯
-	getCompanyInfo = async (data) => {
-		let res = await flyio.get("/info/PageFindCompanyDynamic/" + data.current + "/" + data.limit)
-		return res.data
-	}
-	// 获取家乡新闻资讯
-	getCountryInfo = async (data) => {
-		let res = await flyio.get("/info/PageFindCountryDynamic/" + data.current + "/" + data.limit)
-		return res.data
-	}
-	// 获取会员风采资讯
-	getMemberInfo = async (data) => {
-		let res = await flyio.get("/info/PageFindMemberDynamic/" + data.current + "/" + data.limit)
-		return res.data
-	}
-	// 获取种子会动态资讯
-	getSeedInfo = async (data) => {
-		let res = await flyio.get("/info/PageFindSeedDynamic/" + data.current + "/" + data.limit)
-		return res.data
-	}
+	
 	// 获取某个资讯具体内容
 	getOneInfo = async (data) => {
 		let res = await flyio.get("/info/findAllDynamicDetail?id=" + data.id)

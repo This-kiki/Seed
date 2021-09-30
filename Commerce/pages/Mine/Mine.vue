@@ -1,145 +1,90 @@
 <template>
-	<view class="mine-page">
+	<view class="body">
 		<topBar :nav="setNav"></topBar>
-		<view class="m-page">
-			<view class="m-page-top">
-				<view class="m-page-tag">
-					<view class="m-page-t">
-						<span class="iconfont m-page-t-point">&#xe62c;</span>
-						<view class="m-page-t-text">
-							个人资料
-						</view>
-					</view>
-				</view>
-				<view class="m-page-headMsg" v-if="userMsg.name">
-					<!-- <image class="m-page-headimg" :src="userMsg.img" mode=""></image> -->
-					<view class="m-page-headimg" :style="{backgroundImage:'url('+userMsg.img+')'}"></view>
-					<view class="m-page-name">{{ userMsg.name }}</view>
-					<!-- <open-data class="m-page-headimg" type="userAvatarUrl"></open-data> -->
-					<!-- <open-data class="m-page-name" type="userNickName"></open-data> -->
-				</view>
-				<view class="m-page-headMsg login-box" v-if="!userMsg.name" @tap="getUserProfile">
-					<view class="login">
-						授权登录
-					</view>
-					<span class="iconfont login-icon">&#xe623;</span>
-				</view>
-				<view class="m-page-join" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
-					<view class="m-page-jointitle">
-						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
-						<span class="iconfont m-page-joinimg">&#xe638;</span>
-						<view class="m-page-jointext">
-							加入组织享受更多专属权益
-						</view>
-					</view>
-					<view class="m-page-jointile">
-						<view class="m-page-jointext">
-							立即加入
-						</view>
-						<span class="iconfont m-page-joinicon">&#xe623;</span>
-						<!-- <image class="m-page-joinicon" src="" mode=""></image> -->
-					</view>
-				</view>
-				<view class="m-page-join" v-if="userMsg.identity!=0">
-					<view class="m-page-jointitle">
-						<!-- <image class="m-page-joinimg" src="" mode=""></image> -->
-						<span class="iconfont m-page-joinimg">&#xe638;</span>
-						<view class="m-page-jointext">
-							你好，尊贵的{{userMsg.identity==2?'律师':userMsg.identity==3?'会员单位':'会员'}}
-						</view>
-					</view>
-				</view>
+		<view class="m-top" v-if="userMsg.name">
+			<view class="m-top-head" :style="{backgroundImage:'url('+userMsg.img+')'}"></view>
+			<view class="m-top-name">
+				{{ userMsg.name }}
 			</view>
-			<view class="m-page-middle">
-				<view class="m-page-box" @click="go('MineActivity/MineActivity')">
-					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
-					<span class="iconfont m-page-boximg">&#xe622;</span>
-					<view class="m-page-boxtext">
+			<view class="m-top-idntity">
+				{{getIdentity(userMsg.identity)}}
+			</view>
+		</view>
+		<view class="m-top login-box" v-if="!userMsg.name" @tap="getUserProfile">
+			<view class="login">
+				授权登录
+			</view>
+			<span class="iconfont login-icon">&#xe623;</span>
+		</view>
+		<view class="m-bottom">
+			<view style="height: 80rpx;"></view>
+			<view class="m-bottom-items">
+				<view class="m-bottom-item" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe612;
+					</view>
+					<view class="m-bottom-item-content">
+						加入我们
+					</view>
+				</view>
+				<view class="m-bottom-item" @click="go('Contact/Contact')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe610;
+					</view>
+					<view class="m-bottom-item-content">
+						联系我们
+					</view>
+				</view>
+				<view class="m-bottom-item" @click="go('MineActivity/MineActivity')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe622;
+					</view>
+					<view class="m-bottom-item-content">
 						我的活动
 					</view>
 				</view>
-				<view class="m-page-box m-page-boxborder" @click="go('Notice/Notice')">
-					<!-- <image class="m-page-boximg" src="" mode=""></image> -->
-					<span class="iconfont m-page-boximg">&#xe601;</span>
-					<view class="m-page-boxtext">
-						我的消息
-						<text class="new" v-if="leaveFlag==1"></text>
+				<view class="m-bottom-item" @click="go('/pages/InfoMe/InfoMe')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe6c9;
 					</view>
-				</view>
-				<view class="m-page-box" @click="go('/pages/InfoMe/InfoMe')">
-					<span class="iconfont m-page-boximg">&#xe6c9;</span>
-					<view class="m-page-boxtext">
+					<view class="m-bottom-item-content">
 						我的资讯
 					</view>
 				</view>
-			</view>
-			<view class="m-page-bottom">
-				<view class="m-page-list">
-					<view class="m-page-listitem" @click="go('MineMsg/MineMsg')">
-						<view class="m-page-listitemtitle">
-							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
-							<span class="iconfont m-page-listitemimg">&#xe610;</span>
-							<view class="m-page-listitemtext">
-								个人资料
-							</view>
-						</view>
-						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
-						<span class="iconfont m-page-listitemicon">&#xe623;</span>
+				<view class="m-bottom-item" @click="go('MineMsg/MineMsg')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe610;
 					</view>
-					<view class="m-page-listitem" @click="go('joinPage/joinPage')" v-if="userMsg.identity==0">
-						<view class="m-page-listitemtitle">
-							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
-							<span class="iconfont m-page-listitemimg">&#xe612;</span>
-							<view class="m-page-listitemtext">
-								加入我们
-							</view>
-						</view>
-						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
-						<span class="iconfont m-page-listitemicon">&#xe623;</span>
+					<view class="m-bottom-item-content">
+						设置个人资料
 					</view>
-					<!-- <view class="m-page-listitem" @click="go('Complaints/Complaints')">
-						<view class="m-page-listitemtitle">
-							<image class="m-page-listitemimg" src="" mode=""></image>
-							<span class="iconfont m-page-listitemimg">&#xe6c9;</span>
-							<view class="m-page-listitemtext">
-								投诉建议
-							</view>
-						</view>
-						<image class="m-page-listitemicon" src="" mode=""></image>
-						<span class="iconfont m-page-listitemicon">&#xe623;</span>
-					</view> -->
-					<view class="m-page-listitem" @click="go('Contact/Contact')">
-						<view class="m-page-listitemtitle">
-							<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
-							<span class="iconfont m-page-listitemimg">&#xe639;</span>
-							<view class="m-page-listitemtext">
-								联系我们
-							</view>
-						</view>
-						<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
-						<span class="iconfont m-page-listitemicon">&#xe623;</span>
+				</view>
+				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe639
 					</view>
-					<!-- 					<view class="m-page-listitem" @click="go('CompanyJoin/CompanyJoin')">
-						<view class="m-page-listitemtitle">
-							<span class="iconfont m-page-listitemimg">&#xe642;</span>
-							<view class="m-page-listitemtext">
-								成为会员单位
-							</view>
-						</view>
-						<span class="iconfont m-page-listitemicon">&#xe623;</span>
-					</view> -->
-					<view class="common" @click="goPage('JobResume')">
-						我的简历
+					<view class="m-bottom-item-content">
+						我的个人简历
 					</view>
-					<view class="common" @click="goPage('JobMe')">
-						我的求职
+				</view>
+				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe610;
 					</view>
-					<!-- hr的 -->
-					<view class="common" @click="goPage('JobHR')">
-						我的招聘
+					<view class="m-bottom-item-content">
+						我的求职列表
+					</view>
+				</view>
+				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe610;
+					</view>
+					<view class="m-bottom-item-content">
+						我的招聘信息
 					</view>
 				</view>
 			</view>
+			<view style="height: 100rpx;"></view>
 		</view>
 	</view>
 </template>
@@ -152,7 +97,7 @@
 				setNav: {
 					titleColor: "#fff",
 					navTitle: "我的",
-					bgColor: "#36c1ba"
+					bgColor: "#ffffff"
 				},
 				userMsg: {},
 				leaveFlag: 0
@@ -243,272 +188,129 @@
 					url: `/pages/${page}/${page}`
 				})
 			},
+			getIdentity(id) {
+				switch (id) {
+					case 0:
+						return '普通用户';
+						break;
+					case 1:
+						return '会员';
+						break;
+					case 2:
+						return '律师';
+						break;
+					case 3:
+						return '会员单位';
+						break;
+				}
+			}
 		}
 	}
 </script>
 
-<style>
-	.common {
-		padding: 30rpx 0;
-	}
+<style lang="scss" scoped>
+	.body {
+		min-height: 100vh;
+		width: 100vw;
+		background-color: rgb(250, 250, 250);
 
-	.mine-page {}
+		.m-top {
+			background-color: rgb(255, 255, 255);
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
+			height: 500rpx;
 
-	.m-page {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	}
+			.m-top-head {
+				width: 220rpx;
+				height: 220rpx;
+				border-radius: 200rpx;
+				// box-shadow: 0 0 10px rgb(163, 163, 163);
+				border: 10rpx solid rgb(234, 234, 234);
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: cover;
+				ovrflow: hidden;
+			}
 
-	.m-page-top {
-		width: 100%;
-		height: 280rpx;
-		background-color: #36c1ba;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-	}
+			.m-top-name {
+				font-size: 40rpx;
+				font-weight: 1000;
+				margin: 30rpx 0;
+			}
 
-	.m-page-tag {
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-		font-size: 25rpx;
-		margin-top: 25rpx;
-	}
+			.m-top-idntity {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 50rpx;
+				padding: 0 20rpx;
+				font-size: 26rpx;
+				color: rgb(120, 120, 120);
+				border-radius: 30rpx;
+				font-weight: 600;
+				border: 1rpx solid rgb(200, 200, 200);
+			}
 
-	.m-page-t {
-		padding: 0 10rpx;
-		height: 40rpx;
-		background-color: rgba(43, 40, 167, 0.5);
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		border-radius: 20rpx 0 0 20rpx;
-		/* opacity: 0.8; */
-	}
+			.login-box {
+				color: rgb(255, 255, 255);
 
-	.m-page-t-point {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-right: 10rpx;
-		font-size: 15rpx;
-		color: rgb(254, 167, 38);
-	}
+				.login {
+					margin: 0 20rpx 0 50rpx;
+					font-size: 38rpx;
+					font-weight: 700;
+				}
 
-	.m-page-t-text {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		font-size: 22rpx;
-		color: rgb(255, 255, 253);
-		letter-spacing: 5rpx;
-	}
+				.login-icon {
+					font-size: 36rpx;
+					font-weight: 700;
+				}
+			}
 
-	.m-page-headMsg {
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-	}
+			.login-box:active {
+				color: #e9ec3d;
+			}
+		}
 
-	.m-page-headimg {
-		height: 110rpx;
-		width: 110rpx;
-		border-radius: 60rpx;
-		border: 2rpx solid rgb(246, 255, 161);
-		margin-left: 40rpx;
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: cover;
-		ovrflow: hidden;
-	}
+		.m-bottom {
+			width: 100%;
 
-	.m-page-name {
-		margin-left: 30rpx;
-		font-size: 37rpx;
-		font-weight: 600;
-		font-family: YouYuan;
-		letter-spacing: 10rpx;
-	}
+			.m-bottom-items {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
 
-	.login-box {
-		color: rgb(255, 255, 255);
-	}
+				.m-bottom-item {
+					width: 100%;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					margin-bottom: 20rpx;
 
-	.login-box:active {
-		color: #e9ec3d;
-	}
+					.m-bottom-item-icon {
+						margin: 0 20rpx 0 60rpx;
+						font-size: 45rpx;
+						font-weight: 1000;
+						color: #36c1ba;
+					}
 
-	.login {
-		/* width: 100%; */
-		margin: 0 20rpx 0 50rpx;
-		/* color: rgb(255,255,255); */
-		font-size: 38rpx;
-		font-weight: 700;
-	}
+					.m-bottom-item-content {
+						width: 78%;
+						font-size: 35rpx;
+						font-weight: 600;
+						color: rgb(108, 108, 108);
+						padding: 25rpx 30rpx;
+						border-bottom: 1rpx solid rgb(195, 195, 195);
+					}
+				}
 
-	.login-icon {
-		font-size: 36rpx;
-		font-weight: 700;
-		/* color: rgb(255,255,255); */
-	}
-
-	.m-page-join {
-		width: 95%;
-		height: 42rpx;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		background-image: linear-gradient(to right, rgb(4, 5, 10), rgb(79, 79, 90));
-		border-radius: 15rpx 15rpx 0rpx 0rpx;
-		letter-spacing: 6rpx;
-	}
-
-	.m-page-jointitle {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		padding-left: 30rpx;
-	}
-
-	.m-page-joinimg {
-		font-size: 28rpx;
-		color: rgb(238, 215, 191);
-		margin-right: 15rpx;
-	}
-
-	.m-page-jointext {
-		font-size: 25rpx;
-		color: rgb(238, 215, 191);
-	}
-
-	.m-page-jointile {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
-		padding-right: 10rpx;
-	}
-
-	.m-page-joinicon {
-		font-size: 22rpx;
-		color: rgb(238, 215, 191);
-	}
-
-	.m-page-middle {
-		width: 100%;
-		height: 200rpx;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-		align-items: center;
-		background-color: rgb(255, 255, 255);
-		border-bottom: 1rpx solid rgb(225, 225, 225);
-	}
-
-	.m-page-box {
-		height: 140rpx;
-		width: 33%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
-		align-items: center;
-	}
-
-	.m-page-box:active {
-		background-color: rgb(247, 247, 247);
-	}
-
-	.m-page-boxborder {
-		border-left: 1rpx solid rgb(229, 229, 229);
-		border-right: 1rpx solid rgb(229, 229, 229);
-	}
-
-	.m-page-boximg {
-		font-size: 60rpx;
-	}
-
-	.m-page-boxtext {
-		font-size: 25rpx;
-		font-family: Yuanti;
-		letter-spacing: 2rpx;
-		position: relative;
-	}
-
-	.m-page-boxtext .new {
-		width: 20rpx;
-		height: 20rpx;
-		border-radius: 10rpx;
-		background-color: red;
-		position: absolute;
-		top: -90rpx;
-		right: -30rpx;
-	}
-
-	.m-page-bottom {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	}
-
-	.m-page-list {
-		width: 100%;
-		background-color: rgb(255, 255, 255);
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	}
-
-	.m-page-listitem {
-		width: 100%;
-		height: 100rpx;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-		border-bottom: 1rpx solid rgb(229, 229, 229);
-	}
-
-	.m-page-listitem:active {
-		background-color: rgb(247, 247, 247);
-	}
-
-	.m-page-listitemtitle {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-		margin-left: 50rpx;
-	}
-
-	.m-page-listitemimg {
-		font-size: 35rpx;
-		margin-right: 20rpx;
-	}
-
-	.m-page-listitemtext {
-		font-size: 28rpx;
-		letter-spacing: 5rpx;
-	}
-
-	.m-page-listitemicon {
-		font-size: 30rpx;
-		margin-right: 25rpx;
+				.m-bottom-item:active {
+					background-color: rgb(235, 235, 235);
+				}
+			}
+		}
 	}
 </style>

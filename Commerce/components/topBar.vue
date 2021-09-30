@@ -88,27 +88,26 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		font-size: 36rpx;
+		font-size: 34rpx;
 	}
 
 	.search {
 		width: 60%;
-		height: 60rpx;
+		height: 50rpx;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		.search-bar {
 			width: 90%;
-			height: 60rpx;
+			height: 50rpx;
 			border-radius: 40rpx;
 			border: 1rpx solid #f0f0f0;
 			background-color: rgb(248, 248, 248);
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			padding-left: 40rpx;
-			padding-bottom: 4rpx;
+			padding-left: 25rpx;
 			color: #adadad;
 			font-size: 24rpx;
 			font-weight: 500;

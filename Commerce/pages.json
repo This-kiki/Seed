@@ -42,7 +42,6 @@
 		}, {
 			"path": "pages/Mine/Mine",
 			"style": {
-				"disableScroll": true,
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -226,6 +225,7 @@
 		}, {
 			"path": "pages/RealTimeInfo/info-search/info-search",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
@@ -327,7 +327,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#36c1ba",
 		"backgroundColor": "#ffffff"
 	},
 	"tabBar": {

@@ -19,7 +19,7 @@
 					<u-line color="#d4d4d4"></u-line>
 				</view>
 			</view>
-			<view style="height: 47px;"></view>
+			<view style="height: 40px;"></view>
 			<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish" :style="'height:' + contentHeight + 'px;'">
 				<swiper-item class="swiper-item" v-for="(item, index) in items">
 					<Page :contentHeight="contentHeight" :pageType="item.id"></Page>
@@ -51,23 +51,31 @@ export default {
 			items: [
 				{
 					name: '种子会动态',
-					id: 0
-				},
-				{
-					name: '会员单位',
 					id: 1
 				},
 				{
-					name: '会员风采',
+					name: '会员单位',
 					id: 2
 				},
 				{
-					name: '家乡新闻',
+					name: '会员风采',
 					id: 3
 				},
 				{
-					name: '精选',
+					name: '家乡新闻',
 					id: 4
+				},
+				{
+					name: '普通资讯',
+					id: 5
+				},
+				{
+					name: '知识',
+					id: 6
+				},
+				{
+					name: '法律常识',
+					id: 7
 				}
 			],
 			current: 0, // tabs组件的current值，表示当前活动的tab选项
@@ -84,7 +92,7 @@ export default {
 			// 获取设备信息
 			uni.getSystemInfo({
 				success: e => {
-					this.contentHeight = e.safeArea.bottom - 97 - this.$refs.topBar.getheight();
+					this.contentHeight = e.safeArea.bottom - 90 - this.$refs.topBar.getheight();
 					console.log(this.contentHeight)
 				}
 			});

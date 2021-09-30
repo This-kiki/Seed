@@ -2,22 +2,22 @@
 	<view class="infoBox" @click="onClick()">
 		<view class="top">
 			<view class="top-head">
-				<view class="top-head-headimg" style="background-image: url(../../../static/img/head.webp);"></view>
+				<view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view>
 				<view class="top-head-author">
 					<view class="top-head-author-name oneline">
-						张立辛
+						{{ item.name }}
 					</view>
 					<view class="top-head-author-identity oneline">
-						管理员
+						{{ getLevel(item.identity,item.subLevel) }}
 					</view>
 				</view>
 			</view>
-			<view class="iconfont top-more">&#xe73a;</view>
+			<view class="iconfont top-more" @tap.stop="dialogT(item.id)">&#xe73a;</view>
 		</view>
 		<view class="middle">
 			<view class="middle-title">
 				<view class="middle-title-type">
-					<u-tag text="种子会咨讯" mode="light" size="mini" />
+					<u-tag :text="getCategory(item.category)" mode="plain" size="mini" style="font-weight: 800;" color="" />
 				</view>
 				<view class="middle-title-text">
 					{{item.title}}
@@ -39,7 +39,6 @@
 					{{item.simpleContent}}
 				</view>
 				<view class="middle-content3-imgs">
-
 					<view class="middle-content3-img" v-for="(img,index) in imagArr"
 						:style="'background-image: url('+ img +');'"></view>
 				</view>
@@ -69,7 +68,9 @@
 				<u-tag text="GET" type="success" mode="plain" />
 			</view>
 		</view>
-	</view>
+		<u-popup v-model="dialog" mode="bottom" :mask="false" :closeable="true" height="100">
+			<view style="height: 100rpx;">出淤泥而不染，濯清涟而不妖</view>
+		</u-popup>
 	</view>
 </template>
 <script>
@@ -93,17 +94,13 @@
 			} else {
 				this.imagArr = []
 			}
-			// console.log(this.item.imag.length,this.item.imag)
-			// if (this.item.imag.length > 1) {
-			// 	this.isImg = true
-			// 	this.imagArr = this.item.imag
-			// } else {
-			// 	this.imag = this.item.imag[0]
-			// }
-			// console.log(this.item)
 			this.view = this.item.view;
 		},
 		methods: {
+			dialogT(id) {
+				// console.log('000')
+				this.$parent.dialogFather(id);
+			},
 			viewsAdd() {
 				console.log('add');
 				this.view += 1;
@@ -112,6 +109,70 @@
 				uni.navigateTo({
 					url: 'DetailedInfo/DetailedInfo?infoId=' + this.item.id
 				});
+			},
+			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
+			getLevel(identity, sublevel) {
+				if (identity == 0) {
+					return '普通用户'
+				} else if (identity == 1) {
+					switch (sublevel) {
+						case 4:
+							return '荣誉会长';
+							break;
+						case 5:
+							return '会长';
+							break;
+						case 6:
+							return '副会长';
+							break;
+						case 7:
+							return '执行委员会成员';
+							break;
+						case 8:
+							return '秘书长';
+							break;
+						case 9:
+							return '会计';
+							break;
+						case 10:
+							return '出纳';
+							break;
+						case 11:
+							return '会员';
+							break;
+					}
+				} else if (identity == 2) {
+					return '律师'
+				} else if (identity == 3) {
+					return '会员单位'
+				} else {
+					return ''
+				}
+			},
+			getCategory(id) {
+				switch(id) {
+					case 1: 
+						return '种子会动态';
+						break
+					case 2:
+						return '会员单位';
+						break;
+					case 3:
+						return '会员风采';
+						break;
+					case 4:
+						return '家乡新闻';
+						break;
+					case 5:
+						return '普通资讯';
+						break;
+					case 6:
+						return '知识';
+						break;
+					case 7:
+						return '法律常识';
+						break;
+				}
 			},
 			formatMsgTime(timespan) {
 				var dateTime = new Date(timespan); // 将传进来的字符串或者毫秒转为标准时间
@@ -181,6 +242,7 @@
 					background-repeat: no-repeat;
 					background-position: center center;
 					background-size: cover;
+					box-shadow: 0px 0px 2px rgb(216, 216, 216);
 				}
 
 				.top-head-author {
