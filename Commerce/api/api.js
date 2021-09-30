@@ -163,7 +163,7 @@ export class Api {
 	// 招聘信息列表
 	getJobList = async (data) => {
 		let res = await flyio.get(
-			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}`
+			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}&classfication=${data.classfication}`
 		)
 		return res.data
 	}
@@ -206,7 +206,7 @@ export class Api {
 
 	// 律师列表
 	getLawyerList = async (data) => {
-		let res = await flyio.get(`/pro/lawyer/lawer/${data.current}?key=${data.key}`)
+		let res = await flyio.get(`/pro/lawyer/lawer/${data.current}/${data.limit}?key=${data.key}`)
 		return res.data
 	}
 
@@ -376,8 +376,8 @@ export class Api {
 		return res.data
 	}
 	// 获得我的收藏列表
-	getCollectionInfo = async () => {
-		let res = await flyio.get("/info/getMyCol")
+	getCollectionInfo = async (data) => {
+		let res = await flyio.get(`/info/getMyCol/${data.current}/${data.limit}`)
 		return res.data
 	}
 	

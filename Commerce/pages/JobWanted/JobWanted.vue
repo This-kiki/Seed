@@ -1,7 +1,18 @@
 <template>
 	<view class="jobContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
+		<view class="selectLine"
+			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
+			<view class="select">
+				<view class="common" v-for="item in selectLine" :key="item.id" :class="current==item.id?'active':''"
+					@click="goSwiper(item.id)">
+					{{item.name}}
+				</view>
+			</view>
+		</view>
+		<!-- 去除留白 -->
+		<view class="helpWhite"
+			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
+		</view>
 		<!-- 搜索框 -->
 		<view class="inputLine">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
@@ -13,86 +24,92 @@
 				清除搜索
 			</view>
 		</view>
-		<!-- 操作栏 -->
-		<view class="operateContainer">
-			<view class="lawyer" v-if="identity!=3" @click="goPage('JobMe')">
-				<text class="iconfont icon-geren"></text>
-				我的求职
-			</view>
-			<view class="me" v-if="identity!=3" @click="goPage('JobResume')">
-				<text class="iconfont icon-jianli"></text>
-				我的简历
-			</view>
-			<view class="resume" @click="goPage('ResumeList')">
-				<text class="iconfont icon-jianli"></text>
-				简历列表
-			</view>
-			<view class="submit" @click="goPage('JobHR')" v-if="identity == 3">
-				<text class="iconfont icon-guanli"></text>
-				HR管理
+		<!-- swiper -->
+		<view class="swiperContainer">
+			<swiper class="swiper" :current="current" @change="changeSwiper"
+				:style="{'height':height.swiperHeight-40+'px'}">
+				<swiper-item class="swiperItem">
+					<JobPart :cate="0"/>
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<JobPart  :cate="1"/>
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<JobPart  :cate="2"/>
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<JobPart  :cate="3"/>
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<ResumeList />
+				</swiper-item>
+			</swiper>
+		</view>
+		<!-- 发布按钮 -->
+		<view class="addBtn" @click="openSubmit()" v-if="active!=1">
+			<view class="iconfont icon-tianjia">
 			</view>
 		</view>
-		<!-- 职场列表 -->
-		<view class="jobList" id="list">
-			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
-				<view class="left">
-					<view class="title">
-						{{item.job}}
+		<!-- 发布 -->
+		<uni-popup ref="popup" type="bottom" :mask-click="false">
+			<view class="submitContainer">
+				<view class="join" v-if="identity==0" @click="goPage('joinPage')&closeSubmit()">
+					立即入会 <text class="iconfont icon-xiangyou-copy"></text>
+				</view>
+				<view class="submitList">
+					<view class="common law" @click="goPage('LawRelease')&closeSubmit()" v-if="identity!=0">
+						<image src="../../static/icon/2.png" mode=""></image>
+						<text>求职</text>
 					</view>
-					<view class="address">
-						{{item.place}}
-					</view>
-					<view class="company">
-						{{item.companyName}}
-					</view>
-					<view class="money">
-						{{item.reward}}
-						<!-- <text>元</text> -->
+					<view class="common info" @click="goPage('InfoSubmit')&closeSubmit()" v-if="identity==3">
+						<image src="../../static/icon/1.png" mode=""></image>
+						<text>招聘</text>
 					</view>
 				</view>
-				<view class="right">
-					<view class="btn">
-						查看
-					</view>
-					<view class="date">
-						{{item.createTime.split(' ')[0]}}
+				<view class="close" @click="closeSubmit()">
+					<view class="iconfont icon-quxiao">
 					</view>
 				</view>
 			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			下滑(点击)加载更多
-		</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
-	import loading from '@/components/info_Com/load-refresh/load-refresh.vue';
+	import JobPart from "../JobPart/JobPart"
+	import ResumeList from "../ResumeList/ResumeList"
 	export default {
 		components: {
-			loading
+			JobPart,
+			ResumeList
 		},
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "求职",
-					bgColor: "white"
-				},
-				setLoading: {
-					show: false,
-					text: "正在加载",
-					mask: true,
-				},
+				height: {},
+				current: 0,
+				selectLine: [{
+						id: 0,
+						name: "兼职"
+					},
+					{
+						id: 1,
+						name: "实习"
+					},
+					{
+						id: 2,
+						name: "校招"
+					},
+					{
+						id: 3,
+						name: "社招"
+					},
+					{
+						id: 4,
+						name: "求职"
+					},
+				],
 				// 输入框内容
 				inputValue: "",
-				// 信息列表
-				jobList: [],
-				// 页数
-				current: 1,
-				// 条数
-				limit: 10,
 				// 显示按钮
 				showBtn: false,
 				// 身份
@@ -100,13 +117,27 @@
 			}
 		},
 		onLoad() {
-			this.checkIdentity()
+			this.height = uni.getStorageSync('height')
+			this.identity = uni.getStorageSync('identity')
 			this.getResume()
 		},
-		onReachBottom() {
-			this.loadMore()
+		onShow() {
+			setTimeout(() => {
+				uni.showTabBar()
+			}, 400)
 		},
-		methods: { // 获取自己的简历
+		methods: {
+			// 选择
+			goSwiper(id) {
+				this.current = id
+			},
+			// 当swiper滑动时
+			changeSwiper(e) {
+				let detail = e.detail
+				this.current = detail.current
+			},
+
+			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
 				let resumeInfo = res.data.resume
@@ -129,87 +160,90 @@
 					return
 				}
 			},
-			// 检查身份
-			checkIdentity() {
-				let identity = uni.getStorageSync("identity")
-				this.identity = identity
-				if (identity == 0) {
-					uni.showModal({
-						title: "暂无权限",
-						content: "请申请入会",
-						showCancel: false,
-						success() {
-							uni.reLaunch({
-								url: "/pages/HomePage/HomePage"
-							})
-						}
-					})
-				} else {
-					this.getJobList()
-				}
-			},
-			// 获取招聘信息列表
-			async getJobList() {
-				console.log(this.inputValue)
-				let data = {
-					current: this.current,
-					limit: this.limit,
-					job: this.inputValue,
-					companyId: ""
-				}
-				let res = await this.$api.getJobList(data)
-				let nowList = res.data.list
-				this.jobList.push.apply(this.jobList, nowList)
-			},
-			// 加载更多
-			loadMore() {
-				this.current++
-				this.getJobList()
-			},
-			// 查看招聘信息详情
-			seeDetail(id) {
-				uni.navigateTo({
-					url: `/pages/JobDetail/JobDetail?id=${id}`
-				})
-			},
 			// 搜索工作
 			searchJob() {
-				this.jobList = []
-				this.current = 1
-				this.getJobList()
+				uni.navigateTo({
+					url: `/pages/JobSearch/JobSearch?input=${this.inputValue}`
+				})
+				this.inputValue = ""
 			},
 			// 清除搜索
 			clearBtn() {
 				this.inputValue = ""
-				this.jobList = []
-				this.current = 1
-				this.getJobList()
 			},
 			// 跳转页面
 			goPage(page) {
 				uni.navigateTo({
 					url: `/pages/${page}/${page}`
 				})
-			}
+			},
+			// 弹出发布框
+			openSubmit() {
+				uni.hideTabBar()
+				this.$refs.popup.open('bottom')
+			},
+			// 关闭发布框
+			closeSubmit() {
+				this.$refs.popup.close('bottom')
+				setTimeout(() => {
+					uni.showTabBar()
+				}, 400)
+			},
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.jobContainer {
-		padding-bottom: 50rpx;
-		box-sizing: border-box;
-		min-height: 100vh;
-		background-color: #f1f1f1;
+		height: 100vh;
+		background-color: #ffffff;
+		position: relative;
+		overflow-y: hidden;
+
+		.selectLine {
+			position: fixed;
+			box-sizing: border-box;
+			background-color: #36c1ba;
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+
+			.select {
+				font-size: 26rpx;
+				padding: 20rpx;
+				// width: 60%;
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				background-color: #36c1ba;
+
+				.common {
+					margin-right: 20rpx;
+					text-align: center;
+					color: #eee;
+					font-size: 26rpx;
+					transition: 0.2s ease-in-out;
+				}
+
+				.active {
+					font-weight: bold;
+					color: #fff;
+					position: relative;
+					font-size: 34rpx;
+					transition: 0.2s ease-in-out;
+				}
+			}
+		}
 
 		.inputLine {
 			box-sizing: border-box;
 			position: fixed;
 			width: 100%;
+			height: 40px;
 			padding: 0 3%;
-			background-color: #fff;
+			background-color: #36c1ba;
 			padding-bottom: 20rpx;
-			border-bottom: 4rpx solid #f1f1f1;
 			display: flex;
 			justify-content: space-between;
 			z-index: 99;
@@ -219,7 +253,7 @@
 				height: 60rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
-				background-color: #f1f1f1;
+				background-color: #fff;
 				text-align: center;
 				border-radius: 14rpx;
 				letter-spacing: 1rpx;
@@ -231,7 +265,7 @@
 				width: 100rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
-				color: #4e8df6;
+				color: #fff;
 			}
 
 			.clearBtn {
@@ -239,111 +273,95 @@
 				width: 180rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
-				color: #4e8df6;
+				color: #fff;
 			}
 		}
 
-		.operateContainer {
-			width: 96%;
-			margin: 100rpx auto 0;
-			background-color: #fff;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-			padding: 20rpx;
-			box-sizing: border-box;
-			border-radius: 14rpx;
+		.swiperContainer {
+			margin-top: 40px;
+			background-color: #f5f5f5;
+			.swiper{
+				.swiperItem{
+					overflow-y: scroll;
+				}
+			}
+		}
+
+		.addBtn {
+			position: fixed;
+			bottom: 60rpx;
+			right: 40rpx;
+			height: 100rpx;
+			width: 100rpx;
+			background-color: #36c1ba;
+			border-radius: 50rpx;
 			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 			.iconfont {
-				color: blue;
-				font-size: 40rpx;
-				margin-right: 6rpx;
+				color: #ffff;
+				font-size: 60rpx;
 				font-weight: bold;
 			}
-
-			.lawyer,
-			.me,
-			.resume,
-			.submit {
-				margin-right: 18rpx;
-				background-color: #eee;
-				padding: 10rpx;
-				box-sizing: border-box;
-				border-radius: 10rpx;
-			}
 		}
 
-		.jobList {
-			margin: 20rpx auto 0;
-			width: 96%;
+		.submitContainer {
+			background-color: #fff;
+			width: 100%;
+			margin: 0 auto;
+			border-radius: 10rpx;
+			padding: 60rpx 30rpx 30rpx;
+			box-sizing: border-box;
+			position: fixed;
+			bottom: 0;
+			border-top-left-radius: 40rpx;
+			border-top-right-radius: 40rpx;
 
-			.jobBox {
-				display: flex;
-				justify-content: space-between;
-				padding: 20rpx;
-				margin-bottom: 20rpx;
-				background-color: #fff;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			.join {
+				font-size: 28rpx;
+				color: #36c1ba;
 
-				.left {
-					letter-spacing: 1rpx;
-
-					.title {
-						font-size: 28rpx;
-						font-weight: bold;
-					}
-
-					.address {
-						color: #999;
-						font-size: 22rpx;
-						margin-top: 10rpx;
-					}
-
-					.company {
-						margin-top: 4rpx;
-						color: #999;
-						font-size: 22rpx;
-					}
-
-					.money {
-						font-size: 34rpx;
-						color: #4e8df6;
-						margin-top: 6rpx;
-
-						text {
-							font-size: 22rpx;
-							margin-left: 6rpx;
-						}
-					}
+				.iconfont {
+					font-size: 24rpx;
+					margin-left: 10rpx;
 				}
+			}
 
-				.right {
+			.submitList {
+				display: flex;
+				padding: 60rpx 0 40rpx;
+				border-bottom: 10rpx solid #f8f8f8;
+
+				.common {
 					display: flex;
 					flex-direction: column;
-					justify-content: space-between;
-					text-align: center;
+					align-items: center;
+					margin-right: 60rpx;
 
-					.btn {
-						color: #4e8df6;
-						font-size: 24rpx;
-						padding: 6rpx 15rpx;
-						border: 2rpx solid #4e8df6;
-						border-radius: 8rpx;
+					image {
+						width: 60rpx;
+						height: 60rpx;
 					}
 
-					.date {
-						color: #999;
-						font-size: 22rpx;
+					text {
+						font-size: 24rpx;
+						letter-spacing: 1rpx;
+						margin-top: 12rpx;
 					}
 				}
 			}
-		}
 
-		.loadMore {
-			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
+			.close {
+				padding: 40rpx 0;
+				text-align: center;
+				color: #999;
+
+				.iconfont {
+					font-size: 60rpx;
+				}
+			}
 		}
 	}
 </style>

@@ -1,7 +1,5 @@
 <template>
 	<view class="infoContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 轮播图 -->
 		<view class="swiperContainer">
 			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
@@ -90,18 +88,6 @@
 	export default {
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "种子会介绍",
-					bgColor: "white",
-					isShowBackBtn: true,
-					backBtnColor: "black"
-				},
-				setLoading: {
-					show: false,
-					text: "正在加载",
-					mask: true,
-				},
 				// 指示点
 				indicatorDots: false,
 				// 自动播放
@@ -201,7 +187,9 @@
 
 <style lang="scss" scoped>
 	.infoContainer {
+		padding-top: 20rpx;
 		padding-bottom: 50rpx;
+		background-color: #F5f5f5;
 
 		.swiperContainer {
 			width: 100%;
@@ -213,7 +201,7 @@
 					width: 94%;
 					height: 100%;
 					margin: 0 auto;
-					background-color: #4e8df6;
+					background-color: #36c1ba;
 					border-radius: 16rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 					background-position: center;
@@ -246,7 +234,7 @@
 					position: absolute;
 					width: 8rpx;
 					height: 36rpx;
-					background-color: lightblue;
+					background-color: #36c1ba;
 					top: 3rpx;
 					left: -20rpx;
 					border-radius: 5rpx;
@@ -275,7 +263,7 @@
 				font-size: 24rpx;
 				color: #999;
 				position: absolute;
-				bottom: 50rpx;
+				bottom: 0rpx;
 				right: 0;
 				width: 100%;
 				height: 60rpx;
@@ -335,7 +323,7 @@
 
 						.iconfont {
 							font-size: 40rpx;
-							color: #add8e6;
+							color: #36c1ba;
 							padding-left: 30rpx;
 							border-left: 4rpx solid #eee;
 						}

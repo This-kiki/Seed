@@ -1,7 +1,5 @@
 <template>
 	<view class="CompanyListContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 管理层 -->
 		<view class="mainContaienr">
 			<view class="title">
@@ -24,13 +22,6 @@
 	export default {
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "会员单位",
-					bgColor: "white",
-					isShowBackBtn: true,
-					backBtnColor: "black"
-				},
 				// 会员单位列表
 				companyList: []
 			};
@@ -79,7 +70,7 @@
 				position: absolute;
 				width: 8rpx;
 				height: 36rpx;
-				background-color: lightblue;
+				background-color: #36c1ba;
 				top: 5rpx;
 				left: -20rpx;
 				border-radius: 5rpx;
@@ -97,7 +88,7 @@
 					.img {
 						width: 100%;
 						height: 230rpx;
-						background-color: lightblue;
+						background-color: #36c1ba;
 						border-radius: 14rpx;
 						box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 						background-position: center;

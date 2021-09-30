@@ -128,6 +128,16 @@
 						</view>
 						<span class="iconfont m-page-listitemicon">&#xe623;</span>
 					</view> -->
+					<view class="common" @click="goPage('JobResume')">
+						我的简历
+					</view>
+					<view class="common" @click="goPage('JobMe')">
+						我的求职
+					</view>
+					<!-- hr的 -->
+					<view class="common" @click="goPage('JobHR')">
+						我的招聘
+					</view>
 				</view>
 			</view>
 		</view>
@@ -140,9 +150,9 @@
 		data() {
 			return {
 				setNav: {
-					titleColor: "black",
+					titleColor: "#fff",
 					navTitle: "我的",
-					bgColor: "#9370DB"
+					bgColor: "#36c1ba"
 				},
 				userMsg: {},
 				leaveFlag: 0
@@ -227,11 +237,21 @@
 					}
 				});
 			},
+			// 跳转页面
+			goPage(page) {
+				uni.navigateTo({
+					url: `/pages/${page}/${page}`
+				})
+			},
 		}
 	}
 </script>
 
 <style>
+	.common {
+		padding: 30rpx 0;
+	}
+
 	.mine-page {}
 
 	.m-page {
@@ -245,7 +265,7 @@
 	.m-page-top {
 		width: 100%;
 		height: 280rpx;
-		background-color: rgb(147, 112, 219);
+		background-color: #36c1ba;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -306,7 +326,7 @@
 		height: 110rpx;
 		width: 110rpx;
 		border-radius: 60rpx;
-		border: 2rpx solid 	rgb(246, 255, 161);
+		border: 2rpx solid rgb(246, 255, 161);
 		margin-left: 40rpx;
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -321,15 +341,15 @@
 		font-family: YouYuan;
 		letter-spacing: 10rpx;
 	}
-	
+
 	.login-box {
-		color: rgb(255,255,255);
+		color: rgb(255, 255, 255);
 	}
-	
+
 	.login-box:active {
 		color: #e9ec3d;
 	}
-	
+
 	.login {
 		/* width: 100%; */
 		margin: 0 20rpx 0 50rpx;
@@ -337,7 +357,7 @@
 		font-size: 38rpx;
 		font-weight: 700;
 	}
-	
+
 	.login-icon {
 		font-size: 36rpx;
 		font-weight: 700;
