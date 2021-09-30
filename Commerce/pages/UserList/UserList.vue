@@ -1,7 +1,5 @@
 <template>
 	<view class="UserListContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 管理层 -->
 		<view class="mainContaienr" v-if="flag==1">
 			<view class="title">
@@ -40,47 +38,20 @@
 
 <script>
 	export default {
+		props: ['flag'],
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "会员风采",
-					bgColor: "white",
-					isShowBackBtn: true,
-					backBtnColor: "black"
-				},
 				// 管理层列表
 				managerList: [],
 				// 会员列表
 				userList: [],
-				// 标识
-				flag: 1
 			};
 		},
-		onLoad(options) {
-			this.flag = options.flag
-			this.checkIdentity()
-			if (options.flag == 1)
-				this.setNav.navTitle = "管理层介绍"
+		created() {
+			this.getManagerList()
+			this.getUserList()
 		},
 		methods: {
-			// 检查身份
-			checkIdentity() {
-				let identity = uni.getStorageSync("identity")
-				if (identity == 0 && this.flag != 1) {
-					uni.showModal({
-						title: "暂无权限",
-						content: "请申请入会",
-						showCancel: false,
-						success() {
-							uni.navigateBack()
-						}
-					})
-				} else {
-					this.getManagerList()
-					this.getUserList()
-				}
-			},
 			// 获取身份
 			getIdentity(id) {
 				switch (id) {
@@ -152,7 +123,7 @@
 				position: absolute;
 				width: 8rpx;
 				height: 36rpx;
-				background-color: lightblue;
+				background-color: #36c1ba;
 				top: 5rpx;
 				left: -20rpx;
 				border-radius: 5rpx;
@@ -171,7 +142,7 @@
 					.img {
 						width: 100%;
 						height: 280rpx;
-						background-color: lightblue;
+						background-color: #36c1ba;
 						border-radius: 14rpx;
 						box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 						background-position: center;
@@ -184,6 +155,7 @@
 						font-size: 26rpx;
 						margin-top: 10rpx;
 						font-weight: bold;
+						color: #666;
 					}
 
 					.name {

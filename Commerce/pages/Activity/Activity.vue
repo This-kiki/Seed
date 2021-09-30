@@ -15,9 +15,9 @@ export default {
 		return {
 			contentHeight: 0,
 			setNav: {
-				titleColor: "black",
+				titleColor: "#fff",
 				navTitle: "活动",
-				bgColor: "white"
+				bgColor: "#36c1ba"
 			},
 		};
 	},

@@ -1,16 +1,24 @@
 <template>
-	<view class="lawContainer" :style="{height:height+'px'}">
-		<!-- 选择栏 -->
+	<view class="seedInfo" :style="{height:height+'px'}">
 		<view class="selectLine">
-			<view class="select" v-for="item in selectLine" :key="item.id"
-				:class="selectCurrent==item.id?'selectActive':''" @click="goSwiper(item.id)">
+			<view class="select" v-for="item in selectLine" :key="item.id" :class="current==item.id?'selectActive':''"
+				@click="goSwiper(item.id)">
 				{{item.name}}
 			</view>
 		</view>
 		<view class="swiperContainer">
-			<swiper class="swiper" @change="changeSwiper" :current="selectCurrent" :style="{height:height+'px'}">
+			<swiper class="swiper" @change="changeSwiper" :current="current" :style="{height:height+'px'}">
 				<swiper-item class="swiperItem">
-					<LawCommon :height="height" />
+					<CompanyInfo />
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<ManagerList :flag="1" />
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<UserList :flag="2" />
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<CompanyList />
 				</swiper-item>
 				<swiper-item class="swiperItem">
 					<LawyerList />
@@ -21,71 +29,74 @@
 </template>
 
 <script>
-	import LawCommon from "../LawCommon/LawCommon"
+	import CompanyInfo from "../CompanyInfo/CompanyInfo"
+	import ManagerList from "../UserList/UserList"
+	import UserList from "../UserList/UserList"
+	import CompanyList from "../CompanyList/CompanyList"
 	import LawyerList from "../LawyerList/LawyerList"
 	export default {
+		props: ["height"],
 		components: {
-			LawCommon,
+			CompanyInfo,
+			ManagerList,
+			UserList,
+			CompanyList,
 			LawyerList
 		},
-		props: ['height'],
 		data() {
 			return {
-				selectCurrent: 0,
+				current: 0,
 				selectLine: [{
 						id: 0,
-						name: "法律常识"
+						name: "介绍"
 					},
 					{
 						id: 1,
+						name: "管理层"
+					},
+					{
+						id: 2,
+						name: "个人会员"
+					},
+					{
+						id: 3,
+						name: "会员单位"
+					},
+					{
+						id: 4,
 						name: "律师"
 					},
 				]
 			};
 		},
-		onReachBottom() {
-			this.loadMore()
-		},
 		methods: {
 			// 选择
 			goSwiper(id) {
-				this.selectCurrent = id
+				this.current = id
 			},
 			// 当swiper滑动时
 			changeSwiper(e) {
 				let detail = e.detail
-				this.selectCurrent = detail.current
-			},
-			goPage(page) {
-				uni.navigateTo({
-					url: `/pages/${page}/${page}`
-				})
+				this.current = detail.current
 			},
 		}
 	}
 </script>
 
 <style lang="scss">
-	.lawContainer {
-		padding-bottom: 50rpx;
-		box-sizing: border-box;
-		background-color: #f5f5f5;
-		overflow-y: scroll;
+	.seedInfo {
 
 		.selectLine {
 			width: 100%;
 			height: 40px;
 			display: flex;
 			align-items: center;
-			justify-content: flex-start;
+			justify-content: space-around;
 			margin: 0 auto;
-			position: fixed;
-			top: 40px;
-			z-index: 99;
 			background-color: #f5f5f5;
 
 			.select {
-				margin-left: 40rpx;
+				width: 25%;
 				height: 40px;
 				text-align: center;
 				line-height: 40px;
@@ -123,7 +134,7 @@
 		.swiperContainer {
 			.swiper {
 				.swiperItem {
-					// overflow-y: scroll;
+					overflow-y: scroll;
 				}
 			}
 		}

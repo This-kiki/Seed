@@ -66,7 +66,7 @@
 				this.phoneList = data.contact
 			},
 			// 跳转地图
-			goMap(){
+			goMap() {
 				uni.navigateTo({
 					url: "/pages/Map/Map"
 				})
@@ -114,7 +114,7 @@
 
 					.iconfont {
 						font-size: 40rpx;
-						color: #add8e6;
+						color: #36c1ba;
 						padding-left: 30rpx;
 						border-left: 4rpx solid #eee;
 					}

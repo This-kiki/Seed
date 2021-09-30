@@ -1,20 +1,9 @@
 <template>
 	<view class="resumeContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav"></topBar>
-		<!-- 发布 -->
-		<view class="release" @click="getResume()" v-if="flag!=3">
-			发布
-		</view>
-		<!-- 撤回 -->
-		<view class="norelease" @click="norelease()" v-if="flag!=3">
-			撤回
-		</view>
 		<!-- 简历列表 -->
 		<view class="resumeList">
 			<view class="resumeBox" v-for="item in resumeList" :key="item.id">
-				<view class="img">
-					<image :src="item.img" mode=""></image>
+				<view class="img" :style="{'backgroundImage':`url(${item.img})`}">
 				</view>
 				<view class="info">
 					<view class="name">
@@ -72,37 +61,19 @@
 	export default {
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "简历列表",
-					bgColor: "white",
-					isShowBackBtn: true,
-					backBtnColor: "black"
-				},
 				// 当前页
 				current: 1,
 				// 简历列表
 				resumeList: [],
-				// 是否有简历
-				flag: 0
 			};
 		},
-		onShow() {
-			this.checkUser()
-			this.current = 1
-			this.resumeList = []
+		created() {
 			this.getResumeList()
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
 		methods: {
-			// 判断是否为会员
-			async checkUser() {
-				let res = await this.$api.getUserMsg()
-				this.flag =  parseInt(res.data.userBaseInfo.identity)
-				console.log("身份", this.flag)
-			},
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
@@ -122,7 +93,7 @@
 							}
 						}
 					})
-				}else{
+				} else {
 					this.release()
 				}
 			},
@@ -204,25 +175,28 @@
 
 <style lang="scss">
 	.resumeContainer {
+		background-color: #f5f5f5;
 
 		.resumeList {
-			width: 94%;
 			margin: 0 auto 50rpx;
 			margin-bottom: 20rpx;
 
 			.resumeBox {
-				padding: 20rpx 0 0;
+				padding: 20rpx 4% 0;
 				box-sizing: border-box;
 				border-bottom: 1rpx solid #eee;
 				display: flex;
 				justify-content: space-between;
+				background-color: #fff;
+				margin-bottom: 14rpx;
 
 				.img {
-					image {
-						width: 90rpx;
-						height: 90rpx;
-						border-radius: 45rpx;
-					}
+					width: 90rpx;
+					height: 90rpx;
+					border-radius: 45rpx;
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: cover;
 				}
 
 				.info {
@@ -242,7 +216,7 @@
 
 						.text {
 							margin-right: 10rpx;
-							color: #4e8df6;
+							color: #36c1ba;
 						}
 					}
 
@@ -259,7 +233,7 @@
 				}
 
 				.detail {
-					color: #4e8df6;
+					color: #36c1ba;
 					font-size: 24rpx;
 					margin-top: 30rpx;
 					letter-spacing: 1rpx;

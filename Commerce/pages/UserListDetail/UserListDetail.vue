@@ -122,24 +122,37 @@
 			},
 			// 信息复制到剪切板
 			copy(value) {
-				uni.showModal({
-					content: value,
-					confirmText: '复制内容',
-					success: res => {
-						if (res.confirm) {
-							uni.setClipboardData({
-								data: value,
-								success: () => {
-									uni.showToast({
-										title: '复制成功'
-									})
-								}
-							});
-						} else if (res.cancel) {
-							return
+				if (this.identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.reLaunch({
+								url: "/pages/HomePage/HomePage"
+							})
 						}
-					}
-				});
+					})
+				} else {
+					uni.showModal({
+						content: value,
+						confirmText: '复制内容',
+						success: res => {
+							if (res.confirm) {
+								uni.setClipboardData({
+									data: value,
+									success: () => {
+										uni.showToast({
+											title: '复制成功'
+										})
+									}
+								});
+							} else if (res.cancel) {
+								return
+							}
+						}
+					});
+				}
 			},
 			// 聊天
 			chat(item) {

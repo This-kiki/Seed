@@ -7,7 +7,7 @@
 				color:nav.backBtnColor
 			}" />
 			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
-			<view class="search">
+			<view class="search" v-if="nav.isSearch">
 				<view class="search-bar" @click="go()">搜索你感兴趣的~~</view>
 			</view>
 		</view>
@@ -84,7 +84,7 @@
 	.header .header-title {
 		font-weight: bold;
 		color: #fff;
-		width: 80rpx;
+		// width: 80rpx;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;

@@ -59,6 +59,11 @@
 					</view>
 					{{item.view}}
 				</view>
+				<view class="bottom-data-view" v-if="item.isTop" style="color: #36c1ba;">
+					<view class="iconfont bottom-data-view-icon">
+						&#xe616;
+					</view>
+				</view>
 			</view>
 			<view class="bottom-tag">
 				<u-tag text="GET" type="success" mode="plain" />

@@ -262,6 +262,67 @@
 				"navigationStyle": "custom"
 			}
 		}
+        ,{
+            "path" : "pages/HomeInfo/HomeInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/SeedInfo/SeedInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/LawCommon/LawCommon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/JobPart/JobPart",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/JobSearch/JobSearch",
+			"style": {
+				"navigationStyle": "custom"
+			}
+            
+        }
+        ,{
+            "path" : "pages/InfoMeRelease/InfoMeRelease",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/InfoMeCollect/InfoMeCollect",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -284,7 +345,7 @@
 				"pagePath": "pages/JobWanted/JobWanted",
 				"iconPath": "static/example/JobWanted.png",
 				"selectedIconPath": "static/example/JobWantedS.png",
-				"text": "求职"
+				"text": "职场"
 			},
 			{
 				"pagePath": "pages/RealTimeInfo/RealTimeInfo",

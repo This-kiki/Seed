@@ -82,12 +82,12 @@
 			</view>
 		</view>
 		<!-- 操作栏 -->
-		<view class="operate">
-			<view class="chat" @click="chat()">
-				<view class="iconfont icon-chat">
+		<view class="operate" v-if="identity!=0">
+			<view class="chat" @click="copy(info.email)">
+				<view class="iconfont icon-youxiang">
 				</view>
 				<view class="text">
-					微聊
+					邮箱
 				</view>
 			</view>
 			<view class="phone" @click="callPhone(info.phone)">
@@ -115,7 +115,8 @@
 				// id
 				id: "",
 				// 详情
-				info: {}
+				info: {},
+				identity: 0
 			};
 		},
 		onLoad(options) {
@@ -123,6 +124,7 @@
 				this.id = options.id
 				this.getResumeDetail()
 			}
+			this.identity = uni.getStorageSync('identity')
 		},
 		methods: {
 			// 获取简历详情
@@ -130,7 +132,7 @@
 				let res = await this.$api.getResumeDetail({
 					id: this.id
 				})
-				// console.log(res)
+				console.log(res)
 				this.info = res.data.row
 			},
 			// 打电话
@@ -152,6 +154,27 @@
 				uni.navigateTo({
 					url: `/pages/Chat/Chat?openid=${this.info.openId}&name=${this.info.name}&img=${link}`
 				})
+			},
+			// 信息复制到剪切板
+			copy(value) {
+				uni.showModal({
+					content: value,
+					confirmText: '复制内容',
+					success: res => {
+						if (res.confirm) {
+							uni.setClipboardData({
+								data: value,
+								success: () => {
+									uni.showToast({
+										title: '复制成功'
+									})
+								}
+							});
+						} else if (res.cancel) {
+							return
+						}
+					}
+				});
 			},
 		}
 	}

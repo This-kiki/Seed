@@ -20,7 +20,7 @@
 		<!-- 资讯主体 -->
 		<view class="mainContainer">
 			<view class="showBtn" @click="showEditor=!showEditor">
-				{{showEditor?"收回":"展开"}}
+				{{showEditor?"编辑完毕":"编辑正文"}}
 			</view>
 			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
 				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
@@ -571,13 +571,13 @@
 
 			.showBtn {
 				float: right;
-				color: #6a9cf7;
+				color: #36c1ba;
 				letter-spacing: 2rpx;
 				font-size: 30rpx;
 				font-weight: bold;
 				// background-color: pink;
 				padding: 20rpx 0 0;
-				width: 100rpx;
+				width: 140rpx;
 				height: 50rpx;
 				text-align: center;
 				line-height: 30rpx;

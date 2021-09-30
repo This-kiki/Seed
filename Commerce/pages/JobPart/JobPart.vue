@@ -1,10 +1,8 @@
 <template>
 	<view class="jobContainer">
-		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
-		<!-- 主体 -->
-		<view class="mainContainer">
-			<view class="jobBox" v-for="item in jobList" :key="item.id">
+		<!-- 职场列表 -->
+		<view class="jobList">
+			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
 				<view class="top">
 					<view class="title">
 						{{item.job}}
@@ -33,78 +31,59 @@
 						{{item.place}}
 					</view>
 				</view>
-				<view class="operate">
-					<view class="delete" @click="cancelResume(item.id)">
-						撤回
-					</view>
-					<view class="detail" @click="seeDetail(item.id)">
-						查看详情
-					</view>
-				</view>
 			</view>
 		</view>
-		<view class="noData" v-if="jobList.length == 0">
-			暂无求职
+		<!-- 加载 -->
+		<view class="loadMore" @click="loadMore()">
+			下滑(点击)加载更多
 		</view>
+
 	</view>
 </template>
 
 <script>
 	export default {
+		props: ["cate", 'inputValue', "isSearch"],
 		data() {
 			return {
-				setNav: {
-					titleColor: "black",
-					navTitle: "我的求职",
-					bgColor: "white",
-					isShowBackBtn: true,
-					backBtnColor: "black"
-				},
-				// 招聘列表
-				jobList: []
+				// 信息列表
+				jobList: [],
+				// 页数
+				current: 1,
+				// 条数
+				limit: 10,
 			};
 		},
 		created() {
-			this.getGoJobList()
+			this.getJobList()
 		},
 		methods: {
-			// 获取简历列表
-			async getGoJobList() {
-				let res = await this.$api.getGoJobList()
-				// console.log(res)
-				this.jobList = res.data.com
+			// 获取招聘信息列表
+			async getJobList() {
+				let job = ""
+				if (this.isSearch) {
+					job = this.inputValue
+				}
+				if(this.cate==null){
+					this.cate = ""
+				}
+				let data = {
+					current: this.current,
+					limit: this.limit,
+					job,
+					companyId: "",
+					classfication: this.cate
+				}
+				let res = await this.$api.getJobList(data)
+				let nowList = res.data.list
+				this.jobList.push.apply(this.jobList, nowList)
 			},
-			// 取消投递简历
-			async cancelResume(id) {
-				let that = this
-				uni.showModal({
-					title: '提示',
-					content: '确定取消投递简历？',
-					success: async function(res) {
-						if (res.confirm) {
-							let res = await that.$api.cancelResume({
-								companyInterviewId: id
-							})
-							// console.log(res)
-							if (res.code == 20000) {
-								uni.showToast({
-									title: "成功取消投递"
-								})
-								that.getGoJobList()
-							} else {
-								uni.showToast({
-									icon: "none",
-									title: "取消投递失败"
-								})
-
-							}
-						} else if (res.cancel) {
-							return
-						}
-					}
-				})
+			// 加载更多
+			loadMore() {
+				this.current++
+				this.getJobList()
 			},
-			// 查看详情
+			// 查看招聘信息详情
 			seeDetail(id) {
 				uni.navigateTo({
 					url: `/pages/JobDetail/JobDetail?id=${id}`
@@ -129,14 +108,9 @@
 
 <style lang="scss">
 	.jobContainer {
-		padding-bottom: 50rpx;
-		box-sizing: border-box;
-		min-height: 100vh;
-		background-color: #f1f1f1;
+		background-color: #f5f5f5;
 
-		.mainContainer {
-			width: 96%;
-			margin: 20rpx auto 0;
+		.jobList {
 
 			.jobBox {
 				background-color: #fff;
@@ -199,34 +173,15 @@
 					font-size: 22rpx;
 					color: #999;
 				}
-
-				.operate {
-					padding-top: 20rpx;
-					margin-left: 400rpx;
-					display: flex;
-					justify-content: space-between;
-
-					.detail {
-						padding: 10rpx;
-						background-color: #56b6c2;
-						color: #fff;
-						border-radius: 10rpx;
-					}
-
-					.delete {
-						padding: 10rpx;
-						background-color: #e06c75;
-						color: #fff;
-						border-radius: 10rpx;
-					}
-				}
 			}
 		}
 
-		.noData {
-			margin: 300rpx auto;
+		.loadMore {
 			text-align: center;
+			font-size: 26rpx;
 			color: #999;
+			margin-top: 16rpx;
 		}
+
 	}
 </style>

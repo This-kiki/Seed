@@ -41,10 +41,11 @@ export default {
 		return {
 			contentHeight: 0,
 			setNav: {
-				titleColor: 'black',
+				titleColor: '#fff',
 				navTitle: '资讯',
-				bgColor: 'white',
-				searchUrl: 'info-search/info-search'
+				bgColor: '#36c1ba',
+				searchUrl: 'info-search/info-search',
+				isSearch: true
 			},
 			// items: ['种子会动态', '会员单位', '会员风采', '家乡新闻', '精选'],
 			items: [

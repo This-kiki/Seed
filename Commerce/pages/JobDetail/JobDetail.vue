@@ -6,39 +6,67 @@
 		<view class="mainContaienr">
 			<!-- 工作详情 -->
 			<view class="workInfo">
-				<view class="work">
-					{{jobInfo.job}}
+				<view class="top">
+					<view class="work">
+						{{jobInfo.job}}
+						<text class="category">兼职</text>
+					</view>
+					<view class="money">
+						<text>{{jobInfo.reward}}</text>
+					</view>
 				</view>
-				<view class="money">
-					<text>{{jobInfo.reward}}</text>
-				</view>
-				<view class="num">
-					招聘人数 {{jobInfo.num}}
-				</view>
-				<view class="require">
-					{{jobInfo.brief}}
+				<view class="bottom">
+					<view class="require">
+						{{jobInfo.brief}}
+					</view>
+					<view class="address">
+						{{jobInfo.place}}
+					</view>
+
 				</view>
 				<view class="date">
 					{{jobInfo.createTime}} 发布
 				</view>
 			</view>
+			<!-- hr信息 -->
+			<view class="hrContainer" v-if="identity!=0">
+				<view class="detail">
+					<view class="img" :style="{'background-image':'url('+hrInfo.img+')'}">
+					</view>
+					<view class="info">
+						<view class="top">
+							<view class="name">
+								{{hrInfo.name}}
+							</view>
+							<view class="position">
+								{{hrInfo.position}}
+							</view>
+						</view>
+						<view class="bottom">
+							<view class="company">
+								{{companyInfo.companyName}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
 			<!-- 职位描述 -->
 			<view class="workDetail">
 				<view class="title">
-					职位描述
+					职位详情
 				</view>
 				<view class="detail">
 					<view class="position">
 						<text>职位：</text>
 						{{jobInfo.job}}
 					</view>
-					<view class="address">
-						<text>地点：</text>
-						{{jobInfo.place}}
-					</view>
 					<view class="require">
+						<text>要求：</text>
 						{{jobInfo.need}}
 					</view>
+				</view>
+				<view class="num">
+					职位招聘 {{jobInfo.num}} 人
 				</view>
 			</view>
 			<!-- 公司信息 -->
@@ -72,35 +100,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- hr信息 -->
-			<view class="hrContainer">
-				<view class="title">
-					HR信息
-				</view>
-				<view class="detail">
-					<view class="img" :style="{'background-image':'url('+hrInfo.img+')'}">
-					</view>
-					<view class="info">
-						<view class="name">
-							{{hrInfo.name}}
-						</view>
-						<view class="position">
-							{{hrInfo.position}}
-						</view>
-						<view class="phone">
-							<text>电话</text>
-							{{hrInfo.phone}}
-						</view>
-						<view class="email">
-							<text>邮箱</text>
-							{{hrInfo.email}}
-						</view>
-					</view>
-				</view>
-				<view class="introduce">
-					{{hrInfo.introduce}}
-				</view>
-			</view>
 		</view>
 		<!-- 底部操作框 -->
 		<view class="operateLine">
@@ -112,11 +111,11 @@
 						分享
 					</view>
 				</button>
-				<view class="chat" @click="chat()">
-					<view class="iconfont icon-chat">
+				<view class="chat" @click="copy(hrInfo.email)">
+					<view class="iconfont icon-youxiang">
 					</view>
 					<view class="text">
-						微聊
+						邮箱
 					</view>
 				</view>
 			</view>
@@ -158,10 +157,12 @@
 				// 招聘详情
 				jobInfo: {},
 				// hr详情
-				hrInfo: {}
+				hrInfo: {},
+				identity: 0
 			};
 		},
 		onLoad(option) {
+			this.identity = uni.getStorageSync('identity')
 			this.id = option.id
 			this.getJobDetail()
 		},
@@ -184,9 +185,56 @@
 			},
 			// 打电话
 			callPhone(phone) {
-				uni.makePhoneCall({
-					phoneNumber: phone
-				})
+				if (this.identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateTo({
+								url: "/pages/Mine/joinPage/joinPage"
+							})
+						}
+					})
+				} else {
+					uni.makePhoneCall({
+						phoneNumber: phone
+					})
+				}
+			},
+			// 信息复制到剪切板
+			copy(value) {
+				if (this.identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateTo({
+								url: "/pages/Mine/joinPage/joinPage"
+							})
+						}
+					})
+				} else {
+					uni.showModal({
+						content: value,
+						confirmText: '复制内容',
+						success: res => {
+							if (res.confirm) {
+								uni.setClipboardData({
+									data: value,
+									success: () => {
+										uni.showToast({
+											title: '复制成功'
+										})
+									}
+								});
+							} else if (res.cancel) {
+								return
+							}
+						}
+					});
+				}
 			},
 			//分享
 			shareJob(jobInfo) {
@@ -214,6 +262,19 @@
 			},
 			// 投递简历
 			async submitResume() {
+				if (this.identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false,
+						success() {
+							uni.navigateTo({
+								url: "/pages/Mine/joinPage/joinPage"
+							})
+						}
+					})
+					return
+				}
 				let res = await this.$api.submitResume({
 					companyInterviewId: this.jobInfo.id
 				})
@@ -241,66 +302,80 @@
 <style lang="scss" scoped>
 	.detailContainer {
 		padding-bottom: 160rpx;
-		background-color: #f0f0f0;
+		background-color: #fff;
 		min-height: 100vh;
 		box-sizing: border-box;
 
 		.mainContaienr {
 			.workInfo {
-				width: 96%;
 				margin: 16rpx auto 0;
 				background-color: #fff;
-				padding: 20rpx;
+				padding: 30rpx 4%;
 				box-sizing: border-box;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+				border-bottom: 1rpx solid #eee;
 
-				.work {
-					font-size: 32rpx;
-					font-weight: bold;
-				}
+				.top {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
 
-				.money {
-					margin-top: 20rpx;
-					font-size: 22rpx;
-					color: red;
-
-					text {
-						font-size: 34rpx;
+					.work {
+						display: flex;
+						align-items: center;
+						font-size: 30rpx;
 						font-weight: bold;
-						margin-right: 4rpx;
+
+						.category {
+							font-size: 22rpx;
+							color: #d17846;
+							padding: 1rpx;
+							border: 1rpx solid #d17846;
+							border-radius: 6rpx;
+							margin-left: 10rpx;
+						}
+					}
+
+					.money {
+						margin-top: 20rpx;
+						font-size: 22rpx;
+						color: #36c1ba;
+
+						text {
+							font-size: 32rpx;
+							font-weight: bold;
+						}
 					}
 				}
 
-				.num {
-					font-size: 24rpx;
-					color: #333;
-					margin-top: 20rpx;
-				}
-
-				.require {
-					font-size: 24rpx;
-					color: #333;
+				.bottom {
+					display: flex;
+					justify-content: flex-start;
 					margin-top: 10rpx;
+
+					view {
+						margin-right: 10rpx;
+						font-size: 22rpx;
+						color: #666;
+						background-color: #eee;
+						padding: 2rpx 8rpx;
+						border-radius: 8rpx;
+					}
 				}
 
 				.date {
-					padding-top: 16rpx;
+					text-align: right;
 					font-size: 20rpx;
 					color: #666;
-					border-top: 1rpx #ccc solid;
 					margin-top: 16rpx;
 				}
 			}
 
 			.workDetail {
-				width: 96%;
 				margin: 16rpx auto 0;
 				background-color: #fff;
-				padding: 20rpx;
+				padding: 30rpx 4%;
 				box-sizing: border-box;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+				border-bottom: 1rpx solid #eee;
 
 				.title {
 					font-size: 30rpx;
@@ -310,8 +385,7 @@
 				.detail {
 					margin-top: 28rpx;
 
-					.position,
-					.address {
+					.position {
 						font-size: 24rpx;
 						margin-bottom: 10rpx;
 
@@ -321,22 +395,27 @@
 					}
 
 					.require {
+						display: flex;
+						flex-direction: column;
 						font-size: 24rpx;
 						letter-spacing: 1rpx;
 						line-height: 38rpx;
 						margin-top: 16rpx;
 					}
 				}
+
+				.num {
+					font-size: 24rpx;
+					color: #333;
+					margin-top: 40rpx;
+				}
 			}
 
 			.companyInfo {
-				width: 96%;
 				margin: 16rpx auto 0;
 				background-color: #fff;
-				padding: 20rpx;
+				padding: 30rpx 4%;
 				box-sizing: border-box;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 				.title {
 					font-size: 30rpx;
@@ -344,7 +423,7 @@
 
 					text {
 						font-size: 24rpx;
-						color: #117bd1;
+						color: #36c1ba;
 						font-weight: normal;
 						float: right;
 					}
@@ -356,7 +435,6 @@
 					letter-spacing: 1rpx;
 					font-weight: bold;
 					padding-bottom: 16rpx;
-					border-bottom: 1rpx #ccc solid;
 				}
 
 				.companyDetail {
@@ -383,74 +461,48 @@
 			}
 
 			.hrContainer {
-				width: 96%;
 				margin: 16rpx auto 0;
 				background-color: #fff;
-				padding: 20rpx;
+				padding: 30rpx 8%;
 				box-sizing: border-box;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-
-				.title {
-					font-size: 30rpx;
-					font-weight: bold;
-				}
+				border-bottom: 1rpx #eee solid;
 
 				.detail {
-					margin-top: 30rpx;
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;
 
 					.img {
-						width: 200rpx;
-						height: 250rpx;
-						border-radius: 10rpx;
-						background-color: lightblue;
+						width: 100rpx;
+						height: 100rpx;
+						border-radius: 50rpx;
 						background-position: center;
 						background-repeat: no-repeat;
 						background-size: cover;
+						border: 1rpx #eee solid;
 					}
 
 					.info {
-						margin-left: 30rpx;
+						margin-left: 40rpx;
 
-						.name {
+						.top {
+							display: flex;
+							justify-content: flex-start;
+							align-items: center;
 							font-size: 30rpx;
-							font-weight: bold;
-							margin-bottom: 20rpx;
+
+							.position {
+								margin-left: 10rpx;
+								font-size: 24rpx;
+								color: #999;
+							}
 						}
 
-						.position {
-							font-size: 28rpx;
+						.bottom {
 							margin-top: 10rpx;
-
-						}
-
-						text {
-							font-size: 24rpx;
-							color: #333;
-							margin-right: 20rpx;
-						}
-
-						.phone,
-						.num,
-						.email {
 							font-size: 26rpx;
-							margin-top: 10rpx;
 						}
 					}
-				}
-
-				.introduce {
-					padding-top: 20rpx;
-					margin-top: 20rpx;
-					border-top: 1rpx #ccc solid;
-					text-indent: 2em;
-					word-break: break-all;
-					letter-spacing: 1rpx;
-					line-height: 48rpx;
-					font-size: 28rpx;
 				}
 			}
 		}
@@ -541,7 +593,7 @@
 				}
 
 				.submit {
-					background-color: #fe552e;
+					background-color: #36c1ba;
 				}
 			}
 		}
