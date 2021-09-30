@@ -341,6 +341,7 @@
 
 	.info-content {
 		padding: 20rpx;
+		-webkit-user-select: text;
 	}
 
 	.white-bord {
