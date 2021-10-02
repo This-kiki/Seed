@@ -1,49 +1,48 @@
 <template>
 	<view class="jobContainer">
-		<!-- 职场列表 -->
-		<view class="jobList">
-			<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
-				<view class="top">
-					<view class="title">
-						{{item.job}}
-						<text class="category">{{getCate(item.classfication)}}</text>
+		<scroll-view class="jobList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
+			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+			<slot slot="content" class="jobList">
+				<view class="jobBox" v-for="item in jobList" :key="item.id" @click="seeDetail(item.id)">
+					<view class="top">
+						<view class="title">
+							{{item.job}}
+							<text class="category">{{getCate(item.classfication)}}</text>
+						</view>
+						<view class="money">
+							{{item.reward}}
+						</view>
 					</view>
-					<view class="money">
-						{{item.reward}}
+					<view class="need">
+						{{item.need}}
+					</view>
+					<view class="company">
+						<view class="name">
+							{{item.companyName}}
+						</view>
+						<view class="num">
+							{{item.num}}人
+						</view>
+					</view>
+					<view class="bottom">
+						<view class="date">
+							{{item.createTime.split(' ')[0]}}
+						</view>
+						<view class="address">
+							{{item.place}}
+						</view>
 					</view>
 				</view>
-				<view class="need">
-					{{item.need}}
-				</view>
-				<view class="company">
-					<view class="name">
-						{{item.companyName}}
-					</view>
-					<view class="num">
-						{{item.num}}人
-					</view>
-				</view>
-				<view class="bottom">
-					<view class="date">
-						{{item.createTime.split(' ')[0]}}
-					</view>
-					<view class="address">
-						{{item.place}}
-					</view>
-				</view>
-			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			下滑(点击)加载更多
-		</view>
-
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
 <script>
 	export default {
-		props: ["cate", 'inputValue', "isSearch"],
+		props: ["cate", 'inputValue', "isSearch", "height"],
 		data() {
 			return {
 				// 信息列表
@@ -52,19 +51,37 @@
 				current: 1,
 				// 条数
 				limit: 10,
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false
 			};
 		},
 		created() {
 			this.getJobList()
 		},
 		methods: {
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.jobList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getJobList()
+			},
+			loadMore() {
+				this.current++
+				this.loadmoreText = "正在加载中"
+				this.getJobList()
+			},
 			// 获取招聘信息列表
 			async getJobList() {
 				let job = ""
 				if (this.isSearch) {
 					job = this.inputValue
 				}
-				if(this.cate==null){
+				if (this.cate == null) {
 					this.cate = ""
 				}
 				let data = {
@@ -76,12 +93,18 @@
 				}
 				let res = await this.$api.getJobList(data)
 				let nowList = res.data.list
-				this.jobList.push.apply(this.jobList, nowList)
-			},
-			// 加载更多
-			loadMore() {
-				this.current++
-				this.getJobList()
+				if (nowList.length == 0) {
+					this.loadmore = false
+					this.springback = true
+					setTimeout(() => {
+						this.springback = false
+					}, 800)
+				} else {
+					this.jobList.push.apply(this.jobList, nowList)
+				}
+				setTimeout(() => {
+					this.loading = false
+				}, 300)
 			},
 			// 查看招聘信息详情
 			seeDetail(id) {
@@ -176,12 +199,15 @@
 			}
 		}
 
-		.loadMore {
-			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
-		}
 
+		.loadMore {
+			width: 100%;
+			text-align: center;
+			height: 80rpx;
+			font-size: 25rpx;
+			letter-spacing: 5rpx;
+			color: rgb(175, 175, 175);
+			margin-top: 30rpx;
+		}
 	}
 </style>

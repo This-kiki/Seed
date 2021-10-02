@@ -1,23 +1,23 @@
 <template>
-	<view class="homeInfoContainer" :style="{height:height+'px'}">
-		<!-- 资讯列表 -->
-		<view class="infoList">
-			<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
-				<news-card :item="item" :ref="item.id"></news-card>
-				<view class="operate" v-if="flag==1">
-					<view class="delete" @click="deleteInfo(item.id)">
-						删除
-					</view>
-					<view class="edit" @click="editInfo(item.id)">
-						修改
+	<view class="homeInfoContainer">
+		<scroll-view class="infoList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
+			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+			<slot slot="content" class="infoList">
+				<view class="infoBox" v-for="item in infoList" :key="item.id">
+					<news-card :item="item" :ref="item.id" @click="infoDetail(item.id)"></news-card>
+					<view class="operate">
+						<view class="delete" @click="deleteInfo(item.id)">
+							删除
+						</view>
+						<view class="edit" @click="editInfo(item.id)">
+							修改
+						</view>
 					</view>
 				</view>
-			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			点击加载更多
-		</view>
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
@@ -31,16 +31,29 @@
 		data() {
 			return {
 				infoList: [],
-				current: 1
+				current: 1,
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false,
 			};
 		},
 		created() {
 			this.getAllHomeInfo()
 		},
 		methods: {
-			// 加载更多
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.infoList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getAllHomeInfo()
+			},
 			loadMore() {
 				this.current++
+				this.loadmoreText = "正在加载中"
 				this.getAllHomeInfo()
 			},
 			// 获取所有资讯列表
@@ -51,21 +64,25 @@
 				})
 				// console.log(res)
 				let list = res.data.AllDynamic
-				list.forEach(item => {
-					if (item.imag != '')
-						// item.imag = JSON.parse(item.imag)
-						if (item.imag.length > 1) {
-							item.isImg = true
-						}
-				})
-				this.infoList.push.apply(this.infoList, list);
-				if (list.length == 0 && this.current != 1) {
-					uni.showToast({
-						icon: "none",
-						title: "已是最后一页"
+				if (list.length == 0) {
+					this.loadmore = false
+					this.springback = true
+					setTimeout(() => {
+						this.springback = false
+					}, 800)
+				} else {
+					list.forEach(item => {
+						if (item.imag != '')
+							// item.imag = JSON.parse(item.imag)
+							if (item.imag.length > 1) {
+								item.isImg = true
+							}
 					})
-					this.current--
+					this.infoList.push.apply(this.infoList, list);
 				}
+				setTimeout(() => {
+					this.loading = false
+				}, 300)
 			},
 			// 咨询详情
 			infoDetail(id) {
@@ -75,19 +92,31 @@
 			},
 			// 删除资讯
 			async deleteInfo(id) {
-				let res = await this.$api.deleteInfo({
-					id
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除？',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.deleteInfo({
+								id
+							})
+							if (res.code == 20000) {
+								uni.showToast({
+									title: "删除成功"
+								})
+								that.refresh()
+							} else {
+								uni.showToast({
+									title: "删除失败",
+									icon: "none"
+								})
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
 				})
-				if (res.code == 20000) {
-					uni.showToast({
-						title: "删除成功"
-					})
-				} else {
-					uni.showToast({
-						title: "删除失败",
-						icon: "none"
-					})
-				}
 			},
 			// 修改资讯
 			editInfo(id) {
@@ -108,10 +137,14 @@
 			background-color: #f5f5f5;
 
 			.infoBox {
-
+				width: 100%;
+				background-color: #fefefe;
+				padding-bottom: 20rpx;
 
 				.operate {
+					margin-right: 30rpx;
 					display: flex;
+					justify-content: flex-end;
 					margin-top: 20rpx;
 
 					.delete {
@@ -134,12 +167,13 @@
 		}
 
 		.loadMore {
+			width: 100%;
 			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
-			padding-bottom: 40rpx;
-			background-color: #f5f5f5;
+			height: 80rpx;
+			font-size: 25rpx;
+			letter-spacing: 5rpx;
+			color: rgb(175, 175, 175);
+			margin-top: 30rpx;
 		}
 	}
 </style>

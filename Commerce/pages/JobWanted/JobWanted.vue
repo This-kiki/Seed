@@ -29,19 +29,19 @@
 			<swiper class="swiper" :current="current" @change="changeSwiper"
 				:style="{'height':height.swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart  :cate="3"/>
+					<JobPart :cate="3" :height="height.swiperHeight-40"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="0"/>
+					<JobPart :cate="0"  :height="height.swiperHeight-40"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart  :cate="1"/>
+					<JobPart :cate="1"  :height="height.swiperHeight-40"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart  :cate="2"/>
+					<JobPart :cate="2"  :height="height.swiperHeight-40"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList />
+					<ResumeList  :height="height.swiperHeight-40"/>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -87,11 +87,10 @@
 			return {
 				height: {},
 				current: 0,
-				selectLine: [
-					{
+				selectLine: [{
 						id: 0,
 						name: "社招"
-					},{
+					}, {
 						id: 1,
 						name: "兼职"
 					},
@@ -280,8 +279,9 @@
 		.swiperContainer {
 			margin-top: 40px;
 			background-color: #f5f5f5;
-			.swiper{
-				.swiperItem{
+
+			.swiper {
+				.swiperItem {
 					overflow-y: scroll;
 				}
 			}

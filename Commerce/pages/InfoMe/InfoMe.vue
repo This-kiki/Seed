@@ -10,12 +10,12 @@
 		</view>
 		<view class="swiperContainer">
 			<swiper class="swiper" @change="changeSwiper" :current="current"
-				:style="{height:height.swiperHeight+40+'px'}">
+				:style="{height:height.swiperHeight-40+50+'px'}">
 				<swiper-item class="swiperItem">
-					<InfoMeRelease />
+					<InfoMeRelease :height="height.swiperHeight-40+50" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<InfoMeCollect />
+					<InfoMeCollect :height="height.swiperHeight-40+50" />
 				</swiper-item>
 			</swiper>
 		</view>

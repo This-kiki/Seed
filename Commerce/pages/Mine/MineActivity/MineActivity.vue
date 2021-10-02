@@ -15,7 +15,7 @@
 					</view>
 				</view>
 			</view> -->
-			<view v-for="(item, index) in dataList" @click="go(item.id)" style="width: 100%;">
+			<view v-for="(item, index) in dataList" @click="go(item.actId)" style="width: 100%;">
 				<activity-card :options="item"></activity-card>
 			</view>
 		</view>
