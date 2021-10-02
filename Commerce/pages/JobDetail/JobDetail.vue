@@ -1,7 +1,7 @@
 <template>
 	<view class="detailContainer">
 		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
+		<topBar :nav="setNav"></topBar>
 		<!-- 主体详情 -->
 		<view class="mainContaienr">
 			<!-- 工作详情 -->
@@ -26,28 +26,6 @@
 				</view>
 				<view class="date">
 					{{jobInfo.createTime}} 发布
-				</view>
-			</view>
-			<!-- hr信息 -->
-			<view class="hrContainer" v-if="identity!=0">
-				<view class="detail">
-					<view class="img" :style="{'background-image':'url('+hrInfo.img+')'}">
-					</view>
-					<view class="info">
-						<view class="top">
-							<view class="name">
-								{{hrInfo.name}}
-							</view>
-							<view class="position">
-								{{hrInfo.position}}
-							</view>
-						</view>
-						<view class="bottom">
-							<view class="company">
-								{{companyInfo.companyName}}
-							</view>
-						</view>
-					</view>
 				</view>
 			</view>
 			<!-- 职位描述 -->
@@ -97,6 +75,28 @@
 					</view>
 					<view class="intro">
 						{{companyInfo.content}}
+					</view>
+				</view>
+			</view>
+			<!-- hr信息 -->
+			<view class="hrContainer" v-if="identity!=0">
+				<view class="detail">
+					<view class="img" :style="{'background-image':'url('+hrInfo.img+')'}">
+					</view>
+					<view class="info">
+						<view class="top">
+							<view class="name">
+								{{hrInfo.name}}
+							</view>
+							<view class="position">
+								{{hrInfo.position}}
+							</view>
+						</view>
+						<view class="bottom">
+							<view class="company">
+								{{companyInfo.companyName}}
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -416,6 +416,7 @@
 				background-color: #fff;
 				padding: 30rpx 4%;
 				box-sizing: border-box;
+				border-bottom: 1rpx solid #eee;
 
 				.title {
 					font-size: 30rpx;

@@ -64,6 +64,10 @@
 				this.inputValue = ""
 				this.isShow = false
 			},
+			// 返回
+			backTo() {
+				uni.navigateBack()
+			}
 		}
 	}
 </script>

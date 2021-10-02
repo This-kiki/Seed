@@ -4,55 +4,69 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 详情 -->
 		<view class="mainContaienr">
-			<view class="img" :style="{'background-image':'url('+userInfo.img+')'}">
-			</view>
-			<view class="name">
-				{{userInfo.name}}
-			</view>
-			<view class="position">
-				{{userInfo.position}}
-			</view>
-			<view class="mainInfo">
-				<view class="place iconfont icon-weizhi" @click="copy(userInfo.place)">
-					{{userInfo.place}}
+			<view class="userCard">
+				<view class="avatar" :style="{'background-image':`url(${userInfo.img})`}">
 				</view>
-				<view class="right">
-					<view class="chat iconfont icon-chat" @click="chat()">
+				<view class="detail">
+					<view class="title">
+						<view class="name">
+							{{userInfo.name}}
+						</view>
+						<view class="position">
+							{{userInfo.position}}
+						</view>
 					</view>
-					<view class="phone iconfont icon-dianhua" @click="callPhone()">
-					</view>
-					<view class="email iconfont icon-youxiang" @click="copy(userInfo.email)">
+					<view class="place">
+						<text class="iconfont icon-weizhi"></text>
+						{{userInfo.place}}
 					</view>
 				</view>
 			</view>
-			<view class="common">
-				<text>生日</text>
-				{{userInfo.birth}}
+			<view class="userDetail container">
+				<view class="birth common">
+					<text class="name">生日</text>
+					{{userInfo.birth}}
+				</view>
+				<view class="work common">
+					<text class="name">工作单位</text>
+					{{userInfo.work}}
+				</view>
+				<view class="polity common">
+					<text class="name">政治面貌</text>
+					{{userInfo.polity}}
+				</view>
 			</view>
-			<view class="common">
-				<text>政治面貌</text>
-				{{userInfo.polity}}
+			<view class="education container">
+				<view class="school common">
+					<text class="name">学校</text>
+					{{userInfo.school}}
+				</view>
+				<view class="major common">
+					<text class="name">专业</text>
+					{{userInfo.major}}
+				</view>
+				<view class="grade common" v-if="flag==2">
+					<text class="name">年级</text>
+					{{userInfo.grade}}
+				</view>
 			</view>
-			<view class="common">
-				<text>学校</text>
-				{{userInfo.school}}
+			<view class="intro container">
+				{{userInfo.introduce}}
 			</view>
-			<view class="common">
-				<text>专业</text>
-				{{userInfo.major}}
+		</view>
+		<view class="operate" v-if="identity!=0">
+			<view class="chat" @click="copy(userInfo.email)">
+				<view class="iconfont icon-youxiang">
+				</view>
+				<view class="text">
+					邮箱
+				</view>
 			</view>
-			<view class="common" v-if="flag == 2">
-				<text>年级</text>
-				{{userInfo.grade}}
-			</view>
-			<view class="common">
-				<text>工作单位</text>
-				{{userInfo.work}}
-			</view>
-			<view class="common">
-				<text>自我介绍</text>
-				<view class="intro">
-					{{userInfo.introduce}}
+			<view class="phone" @click="callPhone(userInfo.phone)">
+				<view class="iconfont icon-dianhua">
+				</view>
+				<view class="text">
+					电话
 				</view>
 			</view>
 		</view>
@@ -76,17 +90,21 @@
 				userInfo: {},
 				// 是否会员
 				flag: 1,
+				identity: 0
 			};
 		},
 		onLoad(options) {
-			this.id = options.id
-			this.flag = options.flag
+			if (options.id) {
+				this.id = options.id
+				this.flag = options.flag
+			}
 			this.checkIdentity()
 		},
 		methods: {
 			// 检查身份
 			checkIdentity() {
 				let identity = uni.getStorageSync("identity")
+				this.identity = identity
 				if (identity == 0) {
 					uni.showModal({
 						title: "暂无权限",
@@ -154,20 +172,6 @@
 					});
 				}
 			},
-			// 聊天
-			chat(item) {
-				if (this.id == uni.getStorageSync("openid")) {
-					uni.showToast({
-						icon: "none",
-						title: "不能和自己聊天"
-					})
-					return
-				}
-				let link = encodeURIComponent(JSON.stringify(this.userInfo.img))
-				uni.navigateTo({
-					url: `/pages/Chat/Chat?openid=${this.id}&name=${this.userInfo.name}&img=${link}`
-				})
-			}
 		}
 
 	}
@@ -175,81 +179,122 @@
 
 <style lang="scss" scoped>
 	.detailContainer {
-		margin-bottom: 50rpx;
+		min-height: 100vh;
+		background-color: #F5f5f5;
 
 		.mainContaienr {
-			width: 94%;
-			margin: 20rpx auto 0;
-
-			.img {
-				margin: 20rpx auto 0;
-				width: 200rpx;
-				height: 280rpx;
-				background-color: lightblue;
-				border-radius: 14rpx;
+			.userCard {
+				width: 90%;
+				margin: 20rpx auto;
+				padding: 30rpx 5%;
+				background: linear-gradient(to right, #36c1ba 0%, #36c1ba66 100%);
+				border-radius: 20rpx;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-			}
-
-			.name {
-				text-align: center;
-				font-size: 32rpx;
-				font-weight: bold;
-				margin-top: 10rpx;
-			}
-
-			.position {
-				text-align: center;
-				margin-top: 10rpx;
-				color: #333;
-				font-size: 26rpx;
-				padding-bottom: 20rpx;
-				border-bottom: 1rpx #ccc solid;
-			}
-
-			.mainInfo {
+				color: #fff;
 				display: flex;
-				justify-content: space-between;
+				justify-content: flex-start;
 				align-items: center;
-				margin-top: 20rpx;
 
-				.right {
-					display: flex;
+				.avatar {
+					width: 120rpx;
+					height: 120rpx;
+					border-radius: 60rpx;
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: cover;
+				}
 
-					.iconfont {
-						width: 60rpx;
-						height: 60rpx;
-						line-height: 60rpx;
-						font-size: 50rpx;
-						margin-right: 10rpx;
-						padding: 10rpx;
-						border-radius: 30rpx;
-						text-align: center;
-						background-color: #eee;
+				.detail {
+					margin-left: 50rpx;
+
+					.title {
+						display: flex;
+						align-items: baseline;
+
+						.name {
+							font-size: 38rpx;
+						}
+
+						.position {
+							color: #eee;
+							font-size: 24rpx;
+							margin-left: 20rpx;
+						}
+					}
+
+					.place {
+						display: flex;
+						align-items: center;
+
+						.iconfont {
+							font-size: 24rpx;
+							margin-right: 10rpx;
+						}
+
+						margin-top: 10rpx;
+						font-size: 24rpx;
 					}
 				}
 			}
 
-			.common {
-				margin-top: 10rpx;
+			.container {
+				width: 90%;
+				margin: 20rpx auto;
+				padding: 30rpx 5%;
+				background-color: #fff;
 
-				text {
-					display: inline-block;
-					width: 120rpx;
-					font-size: 26rpx;
-					color: #333;
-					margin-right: 20rpx;
+				.common {
+					margin-bottom: 16rpx;
+					display: flex;
+
+					.name {
+						width: 160rpx;
+						margin-right: 20rpx;
+						color: #666;
+					}
 				}
 
-				.intro {
-					font-size: 28rpx;
-					margin-top: 10rpx;
-					text-indent: 2em;
-					letter-spacing: 1rpx;
+				.common:last-child {
+					margin-bottom: 0;
 				}
 			}
 		}
+
+		.operate {
+			background-color: #fff;
+			box-sizing: border-box;
+			position: fixed;
+			bottom: 20rpx;
+			left: 2%;
+			width: 96%;
+			height: 120rpx;
+			border-radius: 14rpx;
+			padding: 20rpx;
+			display: flex;
+			justify-content: space-around;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+
+			.chat,
+			.phone {
+				width: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.iconfont {
+					margin-right: 10rpx;
+					font-size: 40rpx;
+				}
+
+				.text {
+					font-size: 34rpx;
+				}
+			}
+
+			.chat {
+				border-right: 1rpx solid #eee;
+			}
+		}
+
 	}
 </style>

@@ -29,6 +29,9 @@
 			<swiper class="swiper" :current="current" @change="changeSwiper"
 				:style="{'height':height.swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
+					<JobPart  :cate="3"/>
+				</swiper-item>
+				<swiper-item class="swiperItem">
 					<JobPart :cate="0"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
@@ -36,9 +39,6 @@
 				</swiper-item>
 				<swiper-item class="swiperItem">
 					<JobPart  :cate="2"/>
-				</swiper-item>
-				<swiper-item class="swiperItem">
-					<JobPart  :cate="3"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
 					<ResumeList />
@@ -87,21 +87,21 @@
 			return {
 				height: {},
 				current: 0,
-				selectLine: [{
+				selectLine: [
+					{
 						id: 0,
+						name: "社招"
+					},{
+						id: 1,
 						name: "兼职"
 					},
 					{
-						id: 1,
+						id: 2,
 						name: "实习"
 					},
 					{
-						id: 2,
-						name: "校招"
-					},
-					{
 						id: 3,
-						name: "社招"
+						name: "校招"
 					},
 					{
 						id: 4,
