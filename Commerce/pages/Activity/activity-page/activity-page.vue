@@ -13,7 +13,7 @@
 				<!-- 数据列表 -->
 				<view v-for="(item, index) in list" :key="index" @click="go(item.id)"><activity-card :options="item"></activity-card></view>
 				<view v-if="loadmore" class="bottom" @tap="loadMore">{{ loadmoreText }}</view>
-				<view v-if="!loadmore" class="bottom">已经到底啦~~</view>
+				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
 	</view>
@@ -36,7 +36,8 @@ export default {
 			loading: false,
 			loadmore: true,
 			loadmoreIng: false,
-			loadmoreText: '加载更多'
+			loadmoreText: '加载更多',
+			springback: false,
 		};
 	},
 	mounted() {
@@ -74,9 +75,13 @@ export default {
 		},
 		// 上划加载更多
 		async loadMore() {
+			this.springback = true
 			var that = this
 			if (this.loadmore == false || this.loadmoreIng == true) {
 				console.log('滚');
+				setTimeout(function() {
+					that.springback = false;
+				}, 1000);
 				return;
 			} else {
 				this.loadmoreIng = true;
@@ -93,9 +98,11 @@ export default {
 				this.current.totalPages = Math.ceil(resp.data.total / 20);
 				console.log()
 				if (resp.data.act.length == 0) {
+					that.loadmore = false;
+					that.springback = true;
 					setTimeout(function() {
-						that.loadmore = false;
-					}, 500);
+						that.springback = false;
+					}, 1000);
 				} else {
 					for(var i=0;i<resp.data.act.length;i++){
 						this.list.push(resp.data.act[i])

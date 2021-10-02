@@ -22,7 +22,7 @@
 					<news-card :item="item" :ref="item.id"></news-card>
 				</view>
 				<view v-if="loadmore" class="bottom" @tap="loadMore">{{ loadmoreText }}</view>
-				<view v-if="!loadmore" class="bottom">已经到底啦~~</view>
+				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
 		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
@@ -56,6 +56,7 @@
 				loadmore: true,
 				loadmoreIng: false,
 				loadmoreText: '加载更多',
+				springback: false,
 
 				content: '',
 				contentT: '',
@@ -147,28 +148,16 @@
 					}
 				}
 			},
-			// 上划加载更多
-			async loadMore() {
-				var postAPI = {
-					current: this.current.currentPage,
-					content: this.contentT
-				}
-				await this.$api.searchIfo(postAPI).then((res) => {
-					console.log('searchResult', res)
-					this.current.totalPages = res.data.total
-					for (var i = 0; i < res.data.rows.length; i++) {
-						this.list.push(res.data.rows[i])
-					}
-					this.current.currentPage = this.current.currentPage + 1
-				})
-				this.$refs.loadRefresh.completed()
-			},
 
 			// 上划加载更多
 			async loadMore() {
+				this.springback = true
 				var that = this
 				if (this.loadmore == false || this.loadmoreIng == true) {
 					console.log('滚');
+					setTimeout(function() {
+						that.springback = false;
+					}, 1000);
 					return;
 				} else {
 					this.loadmoreIng = true;
@@ -188,12 +177,11 @@
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
+						that.loadmore = false;
+						that.springback = true;
 						setTimeout(function() {
-							that.loadmore = false;
-							that.$nextTick(() => {
-								that.$refs.scroll.scrollTo(0, 200);
-							})
-						}, 500);
+							that.springback = false;
+						}, 1000);
 					} else {
 						for (var i = 0; i < resp.data.rows.length; i++) {
 							this.list.push(resp.data.rows[i]);

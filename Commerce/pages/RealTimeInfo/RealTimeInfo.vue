@@ -87,13 +87,10 @@ export default {
 	},
 	methods: {
 		getCustom() {
-			console.log(this.contentHeight)
-			// console.log(e.safeArea.bottom - 133 -this.$refs.topBar.getheight());
-			// 获取设备信息
 			uni.getSystemInfo({
 				success: e => {
 					this.contentHeight = e.safeArea.bottom - 90 - this.$refs.topBar.getheight();
-					console.log(this.contentHeight)
+					// console.log(this.contentHeight)
 				}
 			});
 		},

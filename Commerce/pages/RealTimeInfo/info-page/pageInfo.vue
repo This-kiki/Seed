@@ -2,13 +2,13 @@
 	<view>
 		<scroll-view ref="scroll" :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true"
 			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
-			@scrolltolower="loadMore" :scroll-top="test">
+			@scrolltolower="loadMore">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
 				</view>
 				<view v-if="loadmore" class="bottom" @tap="loadMore">{{ loadmoreText }}</view>
-				<view v-if="!loadmore" class="bottom">已经到底啦~~</view>
+				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
 		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
@@ -42,7 +42,7 @@
 				loadmore: true,
 				loadmoreIng: false,
 				loadmoreText: '加载更多',
-				test: '',
+				springback: false,
 
 				dialog: false,
 				shareId: ''
@@ -94,6 +94,7 @@
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
 						this.loadmore = false;
+						this.springback = true;
 					} else {
 						this.list = resp.data.rows;
 						setTimeout(function() {
@@ -104,11 +105,14 @@
 				}
 			},
 			// 上划加载更多
-			async loadMore(e) {
-				console.log('waa saa',e)
+			async loadMore() {
+				this.springback = true
 				var that = this
 				if (this.loadmore == false || this.loadmoreIng == true) {
 					console.log('滚');
+					setTimeout(function() {
+						that.springback = false;
+					}, 1000);
 					return;
 				} else {
 					this.loadmoreIng = true;
@@ -127,11 +131,11 @@
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
-						setTimeout(function() {
 							that.loadmore = false;
-							// that.test = that.test-50
-							console.log(that.test)
-						}, 500);
+							that.springback = true;
+							setTimeout(function() {
+								that.springback = false;
+							}, 1000);
 					} else {
 						for (var i = 0; i < resp.data.rows.length; i++) {
 							this.list.push(resp.data.rows[i]);
@@ -148,6 +152,7 @@
 				this.loading = true;
 				this.current.currentPage = 1;
 				this.loadmore = true;
+				this.springback = false
 				this.loadmoreIng = false;
 				this.loadmoreText = '加载更多';
 				await this.init();
