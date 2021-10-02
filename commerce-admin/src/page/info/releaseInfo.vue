@@ -30,23 +30,23 @@
         </el-col>
       </el-row>
     </div>
-    <!-- <div class="ac-middle">
+    <div class="ac-middle">
       <el-row style="margin: 10px 0;">
         <el-col :span="2" :offset="22">
           <div>
-            <input type="file" name="avatar" accept="image/gif,image/jpeg,image/jpg,image/png" style="display:none" @change="changeImage($event)" ref="avatarInput">
-            <el-button type="primary" @click="uploadImg" icon="el-icon-upload" round size="small" plain> 上传图片</el-button>
+            <input type="file" name="avatar" style="display:none" @change="changeFile($event)" ref="avatarInput">
+            <el-button type="primary" @click="uploadFile" icon="el-icon-upload" round size="small" plain> 上传文件 </el-button>
           </div>
         </el-col>
       </el-row>
       <div class="ac-img-table">
-        <el-table :data="imgList" border style="width: 100%">
+        <el-table :data="fileList" border style="width: 100%">
           <el-table-column label="图片" width="150">
             <template slot-scope="scope">
-              <img class="imgUrl" :src="scope.row.img" alt="">
+              {{scope.row.fileName}}
             </template>
           </el-table-column>
-          <el-table-column prop="img" label="图片地址">
+          <el-table-column prop="filePath" label="图片地址">
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="80" align="center">
             <template slot-scope="scope">
@@ -55,7 +55,7 @@
           </el-table-column>
         </el-table>
       </div>
-    </div> -->
+    </div>
     <div class="ac-botom">
       <h3>内容预览：</h3>
       <iphone :title="addForm.title" :content="addForm.content" ref="iphone"></iphone>
@@ -64,222 +64,199 @@
   </div>
 </template>
 <script>
-import wangEditor from 'wangeditor'
-import iphone from '../../components/iphone/index.vue'
-import { getImgs } from '../../utils/common'
+import wangEditor from "wangeditor";
+import iphone from "../../components/iphone/index.vue";
+import { getImgs } from "../../utils/common";
 export default {
   components: {
     iphone,
   },
   data() {
     return {
-      id: '',
+      id: "",
       editor: null,
       addForm: {
-        content: '',
-        simpleContent: '',
-        title: '',
-        imag: '',
-        category: '',
+        content: "",
+        simpleContent: "",
+        title: "",
+        imag: "",
+        category: "",
       },
-      imgList: null,
+      fileList: [
+        {
+          fileName: "测试1",
+          filePath: "1111111111111",
+        },
+        {
+          fileName: "测试2",
+          filePath: "1111111111112",
+        },
+      ],
       typeList: [
         {
           id: 1,
-          name: '种子会动态',
+          name: "种子会动态",
         },
         {
           id: 2,
-          name: '会员风采',
+          name: "会员风采",
         },
         {
           id: 3,
-          name: '会员单位',
+          name: "会员单位",
         },
         {
           id: 4,
-          name: '家乡新闻',
+          name: "家乡新闻",
+        },
+        {
+          id: 5,
+          name: "普通资讯",
+        },
+        {
+          id: 6,
+          name: "知识板块",
+        },
+        {
+          id: 7,
+          name: "法律常识",
         },
       ],
-    }
+    };
   },
   mounted() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      const editor = new wangEditor(`#demo1`)
+      const editor = new wangEditor(`#demo1`);
       editor.config.menus = [
-        'head',
-        'bold',
-        'fontSize',
-        'fontName',
-        'foreColor',
-        'backColor',
-        'justify',
-        'image',
-        'table',
-      ]
-      editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
-      editor.config.showLinkImg = false
-      editor.config.uploadFileName = 'file'
-      editor.config.debug = true // 开启debug模式
+        "head",
+        "bold",
+        "fontSize",
+        "fontName",
+        "foreColor",
+        "backColor",
+        "justify",
+        "image",
+        "table",
+      ];
+      editor.config.uploadImgServer =
+        "https://hjzpzzh.com/seed/oss/uploadImagAdmin";
+      editor.config.showLinkImg = false;
+      editor.config.uploadFileName = "file";
+      editor.config.debug = true; // 开启debug模式
       editor.config.uploadImgHeaders = {
-        token: localStorage.getItem('token'), // 设置请求头
-      }
+        token: localStorage.getItem("token"), // 设置请求头
+      };
       editor.config.uploadImgHooks = {
         // 图片上传并返回结果，但图片插入错误时触发
         fail: function (xhr, editor, result) {
-          console.log('上传出错', result)
+          console.log("上传出错", result);
         },
         success: function (xhr, editor, result) {
           // 图片上传并返回结果，图片插入成功之后触发
-          console.log(result, '<success>')
+          console.log(result, "<success>");
         },
         customInsert: function (insertImgFn, result) {
-          console.log('customInsert', result)
-          insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+          console.log("customInsert", result);
+          insertImgFn(result.data[0]); // 只插入一个图片，多了忽略
         },
-      }
+      };
       editor.config.onchange = (newHtml) => {
-        this.addForm.content = newHtml
-      }
+        this.addForm.content = newHtml;
+      };
 
-      editor.create()
-      this.editor = editor
+      editor.create();
+      this.editor = editor;
 
       if (this.$route.query.id) {
-        this.id = this.$route.query.id
+        this.id = this.$route.query.id;
         // console.log('id:', this.id)
-        var getAPI = { id: this.id }
+        var getAPI = { id: this.id };
         this.$http.getOneInfo(getAPI).then((res) => {
           // console.log('id:', res)
-          this.addForm = res.data.Info
-          this.editor.txt.html(this.addForm.content)
-        })
+          this.addForm = res.data.Info;
+          this.editor.txt.html(this.addForm.content);
+        });
       }
     },
 
     copyUrl(row) {
-      var _th = this
-      var input = document.getElementById('input')
-      input.value = row.img // 修改文本框的内容
-      input.select() // 选中文本
-      console.log(input.value)
-      document.execCommand('copy') // 执行浏览器复制命令
+      var _th = this;
+      var input = document.getElementById("input");
+      input.value = row.filePath; // 修改文本框的内容
+      input.select(); // 选中文本
+      console.log(input.value);
+      document.execCommand("copy"); // 执行浏览器复制命令
       _th.$notify({
-        message: '已复制到剪切板',
-        type: 'success',
-      })
+        message: "已复制文件链接到剪切板",
+        type: "success",
+      });
     },
     getaddForm() {
       // 通过代码获取编辑器内容
-      let data = this.editor.txt.html()
-      console.log(data)
+      let data = this.editor.txt.html();
+      console.log(data);
       // console.log(this.addForm.content)
       // alert(data)
     },
-    uploadImg() {
-      this.$refs.avatarInput.click()
+    uploadFile() {
+      this.$refs.avatarInput.click();
     },
-    changeImage(e) {
-      var file = e.target.files[0]
-      var reader = new FileReader()
-      var _this = this
-      reader.readAsDataURL(file)
-      reader.onload = function (e) {
+    changeFile(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var _this = this;
+      reader.readAsDataURL(file);
+      reader.onload = function () {
         // that.avatar = this.result
         if (_this.$refs.avatarInput.files.length !== 0) {
-          var image = new FormData()
-          image.append('file', _this.$refs.avatarInput.files[0])
+          var image = new FormData();
+          image.append("file", _this.$refs.avatarInput.files[0]);
           _this.$http.uploadImg(image).then((res) => {
             // console.log(res)
-            _this.imgList.push({ img: res.data.url })
-          })
+            // _this.imgList.push({ img: res.data.url });
+          });
         }
-      }
+      };
     },
     submit() {
-      this.addForm.imag = getImgs(this.addForm.content)
-      this.addForm.status = 1
-      console.log(this.addForm)
+      this.addForm.imag = getImgs(this.addForm.content);
+      this.addForm.status = 1;
+      this.addForm.openId = "admin";
+      console.log(this.addForm);
       if (this.addForm.id) {
-        // if (this.imgList) {
-        // this.addForm.imag = imgList
-        // }
         this.$http.editOneInfo(this.addForm).then((res) => {
           // console.log(res)
           if (res.code == 20000) {
             this.$message({
-              message: '修改资讯成功',
-              type: 'success',
-            })
-            this.$router.push({ path: 'allInfo' })
+              message: "修改资讯成功",
+              type: "success",
+            });
+            this.$router.push({ path: "allInfo" });
           }
-        })
+        });
       } else {
-        // if (this.imgList) {
-        //   this.addForm.imag = imgList
-        // }
-        switch (this.addForm.category) {
-          case 1:
-            this.$http.addSeedInfo(this.addForm).then((res) => {
-              // console.log(res)
-              if (res.code == 20000) {
-                this.$message({
-                  message: '添加资讯成功',
-                  type: 'success',
-                })
-                this.$router.push({ path: 'allInfo' })
-              }
-            })
-            break
-          case 2:
-            this.$http.addMemberInfo(this.addForm).then((res) => {
-              // console.log(res)
-              if (res.code == 20000) {
-                this.$message({
-                  message: '添加资讯成功',
-                  type: 'success',
-                })
-                this.$router.push({ path: 'allInfo' })
-              }
-            })
-            break
-          case 3:
-            this.$http.addCompanyInfo(this.addForm).then((res) => {
-              // console.log(res)
-              if (res.code == 20000) {
-                this.$message({
-                  message: '添加资讯成功',
-                  type: 'success',
-                })
-                this.$router.push({ path: 'allInfo' })
-              }
-            })
-            break
-          case 4:
-            this.$http.addCountryInfo(this.addForm).then((res) => {
-              // console.log(res)
-              if (res.code == 20000) {
-                this.$message({
-                  message: '添加资讯成功',
-                  type: 'success',
-                })
-                this.$router.push({ path: 'allInfo' })
-              }
-            })
-            break
-        }
+        this.$http.addSeedInfo(this.addForm).then((res) => {
+          // console.log(res)
+          if (res.code == 20000) {
+            this.$message({
+              message: "添加资讯成功",
+              type: "success",
+            });
+            this.$router.push({ path: "allInfo" });
+          }
+        });
       }
     },
   },
   beforeDestroy() {
     // 调用销毁 API 对当前编辑器实例进行销毁
-    this.editor.destroy()
-    this.editor = null
+    this.editor.destroy();
+    this.editor = null;
   },
-}
+};
 </script>
 <style scoped>
 .hid {

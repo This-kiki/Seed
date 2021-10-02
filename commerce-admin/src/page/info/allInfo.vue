@@ -99,191 +99,150 @@ export default {
       },
       searchDialog: false,
       searchForm: [],
-      keyword: '',
+      keyword: "",
       viewVisible: false,
       actData: {},
       typeList: [
         {
           id: 0,
-          name: '所有资讯',
+          name: "所有资讯",
         },
         {
           id: 1,
-          name: '种子会动态',
+          name: "种子会动态",
         },
         {
           id: 2,
-          name: '会员风采',
+          name: "会员风采",
         },
         {
           id: 3,
-          name: '会员单位',
+          name: "会员单位",
         },
         {
           id: 4,
-          name: '家乡新闻',
+          name: "家乡新闻",
         },
         {
           id: 5,
-          name: '置顶咨询',
+          name: "普通资讯",
+        },
+        {
+          id: 6,
+          name: "知识板块",
+        },
+        {
+          id: 7,
+          name: "法律常识",
+        },
+        {
+          id: 8,
+          name: "置顶资讯",
         },
       ],
-    }
+    };
   },
   mounted() {
-    this.getAllInfo()
+    this.getAllInfo();
   },
   methods: {
     getInfo() {},
     getAllInfo() {
-      let getAPI = { current: this.current.current }
+      let getAPI = { current: this.current.current };
       this.$http.getAllInfo(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.AllDynamic
+        var resp = res.data.AllDynamic;
         for (let i = 0; i < resp.length; i++) {
-          if (resp[i].category == 1) {
-            resp[i].type = '种子会动态'
-          } else if (resp[i].category == 2) {
-            resp[i].type = '会员风采'
-          } else if (resp[i].category == 3) {
-            resp[i].type = '会员单位'
-          } else if (resp[i].category == 4) {
-            resp[i].type = '家乡新闻'
-          } else {
-            resp[i].type = '未知'
-          }
-          resp[i].top = '0'
+          resp[i].top = "0";
         }
-        this.current.total = Math.ceil(res.data.total / 20)
-        this.tableData = resp
-      })
+        this.current.total = Math.ceil(res.data.AllDynamic.length / 20);
+        this.tableData = resp;
+      });
     },
     handleSelectChange() {
-      this.tableData = []
-      this.current.current = 1
-      this.current.total = 0
+      this.tableData = [];
+      this.current.current = 1;
+      this.current.total = 0;
       if (this.current.type == 0) {
-        this.getAllInfo()
+        this.getAllInfo();
+      } else if (this.current.type == 8) {
+        this.$http.getToppingInfo().then((res) => {
+          // console.log(res)
+          var resp = res.data.AllDynamic;
+          for (let i = 0; i < resp.length; i++) {
+            resp[i].top = "1";
+            this.tableData.push(resp[i]);
+          }
+        });
       } else {
-        this.getInfoByCategroy()
+        this.getInfoByCategroy();
       }
     },
     getInfoByCategroy() {
-      let getAPI = { current: this.current.current }
-      switch (this.current.type) {
-        case 1:
-          this.$http.getSeedInfo(getAPI).then((res) => {
-            // console.log(res)
-            var resp = res.data.rows
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].top = '0'
-              resp[i].type = '种子会动态'
-              this.tableData.push(resp[i])
-            }
-            this.current.total = Math.ceil(res.data.total / 20)
-          })
-          break
-        case 2:
-          this.$http.getMemberInfo(getAPI).then((res) => {
-            // console.log(res)
-            var resp = res.data.rows
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].top = '0'
-              resp[i].type = '会员风采'
-              this.tableData.push(resp[i])
-            }
-            this.current.total = Math.ceil(res.data.total / 20)
-          })
-          break
-        case 3:
-          this.$http.getCountryInfo(getAPI).then((res) => {
-            // console.log(res)
-            var resp = res.data.rows
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].top = '0'
-              resp[i].type = '会员单位'
-              this.tableData.push(resp[i])
-            }
-            this.current.total = Math.ceil(res.data.total / 20)
-          })
-          break
-        case 4:
-          this.$http.getCompanyInfo(getAPI).then((res) => {
-            // console.log(res)
-            var resp = res.data.rows
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].top = '0'
-              resp[i].type = '家乡新闻'
-              this.tableData.push(resp[i])
-            }
-            this.current.total = Math.ceil(res.data.total / 20)
-          })
-          break
-        case 5:
-          this.$http.getToppingInfo(getAPI).then((res) => {
-            // console.log(res)
-            var resp = res.data.AllDynamic
-            for (let i = 0; i < resp.length; i++) {
-              resp[i].top = '1'
-              resp[i].type = '置顶资讯'
-              this.tableData.push(resp[i])
-            }
-            this.current.total = Math.ceil(res.data.total / 20)
-          })
-          break
-      }
+      let getAPI = {
+        current: this.current.current,
+        id: this.current.type,
+      };
+      this.$http.getInfo(getAPI).then((res) => {
+        var resp = res.data.rows;
+        for (let i = 0; i < resp.length; i++) {
+          resp[i].top = "0";
+          this.tableData.push(resp[i]);
+        }
+        this.current.total = Math.ceil(res.data.total / 20);
+      });
     },
     viewInfo(row) {
-      var getAPI = { id: row.id }
+      var getAPI = { id: row.id };
       this.$http.getOneInfo(getAPI).then((res) => {
-        this.actData = res.data.Info
+        this.actData = res.data.Info;
         // console.log(this.actData)
-        this.viewVisible = true
-      })
+        this.viewVisible = true;
+      });
     },
     editInfo(row) {
       this.$router.push({
-        path: '/index/releaseInfo',
+        path: "/index/releaseInfo",
         query: { id: row.id },
-      })
+      });
     },
     deleteInfo(row) {
       // console.log(row)
-      var postAPI = { id: row.id }
+      var postAPI = { id: row.id };
       this.$http.deleteOneInfo(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '删除成功',
-            type: 'success',
-          })
-          this.getAllInfo()
+            message: "删除成功",
+            type: "success",
+          });
+          this.getAllInfo();
         }
-      })
+      });
     },
     topInfo(row, top) {
       var postAPI = {
         id: row.id,
         top: top,
-      }
+      };
       this.$http.editOneInfo(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: top == 0 ? '取消置顶成功' : '置顶成功',
-            type: 'success',
-          })
-          this.handleSelectChange()
+            message: top == 0 ? "取消置顶成功" : "置顶成功",
+            type: "success",
+          });
+          this.handleSelectChange();
         }
-      })
+      });
     },
     searchInfo() {
-      this.searchDialog = true
-      var getAPI = { keyword: this.keyword }
+      this.searchDialog = true;
+      var getAPI = { keyword: this.keyword };
       this.$http.searchInfo(getAPI).then((res) => {
-        this.searchForm = res.data.list
-      })
+        this.searchForm = res.data.list;
+      });
     },
   },
-}
+};
 </script>
 <style scoped>
 </style>
