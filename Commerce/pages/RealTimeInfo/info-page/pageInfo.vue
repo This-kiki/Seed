@@ -2,7 +2,7 @@
 	<view>
 		<scroll-view ref="scroll" :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true"
 			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
-			@scrolltolower="loadMore">
+			@scrolltolower="loadMore" :scroll-top="test">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
@@ -42,6 +42,7 @@
 				loadmore: true,
 				loadmoreIng: false,
 				loadmoreText: '加载更多',
+				test: '',
 
 				dialog: false,
 				shareId: ''
@@ -52,15 +53,19 @@
 		},
 		methods: {
 			shareInfo() {
+				var getAPI = {
+					id: this.shareId
+				}
+				this.$api.getOneInfo(getAPI).then((res) => {
+					uni.share({
+						provider: "weixin",
+						scene: "WXSceneSession",
+						type: 1,
+						title: res.data.info.title,
+						summary: res.data.info.simpleContent,
+					});
+				})
 				this.dialog = false
-				uni.share({
-					provider: "weixin",
-					scene: "WXSceneSession",
-					type: 1,
-					title: '张立辛',
-					summary: '张立辛'
-				});
-				console.log('000')
 			},
 			dialogFather(id) {
 				this.shareId = id
@@ -99,7 +104,8 @@
 				}
 			},
 			// 上划加载更多
-			async loadMore() {
+			async loadMore(e) {
+				console.log('waa saa',e)
 				var that = this
 				if (this.loadmore == false || this.loadmoreIng == true) {
 					console.log('滚');
@@ -123,9 +129,8 @@
 					if (resp.data.rows.length == 0) {
 						setTimeout(function() {
 							that.loadmore = false;
-							that.$nextTick(() => {
-								that.$refs.scroll.scrollTo(0, 200);
-							})
+							// that.test = that.test-50
+							console.log(that.test)
 						}, 500);
 					} else {
 						for (var i = 0; i < resp.data.rows.length; i++) {
@@ -177,9 +182,9 @@
 		align-items: center;
 		height: 100%;
 		width: 100%;
-		border: 0!important;
+		border: 0 !important;
 		outline: none;
-		background-color: rgb(255,255,255);
+		background-color: rgb(255, 255, 255);
 
 		.share-icon {
 			font-size: 40rpx;

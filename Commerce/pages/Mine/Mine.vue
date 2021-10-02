@@ -29,7 +29,7 @@
 				</view>
 				<view class="m-bottom-item" @click="go('Contact/Contact')">
 					<view class="iconfont m-bottom-item-icon">
-						&#xe610;
+						&#xe634;
 					</view>
 					<view class="m-bottom-item-content">
 						联系我们
@@ -61,7 +61,7 @@
 				</view>
 				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')">
 					<view class="iconfont m-bottom-item-icon">
-						&#xe639
+						&#xe646;
 					</view>
 					<view class="m-bottom-item-content">
 						我的个人简历
@@ -69,7 +69,7 @@
 				</view>
 				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')">
 					<view class="iconfont m-bottom-item-icon">
-						&#xe610;
+						&#xe606;
 					</view>
 					<view class="m-bottom-item-content">
 						我的求职列表
@@ -77,7 +77,7 @@
 				</view>
 				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')">
 					<view class="iconfont m-bottom-item-icon">
-						&#xe610;
+						&#xe65c;
 					</view>
 					<view class="m-bottom-item-content">
 						我的招聘信息

@@ -348,7 +348,7 @@ export class Api {
 	}
 	// 点赞资讯
 	praiseInfo = async (data) => {
-		let res = await flyio.get("/info/like?id=" + data.id)
+		let res = await flyio.get("/pro/love/changeLove?infoId=" + data.id)
 		return res.data
 	}
 	// 点赞资讯

@@ -141,6 +141,7 @@
 					this.dataForm = res.data.info;
 					this.commentForm = res.data.comment
 					this.collectColor = (res.data.info.col === 1 ? '#00aaff' : '#000000')
+					this.praiseColor = (res.data.info.col === 1 ? '#ff0000' : '#000000')
 					// console.log(res.data.Info)
 				});
 			},
@@ -280,7 +281,7 @@
 				}
 				return timeSpanStr;
 			},
-			praise() {
+			async praise() {
 				if (this.praiseColor == '#ff0000') {
 					return
 				} else {
@@ -288,8 +289,18 @@
 						id: this.infoId
 					}
 					this.$api.praiseInfo(getAPI).then((res) => {
-						if (res.success) {
-							this.praiseColor = '#ff0000'
+						if (res.code == 20000) {
+							if (this.praiseColor == '#ff0000') {
+								uni.showToast({
+									icon: "none",
+									title: "取消点赞"
+								})
+							} else {
+								uni.showToast({
+									title: "点赞成功"
+								})
+							}
+							this.getInfo()
 						}
 					})
 				}
