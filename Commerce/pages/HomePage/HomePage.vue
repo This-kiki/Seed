@@ -118,7 +118,7 @@
 						that.titleBarHeight = 48 + 48;
 					}
 					that.statusBarHeight = res.statusBarHeight
-					that.screenHeight = res.screenHeight
+					that.screenHeight = res.windowHeight
 				},
 			})
 		},
@@ -134,15 +134,16 @@
 				this.flag = res.data.userBaseInfo.identity
 				console.log("身份", this.flag)
 				if (this.flag == 0) {
-					this.swiperHeight = this.screenHeight - this.titleBarHeight - this.statusBarHeight - 50 - 90 + 10
+					this.swiperHeight = this.screenHeight - this.titleBarHeight - 90
 				} else {
-					this.swiperHeight = this.screenHeight - this.titleBarHeight - this.statusBarHeight - 50 + 10
+					this.swiperHeight = this.screenHeight - this.titleBarHeight
 				}
+				let swiperHeight = this.screenHeight - this.titleBarHeight
 				let data = {
 					titleBarHeight: this.titleBarHeight,
 					statusBarHeight: this.statusBarHeight,
 					screenHeight: this.screenHeight,
-					swiperHeight: this.swiperHeight
+					swiperHeight
 				}
 				uni.setStorageSync("height", data)
 			},
@@ -207,8 +208,8 @@
 			justify-content: space-between;
 			width: 100%;
 			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-			
-			.title{
+
+			.title {
 				font-size: 32rpx;
 				font-weight: bold;
 				color: #fff;
@@ -351,12 +352,12 @@
 					margin-right: 60rpx;
 
 					image {
-						width: 60rpx;
-						height: 60rpx;
+						width: 80rpx;
+						height: 80rpx;
 					}
 
 					text {
-						font-size: 24rpx;
+						font-size: 26rpx;
 						letter-spacing: 1rpx;
 						margin-top: 12rpx;
 					}

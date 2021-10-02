@@ -1,84 +1,99 @@
 <template>
 	<view class="resumeContainer">
-		<!-- 简历列表 -->
-		<view class="resumeList">
-			<view class="resumeBox" v-for="item in resumeList" :key="item.id">
-				<view class="img" :style="{'backgroundImage':`url(${item.img})`}">
+		<scroll-view class="resumeList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
+			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+			<slot slot="content" class="resumeList">
+				<view class="resumeBox" v-for="item in resumeList" :key="item.id">
+					<view class="img" :style="{'backgroundImage':`url(${item.img})`}">
+					</view>
+					<view class="info">
+						<view class="name">
+							{{item.name}}
+						</view>
+						<view class="common">
+							<view class="text">
+								求职职位
+							</view>
+							{{item.position}}
+						</view>
+						<view class="common">
+							<view class="text">
+								工作经验
+							</view>
+							{{item.experienceTime}}
+						</view>
+						<view class="common">
+							<view class="text">
+								期望薪资
+							</view>
+							{{item.pay}}
+						</view>
+						<view class="common">
+							<view class="text">
+								求职区域
+							</view>
+							{{item.area}}
+						</view>
+						<view class="common">
+							{{item.experience}}
+						</view>
+						<view class="bottom">
+							<view class="view">
+								{{item.view}}人浏览
+							</view>
+							<view class="time">
+								{{item.createTime.slice(0,10)}}
+							</view>
+						</view>
+					</view>
+					<view class="detail" @click="seeDetail(item.id)">
+						查看详情
+					</view>
 				</view>
-				<view class="info">
-					<view class="name">
-						{{item.name}}
-					</view>
-					<view class="common">
-						<view class="text">
-							求职职位
-						</view>
-						{{item.position}}
-					</view>
-					<view class="common">
-						<view class="text">
-							工作经验
-						</view>
-						{{item.experienceTime}}
-					</view>
-					<view class="common">
-						<view class="text">
-							期望薪资
-						</view>
-						{{item.pay}}
-					</view>
-					<view class="common">
-						<view class="text">
-							求职区域
-						</view>
-						{{item.area}}
-					</view>
-					<view class="common">
-						{{item.experience}}
-					</view>
-					<view class="bottom">
-						<view class="view">
-							{{item.view}}人浏览
-						</view>
-						<view class="time">
-							{{item.createTime.slice(0,10)}}
-						</view>
-					</view>
-				</view>
-				<view class="detail" @click="seeDetail(item.id)">
-					查看详情
-				</view>
-			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			下滑(点击)加载更多
-		</view>
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
 <script>
 	export default {
+		props: ['height'],
 		data() {
 			return {
 				// 当前页
 				current: 1,
 				// 简历列表
 				resumeList: [],
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false
 			};
 		},
 		created() {
 			this.getResumeList()
 		},
-		onReachBottom() {
-			this.loadMore()
-		},
 		methods: {
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.resumeList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getResumeList()
+			},
+			loadMore() {
+				this.current++
+				this.loadmoreText = "正在加载中"
+				this.getResumeList()
+			},
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
 				let resumeInfo = res.data.resume
-				// console.log(this.resumeInfo)
 				if (resumeInfo == null) {
 					uni.showModal({
 						title: '提示',
@@ -106,12 +121,18 @@
 				let res = await await this.$api.getResumeList(data)
 				// console.log(res)
 				let list = res.data.list
-				this.resumeList.push.apply(this.resumeList, list)
-			},
-			// 加载更多
-			loadMore() {
-				this.current++
-				this.getResumeList()
+				if (list.length == 0) {
+					this.loadmore = false
+					this.springback = true
+					setTimeout(() => {
+						this.springback = false
+					}, 800)
+				} else {
+					this.resumeList.push.apply(this.resumeList, list)
+				}
+				setTimeout(() => {
+					this.loading = false
+				}, 300)
 			},
 			// 查看详情
 			seeDetail(id) {
@@ -178,8 +199,7 @@
 		background-color: #f5f5f5;
 
 		.resumeList {
-			margin: 0 auto 50rpx;
-			margin-bottom: 20rpx;
+			margin: 0 auto;
 
 			.resumeBox {
 				padding: 20rpx 4% 0;
@@ -272,10 +292,13 @@
 		}
 
 		.loadMore {
+			width: 100%;
 			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
+			height: 80rpx;
+			font-size: 25rpx;
+			letter-spacing: 5rpx;
+			color: rgb(175, 175, 175);
+			margin-top: 30rpx;
 		}
 	}
 </style>

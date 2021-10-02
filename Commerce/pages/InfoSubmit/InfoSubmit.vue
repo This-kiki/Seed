@@ -275,12 +275,19 @@
 					{
 						id: 5,
 						name: "普通资讯"
+					},
+					{
+						id: 6,
+						name: "知识板块"
 					}
 				]
 			} else if (this.identity == 2) {
 				this.categoryList = [{
 					id: 5,
 					name: "普通资讯"
+				}, {
+					id: 7,
+					name: "法律常识"
 				}]
 			} else if (this.identity == 3) {
 				this.categoryList = [{
@@ -290,7 +297,11 @@
 					{
 						id: 5,
 						name: "普通资讯"
-					},
+					}, ,
+					{
+						id: 6,
+						name: "知识板块"
+					}
 				]
 			}
 		},

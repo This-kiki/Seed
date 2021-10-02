@@ -1,15 +1,15 @@
 <template>
-	<view class="homeInfoContainer" :style="{height:height+'px'}">
-		<!-- 资讯列表 -->
-		<view class="infoList">
-			<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
-				<news-card :item="item" :ref="item.id"></news-card>
-			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			点击加载更多
-		</view>
+	<view class="homeInfoContainer">
+		<scroll-view class="infoList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
+			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+			<slot slot="content" class="infoList">
+				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
+					<news-card :item="item" :ref="item.id"></news-card>
+				</view>
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
@@ -23,16 +23,29 @@
 		data() {
 			return {
 				infoList: [],
-				current: 1
+				current: 1,
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false,
 			};
 		},
 		created() {
 			this.getCollectionInfo()
 		},
 		methods: {
-			// 加载更多
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.infoList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getCollectionInfo()
+			},
 			loadMore() {
 				this.current++
+				this.loadmoreText = "正在加载中"
 				this.getCollectionInfo()
 			},
 			// 获取收藏列表
@@ -44,25 +57,25 @@
 				let res = await this.$api.getCollectionInfo(data)
 				// console.log(res)
 				let list = res.data.info
-				list.forEach((item, i) => {
-					if (item == null) {
-						list.splice(i, 1)
-						return
-					}
-					if (item.imag != '')
-						// item.imag = JSON.parse(item.imag)
-						if (item.imag.length > 1) {
-							item.isImg = true
-						}
-				})
-				this.infoList.push.apply(this.infoList, list);
-				if (list.length == 0 && this.current != 1) {
-					uni.showToast({
-						icon: "none",
-						title: "已是最后一页"
+				if (list.length == 0) {
+					this.loadmore = false
+					this.springback = true
+					setTimeout(() => {
+						this.springback = false
+					}, 800)
+				} else {
+					list.forEach(item => {
+						if (item.imag != '')
+							// item.imag = JSON.parse(item.imag)
+							if (item.imag.length > 1) {
+								item.isImg = true
+							}
 					})
-					this.current--
+					this.infoList.push.apply(this.infoList, list);
 				}
+				setTimeout(() => {
+					this.loading = false
+				}, 300)
 			},
 			// 咨询详情
 			infoDetail(id) {
@@ -84,12 +97,13 @@
 		}
 
 		.loadMore {
+			width: 100%;
 			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
-			padding-bottom: 40rpx;
-			background-color: #f5f5f5;
+			height: 80rpx;
+			font-size: 25rpx;
+			letter-spacing: 5rpx;
+			color: rgb(175, 175, 175);
+			margin-top: 30rpx;
 		}
 	}
 </style>
