@@ -59,9 +59,7 @@
 					{{item.view}}
 				</view>
 				<view class="bottom-data-view" v-if="item.isTop" style="color: #36c1ba;">
-					<view class="iconfont bottom-data-view-icon">
-						&#xe616;
-					</view>
+					置顶
 				</view>
 			</view>
 			<view class="bottom-tag">

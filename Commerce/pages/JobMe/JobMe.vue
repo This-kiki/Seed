@@ -70,9 +70,15 @@
 		methods: {
 			// 获取简历列表
 			async getGoJobList() {
+				this.jobList = []
 				let res = await this.$api.getGoJobList()
 				// console.log(res)
-				this.jobList = res.data.com
+				let list = res.data.com
+				list.forEach(item => {
+					if (item) {
+						this.jobList.push(item)
+					}
+				})
 			},
 			// 取消投递简历
 			async cancelResume(id) {
@@ -90,7 +96,9 @@
 								uni.showToast({
 									title: "成功取消投递"
 								})
-								that.getGoJobList()
+								setTimeout(() => {
+									that.getGoJobList()
+								}, 300)
 							} else {
 								uni.showToast({
 									icon: "none",

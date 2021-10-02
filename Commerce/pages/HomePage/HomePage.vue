@@ -3,6 +3,9 @@
 		<!-- 顶部操作 -->
 		<view class="topLine" :style="{'height':titleBarHeight+'px','padding-top':statusBarHeight+'px'}">
 			<view class="select">
+				<view class="title">
+					濠江区珠浦种子会
+				</view>
 				<view class="common" v-for="item in tapList" :key="item.id" @click="setActive(item.id)"
 					:class="item.id==active?'active':''">
 					{{item.name}}
@@ -204,11 +207,18 @@
 			justify-content: space-between;
 			width: 100%;
 			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			
+			.title{
+				font-size: 32rpx;
+				font-weight: bold;
+				color: #fff;
+				margin-right: 30rpx;
+			}
 
 			.select {
 				font-size: 26rpx;
 				padding: 20rpx;
-				width: 60%;
+				// width: 60%;
 				display: flex;
 				align-items: center;
 				// justify-content: space-around;
@@ -226,7 +236,7 @@
 					font-weight: bold;
 					color: #fff;
 					position: relative;
-					font-size: 34rpx;
+					font-size: 32rpx;
 					transition: 0.2s ease-in-out;
 				}
 			}
