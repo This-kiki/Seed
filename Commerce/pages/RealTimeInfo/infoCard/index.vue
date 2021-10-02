@@ -46,6 +46,9 @@
 		</view>
 		<view class="bottom">
 			<view class="bottom-data">
+				<view class="bottom-data-view" v-if="item.isTop" style="color: #36c1ba;">
+					置顶
+				</view>
 				<view class="bottom-data-view">
 					<view class="iconfont bottom-data-view-icon">
 						&#xe624;
@@ -57,9 +60,6 @@
 						&#xe601;
 					</view>
 					{{item.view}}
-				</view>
-				<view class="bottom-data-view" v-if="item.isTop" style="color: #36c1ba;">
-					置顶
 				</view>
 			</view>
 			<view class="bottom-tag">
@@ -154,10 +154,10 @@
 						return '种子会动态';
 						break
 					case 2:
-						return '会员单位';
+						return '会员风采';
 						break;
 					case 3:
-						return '会员风采';
+						return '会员单位';
 						break;
 					case 4:
 						return '家乡新闻';

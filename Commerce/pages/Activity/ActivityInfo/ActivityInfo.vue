@@ -54,7 +54,7 @@
 						活动地点:
 					</view>
 					<view class="content-msgs-item-value">
-						北京体育馆一楼体育中心
+						{{ dataForm.place }}
 					</view>
 				</view>
 				<u-line color="rgb(222, 222, 222)" style="width: 100%;"></u-line>
@@ -66,7 +66,7 @@
 						联系方式:
 					</view>
 					<view class="content-msgs-item-value">
-						14752526623
+						{{ dataForm.phone }}
 					</view>
 				</view>
 			</view>

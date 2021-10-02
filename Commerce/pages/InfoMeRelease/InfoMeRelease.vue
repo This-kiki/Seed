@@ -3,8 +3,8 @@
 		<scroll-view class="infoList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
 			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
 			<slot slot="content" class="infoList">
-				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
-					<news-card :item="item" :ref="item.id"></news-card>
+				<view class="infoBox" v-for="item in infoList" :key="item.id">
+					<news-card :item="item" :ref="item.id" @click="infoDetail(item.id)"></news-card>
 					<view class="operate">
 						<view class="delete" @click="deleteInfo(item.id)">
 							删除
@@ -92,19 +92,31 @@
 			},
 			// 删除资讯
 			async deleteInfo(id) {
-				let res = await this.$api.deleteInfo({
-					id
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除？',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.deleteInfo({
+								id
+							})
+							if (res.code == 20000) {
+								uni.showToast({
+									title: "删除成功"
+								})
+								that.refresh()
+							} else {
+								uni.showToast({
+									title: "删除失败",
+									icon: "none"
+								})
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
 				})
-				if (res.code == 20000) {
-					uni.showToast({
-						title: "删除成功"
-					})
-				} else {
-					uni.showToast({
-						title: "删除失败",
-						icon: "none"
-					})
-				}
 			},
 			// 修改资讯
 			editInfo(id) {

@@ -297,7 +297,7 @@
 					{
 						id: 5,
 						name: "普通资讯"
-					}, ,
+					},
 					{
 						id: 6,
 						name: "知识板块"
@@ -320,6 +320,7 @@
 			// 选择类型
 			selectCategory(e) {
 				this.infoForm.category = parseInt(e.detail.value)
+				console.log(e.detail.value)
 			},
 			// 是否置顶
 			selectTop(e) {
@@ -431,7 +432,7 @@
 				this.editorCtx.getContents({
 					success: function(res) {
 						that.infoForm.content = res.html
-						that.infoForm.category++
+						that.infoForm.category = that.getRealCategory()
 						console.log(that.infoForm)
 						uni.showModal({
 							title: '提示',
@@ -450,6 +451,37 @@
 						})
 					}
 				});
+			},
+			// 获取真正的分类
+			getRealCategory() {
+				let num = this.infoForm.category
+				console.log(num)
+				if (this.identity == 1) {
+					switch (num) {
+						case 0:
+							return 2;
+						case 1:
+							return 5;
+						case 2:
+							return 6
+					}
+				} else if (this.identity == 2) {
+					switch (num) {
+						case 0:
+							return 5;
+						case 1:
+							return 7
+					}
+				} else if (this.identity == 3) {
+					switch (num) {
+						case 0:
+							return 3;
+						case 1:
+							return 5;
+						case 2:
+							return 6
+					}
+				}
 			},
 			// 发布资讯
 			async submitInfo() {
