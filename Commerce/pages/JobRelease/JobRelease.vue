@@ -38,7 +38,7 @@
 			</view>
 			<view class="common">
 				<text>职位关键词</text>
-				<input type="text" v-model="jobInfo.brief" placeholder="请填写职位关键词" @input="changeInput()" />
+				<input type="text" v-model="jobInfo.brief" placeholder="请填写职位关键词(空格间隔 最多三条)" @input="changeInput()" />
 			</view>
 			<view class="common">
 				<text>招聘人数</text>
@@ -158,7 +158,7 @@
 					['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k', '16k',
 						'17k', '18k', '19k', '20k', '21k', '其他'
 					],
-					['12月', '13月', '14月', '15月', '16月', '17月', '18月', '其他']
+					['12薪', '13薪', '14薪', '15薪', '16薪', '17薪', '18薪', '其他']
 				],
 				identity: 0
 			};
