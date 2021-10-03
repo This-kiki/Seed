@@ -140,56 +140,6 @@
 					url: `/pages/ResumeDetail/ResumeDetail?id=${id}`
 				})
 			},
-			// 发布简历
-			release() {
-				let that = this
-				uni.showModal({
-					title: '提示',
-					content: '确定发布简历？',
-					success: async function(res) {
-						if (res.confirm) {
-							let res = await that.$api.releaseResume({
-								publish: 1
-							})
-							if (res.code == 20000) {
-								uni.showToast({
-									title: '发布成功！'
-								});
-								that.current = 1
-								that.resumeList = []
-								that.getResumeList()
-							}
-						} else if (res.cancel) {
-							return
-						}
-					}
-				})
-			},
-			// 撤回
-			norelease() {
-				let that = this
-				uni.showModal({
-					title: '提示',
-					content: '确定撤回简历？',
-					success: async function(res) {
-						if (res.confirm) {
-							let res = await that.$api.releaseResume({
-								publish: 0
-							})
-							if (res.code == 20000) {
-								uni.showToast({
-									title: '撤回成功！'
-								});
-								that.current = 1
-								that.resumeList = []
-								that.getResumeList()
-							}
-						} else if (res.cancel) {
-							return
-						}
-					}
-				})
-			}
 		}
 	}
 </script>

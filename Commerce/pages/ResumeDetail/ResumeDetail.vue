@@ -16,9 +16,9 @@
 						<view class="age">
 							{{info.age}}岁
 						</view>
-						<view class="marriage">
+						<!-- <view class="marriage">
 							{{info.marriage}}
-						</view>
+						</view> -->
 						<view class="education">
 							{{info.education}}
 						</view>
@@ -54,10 +54,10 @@
 					<text>期望薪资</text>
 					{{info.pay}}
 				</view>
-				<view class="common">
+				<!-- <view class="common">
 					<text>工作经验</text>
 					{{info.experienceTime}}
-				</view>
+				</view> -->
 				<view class="common">
 					<text>求职职位</text>
 					{{info.position}}
@@ -68,18 +68,12 @@
 				</view>
 				<view class="common">
 					<text>求职区域</text>
-					{{info.area}}
+					{{info.city}}
 				</view>
 			</view>
 		</view>
-		<!-- 工作经历 -->
-		<view class="workInfo jobInfo">
-			<view class="title">
-				工作经历
-			</view>
-			<view class="experience">
-				{{info.experience}}
-			</view>
+		<view class="detailBtn" @click="goDetail()">
+			查看详细简历
 		</view>
 		<!-- 操作栏 -->
 		<view class="operate" v-if="identity!=0">
@@ -115,7 +109,9 @@
 				// id
 				id: "",
 				// 详情
-				info: {},
+				info: {
+					modifiedTime: ""
+				},
 				identity: 0
 			};
 		},
@@ -127,6 +123,11 @@
 			this.identity = uni.getStorageSync('identity')
 		},
 		methods: {
+			goDetail(){
+				uni.navigateTo({
+					url: `/pages/JobResume/JobResume?id=${this.id}`
+				})
+			},
 			// 获取简历详情
 			async getResumeDetail() {
 				let res = await this.$api.getResumeDetail({
@@ -139,20 +140,6 @@
 			callPhone(phone) {
 				uni.makePhoneCall({
 					phoneNumber: phone
-				})
-			},
-			// 聊天
-			chat() {
-				if (this.info.openId == uni.getStorageSync("openid")) {
-					uni.showToast({
-						icon: "none",
-						title: "不能和自己聊天"
-					})
-					return
-				}
-				let link = encodeURIComponent(JSON.stringify(this.info.img))
-				uni.navigateTo({
-					url: `/pages/Chat/Chat?openid=${this.info.openId}&name=${this.info.name}&img=${link}`
 				})
 			},
 			// 信息复制到剪切板
@@ -300,6 +287,18 @@
 				color: #333;
 				font-size: 28rpx;
 			}
+		}
+
+		.detailBtn {
+			width: 90%;
+			margin: 30rpx auto 0;
+			height: 80rpx;
+			line-height: 80rpx;
+			text-align: center;
+			background-color: #36c1ba;
+			color: #fff;
+			border-radius: 10rpx;
+			letter-spacing: 1rpx;
 		}
 
 		.operate {

@@ -3,8 +3,8 @@
 		<scroll-view class="infoList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
 			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
 			<slot slot="content" class="infoList">
-				<view class="infoBox" v-for="item in infoList" :key="item.id">
-					<news-card :item="item" :ref="item.id" @click="infoDetail(item.id)"></news-card>
+				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
+					<news-card :item="item" :ref="item.id"></news-card>
 					<view class="operate">
 						<view class="delete" @click="deleteInfo(item.id)">
 							删除
@@ -18,6 +18,16 @@
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
+		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
+			<button open-type="share" class="share" @click="shareInfo">
+				<view class="iconfont share-icon">
+					&#xe63f;
+				</view>
+				<view class="share-content">
+					分享
+				</view>
+			</button>
+		</u-popup>
 	</view>
 </template>
 
@@ -36,12 +46,34 @@
 				loadmore: true,
 				loadmoreText: "加载更多",
 				springback: false,
+
+				dialog: false,
+				shareId: ''
 			};
 		},
 		created() {
 			this.getAllHomeInfo()
 		},
 		methods: {
+			shareInfo() {
+				var getAPI = {
+					id: this.shareId
+				}
+				this.$api.getOneInfo(getAPI).then((res) => {
+					uni.share({
+						provider: "weixin",
+						scene: "WXSceneSession",
+						type: 1,
+						title: res.data.info.title,
+						summary: res.data.info.simpleContent,
+					});
+				})
+				this.dialog = false
+			},
+			dialogFather(id) {
+				this.shareId = id
+				this.dialog = true
+			},
 			refresh() {
 				this.loading = true
 				this.current = 1
@@ -174,6 +206,34 @@
 			letter-spacing: 5rpx;
 			color: rgb(175, 175, 175);
 			margin-top: 30rpx;
+		}
+
+		.share {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 100%;
+			width: 100%;
+			border: 0 !important;
+			outline: none;
+			background-color: rgb(255, 255, 255);
+
+			.share-icon {
+				font-size: 40rpx;
+				font-weight: 800;
+				color: rgb(130, 130, 130);
+				margin: 0 30rpx 0 40rpx;
+			}
+
+			.share-content {
+				font-size: 30rpx;
+				font-weight: 800;
+				color: rgb(91, 91, 91);
+			}
+		}
+
+		.share:active {
+			background-color: rgb(227, 227, 227);
 		}
 	}
 </style>

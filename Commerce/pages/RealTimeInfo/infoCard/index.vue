@@ -40,7 +40,7 @@
 				</view>
 				<view class="middle-content3-imgs">
 					<view class="middle-content3-img" v-for="(img,index) in imagArr"
-						:style="'background-image: url('+ img +');'"></view>
+						:style="'background-image: url('+ img +');'" :key="index"></view>
 				</view>
 			</view>
 		</view>
@@ -112,7 +112,7 @@
 			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
 			getLevel(identity, sublevel) {
 				if (identity == 0) {
-					return '普通用户'
+					return '管理员'
 				} else if (identity == 1) {
 					switch (sublevel) {
 						case 4:
@@ -149,8 +149,8 @@
 				}
 			},
 			getCategory(id) {
-				switch(id) {
-					case 1: 
+				switch (id) {
+					case 1:
 						return '种子会动态';
 						break
 					case 2:
@@ -428,6 +428,7 @@
 					}
 				}
 			}
+
 			.bottom-tag {
 				font-size: 24rpx;
 				color: rgb(116, 116, 116);

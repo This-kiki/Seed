@@ -4,32 +4,51 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 主体 -->
 		<view class="mainContainer">
-			<view class="common">
-				<text>招聘岗位</text>
-				<input type="text" v-model="jobInfo.job" />
+			<view class="category">
+				<picker @change="selectCategory" range-key="name" :value="index" :range="cateList">
+					<view class="input">{{'发布'+cateList[jobInfo.category].name}}</view>
+					<text>切换招聘类型</text>
+				</picker>
+			</view>
+			<view class="common" @click="hopeJob()">
+				<text>职位名称</text>
+				<input type="text" v-model="jobInfo.job" placeholder="请选择职位名称" disabled />
 			</view>
 			<view class="common">
-				<text>招聘关键词</text>
-				<input type="text" v-model="jobInfo.brief" />
+				<text>经验要求</text>
+				<picker @change="selectExperience" range-key="name" :value="index" :range="experienceList">
+					<view class="input">{{jobInfo.experience?jobInfo.experience:'请选择经验要求'}}</view>
+				</picker>
 			</view>
 			<view class="common">
-				<text>需求描述</text>
-				<textarea type="text" v-model="jobInfo.need" />
+				<text>最低学历</text>
+				<picker @change="selectEducation" range-key="name" :value="index" :range="educationList">
+					<view class="input">{{jobInfo.education?jobInfo.education:"请选择最低学历"}}</view>
+				</picker>
+			</view>
+			<view class="common">
+				<text>薪资范围</text>
+				<picker @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+					<view class="input">{{jobInfo.reward?jobInfo.reward:"请选择薪资范围"}}</view>
+				</picker>
+			</view>
+			<view class="common" @click="goNeed()">
+				<text>职位描述</text>
+				<input type="text" v-model="jobInfo.need" placeholder="请填写职位描述" disabled />
+			</view>
+			<view class="common">
+				<text>职位关键词</text>
+				<input type="text" v-model="jobInfo.brief" placeholder="请填写职位关键词(空格间隔 最多三条)" @input="changeInput()" />
 			</view>
 			<view class="common">
 				<text>招聘人数</text>
-				<input type="text" v-model="jobInfo.num" placeholder="请填写数字" />
+				<input type="text" v-model="jobInfo.num" placeholder="请填写招聘人数(数字)" @input="changeInput()" />
 			</view>
 			<view class="common">
-				<text>地址</text>
-				<textarea type="text" v-model="jobInfo.place" />
-			</view>
-			<view class="common">
-				<text>薪资</text>
-				<input type="text" v-model="jobInfo.reward" />
+				<text>工作地点</text>
+				<input type="text" v-model="jobInfo.place" placeholder="请填写工作地点" @input="changeInput()" />
 			</view>
 			<view class="release" @click="releaseJobNeed()">
-				<text class="iconfont icon-submit"></text>
 				发布
 			</view>
 		</view>
@@ -49,15 +68,99 @@
 				},
 				// 表单
 				jobInfo: {
-					job: "",
 					brief: "",
+					category: 0,
+					education: "",
+					experience: "",
+					job: "",
 					need: "",
-					num: 0,
+					num: "",
 					place: "",
 					reward: ''
 				},
 				// flag
-				flag: 1
+				flag: 1,
+				cateList: [{
+						id: 0,
+						name: "兼职"
+					},
+					{
+						id: 1,
+						name: "实习"
+					},
+					{
+						id: 2,
+						name: "校招"
+					},
+					{
+						id: 3,
+						name: "社招"
+					},
+				],
+				experienceList: [{
+						id: 0,
+						name: "不限"
+					},
+					{
+						id: 1,
+						name: "1年以内"
+					},
+					{
+						id: 2,
+						name: "1-3年"
+					},
+					{
+						id: 3,
+						name: "3-5年"
+					},
+					{
+						id: 4,
+						name: "5-10年"
+					},
+					{
+						id: 5,
+						name: "10年以上"
+					}
+				],
+				educationList: [{
+						id: 0,
+						name: "小学"
+					},
+					{
+						id: 1,
+						name: "初中"
+					},
+					{
+						id: 2,
+						name: "高中"
+					},
+					{
+						id: 3,
+						name: "大专"
+					},
+					{
+						id: 4,
+						name: "本科"
+					},
+					{
+						id: 5,
+						name: "硕士"
+					},
+					{
+						id: 6,
+						name: "博士"
+					}
+				],
+				rewardList: [
+					['1k', '2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+						'16k', '17k', '18k', '19k', '20k', '其他'
+					],
+					['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k', '16k',
+						'17k', '18k', '19k', '20k', '21k', '其他'
+					],
+					['12薪', '13薪', '14薪', '15薪', '16薪', '17薪', '18薪', '其他']
+				],
+				identity: 0
 			};
 		},
 		onLoad(options) {
@@ -65,27 +168,94 @@
 				this.setNav.navTitle = "修改招聘"
 				this.flag = 2
 				this.getJobDetail(options.id)
+			} else {
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			}
+			this.identity = uni.getStorageSync('identity')
+		},
+		onShow() {
+			this.jobInfo = uni.getStorageSync('jobRelease')
+			if (uni.getStorageSync('hopeJob')) {
+				this.jobInfo.job = uni.getStorageSync('hopeJob')
+				uni.setStorageSync('jobRelease', this.jobInfo)
+				uni.removeStorageSync('hopeJob')
 			}
 		},
 		methods: {
+			goNeed() {
+				uni.navigateTo({
+					url: "/pages/JobRelease/need"
+				})
+			},
+			hopeJob() {
+				uni.navigateTo({
+					url: "/pages/JobResume/hopeJobList"
+				})
+			},
+			changeInput() {
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			},
+			selectCategory(e) {
+				this.jobInfo.category = e.detail.value
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			},
+			selectExperience(e) {
+				this.jobInfo.experience = this.experienceList[e.detail.value].name
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			},
+			selectEducation(e) {
+				this.jobInfo.education = this.educationList[e.detail.value].name
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			},
+			selectReward(e) {
+				this.jobInfo.reward =
+					`${this.rewardList[0][e.detail.value[0]]}-${this.rewardList[1][e.detail.value[1]]} ${this.rewardList[2][e.detail.value[2]]}`
+				uni.setStorageSync('jobRelease', this.jobInfo)
+			},
 			// 发布招聘
 			async releaseJobNeed() {
 				this.jobInfo.num = parseInt(this.jobInfo.num)
-				if(this.flag == 2){
+				this.jobInfo.category = parseInt(this.jobInfo.category)
+				if (this.flag == 2) {
 					this.editJobNeed()
 					return
 				}
-				let res = await this.$api.releaseJobNeed(this.jobInfo)
-				// console.log(res)
-				if (res.code == 20000) {
-					uni.showToast({
-						title: "发布成功"
-					})
-					uni.navigateBack()
-				} else {
-					uni.showToast({
-						icon: "none",
-						title: "发布失败"
+				for (let key in this.jobInfo) {
+					if (this.jobInfo[key] == null) {
+						uni.showToast({
+							icon: "none",
+							title: "请将信息填写完整"
+						})
+						return
+					}
+				}
+				if (this.identity != 3) {
+					let that = this
+					uni.showModal({
+						title: '免责声明',
+						content: '免责声明免责声明免责声明免责声明免责声明',
+						success: async function(res) {
+							if (res.confirm) {
+								let res = await that.$api.releaseJobNeed(that.jobInfo)
+								// console.log(res)
+								if (res.code == 20000) {
+									uni.showToast({
+										title: "发布成功"
+									})
+									uni.removeStorageSync('jobRelease')
+									setTimeout(() => {
+										uni.navigateBack()
+									}, 400)
+								} else {
+									uni.showToast({
+										icon: "none",
+										title: "发布失败"
+									})
+								}
+							} else if (res.cancel) {
+								return
+							}
+						}
 					})
 				}
 			},
@@ -96,16 +266,20 @@
 				})
 				// console.log(res)
 				this.jobInfo = res.data.detail
+				this.jobInfo.category = res.data.detail.classfication
+				uni.setStorageSync('jobRelease', this.jobInfo)
 			},
 			// 修改招聘信息
-			async editJobNeed(){
+			async editJobNeed() {
 				let res = await this.$api.editJobNeed(this.jobInfo)
 				// console.log(res)
 				if (res.code == 20000) {
 					uni.showToast({
 						title: "修改成功"
 					})
-					uni.navigateBack()
+					setTimeout(() => {
+						uni.navigateBack()
+					}, 400)
 				} else {
 					uni.showToast({
 						icon: "none",
@@ -119,50 +293,62 @@
 
 <style lang="scss">
 	.jobContainer {
-		padding-bottom: 50rpx;
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #f1f1f1;
 
 		.mainContainer {
-			width: 94%;
-			margin: 20rpx auto 0;
-			padding: 20rpx;
+			width: 100%;
+			margin: 0 auto;
+			padding: 30rpx 5% 60rpx;
 			box-sizing: border-box;
 			background-color: #fff;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-			border-radius: 14rpx;
 
-			.common {
-				margin-bottom: 20rpx;
+			.category {
+				position: relative;
+				margin-bottom: 30rpx;
 
-				input {
-					background-color: #f1f1f1;
-					margin-top: 20rpx;
-					border-radius: 10rpx;
-					padding: 20rpx;
-					letter-spacing: 1rpx;
+				.input {
+					width: 100%;
+					font-size: 44rpx;
+					font-weight: bold;
 				}
 
-				textarea {
-					background-color: #f1f1f1;
+				text {
+					position: absolute;
+					bottom: 0;
+					right: 0;
+				}
+			}
+
+			.common {
+				padding: 20rpx 0;
+				border-bottom: 1rpx #eee solid;
+
+				input,
+				.input {
 					margin-top: 20rpx;
-					border-radius: 10rpx;
-					padding: 20rpx;
 					letter-spacing: 1rpx;
+					height: 60rpx;
+					font-size: 32rpx;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 			}
 
 			.release {
-				width: 120rpx;
-				margin: 50rpx 40rpx 0 500rpx;
-				padding: 10rpx;
-				background-color: #eee;
+				width: 100%;
+				margin: 30rpx auto 0;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				background-color: #36c1ba;
+				color: #fff;
 				border-radius: 10rpx;
-
-				.iconfont {
-					margin-right: 10rpx;
-				}
+				letter-spacing: 1rpx;
 			}
 		}
 	}

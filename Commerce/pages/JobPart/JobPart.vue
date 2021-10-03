@@ -13,20 +13,32 @@
 							{{item.reward}}
 						</view>
 					</view>
+					<view class="words">
+						<view class="item">
+							{{item.experience?item.experience:""}}
+						</view>
+						<view class="item">
+							{{item.education?item.education:""}}
+						</view>
+						<view class="item">
+							{{item.num?item.num+"人":""}}
+						</view>
+						<view class="brief">
+							<view class="item" v-for="(i,index) in item.brief.slice(0,3)" :key="index">
+								{{i}}
+							</view>
+						</view>
+					</view>
 					<view class="need">
 						{{item.need}}
 					</view>
-					<view class="company">
-						<view class="name">
-							{{item.companyName}}
-						</view>
-						<view class="num">
-							{{item.num}}人
-						</view>
-					</view>
 					<view class="bottom">
-						<view class="date">
-							{{item.createTime.split(' ')[0]}}
+						<view class="company">
+							<view class="img" :style="{'backgroundImage':`url(${item.companyImag})`}">
+							</view>
+							<view class="name">
+								{{item.companyName?item.companyName:"个人招聘"}}
+							</view>
 						</view>
 						<view class="address">
 							{{item.place}}
@@ -89,16 +101,29 @@
 					limit: this.limit,
 					job,
 					companyId: "",
-					classfication: this.cate
+					classfication: this.cate,
+					openid: ''
 				}
 				let res = await this.$api.getJobList(data)
 				let nowList = res.data.list
+				nowList.forEach(item => {
+					item.brief = item.brief.split(" ")
+				})
 				if (nowList.length == 0) {
 					this.loadmore = false
 					this.springback = true
 					setTimeout(() => {
 						this.springback = false
 					}, 800)
+					if (this.isSearch) {
+						uni.showToast({
+							icon: "none",
+							title: "搜索结果为空"
+						})
+						setTimeout(() => {
+							this.$parent.backTo()
+						}, 1000)
+					}
 				} else {
 					this.jobList.push.apply(this.jobList, nowList)
 				}
@@ -137,7 +162,7 @@
 
 			.jobBox {
 				background-color: #fff;
-				padding: 30rpx 4%;
+				padding: 30rpx 4% 20rpx;
 				margin-bottom: 14rpx;
 
 				.top {
@@ -167,8 +192,28 @@
 					}
 				}
 
-				.need {
+				.words {
 					margin-top: 16rpx;
+					display: flex;
+					align-items: center;
+					flex-wrap: wrap;
+
+					.item {
+						font-size: 22rpx;
+						background-color: #eee;
+						margin: 0 10rpx 10rpx 0;
+						padding: 4rpx 10rpx;
+						border-radius: 8rpx;
+					}
+
+					.brief {
+						display: flex;
+						align-items: center;
+						flex-wrap: wrap;
+					}
+				}
+
+				.need {
 					font-size: 22rpx;
 					color: #666;
 					display: -webkit-box;
@@ -178,23 +223,34 @@
 					text-overflow: ellipsis;
 				}
 
-				.company {
-					font-size: 26rpx;
-					margin-top: 10rpx;
-					display: flex;
-					justify-content: flex-start;
-
-					.name {
-						margin-right: 10rpx;
-					}
-				}
-
 				.bottom {
 					display: flex;
 					justify-content: space-between;
+					align-items: center;
 					margin-top: 16rpx;
 					font-size: 22rpx;
 					color: #999;
+
+					.company {
+						display: flex;
+						align-items: center;
+
+						.img {
+							width: 60rpx;
+							height: 60rpx;
+							border-radius: 30rpx;
+							background-position: center;
+							background-repeat: no-repeat;
+							background-size: cover;
+							border: 1rpx #eee solid;
+						}
+
+						.name {
+							margin-left: 18rpx;
+							color: #000;
+							font-size: 24rpx;
+						}
+					}
 				}
 			}
 		}

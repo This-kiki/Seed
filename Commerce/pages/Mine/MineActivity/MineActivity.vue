@@ -3,22 +3,17 @@
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
 		<view v-if="!dataList[0]" class="white-bord">您还未参加活动哦，快去参加吧</view>
-		<view v-if="dataList[0]" class="act-list">
-			<!-- <view class="act-list-item" v-for="(item, index) in dataList" @tap="go(item.actId)">
-				<view class="act-title">{{ item.name }}</view>
-				<view class="act-state">
-					<view class="apply-time">{{ formatMsgTime(item.createTime) }}</view>
-					<view>
-						<u-tag text="待审核" size="mini" type="primary" :show="item.status == 0" />
-						<u-tag text="已通过" size="mini" type="success" :show="item.status == 1" />
-						<u-tag text="被驳回" size="mini" type="error" :show="item.status == 2" />
-					</view>
+		<scroll-view v-if="dataList[0]" class="act-list" :style="{'height':height.swiperHeight+50+'px'}" scroll-y="true"
+			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
+			@scrolltolower="loadMore">
+			<slot slot="content" class="act-list">
+				<view v-for="(item, index) in dataList" @click="go(item.actId)" style="width: 100%;">
+					<activity-card :options="item"></activity-card>
 				</view>
-			</view> -->
-			<view v-for="(item, index) in dataList" @click="go(item.actId)" style="width: 100%;">
-				<activity-card :options="item"></activity-card>
-			</view>
-		</view>
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
@@ -37,23 +32,59 @@
 					isShowBackBtn: true,
 					backBtnColor: 'black'
 				},
-				dataList: []
+				dataList: [],
+				current: 1,
+				height: {},
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false
 			};
 		},
 		mounted() {
+			this.height = uni.getStorageSync('height')
 			this.getActivity();
 		},
 		methods: {
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.dataList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getActivity()
+			},
+			loadMore() {
+				this.current++
+				this.loadmoreText = "正在加载中"
+				this.getActivity()
+			},
 			go(id) {
 				uni.navigateTo({
 					url: '../../Activity/ActivityInfo/ActivityInfo?activityId=' + id
 				});
 			},
 			getActivity() {
-				this.$api.getActivityState().then(res => {
+				let data = {
+					current: this.current,
+					limit: 10
+				}
+				this.$api.getActivityState(data).then(res => {
 					var resp = res.data.data.act;
-					this.dataList = resp;
-					// console.log(this.dataList)
+					let list = resp;
+					if (list.length == 0) {
+						this.loadmore = false
+						this.springback = true
+						setTimeout(() => {
+							this.springback = false
+						}, 800)
+					} else {
+						this.dataList.push.apply(this.dataList, list)
+					}
+					setTimeout(() => {
+						this.loading = false
+					}, 300)
 				});
 			},
 			formatMsgTime(timespan) {
@@ -155,5 +186,16 @@
 		width: 100vw;
 		height: 100vh;
 		font-size: 35rpx;
+	}
+
+
+	.loadMore {
+		width: 100%;
+		text-align: center;
+		height: 80rpx;
+		font-size: 25rpx;
+		letter-spacing: 5rpx;
+		color: rgb(175, 175, 175);
+		margin-top: 30rpx;
 	}
 </style>

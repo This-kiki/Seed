@@ -34,10 +34,10 @@ export class Api {
 
 	// 获取资讯
 	getAllInfo = async (data) => {
-		let res = await flyio.get("/info/PageLawer/"+ data.current + "/20" +"?id=" + data.pageType)
+		let res = await flyio.get("/info/PageLawer/" + data.current + "/20" + "?id=" + data.pageType)
 		return res.data
 	}
-	
+
 	// 获取某个资讯具体内容
 	getOneInfo = async (data) => {
 		let res = await flyio.get("/info/findAllDynamicDetail?id=" + data.id)
@@ -81,7 +81,7 @@ export class Api {
 
 	// 获取活动状态情况
 	getActivityState = async (data) => {
-		let res = await flyio.get('/activity/queryApply')
+		let res = await flyio.get(`/activity/queryApply/${data.current}/${data.limit}`)
 		return res
 	}
 
@@ -150,7 +150,7 @@ export class Api {
 	// 招聘信息列表
 	getJobList = async (data) => {
 		let res = await flyio.get(
-			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}&classfication=${data.classfication}`
+			`/hr/companyInterview/getComList/${data.current}/${data.limit}?job=${data.job}&companyId=${data.companyId}&classfication=${data.classfication}&openid=${data.openid}`
 		)
 		return res.data
 	}
@@ -367,22 +367,40 @@ export class Api {
 		let res = await flyio.get(`/info/getMyCol/${data.current}/${data.limit}`)
 		return res.data
 	}
-	
+
 	// 获得简历列表
 	getResumeList = async (data) => {
 		let res = await flyio.get(`/pro/resume/getPublish/${data.current}/${data.limit}`)
 		return res.data
 	}
-	
+
 	// 发布简历
-	releaseResume = async (data) =>{
+	releaseResume = async (data) => {
 		let res = await flyio.get(`/pro/resume/publish?publish=${data.publish}`)
 		return res.data
 	}
-	
+
 	// 简历详情
 	getResumeDetail = async (data) => {
 		let res = await flyio.get(`/pro/resume/getPublishDetail?id=${data.id}`)
+		return res.data
+	}
+
+	// 简历导出
+	getResumePdf = async (data) => {
+		let res = await flyio.get(`/pro/resume/getResumePdf?openid=${data.openid}`)
+		return res.data
+	}
+
+	// 职位链接
+	getHopeJobList = async (data) => {
+		let res = await flyio.get('/pro/resume/getHopeJobList')
+		return res.data
+	}
+
+	// 行业
+	getIndustryList = async (data) => {
+		let res = await flyio.get("/pro/resume/getIndustryList")
 		return res.data
 	}
 }

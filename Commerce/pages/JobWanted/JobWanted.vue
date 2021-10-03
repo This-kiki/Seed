@@ -29,24 +29,24 @@
 			<swiper class="swiper" :current="current" @change="changeSwiper"
 				:style="{'height':height.swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart :cate="3" :height="height.swiperHeight-40"/>
+					<JobPart :cate="3" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="0"  :height="height.swiperHeight-40"/>
+					<JobPart :cate="0" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="1"  :height="height.swiperHeight-40"/>
+					<JobPart :cate="1" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="2"  :height="height.swiperHeight-40"/>
+					<JobPart :cate="2" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList  :height="height.swiperHeight-40"/>
+					<ResumeList :height="height.swiperHeight-40" v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
 		<!-- 发布按钮 -->
-		<view class="addBtn" @click="openSubmit()" v-if="active!=1">
+		<view class="addBtn" @click="openSubmit()" v-if="identity!=0">
 			<view class="iconfont icon-tianjia">
 			</view>
 		</view>
@@ -57,13 +57,17 @@
 					立即入会 <text class="iconfont icon-xiangyou-copy"></text>
 				</view>
 				<view class="submitList">
-					<view class="common law" @click="goPage('LawRelease')&closeSubmit()" v-if="identity!=0">
-						<image src="../../static/icon/2.png" mode=""></image>
-						<text>求职</text>
-					</view>
-					<view class="common info" @click="goPage('InfoSubmit')&closeSubmit()" v-if="identity==3">
+					<view class="common info" @click="goPage('JobRelease')&closeSubmit()">
 						<image src="../../static/icon/1.png" mode=""></image>
 						<text>招聘</text>
+					</view>
+					<view class="common info" @click="release()&closeSubmit()" v-if="current==4">
+						<text class="iconfont icon-submit"></text>
+						<text>发布简历</text>
+					</view>
+					<view class="common info" @click="norelease()&closeSubmit()" v-if="current==4">
+						<text class="iconfont icon-shanchu"></text>
+						<text>撤回简历</text>
 					</view>
 				</view>
 				<view class="close" @click="closeSubmit()">
@@ -112,7 +116,8 @@
 				// 显示按钮
 				showBtn: false,
 				// 身份
-				identity: 0
+				identity: 0,
+				submitResume: true
 			}
 		},
 		onLoad() {
@@ -188,6 +193,58 @@
 					uni.showTabBar()
 				}, 400)
 			},
+			// 发布简历
+			release() {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定发布简历？',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.releaseResume({
+								publish: 1
+							})
+							if (res.code == 20000) {
+								uni.showToast({
+									title: '发布成功！'
+								})
+								that.submitResume = false
+								setTimeout(() => {
+									that.submitResume = true
+								}, 100)
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
+				})
+			},
+			// 撤回
+			norelease() {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定撤回简历？',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.releaseResume({
+								publish: 0
+							})
+							if (res.code == 20000) {
+								uni.showToast({
+									title: '撤回成功！'
+								})
+								that.submitResume = false
+								setTimeout(() => {
+									that.submitResume = true
+								}, 100)
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -341,12 +398,18 @@
 					margin-right: 60rpx;
 
 					image {
-						width: 60rpx;
-						height: 60rpx;
+						width: 80rpx;
+						height: 80rpx;
+					}
+
+					.iconfont {
+						font-size: 60rpx;
+						color: #36c1ba;
+						padding: 0 0 10rpx;
 					}
 
 					text {
-						font-size: 24rpx;
+						font-size: 28rpx;
 						letter-spacing: 1rpx;
 						margin-top: 12rpx;
 					}
