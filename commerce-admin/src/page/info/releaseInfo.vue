@@ -30,7 +30,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="ac-middle">
+    <div class="ac-middle" v-if="addForm.category == 6">
       <el-row style="margin: 10px 0;">
         <el-col :span="2" :offset="22">
           <div>
@@ -41,16 +41,18 @@
       </el-row>
       <div class="ac-img-table">
         <el-table :data="fileList" border style="width: 100%">
-          <el-table-column label="图片" width="150">
+          <el-table-column label="文件名" width="150">
             <template slot-scope="scope">
               {{scope.row.fileName}}
             </template>
           </el-table-column>
-          <el-table-column prop="filePath" label="图片地址">
+          <el-table-column prop="path" label="文件地址">
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="80" align="center">
+          <el-table-column prop="createTime" width="170px" label="上传时间">
+          </el-table-column>
+          <el-table-column fixed="right" label="复制" width="80" align="center">
             <template slot-scope="scope">
-              <el-button type="primary" @click="copyUrl(scope.row)" plain circle icon="el-icon-view" size="small"></el-button>
+              <el-button type="primary" @click="copyUrl(scope.row)" plain size="mini">copy</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -82,16 +84,7 @@ export default {
         imag: "",
         category: "",
       },
-      fileList: [
-        {
-          fileName: "测试1",
-          filePath: "1111111111111",
-        },
-        {
-          fileName: "测试2",
-          filePath: "1111111111112",
-        },
-      ],
+      fileList: [],
       typeList: [
         {
           id: 1,
@@ -180,12 +173,13 @@ export default {
           this.editor.txt.html(this.addForm.content);
         });
       }
+      this.getFiles();
     },
 
     copyUrl(row) {
       var _th = this;
       var input = document.getElementById("input");
-      input.value = row.filePath; // 修改文本框的内容
+      input.value = row.path; // 修改文本框的内容
       input.select(); // 选中文本
       console.log(input.value);
       document.execCommand("copy"); // 执行浏览器复制命令
@@ -214,12 +208,27 @@ export default {
         if (_this.$refs.avatarInput.files.length !== 0) {
           var image = new FormData();
           image.append("file", _this.$refs.avatarInput.files[0]);
+          // console.log(_this.$refs.avatarInput.files[0]);
           _this.$http.uploadImg(image).then((res) => {
-            // console.log(res)
+            // console.log(res);
+            var postAPI = {
+              fileName: _this.$refs.avatarInput.files[0].name,
+              path: res.data.url,
+            };
+            _this.$http.saveFiles(postAPI).then(() => {
+              // console.log(saveFile_res);
+              _this.getFiles();
+            });
             // _this.imgList.push({ img: res.data.url });
           });
         }
       };
+    },
+    getFiles() {
+      this.$http.getFiles().then((res) => {
+        console.log(res);
+        this.fileList = res.data.files;
+      });
     },
     submit() {
       this.addForm.imag = getImgs(this.addForm.content);

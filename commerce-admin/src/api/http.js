@@ -12,6 +12,24 @@ export default {
       data: data,
     });
   },
+
+  // 获取所有文件
+  getFiles() {
+    return service({
+      url: '/oss/getFile',
+      method: 'get',
+    });
+  },
+
+  // 保存文件信息
+  saveFiles(data) {
+    return service({
+      url: '/oss/saveFile',
+      method: 'post',
+      data: data,
+    });
+  },
+
   // 管理员登陆
   userLogin(data) {
     return service({
