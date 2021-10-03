@@ -73,7 +73,7 @@
 						<text>企业人数：</text>
 						{{companyInfo.num}}
 					</view>
-					<view class="phone">
+					<view class="phone" v-if="identity!=0">
 						<text>电话：</text>
 						{{companyInfo.companyPhone}}
 					</view>
@@ -135,7 +135,7 @@
 						电话
 					</view>
 				</view>
-				<view class="submit" @click="submitResume()">
+				<view class="submit" @click="submitResume()" v-if="companyInfo">
 					<view class="iconfont icon-submit">
 					</view>
 					<view class="text">
@@ -184,6 +184,11 @@
 				this.companyInfo = res.data.company
 				this.jobInfo = res.data.detail
 				this.hrInfo = res.data.user
+				for (let key in this.jobInfo) {
+					if (!this.jobInfo[key]) {
+						this.jobInfo[key] = ""
+					}
+				}
 			},
 			// 公司详情
 			companyDetail(id) {

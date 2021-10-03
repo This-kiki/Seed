@@ -20,7 +20,7 @@
 						<view class="name">
 							{{item.companyName?item.companyName:"个人招聘"}}
 						</view>
-						<view class="num">
+						<view class="num" v-if="item.num">
 							{{item.num}}人
 						</view>
 					</view>
@@ -100,6 +100,15 @@
 					setTimeout(() => {
 						this.springback = false
 					}, 800)
+					if (this.isSearch) {
+						uni.showToast({
+							icon: "none",
+							title: "搜索结果为空"
+						})
+						setTimeout(() => {
+							this.$parent.backTo()
+						}, 1000)
+					}
 				} else {
 					this.jobList.push.apply(this.jobList, nowList)
 				}

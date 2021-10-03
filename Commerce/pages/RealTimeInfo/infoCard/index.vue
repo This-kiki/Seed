@@ -112,7 +112,7 @@
 			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
 			getLevel(identity, sublevel) {
 				if (identity == 0) {
-					return '普通用户'
+					return '管理员'
 				} else if (identity == 1) {
 					switch (sublevel) {
 						case 4:

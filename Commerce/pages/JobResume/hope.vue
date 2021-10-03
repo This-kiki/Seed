@@ -66,8 +66,12 @@
 			async getResume() {
 				let res = await this.$api.getResume()
 				this.info = res.data.resume
-				this.info.position = uni.getStorageSync('hopeJob')
-				this.info.industry = uni.getStorageSync('hopeIndustry')
+				if (uni.getStorageSync('hopeJob')) {
+					this.info.position = uni.getStorageSync('hopeJob')
+				}
+				if (uni.getStorageSync('hopeIndustry')) {
+					this.info.industry = uni.getStorageSync('hopeIndustry')
+				}
 			},
 			statePicker(e) {
 				this.info.state = parseInt(e.detail.value)
@@ -84,6 +88,8 @@
 						icon: "none",
 						title: "保存成功"
 					})
+					uni.removeStorageSync('hopeJob')
+					uni.removeStorageSync('hopeIndustry')
 					setTimeout(() => {
 						uni.navigateBack()
 					}, 300)

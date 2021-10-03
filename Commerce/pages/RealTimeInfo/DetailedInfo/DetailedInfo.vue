@@ -424,7 +424,6 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		padding-bottom: 15rpx;
-		border-bottom: 1rpx solid #e8e8e8;
 	}
 
 	.comment-item-user {

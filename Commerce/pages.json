@@ -414,6 +414,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/JobRelease/need",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

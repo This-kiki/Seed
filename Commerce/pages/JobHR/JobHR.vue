@@ -52,7 +52,7 @@
 							<text class="iconfont icon-xiugai"></text>
 							修改
 						</view>
-						<view class="resume" @click="seeResume(item.id)">
+						<view class="resume" @click="seeResume(item.id)" v-if="identity==3">
 							<text class="iconfont icon-geren"></text>
 							简历
 						</view>
@@ -93,10 +93,12 @@
 				loadmore: true,
 				loadmoreText: "加载更多",
 				springback: false,
-				openid: ""
+				openid: "",
+				identity: 0
 			};
 		},
 		created() {
+			this.identity = uni.getStorageSync('identity')
 			this.height = uni.getStorageSync('height')
 			console.log(this.height)
 		},
