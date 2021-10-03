@@ -40,7 +40,7 @@
 				</view>
 				<view class="middle-content3-imgs">
 					<view class="middle-content3-img" v-for="(img,index) in imagArr"
-						:style="'background-image: url('+ img +');'"></view>
+						:style="'background-image: url('+ img +');'" :key="index"></view>
 				</view>
 			</view>
 		</view>
@@ -59,7 +59,7 @@
 					<view class="iconfont bottom-data-view-icon">
 						&#xe601;
 					</view>
-					{{item.view}}
+					{{item.comments}}
 				</view>
 			</view>
 			<view class="bottom-tag">
@@ -149,8 +149,8 @@
 				}
 			},
 			getCategory(id) {
-				switch(id) {
-					case 1: 
+				switch (id) {
+					case 1:
 						return '种子会动态';
 						break
 					case 2:
@@ -428,6 +428,7 @@
 					}
 				}
 			}
+
 			.bottom-tag {
 				font-size: 24rpx;
 				color: rgb(116, 116, 116);

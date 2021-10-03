@@ -6,27 +6,41 @@
 		<view class="mainContainer">
 			<view class="common">
 				<text>招聘岗位</text>
-				<input type="text" v-model="jobInfo.job" />
+				<input type="text" v-model="jobInfo.job" placeholder="请填写招聘岗位" />
+			</view>
+			<view class="common">
+				<text>招聘类型</text>
+				<picker @change="selectCategory" range-key="name" :value="index" :range="cateList">
+					<view class="input">{{cateList[jobInfo.category].name}}</view>
+				</picker>
 			</view>
 			<view class="common">
 				<text>招聘关键词</text>
-				<input type="text" v-model="jobInfo.brief" />
+				<input type="text" v-model="jobInfo.brief" placeholder="请填写招聘关键词" />
 			</view>
 			<view class="common">
 				<text>需求描述</text>
-				<textarea type="text" v-model="jobInfo.need" />
+				<textarea type="text" v-model="jobInfo.need" placeholder="请填写需求描述" />
+			</view>
+			<view class="common">
+				<text>学历要求</text>
+				<textarea type="text" v-model="jobInfo.education" placeholder="请填写学历要求" />
+			</view>
+			<view class="common">
+				<text>经验要求</text>
+				<textarea type="text" v-model="jobInfo.experience" placeholder="请填写经验要求" />
 			</view>
 			<view class="common">
 				<text>招聘人数</text>
-				<input type="text" v-model="jobInfo.num" placeholder="请填写数字" />
+				<input type="text" v-model="jobInfo.num" placeholder="请填写招聘人数(数字)" />
 			</view>
 			<view class="common">
 				<text>地址</text>
-				<textarea type="text" v-model="jobInfo.place" />
+				<textarea type="text" v-model="jobInfo.place" placeholder="请填写地址" />
 			</view>
 			<view class="common">
 				<text>薪资</text>
-				<input type="text" v-model="jobInfo.reward" />
+				<input type="text" v-model="jobInfo.reward" placeholder="请填写薪资" />
 			</view>
 			<view class="release" @click="releaseJobNeed()">
 				<text class="iconfont icon-submit"></text>
@@ -49,15 +63,35 @@
 				},
 				// 表单
 				jobInfo: {
-					job: "",
 					brief: "",
+					category: 0,
+					education: "",
+					experience: '',
+					job: "",
 					need: "",
-					num: 0,
+					num: "",
 					place: "",
 					reward: ''
 				},
 				// flag
-				flag: 1
+				flag: 1,
+				cateList: [{
+						id: 0,
+						name: "兼职"
+					},
+					{
+						id: 1,
+						name: "实习"
+					},
+					{
+						id: 2,
+						name: "校招"
+					},
+					{
+						id: 3,
+						name: "社招"
+					},
+				]
 			};
 		},
 		onLoad(options) {
@@ -68,10 +102,14 @@
 			}
 		},
 		methods: {
+			selectCategory(e) {
+				this.jobInfo.category = e.detail.value
+			},
 			// 发布招聘
 			async releaseJobNeed() {
 				this.jobInfo.num = parseInt(this.jobInfo.num)
-				if(this.flag == 2){
+				this.jobInfo.category = parseInt(this.jobInfo.category)
+				if (this.flag == 2) {
 					this.editJobNeed()
 					return
 				}
@@ -81,7 +119,9 @@
 					uni.showToast({
 						title: "发布成功"
 					})
-					uni.navigateBack()
+					setTimeout(() => {
+						uni.navigateBack()
+					}, 400)
 				} else {
 					uni.showToast({
 						icon: "none",
@@ -96,16 +136,19 @@
 				})
 				// console.log(res)
 				this.jobInfo = res.data.detail
+				this.jobInfo.category =res.data.detail.classfication
 			},
 			// 修改招聘信息
-			async editJobNeed(){
+			async editJobNeed() {
 				let res = await this.$api.editJobNeed(this.jobInfo)
 				// console.log(res)
 				if (res.code == 20000) {
 					uni.showToast({
 						title: "修改成功"
 					})
-					uni.navigateBack()
+					setTimeout(() => {
+						uni.navigateBack()
+					}, 400)
 				} else {
 					uni.showToast({
 						icon: "none",
@@ -119,24 +162,22 @@
 
 <style lang="scss">
 	.jobContainer {
-		padding-bottom: 50rpx;
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #f1f1f1;
 
 		.mainContainer {
-			width: 94%;
-			margin: 20rpx auto 0;
-			padding: 20rpx;
+			width: 100%;
+			margin: 0 auto;
+			padding: 30rpx 5% 60rpx;
 			box-sizing: border-box;
 			background-color: #fff;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-			border-radius: 14rpx;
 
 			.common {
 				margin-bottom: 20rpx;
 
-				input {
+				input,
+				.input {
 					background-color: #f1f1f1;
 					margin-top: 20rpx;
 					border-radius: 10rpx;

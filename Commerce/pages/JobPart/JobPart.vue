@@ -18,7 +18,7 @@
 					</view>
 					<view class="company">
 						<view class="name">
-							{{item.companyName}}
+							{{item.companyName?item.companyName:"个人招聘"}}
 						</view>
 						<view class="num">
 							{{item.num}}人
@@ -89,7 +89,8 @@
 					limit: this.limit,
 					job,
 					companyId: "",
-					classfication: this.cate
+					classfication: this.cate,
+					openid: ''
 				}
 				let res = await this.$api.getJobList(data)
 				let nowList = res.data.list

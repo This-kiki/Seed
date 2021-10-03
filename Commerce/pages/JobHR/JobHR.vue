@@ -13,61 +13,55 @@
 				清除搜索
 			</view>
 		</view>
-		<!-- 操作栏 -->
-		<view class="operateContainer">
-			<view class="submit" @click="goPage('JobRelease')">
-				<text class="iconfont icon-submit"></text>
-				发布招聘
-			</view>
-		</view>
-		<!-- 职场列表 -->
-		<view class="jobList" id="list">
-			<view class="jobBox" v-for="item in jobList" :key="item.id">
-				<view class="top">
-					<view class="left">
-						<view class="title">
-							{{item.job}}
+		<scroll-view class="jobList" :style="{'height':height.swiperHeight+50+'px'}" scroll-y="true"
+			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
+			@scrolltolower="loadMore">
+			<slot slot="content" class="jobList">
+				<view class="jobBox" v-for="item in jobList" :key="item.id">
+					<view class="top">
+						<view class="left">
+							<view class="title">
+								{{item.job}}
+							</view>
+							<view class="address">
+								{{item.place}}
+							</view>
+							<view class="company">
+								{{item.companyName?item.companyName:"个人招聘"}}
+							</view>
+							<view class="money">
+								{{item.reward}}
+								<!-- <text>元</text> -->
+							</view>
 						</view>
-						<view class="address">
-							{{item.place}}
-						</view>
-						<view class="company">
-							{{item.companyName}}
-						</view>
-						<view class="money">
-							{{item.reward}}
-							<!-- <text>元</text> -->
-						</view>
-					</view>
-					<view class="right">
-						<view class="btn" @click="seeDetail(item.id)">
-							查看
-						</view>
-						<view class="date">
-							{{item.createTime.split(' ')[0]}}
+						<view class="right">
+							<view class="btn" @click="seeDetail(item.id)">
+								查看
+							</view>
+							<view class="date">
+								{{item.createTime.split(' ')[0]}}
+							</view>
 						</view>
 					</view>
-				</view>
-				<view class="bottom">
-					<view class="delete" @click="deleteJobNeed(item.id)">
-						<text class="iconfont icon-shanchu"></text>
-						删除
-					</view>
-					<view class="edit" @click="editJobNeed(item.id)">
-						<text class="iconfont icon-xiugai"></text>
-						修改
-					</view>
-					<view class="resume" @click="seeResume(item.id)">
-						<text class="iconfont icon-geren"></text>
-						简历
+					<view class="bottom">
+						<view class="delete" @click="deleteJobNeed(item.id)">
+							<text class="iconfont icon-shanchu"></text>
+							删除
+						</view>
+						<view class="edit" @click="editJobNeed(item.id)">
+							<text class="iconfont icon-xiugai"></text>
+							修改
+						</view>
+						<view class="resume" @click="seeResume(item.id)">
+							<text class="iconfont icon-geren"></text>
+							简历
+						</view>
 					</view>
 				</view>
-			</view>
-		</view>
-		<!-- 加载 -->
-		<view class="loadMore" @click="loadMore()">
-			下滑(点击)加载更多
-		</view>
+				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
+				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+			</slot>
+		</scroll-view>
 	</view>
 </template>
 
@@ -77,7 +71,7 @@
 			return {
 				setNav: {
 					titleColor: "black",
-					navTitle: "HR管理",
+					navTitle: "我的招聘",
 					bgColor: "white",
 					isShowBackBtn: true,
 					backBtnColor: "black"
@@ -94,15 +88,36 @@
 				limit: 10,
 				// 显示按钮
 				showBtn: false,
+				height: {},
+				loading: false,
+				loadmore: true,
+				loadmoreText: "加载更多",
+				springback: false,
+				openid: ""
 			};
+		},
+		created() {
+			this.height = uni.getStorageSync('height')
+			console.log(this.height)
 		},
 		onShow() {
 			this.clearBtn()
 		},
-		onReachBottom() {
-			this.loadMore()
-		},
 		methods: {
+			refresh() {
+				this.loading = true
+				this.current = 1
+				this.jobList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getJobList()
+			},
+			loadMore() {
+				this.current++
+				this.loadmoreText = "正在加载中"
+				this.getJobList()
+			},
 			// 获取用户信息
 			async getUserInfo() {
 				let data = {
@@ -110,7 +125,14 @@
 				}
 				let res = await this.$api.getUserDetail(data)
 				// console.log(res)
-				this.companyId = res.data.userDetailInfo.companyId
+				let id = res.data.userDetailInfo.companyId
+				if (id) {
+					this.companyId = id
+					this.openid = ""
+				} else {
+					this.companyId = ''
+					this.openid = uni.getStorageSync('openid')
+				}
 				this.getJobList()
 			},
 			// 获取本公司发布的招聘信息
@@ -119,12 +141,25 @@
 					current: this.current,
 					limit: this.limit,
 					companyId: this.companyId,
-					job: this.inputValue
+					job: this.inputValue,
+					classfication: "",
+					openid: this.openid
 				}
 				let res = await this.$api.getJobList(data)
 				// console.log(res)
 				let nowList = res.data.list
-				this.jobList.push.apply(this.jobList, nowList)
+				if (nowList.length == 0) {
+					this.loadmore = false
+					this.springback = true
+					setTimeout(() => {
+						this.springback = false
+					}, 800)
+				} else {
+					this.jobList.push.apply(this.jobList, nowList)
+				}
+				setTimeout(() => {
+					this.loading = false
+				}, 300)
 			},
 			// 加载更多
 			loadMore() {
@@ -198,19 +233,19 @@
 
 <style lang="scss">
 	.jobContainer {
-		padding-bottom: 50rpx;
 		box-sizing: border-box;
-		min-height: 100vh;
-		background-color: #f1f1f1;
+		height: 100vh;
+		background-color: #f5f5f5;
+		overflow-y: hidden;
 
 		.inputLine {
 			box-sizing: border-box;
 			position: fixed;
 			width: 100%;
+			height: 40px;
 			padding: 0 3%;
 			background-color: #fff;
 			padding-bottom: 20rpx;
-			border-bottom: 4rpx solid #f1f1f1;
 			display: flex;
 			justify-content: space-between;
 			z-index: 99;
@@ -244,42 +279,15 @@
 			}
 		}
 
-		.operateContainer {
-			width: 96%;
-			margin: 100rpx auto 0;
-			background-color: #fff;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
-			padding: 20rpx;
-			box-sizing: border-box;
-			border-radius: 14rpx;
-			display: flex;
-
-			.iconfont {
-				color: blue;
-				font-size: 40rpx;
-				margin-right: 6rpx;
-				font-weight: bold;
-			}
-
-			.submit {
-				margin-right: 18rpx;
-				background-color: #eee;
-				padding: 10rpx;
-				box-sizing: border-box;
-				border-radius: 10rpx;
-			}
-		}
 
 		.jobList {
-			margin: 20rpx auto 0;
-			width: 96%;
+			margin: 40px auto 0;
+			width: 100%;
 
 			.jobBox {
-				padding: 20rpx;
+				padding: 20rpx 5%;
 				margin-bottom: 20rpx;
 				background-color: #fff;
-				border-radius: 14rpx;
-				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 
 				.top {
 					display: flex;
@@ -374,10 +382,13 @@
 		}
 
 		.loadMore {
+			width: 100%;
 			text-align: center;
-			font-size: 26rpx;
-			color: #999;
-			margin-top: 16rpx;
+			height: 80rpx;
+			font-size: 25rpx;
+			letter-spacing: 5rpx;
+			color: rgb(175, 175, 175);
+			margin-top: 30rpx;
 		}
 	}
 </style>

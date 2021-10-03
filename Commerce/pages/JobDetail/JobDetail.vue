@@ -34,12 +34,20 @@
 					职位详情
 				</view>
 				<view class="detail">
-					<view class="position">
+					<view class="item">
 						<text>职位：</text>
 						{{jobInfo.job}}
 					</view>
+					<view class="item">
+						<text>学历要求：</text>
+						{{jobInfo.education}}
+					</view>
+					<view class="item">
+						<text>经验要求：</text>
+						{{jobInfo.experience}}
+					</view>
 					<view class="require">
-						<text>要求：</text>
+						<text>需求描述：</text>
 						{{jobInfo.need}}
 					</view>
 				</view>
@@ -48,7 +56,7 @@
 				</view>
 			</view>
 			<!-- 公司信息 -->
-			<view class="companyInfo">
+			<view class="companyInfo" v-if="companyInfo">
 				<view class="title">
 					公司信息
 					<text @click="companyDetail(companyInfo.openId)">查看详情</text>
@@ -94,7 +102,7 @@
 						</view>
 						<view class="bottom">
 							<view class="company">
-								{{companyInfo.companyName}}
+								{{companyInfo.companyName?companyInfo.companyName:'个人招聘'}}
 							</view>
 						</view>
 					</view>
@@ -385,12 +393,14 @@
 				.detail {
 					margin-top: 28rpx;
 
-					.position {
+					.item {
 						font-size: 24rpx;
 						margin-bottom: 10rpx;
+						display: flex;
 
 						text {
-							color: #333;
+							color: #666;
+							width: 120rpx;
 						}
 					}
 
@@ -401,6 +411,10 @@
 						letter-spacing: 1rpx;
 						line-height: 38rpx;
 						margin-top: 16rpx;
+
+						text {
+							color: #666;
+						}
 					}
 				}
 
@@ -447,9 +461,11 @@
 					.address,
 					.phone {
 						margin-bottom: 10rpx;
+						display: flex;
 
 						text {
-							color: #333;
+							color: #666;
+							width: 140rpx;
 						}
 					}
 

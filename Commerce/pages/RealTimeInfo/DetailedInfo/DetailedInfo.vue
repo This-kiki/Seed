@@ -42,7 +42,7 @@
 					</view>
 				</view>
 				<view style="height: 100rpx;">
-					
+
 				</view>
 			</view>
 		</view>
@@ -141,7 +141,7 @@
 					this.dataForm = res.data.info;
 					this.commentForm = res.data.comment
 					this.collectColor = (res.data.info.col === 1 ? '#00aaff' : '#000000')
-					this.praiseColor = (res.data.info.love === 1 ? '#ff0000' : '#000000')
+					this.praiseColor = (res.data.info.thumb === 1 ? '#ff0000' : '#000000')
 					// console.log(res.data.Info)
 				});
 			},
@@ -282,28 +282,24 @@
 				return timeSpanStr;
 			},
 			async praise() {
-				if (this.praiseColor == '#ff0000') {
-					return
-				} else {
-					let getAPI = {
-						id: this.infoId
-					}
-					this.$api.praiseInfo(getAPI).then((res) => {
-						if (res.code == 20000) {
-							// if (this.praiseColor == '#ff0000') {
-							// 	uni.showToast({
-							// 		icon: "none",
-							// 		title: "取消点赞"
-							// 	})
-							// } else {
-							// 	uni.showToast({
-							// 		title: "点赞成功"
-							// 	})
-							// }
-							this.getInfo()
-						}
-					})
+				let getAPI = {
+					id: this.infoId
 				}
+				this.$api.praiseInfo(getAPI).then((res) => {
+					if (res.code == 20000) {
+						// if (this.praiseColor == '#ff0000') {
+						// 	uni.showToast({
+						// 		icon: "none",
+						// 		title: "取消点赞"
+						// 	})
+						// } else {
+						// 	uni.showToast({
+						// 		title: "点赞成功"
+						// 	})
+						// }
+						this.getInfo()
+					}
+				})
 			},
 			async collect() {
 				let getAPI = {

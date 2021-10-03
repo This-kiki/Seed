@@ -58,10 +58,6 @@
 						<image src="../../static/icon/1.png" mode=""></image>
 						<text>资讯</text>
 					</view>
-					<view class="common law" @click="goPage('LawRelease')&closeSubmit()" v-if="flag==2||flag==0">
-						<image src="../../static/icon/2.png" mode=""></image>
-						<text>法律</text>
-					</view>
 				</view>
 				<view class="close" @click="closeSubmit()">
 					<view class="iconfont icon-quxiao">

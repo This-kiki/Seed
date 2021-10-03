@@ -75,7 +75,7 @@
 						我的求职列表
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')" v-if="identity==3">
+				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe65c;
 					</view>
@@ -295,7 +295,7 @@
 					.m-bottom-item-icon {
 						margin: 0 20rpx 0 60rpx;
 						font-size: 45rpx;
-						font-weight: 1000;
+						font-weight: bold;
 						color: #36c1ba;
 					}
 
