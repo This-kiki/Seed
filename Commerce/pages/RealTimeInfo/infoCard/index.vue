@@ -59,7 +59,7 @@
 					<view class="iconfont bottom-data-view-icon">
 						&#xe601;
 					</view>
-					{{item.view}}
+					{{item.comments}}
 				</view>
 			</view>
 			<view class="bottom-tag">

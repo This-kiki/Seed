@@ -21,14 +21,13 @@
 				<view class="content-reaction-bot-btn">
 					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
 					</u-button>
-					<u-button shape="circle" plain type="primary" size="mini" hover-class="none" v-if="apply == 1">已报名
+					<u-button plain type="warning" ripple size="mini" @click="cancelActivity" v-if="apply == 1">取消报名
 					</u-button>
 					<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
-					<u-button plain type="warning" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
+					<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
 				</view>
-				<view class="iconfont content-reaction-like">
-					&#xe8ab;
-				</view>
+				<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
+				<!-- <u-button plain size="mini" shape="circle" class="iconfont content-reaction-like" ripple open-type="share" @click="shareAct(dataForm)">&#xe8ab;</u-button> -->
 			</view>
 			<view class="content-title">
 				{{ dataForm.name }}
@@ -141,6 +140,23 @@
 					this.getAcrivityDetails();
 				});
 			},
+			cancelActivity() {
+				uni.showLoading();
+				var postAPI = {
+					id: this.activityId
+				};
+				this.$api.quitActivity(postAPI).then(res => {
+					console.log(res);
+					uni.hideLoading();
+					if (res.data.code == 20000) {
+						this.$refs.uToast.show({
+							title: '已取消报名',
+							type: 'success'
+						});
+					}
+					this.getAcrivityDetails();
+				});
+			},
 			shareAct(actInfo) {
 				uni.share({
 					provider: 'weixin',
@@ -189,11 +205,11 @@
 				}
 
 				.content-reaction-like {
-					height: 60rpx;
-					width: 60rpx;
+					// height: 60rpx;
+					// width: 60rpx;
 					border-radius: 35rpx;
 					background-color: rgb(255, 255, 255);
-					box-shadow: 0px 0px 4px rgb(111, 111, 111);
+					// box-shadow: 0px 0px 4px rgb(111, 111, 111);
 					display: flex;
 					justify-content: center;
 					align-items: center;
