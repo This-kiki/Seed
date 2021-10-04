@@ -66,6 +66,12 @@ export class Api {
 		let res = await flyio.post(`/activity/apply?id=${data.id}`)
 		return res
 	}
+	
+	// 取消参与活动
+	quitActivity = async (data) => {
+		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
+		return res
+	}
 
 	// 放弃活动
 	quitActivity = async (data) => {
