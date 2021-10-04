@@ -61,11 +61,11 @@
 						<image src="../../static/icon/1.png" mode=""></image>
 						<text>招聘</text>
 					</view>
-					<view class="common info" @click="release()&closeSubmit()" v-if="current==4">
+					<view class="common info" @click="release()&closeSubmit()" v-if="current==4&&identity!=3">
 						<text class="iconfont icon-submit"></text>
 						<text>发布简历</text>
 					</view>
-					<view class="common info" @click="norelease()&closeSubmit()" v-if="current==4">
+					<view class="common info" @click="norelease()&closeSubmit()" v-if="current==4&&identity!=3">
 						<text class="iconfont icon-shanchu"></text>
 						<text>撤回简历</text>
 					</view>

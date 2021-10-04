@@ -14,13 +14,13 @@
 					</view>
 					<view class="info">
 						<view class="age">
-							{{info.age}}岁
+							{{info.age?info.age:""}}岁
 						</view>
 						<!-- <view class="marriage">
 							{{info.marriage}}
 						</view> -->
 						<view class="education">
-							{{info.education}}
+							{{info.education?info.education:""}}
 						</view>
 					</view>
 				</view>
@@ -52,7 +52,7 @@
 			<view class="content">
 				<view class="common pay">
 					<text>期望薪资</text>
-					{{info.pay}}
+					{{info.pay?info.pay:""}}
 				</view>
 				<!-- <view class="common">
 					<text>工作经验</text>
@@ -60,7 +60,7 @@
 				</view> -->
 				<view class="common">
 					<text>求职职位</text>
-					{{info.position}}
+					{{info.position?info.position:""}}
 				</view>
 				<view class="common">
 					<text>求职状态</text>
@@ -68,7 +68,7 @@
 				</view>
 				<view class="common">
 					<text>求职区域</text>
-					{{info.city}}
+					{{info.city?info.city:""}}
 				</view>
 			</view>
 		</view>
@@ -123,7 +123,7 @@
 			this.identity = uni.getStorageSync('identity')
 		},
 		methods: {
-			goDetail(){
+			goDetail() {
 				uni.navigateTo({
 					url: `/pages/JobResume/JobResume?id=${this.id}`
 				})
