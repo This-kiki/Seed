@@ -8,6 +8,7 @@
 				</view>
 				<view :style="'color:' + collectColor + ';'" class="iconfont collect-icon" @click="collect">&#xe616;
 				</view>
+				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
 			</view>
 			<view class="info-content" v-html="dataForm.content"></view>
 			<!-- 评论 -->
@@ -321,6 +322,15 @@
 					this.getInfo()
 				}
 			},
+			shareInfo() {
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 1,
+					title: this.dataForm.title,
+					summary: this.dataForm.simpleContent,
+				});
+			},
 		}
 	};
 </script>
@@ -338,6 +348,16 @@
 	.collect-icon {
 		font-size: 40rpx;
 		margin: 0 20rpx;
+	}
+	
+	.share-icon {
+		font-size: 40rpx;
+		margin: 0 20rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50rpx;
+		height: 50rpx;
 	}
 
 	.info-title {

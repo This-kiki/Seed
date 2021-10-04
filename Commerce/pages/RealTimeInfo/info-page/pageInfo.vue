@@ -57,13 +57,34 @@
 					id: this.shareId
 				}
 				this.$api.getOneInfo(getAPI).then((res) => {
+					// uni.share({
+					// 	provider: "weixin",
+					// 	scene: "WXSceneSession",
+					// 	type: 5,
+					// 	title: res.data.info.title,
+					// 	summary: res.data.info.simpleContent,
+					// 	miniProgram: {
+					// 		id: 'wx21140d44ec5e98b2',
+					// 		path: 'pages/RealTimeInfo/DetailedInfo/DetailedInfo?infoId=' + res.data.info
+					// 			.id,
+					// 		type: 0,
+					// 	},
+					// });
 					uni.share({
-						provider: "weixin",
+						provider: 'weixin',
 						scene: "WXSceneSession",
-						type: 0,
-						title: res.data.info.title,
-						summary: res.data.info.simpleContent,
-						href: '../DetailedInfo/DetailedInfo?infoId=' + res.data.info.id
+						type: 5,
+						imageUrl: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/962fc340-4f2c-11eb-bdc1-8bd33eb6adaa.png',
+						title: '欢迎体验uniapp',
+						miniProgram: {
+							id: 'gh_abcdefg',
+							path: 'pages/index/index',
+							type: 0,
+							webUrl: 'http://uniapp.dcloud.io'
+						},
+						success: ret => {
+							console.log(JSON.stringify(ret));
+						}
 					});
 				})
 				this.dialog = false
@@ -132,11 +153,11 @@
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
 					if (resp.data.rows.length == 0) {
-							that.loadmore = false;
-							that.springback = true;
-							setTimeout(function() {
-								that.springback = false;
-							}, 1000);
+						that.loadmore = false;
+						that.springback = true;
+						setTimeout(function() {
+							that.springback = false;
+						}, 1000);
 					} else {
 						for (var i = 0; i < resp.data.rows.length; i++) {
 							this.list.push(resp.data.rows[i]);

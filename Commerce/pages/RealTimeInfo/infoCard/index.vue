@@ -12,7 +12,13 @@
 					</view>
 				</view>
 			</view>
-			<view class="iconfont top-more" @tap.stop="dialogT(item.id)">&#xe73a;</view>
+			<!-- <view class="iconfont top-more" @tap.stop="dialogT(item.id)">&#xe73a;</view> -->
+			<view class="top-view">
+				<view class="iconfont top-more">
+					&#xe624;
+				</view>
+				{{item.view}}
+			</view>
 		</view>
 		<view class="middle">
 			<view class="middle-title">
@@ -51,9 +57,9 @@
 				</view>
 				<view class="bottom-data-view">
 					<view class="iconfont bottom-data-view-icon">
-						&#xe624;
+						&#xe64e;
 					</view>
-					{{item.view}}
+					{{item.love}}
 				</view>
 				<view class="bottom-data-view">
 					<view class="iconfont bottom-data-view-icon">
@@ -275,18 +281,26 @@
 				}
 			}
 
-			.top-more {
-				text-align: center;
+			.top-view {
+
+				width: 70rpx;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
 				color: rgb(170, 170, 170);
-				font-size: 40rpx;
-				height: 50rpx;
-				width: 50rpx;
+				font-size: 26rpx;
+
+				.top-more {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					font-size: 30rpx;
+				}
+
 			}
 
-			.top-more:active {
-				border-radius: 30rpx;
-				background-color: rgb(230, 230, 230);
-			}
 		}
 
 		.middle {
