@@ -88,7 +88,8 @@
 				});
 			},
 			formatMsgTime(timespan) {
-				let dateTime = new Date(timespan); // 将传进来的字符串或者毫秒转为标准时间
+				var time = timespan.replace(new RegExp(/-/gm), "/");
+				var dateTime = new Date(time); // 将传进来的字符串或者毫秒转为标准时间
 				let year = dateTime.getFullYear();
 				let month = dateTime.getMonth() + 1;
 				let day = dateTime.getDate();

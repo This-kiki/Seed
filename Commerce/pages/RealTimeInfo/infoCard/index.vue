@@ -180,7 +180,8 @@
 				}
 			},
 			formatMsgTime(timespan) {
-				var dateTime = new Date(timespan); // 将传进来的字符串或者毫秒转为标准时间
+				var time = timespan.replace(new RegExp(/-/gm), "/");
+				var dateTime = new Date(time); // 将传进来的字符串或者毫秒转为标准时间
 				var year = dateTime.getFullYear();
 				var month = dateTime.getMonth() + 1;
 				var day = dateTime.getDate();
