@@ -128,7 +128,7 @@
 				</view>
 			</view>
 			<view class="right">
-				<view class="phone" @click="callPhone(hrInfo.phone)">
+				<view class="phone" @click="callPhone(hrInfo.phone)" :class="!companyInfo?'noCompany':''">
 					<view class="iconfont icon-dianhua">
 					</view>
 					<view class="text">
@@ -612,6 +612,14 @@
 
 				.phone {
 					background-color: #117bd1;
+				}
+				
+				.noCompany{
+					width: 400rpx;
+					height: 80rpx;
+					padding: 0;
+					display: flex;
+					justify-content: center;
 				}
 
 				.submit {

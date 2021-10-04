@@ -221,7 +221,7 @@
 					return
 				}
 				for (let key in this.jobInfo) {
-					if (this.jobInfo[key] == null) {
+					if (this.jobInfo[key] == ""&&key!='category') {
 						uni.showToast({
 							icon: "none",
 							title: "请将信息填写完整"
@@ -257,6 +257,23 @@
 							}
 						}
 					})
+				} else {
+					let res = await this.$api.releaseJobNeed(this.jobInfo)
+					// console.log(res)
+					if (res.code == 20000) {
+						uni.showToast({
+							title: "发布成功"
+						})
+						uni.removeStorageSync('jobRelease')
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 400)
+					} else {
+						uni.showToast({
+							icon: "none",
+							title: "发布失败"
+						})
+					}
 				}
 			},
 			// 获取招聘详情

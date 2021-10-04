@@ -59,7 +59,7 @@
 						设置个人资料
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')">
+				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')" v-if="identity!=3">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe646;
 					</view>
