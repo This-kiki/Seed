@@ -60,9 +60,10 @@
 					uni.share({
 						provider: "weixin",
 						scene: "WXSceneSession",
-						type: 1,
+						type: 0,
 						title: res.data.info.title,
 						summary: res.data.info.simpleContent,
+						href: '../DetailedInfo/DetailedInfo?infoId=' + res.data.info.id
 					});
 				})
 				this.dialog = false

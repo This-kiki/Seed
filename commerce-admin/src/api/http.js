@@ -187,6 +187,14 @@ export default {
       data: data,
     });
   },
+  // 删除评论
+  deleteReply(data) {
+    return service({
+      url: `/pro/comment/del?id=${data.id}`,
+      method: 'get',
+      data: data,
+    });
+  },
   // 修改资讯内容
   editOneInfo(data) {
     return service({

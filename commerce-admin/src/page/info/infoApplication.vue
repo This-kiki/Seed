@@ -41,71 +41,71 @@ export default {
       },
       viewVisible: false,
       actData: {},
-    }
+    };
   },
   mounted() {
-    this.getAllApplyInfo()
+    this.getAllApplyInfo();
   },
   methods: {
     getAllApplyInfo() {
-      let getAPI = { current: this.current.current }
+      let getAPI = { current: this.current.current };
       this.$http.getApplyInfo(getAPI).then((res) => {
         // console.log(res)
-        this.current.total = res.data.pages
-        var resp = res.data.row
+        this.current.total = res.data.pages;
+        var resp = res.data.row;
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {
-            resp[i].type = '未审核'
+            resp[i].type = "未审核";
           } else if (resp[i].status == 1) {
-            resp[i].type = '已通过'
+            resp[i].type = "已通过";
           } else if (resp[i].status == 2) {
-            resp[i].type = '已驳回'
+            resp[i].type = "已驳回";
           }
           if (resp[i].category == 1) {
-            resp[i].categroyType = '种子会动态'
+            resp[i].categroyType = "种子会动态";
           } else if (resp[i].category == 2) {
-            resp[i].categroyType = '会员风采'
+            resp[i].categroyType = "会员风采";
           } else if (resp[i].category == 3) {
-            resp[i].categroyType = '会员单位'
+            resp[i].categroyType = "会员单位";
           } else if (resp[i].category == 4) {
-            resp[i].categroyType = '家乡新闻'
+            resp[i].categroyType = "家乡新闻";
           } else {
-            resp[i].type = '未知'
+            resp[i].type = "未知";
           }
         }
-        this.tableData = resp
-      })
+        this.tableData = resp;
+      });
     },
     getColor(status) {
       if (status == 0) {
-        return '#32CD32'
+        return "#32CD32";
       } else if (status == 1) {
-        return '#696969'
+        return "#696969";
       } else {
-        return '#808000'
+        return "#808000";
       }
     },
     viewApplyInfo(row) {
-      this.actData = row
-      this.viewVisible = true
+      this.actData = row;
+      this.viewVisible = true;
     },
     handleApplyInfo(row, result) {
       var postAPI = {
         id: row.id,
         status: result,
-      }
+      };
       this.$http.applyInfo(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '审核成功',
-            type: 'success',
-          })
-          this.getAllApplyInfo()
+            message: "审核成功",
+            type: "success",
+          });
+          this.getAllApplyInfo();
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 <style scoped>
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-col :span="2" :offset="22">
+      <div style="margin: 10px 0;">
+        <el-button type="success" @click="access" size="small" plain> 全 部 审 核 </el-button>
+      </div>
+    </el-col>
+    <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" show-overflow-tooltip>
+      </el-table-column>
       <el-table-column prop="username" label="申请人" width="150">
       </el-table-column>
       <el-table-column prop="name" label="活动名" width="200">
@@ -48,12 +55,16 @@ export default {
       },
       viewVisible: false,
       actData: {},
+      multipleSelection: [],
     };
   },
   mounted() {
     this.getAllApplyActivity();
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
     getAllApplyActivity() {
       let getAPI = { current: this.current.current };
       this.$http.getApplyActivity(getAPI).then((res) => {
@@ -84,6 +95,21 @@ export default {
     viewApplyActivity(row) {
       this.actData = row;
       this.viewVisible = true;
+    },
+    access() {
+      console.log(this.multipleSelection);
+      for (var i = 0; i < this.multipleSelection.length; i++) {
+        var postAPI = {
+          id: this.multipleSelection[i].id,
+          status: 1,
+        };
+        this.$http.handleApplyActivity(postAPI).then(() => {});
+      }
+      this.getAllApplyActivity();
+      this.$message({
+        message: "审核成功",
+        type: "success",
+      });
     },
     handleApplyActivity(row, result) {
       var postAPI = {

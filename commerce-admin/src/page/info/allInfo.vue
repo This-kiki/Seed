@@ -82,6 +82,33 @@
     <div>
       <el-dialog title="资讯详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
+
+        <!-- 评论 -->
+        <div class="comment">
+          <!-- 所有评论列表 -->
+          <div class="comment-list">
+            <!-- 某个评论 -->
+            <div class="comment-item" v-for="(item,index) in commentForm" :key="index">
+              <div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+              <div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
+              <div class="comment-text">
+                <div class="comment-item-user">{{ item.name?item.name:'游客' }}</div>
+                <div class="comment-item-content">{{ item.content }}</div>
+                <div class="comment-item-tile">
+                  <div class="comment-item-reply">
+                    <span class="iconfont comment-item-to">&#xe623;</span>
+                  </div>
+                  <div class="comment-item-time">{{ formatMsgTime(item.createTime) }}</div>
+                  <span class="iconfont comment-item-delete" @click="deleteComment(item.id)">&#xe608;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="height: 100rpx;">
+
+          </div>
+        </div>
+
       </el-dialog>
     </div>
   </div>
@@ -91,6 +118,7 @@
 export default {
   data() {
     return {
+      commentForm: [],
       tableData: [],
       current: {
         type: 0,
@@ -146,7 +174,6 @@ export default {
     this.getAllInfo();
   },
   methods: {
-    getInfo() {},
     getAllInfo() {
       let getAPI = { current: this.current.current };
       this.$http.getAllInfo(getAPI).then((res) => {
@@ -196,7 +223,8 @@ export default {
       var getAPI = { id: row.id };
       this.$http.getOneInfo(getAPI).then((res) => {
         this.actData = res.data.Info;
-        // console.log(this.actData)
+        // this.commentForm = res.data.comment
+        // console.log(this.actData);
         this.viewVisible = true;
       });
     },
@@ -241,8 +269,189 @@ export default {
         this.searchForm = res.data.list;
       });
     },
+    formatMsgTime(timespan) {
+      var dateTime = new Date(timespan); // 将传进来的字符串或者毫秒转为标准时间
+      var year = dateTime.getFullYear();
+      var month = dateTime.getMonth() + 1;
+      var day = dateTime.getDate();
+      // var hour = dateTime.getHours()
+      // var minute = dateTime.getMinutes()
+      // var second = dateTime.getSeconds()
+      var millisecond = dateTime.getTime(); // 将当前编辑的时间转换为毫秒
+      var now = new Date(); // 获取本机当前的时间
+      var nowNew = now.getTime(); // 将本机的时间转换为毫秒
+      var milliseconds = 0;
+      var timeSpanStr;
+      milliseconds = nowNew - millisecond;
+      if (milliseconds <= 1000 * 60 * 1) {
+        // 小于一分钟展示为刚刚
+        timeSpanStr = "刚刚";
+      } else if (
+        1000 * 60 * 1 < milliseconds &&
+        milliseconds <= 1000 * 60 * 60
+      ) {
+        // 大于一分钟小于一小时展示为分钟
+        timeSpanStr = Math.round(milliseconds / (1000 * 60)) + " 分钟前";
+      } else if (
+        1000 * 60 * 60 * 1 < milliseconds &&
+        milliseconds <= 1000 * 60 * 60 * 24
+      ) {
+        // 大于一小时小于一天展示为小时
+        timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + " 小时前";
+      } else if (
+        1000 * 60 * 60 * 24 < milliseconds &&
+        milliseconds <= 1000 * 60 * 60 * 24 * 15
+      ) {
+        // 大于一天小于十五天展示位天
+        timeSpanStr =
+          Math.round(milliseconds / (1000 * 60 * 60 * 24)) + " 天前";
+      } else if (
+        milliseconds > 1000 * 60 * 60 * 24 * 15 &&
+        year === now.getFullYear()
+      ) {
+        timeSpanStr = month + "-" + day;
+      } else {
+        timeSpanStr = year + "-" + month + "-" + day;
+      }
+      return timeSpanStr;
+    },
+    deleteComment(id) {
+      let deleteAPI = {
+        id: id,
+      };
+      this.$http.deleteReply(deleteAPI).then((res) => {
+        if (res.success) {
+          this.viewInfo(deleteAPI);
+        }
+      });
+    },
   },
 };
 </script>
 <style scoped>
+.comment {
+  width: 100%;
+  margin-bottom: 100rpx;
+}
+
+.comment-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.comment-reviewnum {
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-left: 30rpx;
+}
+
+.comment-fabulousnum {
+  font-size: 24rpx;
+  margin-right: 30rpx;
+  color: rgb(153, 153, 153);
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20rpx;
+}
+
+.comment-all {
+  letter-spacing: 3rpx;
+  font-size: 26rpx;
+  color: #717171;
+  margin: 0 0rpx 20rpx 20rpx;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  padding: 8rpx 0;
+}
+
+.comment-item-head {
+  height: 8vw;
+  width: 8vw;
+  border-radius: 500rpx;
+  margin: 0 10rpx;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  ovrflow: hidden;
+}
+
+.comment-text {
+  width: 85vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-bottom: 15rpx;
+}
+
+.comment-item-user {
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-bottom: 10rpx;
+  letter-spacing: 5rpx;
+}
+
+.comment-item-content {
+  font-size: 27rpx;
+}
+
+.comment-item-tile {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.comment-item-reply {
+  width: 130rpx;
+  height: 45rpx;
+  border-radius: 30rpx;
+  background-color: rgb(246, 246, 246);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30rpx;
+}
+
+.comment-item-reply-text {
+  font-size: 22rpx;
+  color: rgb(35, 35, 35);
+  margin-bottom: 4rpx;
+  letter-spacing: 2rpx;
+}
+
+.comment-item-to {
+  font-size: 25rpx;
+  color: rgb(35, 35, 35);
+}
+
+.comment-item-time {
+  font-size: 25rpx;
+  color: rgb(152, 152, 152);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.comment-item-delete {
+  font-size: 28rpx;
+  position: absolute;
+  right: 40rpx;
+}
+
+.comment-item:active {
+  background-color: rgb(247, 247, 247);
+}
 </style>
