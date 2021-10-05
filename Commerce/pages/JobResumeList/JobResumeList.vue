@@ -26,6 +26,9 @@
 				</view>
 			</view>
 		</view>
+		<view class="noData" v-if="resumeList.length == 0">
+			暂无简历
+		</view>
 	</view>
 	</view>
 </template>
@@ -110,7 +113,7 @@
 				.img {
 					width: 160rpx;
 					height: 160rpx;
-					border-radius:80rpx;
+					border-radius: 80rpx;
 					box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 					background-position: center;
 					background-repeat: no-repeat;
@@ -138,6 +141,12 @@
 					}
 				}
 			}
+		}
+
+		.noData {
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>
