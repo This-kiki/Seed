@@ -201,21 +201,32 @@
 			},
 			// 删除招聘信息
 			async deleteJobNeed(id) {
-				let res = await this.$api.deleteJobNeed({
-					id
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定删除？',
+					success: async function(res) {
+						if (res.confirm) {
+							let res = await that.$api.deleteJobNeed({
+								id
+							})
+							// console.log(res)
+							if (res.code == 20000) {
+								uni.showToast({
+									title: "删除成功"
+								})
+								that.clearBtn()
+							} else {
+								uni.showToast({
+									icon: "none",
+									title: "删除失败"
+								})
+							}
+						} else if (res.cancel) {
+							return
+						}
+					}
 				})
-				// console.log(res)
-				if (res.code == 20000) {
-					uni.showToast({
-						title: "删除成功"
-					})
-					this.clearBtn()
-				} else {
-					uni.showToast({
-						icon: "none",
-						title: "删除失败"
-					})
-				}
 			},
 			// 修改招聘信息
 			editJobNeed(id) {

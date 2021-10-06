@@ -67,7 +67,7 @@
 						我的个人简历
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')">
+				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')" v-if="identity!=3">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe606;
 					</view>
