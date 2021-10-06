@@ -90,22 +90,16 @@
             <!-- 某个评论 -->
             <div class="comment-item" v-for="(item,index) in commentForm" :key="index">
               <div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
-              <div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/img/head.webp');"></div>
+              <div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/head.webp');"></div>
               <div class="comment-text">
                 <div class="comment-item-user">{{ item.name?item.name:'游客' }}</div>
                 <div class="comment-item-content">{{ item.content }}</div>
                 <div class="comment-item-tile">
-                  <div class="comment-item-reply">
-                    <span class="iconfont comment-item-to">&#xe623;</span>
-                  </div>
                   <div class="comment-item-time">{{ formatMsgTime(item.createTime) }}</div>
-                  <span class="iconfont comment-item-delete" @click="deleteComment(item.id)">&#xe608;</span>
+                  <el-button type="danger" class="comment-item-delete" icon="el-icon-delete" circle @click="deleteComment(item.id)" plain size="mini"></el-button>
                 </div>
               </div>
             </div>
-          </div>
-          <div style="height: 100rpx;">
-
           </div>
         </div>
 
@@ -223,7 +217,7 @@ export default {
       var getAPI = { id: row.id };
       this.$http.getOneInfo(getAPI).then((res) => {
         this.actData = res.data.Info;
-        // this.commentForm = res.data.comment
+        this.commentForm = res.data.comment;
         // console.log(this.actData);
         this.viewVisible = true;
       });
@@ -321,7 +315,7 @@ export default {
       };
       this.$http.deleteReply(deleteAPI).then((res) => {
         if (res.success) {
-          this.viewInfo(deleteAPI);
+          this.viewInfo({ id: this.actData.id });
         }
       });
     },
@@ -331,41 +325,14 @@ export default {
 <style scoped>
 .comment {
   width: 100%;
-  margin-bottom: 100rpx;
-}
-
-.comment-head {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.comment-reviewnum {
-  font-size: 28rpx;
-  font-weight: 700;
-  margin-left: 30rpx;
-}
-
-.comment-fabulousnum {
-  font-size: 24rpx;
-  margin-right: 30rpx;
-  color: rgb(153, 153, 153);
+  margin-bottom: 20px;
 }
 
 .comment-list {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 20rpx;
-}
-
-.comment-all {
-  letter-spacing: 3rpx;
-  font-size: 26rpx;
-  color: #717171;
-  margin: 0 0rpx 20rpx 20rpx;
+  margin-top: 10px;
 }
 
 .comment-item {
@@ -373,37 +340,38 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
-  padding: 8rpx 0;
+  padding: 4px 0;
 }
 
 .comment-item-head {
-  height: 8vw;
-  width: 8vw;
-  border-radius: 500rpx;
-  margin: 0 10rpx;
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  margin: 0 10px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  ovrflow: hidden;
+  overflow: hidden;
 }
 
 .comment-text {
-  width: 85vw;
+  width: 85%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-bottom: 15rpx;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(240, 240, 240);
 }
 
 .comment-item-user {
-  font-size: 28rpx;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 10rpx;
-  letter-spacing: 5rpx;
+  margin-bottom: 5px;
+  letter-spacing: 2px;
 }
 
 .comment-item-content {
-  font-size: 27rpx;
+  font-size: 13px;
 }
 
 .comment-item-tile {
@@ -411,34 +379,11 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 20rpx;
-}
-
-.comment-item-reply {
-  width: 130rpx;
-  height: 45rpx;
-  border-radius: 30rpx;
-  background-color: rgb(246, 246, 246);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 30rpx;
-}
-
-.comment-item-reply-text {
-  font-size: 22rpx;
-  color: rgb(35, 35, 35);
-  margin-bottom: 4rpx;
-  letter-spacing: 2rpx;
-}
-
-.comment-item-to {
-  font-size: 25rpx;
-  color: rgb(35, 35, 35);
+  margin-top: 10px;
 }
 
 .comment-item-time {
-  font-size: 25rpx;
+  font-size: 13px;
   color: rgb(152, 152, 152);
   display: flex;
   justify-content: center;
@@ -446,9 +391,13 @@ export default {
 }
 
 .comment-item-delete {
-  font-size: 28rpx;
   position: absolute;
-  right: 40rpx;
+  right: 20px;
+  width: 21px;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .comment-item:active {

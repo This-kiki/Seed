@@ -1,23 +1,9 @@
 <template>
 	<view class="body">
-		<!-- <view class="act-title">{{ dataForm.name }}</view>
-		<view class="bot-num">剩余名额：{{ dataForm.num }}</view>
-		<view class="act-content" v-html="dataForm.content"></view>
-		<view style="height: 130rpx;"></view>
-		<view class="bottom">
-			<u-button plain size="mini" shape="circle" class="share" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont icon-share"></view></u-button>
-			<view class="bot-btn">
-				<u-button plain type="success" size="medium" ripple @click="joinActivity" v-if="apply == 0">我要参加</u-button>
-				<u-button plain type="primary" size="medium" hover-class="none" v-if="apply == 1">已报名</u-button>
-				<u-button plain type="default" size="medium" hover-class="none" v-if="apply == 2">已结束</u-button>
-				<u-button plain type="warning" size="medium" hover-class="none" v-if="apply == 3">已满员</u-button>
-			</view>
-		</view> -->
 		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
-		<!-- <view v-if="!dataForm.img" class="backImg" style="background-image: url(../../../static/hm-news-card/images/img_22726_0_0.png)"></view> -->
 		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png"></u-image>
 		<view class="content">
-			<view class="content-reaction">
+			<!-- <view class="content-reaction">
 				<view class="content-reaction-bot-btn">
 					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
 					</u-button>
@@ -27,8 +13,7 @@
 					<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
 				</view>
 				<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
-				<!-- <u-button plain size="mini" shape="circle" class="iconfont content-reaction-like" ripple open-type="share" @click="shareAct(dataForm)">&#xe8ab;</u-button> -->
-			</view>
+			</view> -->
 			<view class="content-title">
 				{{ dataForm.name }}
 			</view>
@@ -79,6 +64,17 @@
 			</view>
 		</view>
 		<u-toast ref="uToast" />
+		<view class="content-reaction">
+			<view class="content-reaction-bot-btn">
+				<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
+				</u-button>
+				<u-button plain type="warning" ripple size="mini" @click="cancelActivity" v-if="apply == 1">取消报名
+				</u-button>
+				<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
+				<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
+			</view>
+			<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
+		</view>
 	</view>
 </template>
 
@@ -191,34 +187,6 @@
 			position: relative;
 			top: -150rpx;
 
-			.content-reaction {
-				position: relative;
-				top: -30rpx;
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-end;
-				align-items: center;
-				padding: 0 30rpx;
-
-				.content-reaction-bot-btn {
-					margin-right: 20rpx;
-				}
-
-				.content-reaction-like {
-					// height: 60rpx;
-					// width: 60rpx;
-					border-radius: 35rpx;
-					background-color: rgb(255, 255, 255);
-					// box-shadow: 0px 0px 4px rgb(111, 111, 111);
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					font-weight: 1000;
-					font-size: 35rpx;
-					color: rgb(171, 171, 171);
-				}
-			}
-
 			.content-title {
 				margin: 0 auto;
 				width: 94%;
@@ -285,6 +253,33 @@
 				}
 			}
 
+		}
+		.content-reaction {
+			position: relative;
+			top: -160rpx;
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+			padding: 0 50rpx;
+		
+			.content-reaction-bot-btn {
+				margin-right: 30rpx;
+			}
+		
+			.content-reaction-like {
+				// height: 60rpx;
+				// width: 60rpx;
+				border-radius: 35rpx;
+				background-color: rgb(255, 255, 255);
+				// box-shadow: 0px 0px 4px rgb(111, 111, 111);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-weight: 1000;
+				font-size: 35rpx;
+				color: rgb(171, 171, 171);
+			}
 		}
 	}
 </style>
