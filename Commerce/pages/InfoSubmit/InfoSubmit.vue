@@ -494,6 +494,11 @@
 							uni.navigateBack()
 						}
 					})
+				} else if (res.code == 12001) {
+					uni.showToast({
+						title: "内容中有敏感词汇，请删除后发布",
+						icon: "none"
+					})
 				} else {
 					uni.showToast({
 						title: "发布失败，请联系管理员",
