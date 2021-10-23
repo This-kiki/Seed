@@ -10,6 +10,12 @@
 			<view class="jobBox" v-for="(item,index) in job.subLevel" @click="selectItem(item.name)">
 				{{item.name}}
 			</view>
+			<view class="other" v-if="job.name=='政府/非盈利机构/其他'">
+				<input type="text" v-model="jobText" placeholder="请填写职业" />
+				<view class="btn" @click="selectItem(jobText)">
+					确定
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -28,6 +34,9 @@
 		methods: {
 			selectJob(item) {
 				this.job = item
+				if(this.job.name == "政府/非盈利机构/其他"){
+					this.job.subLevel = this.job.subLevel.slice(0,3)
+				}
 			},
 			async getIndustryList() {
 				let res = await this.$api.getIndustryList()
@@ -79,6 +88,30 @@
 				height: 60rpx;
 				line-height: 60rpx;
 				text-align: center;
+			}
+
+			.other {
+				input {
+					border: 1rpx solid #f5f5f5;
+					background-color: #f5f5f5;
+					height: 40rpx;
+					font-size: 30rpx;
+					border-radius: 10rpx;
+					padding: 10rpx;
+				}
+
+				.btn {
+					margin-top: 20rpx;
+					background-color: #36c1ba;
+					width: 140rpx;
+					height: 60rpx;
+					line-height: 60rpx;
+					text-align: center;
+					float: right;
+					border-radius: 10rpx;
+					color: #fff;
+					letter-spacing: 2rpx;
+				}
 			}
 		}
 	}

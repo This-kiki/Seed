@@ -7,7 +7,7 @@
 			</view>
 		</view>
 		<view class="right">
-			<view class="jobBox" v-for="(item,index) in job.subLevel">
+			<view class="jobBox" v-for="(item,index) in job.subLevel" v-if="job.name!='其他'">
 				<view class="title">
 					{{item.name}}
 				</view>
@@ -15,6 +15,12 @@
 					<view class="innerItem" v-for="(ele,i) in item.subLevel" :key="i" @click="selectItem(ele)">
 						{{ele}}
 					</view>
+				</view>
+			</view>
+			<view class="other" v-if="job.name=='其他'">
+				<input type="text" v-model="jobText" placeholder="请填写职业" />
+				<view class="btn" @click="selectItem(jobText)">
+					确定
 				</view>
 			</view>
 		</view>
@@ -26,7 +32,8 @@
 		data() {
 			return {
 				jobList: [],
-				job: {}
+				job: {},
+				jobText: ""
 			};
 		},
 		created() {
@@ -100,6 +107,30 @@
 						line-height: 60rpx;
 						text-align: center;
 					}
+				}
+			}
+
+			.other {
+				input {
+					border: 1rpx solid #f5f5f5;
+					background-color: #f5f5f5;
+					height: 40rpx;
+					font-size: 30rpx;
+					border-radius: 10rpx;
+					padding: 10rpx;
+				}
+
+				.btn {
+					margin-top: 20rpx;
+					background-color: #36c1ba;
+					width: 140rpx;
+					height: 60rpx;
+					line-height: 60rpx;
+					text-align: center;
+					float: right;
+					border-radius: 10rpx;
+					color: #fff;
+					letter-spacing: 2rpx;
 				}
 			}
 		}

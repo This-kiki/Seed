@@ -19,8 +19,13 @@
 		</view>
 		<!-- 资讯主体 -->
 		<view class="mainContainer">
-			<view class="showBtn" @click="showEditor=!showEditor">
-				{{showEditor?"编辑完毕":"编辑正文"}}
+			<view class="mainOperate">
+				<view class="showBtn" @click="showEditor=!showEditor">
+					{{showEditor?"编辑完毕":"编辑正文"}}
+				</view>
+				<view class="setLocal" @click="setLocal()">
+					暂存
+				</view>
 			</view>
 			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
 				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
@@ -40,9 +45,12 @@
 					</view>
 					<view class="iconfont icon-text" @click="selectTap(2)" :class="tapSelect==2?'selectColor':''">
 					</view>
-					<view class="iconfont icon-undo1" @tap="undo">
+					<view class="iconfont icon-undo" @tap="undo">
 					</view>
-					<view class="iconfont icon-redo1" @tap="redo">
+					<view class="iconfont icon-redo" @tap="redo">
+					</view>
+					<view class="close" @click="tapSelect = 0" v-if="tapSelect">
+						收起
 					</view>
 				</view>
 				<view class="ready">
@@ -304,8 +312,30 @@
 					}
 				]
 			}
+			this.getLocalInfoForm()
 		},
 		methods: {
+			// 获得本地暂存
+			getLocalInfoForm() {
+				let infoForm = uni.getStorageSync("infoForm")
+				let that = this
+				if (infoForm) {
+					uni.showModal({
+						title: '提示',
+						content: '是否加载本地暂存？',
+						success: function(res) {
+							if (res.confirm) {
+								that.infoForm = infoForm
+								that.editorCtx.setContents({
+									html: infoForm.content
+								})
+							} else if (res.cancel) {
+								return
+							}
+						}
+					})
+				}
+			},
 			// 获得资讯详情
 			async getInfoDetail(id) {
 				let res = await this.$api.getOneInfo({
@@ -316,6 +346,7 @@
 				this.editorCtx.setContents({
 					html: this.infoForm.content
 				})
+				this.infoForm.category = this.getUpdateCate()
 			},
 			// 选择类型
 			selectCategory(e) {
@@ -452,6 +483,36 @@
 					}
 				});
 			},
+			// 修改获取分类
+			getUpdateCate() {
+				let num = this.infoForm.category
+				if (this.identity == 1) {
+					switch (num) {
+						case 2:
+							return 0;
+						case 5:
+							return 1;
+						case 6:
+							return 2
+					}
+				} else if (this.identity == 2) {
+					switch (num) {
+						case 5:
+							return 0;
+						case 7:
+							return 1
+					}
+				} else if (this.identity == 3) {
+					switch (num) {
+						case 3:
+							return 0;
+						case 5:
+							return 1;
+						case 6:
+							return 2
+					}
+				}
+			},
 			// 获取真正的分类
 			getRealCategory() {
 				let num = this.infoForm.category
@@ -521,6 +582,26 @@
 						icon: "none"
 					})
 				}
+			},
+			// 暂存
+			setLocal() {
+				let that = this
+				this.editorCtx.getContents({
+					success: function(res) {
+						that.infoForm.content = res.html
+						uni.showModal({
+							title: '确定暂存？',
+							content: '此操作将会覆盖上次暂存。',
+							success: function(res) {
+								if (res.confirm) {
+									uni.setStorageSync("infoForm", that.infoForm)
+								} else if (res.cancel) {
+									return
+								}
+							}
+						})
+					}
+				});
 			},
 			// 选择字体样式
 			selectTextStyle(num) {
@@ -617,18 +698,38 @@
 		.mainContainer {
 			padding: 0 40rpx 20rpx;
 
-			.showBtn {
-				float: right;
-				color: #36c1ba;
-				letter-spacing: 2rpx;
-				font-size: 30rpx;
-				font-weight: bold;
-				// background-color: pink;
-				padding: 20rpx 0 0;
-				width: 140rpx;
-				height: 50rpx;
-				text-align: center;
-				line-height: 30rpx;
+			.mainOperate {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+
+				.showBtn {
+					color: #36c1ba;
+					letter-spacing: 2rpx;
+					font-size: 30rpx;
+					font-weight: bold;
+					// background-color: pink;
+					padding: 20rpx 0 0;
+					width: 140rpx;
+					height: 50rpx;
+					text-align: center;
+					line-height: 30rpx;
+					margin-right: 20rpx;
+				}
+
+				.setLocal {
+					color: #36c1ba;
+					letter-spacing: 2rpx;
+					font-size: 30rpx;
+					font-weight: bold;
+					// background-color: pink;
+					padding: 20rpx 0 0;
+					width: 70rpx;
+					height: 50rpx;
+					text-align: center;
+					line-height: 30rpx;
+
+				}
 			}
 
 			editor {
@@ -663,10 +764,19 @@
 						font-size: 42rpx;
 					}
 
-					.icon-undo1,
-					.icon-redo1 {
+					.icon-undo,
+					.icon-redo {
 						font-size: 40rpx;
 						font-weight: bold;
+					}
+
+					.close {
+						display: block;
+						color: #4e8df6;
+						font-size: 30rpx;
+						font-weight: bold;
+						margin-left: 20rpx;
+						letter-spacing: 1rpx;
 					}
 				}
 

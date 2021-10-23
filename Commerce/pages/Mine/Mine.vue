@@ -100,13 +100,11 @@
 					bgColor: "#ffffff"
 				},
 				userMsg: {},
-				leaveFlag: 0,
 				identity: 0
 			}
 		},
 		onShow() {
 			this.getUserInfo()
-			this.getLeaveMessage()
 		},
 		methods: {
 			getUserInfo() {
@@ -122,15 +120,6 @@
 				uni.navigateTo({
 					url: path
 				});
-			},
-			async getLeaveMessage() {
-				let res = await this.$api.getLeaveMessage()
-				// console.log(res)
-				if (res.data.ms.length != 0)
-					this.leaveFlag = 1
-				else
-					this.leaveFlag = 0
-				// console.log(this.leaveFlag)
 			},
 			getUserProfile: function(e) {
 				let that = this;

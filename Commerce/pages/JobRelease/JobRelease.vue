@@ -6,7 +6,7 @@
 		<view class="mainContainer">
 			<view class="category">
 				<picker @change="selectCategory" range-key="name" :value="index" :range="cateList">
-					<view class="input">{{'发布'+cateList[jobInfo.category].name}}</view>
+					<view class="input">{{`发布${cateList[jobInfo.classfication].name}`}}</view>
 					<text>切换招聘类型</text>
 				</picker>
 			</view>
@@ -69,7 +69,7 @@
 				// 表单
 				jobInfo: {
 					brief: "",
-					category: 0,
+					classfication: 0,
 					education: "",
 					experience: "",
 					job: "",
@@ -196,7 +196,7 @@
 				uni.setStorageSync('jobRelease', this.jobInfo)
 			},
 			selectCategory(e) {
-				this.jobInfo.category = e.detail.value
+				this.jobInfo.classfication = e.detail.value
 				uni.setStorageSync('jobRelease', this.jobInfo)
 			},
 			selectExperience(e) {
@@ -215,13 +215,13 @@
 			// 发布招聘
 			async releaseJobNeed() {
 				this.jobInfo.num = parseInt(this.jobInfo.num)
-				this.jobInfo.category = parseInt(this.jobInfo.category)
+				this.jobInfo.classfication = parseInt(this.jobInfo.classfication)
 				if (this.flag == 2) {
 					this.editJobNeed()
 					return
 				}
 				for (let key in this.jobInfo) {
-					if (this.jobInfo[key] == ""&&key!='category') {
+					if (this.jobInfo[key] == ""&&key!='classfication') {
 						uni.showToast({
 							icon: "none",
 							title: "请将信息填写完整"
@@ -283,13 +283,12 @@
 				})
 				// console.log(res)
 				this.jobInfo = res.data.detail
-				this.jobInfo.category = res.data.detail.classfication
 				uni.setStorageSync('jobRelease', this.jobInfo)
 			},
 			// 修改招聘信息
 			async editJobNeed() {
+				console.log(this.jobInfo)
 				let res = await this.$api.editJobNeed(this.jobInfo)
-				// console.log(res)
 				if (res.code == 20000) {
 					uni.showToast({
 						title: "修改成功"

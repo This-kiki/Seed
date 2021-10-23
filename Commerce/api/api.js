@@ -66,7 +66,7 @@ export class Api {
 		let res = await flyio.post(`/activity/apply?id=${data.id}`)
 		return res
 	}
-	
+
 	// 取消参与活动
 	quitActivity = async (data) => {
 		let res = await flyio.post(`/activity/quit_apply?id=${data.id}`)
@@ -400,7 +400,13 @@ export class Api {
 
 	// 行业
 	getIndustryList = async (data) => {
-		let res = await flyio.get("/pro/resume/getIndustryList")
+		let res = await flyio.get(`/pro/resume/getIndustryList`)
+		return res.data
+	}
+
+	// 批量导出简历
+	getAllResume = async (data) => {
+		let res = await flyio.get(`/pro/resume/getAllResumeZip?interviewId=${data.interviewId}`)
 		return res.data
 	}
 }

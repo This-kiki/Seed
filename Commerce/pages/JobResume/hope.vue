@@ -7,13 +7,13 @@
 			<view class="common">
 				<text class="name">求职状态</text>
 				<picker @change="statePicker" range-key="name" :value="index" :range="stateList">
-					<view class="text">{{stateList[info.state].name}}</view>
+					<view class="text">{{stateList[info.state?info.state:0].name}}</view>
 				</picker>
 			</view>
 			<view class="common">
 				<text class="name">工作城市</text>
 				<picker class="picker" mode="region" v-model="info.city" @change="cityPicker">
-					<view class="picker">{{ info.city?info.city:"" }}</view>
+					<view class="picker">{{ info.city }}</view>
 				</picker>
 			</view>
 			<view class="common" @click="goPage('hopeJobList')">
@@ -72,11 +72,15 @@
 				if (uni.getStorageSync('hopeIndustry')) {
 					this.info.industry = uni.getStorageSync('hopeIndustry')
 				}
+				if (!this.info.city) {
+					this.info.city = ["北京市", "北京市", "东城区"]
+				}
 			},
 			statePicker(e) {
 				this.info.state = parseInt(e.detail.value)
 			},
 			cityPicker(e) {
+				console.log(e.detail.value)
 				this.info.city = e.detail.value.join("-")
 			},
 			// 添加简历

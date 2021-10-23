@@ -14,28 +14,25 @@
 							<view class="text">
 								求职职位
 							</view>
-							{{item.position}}
-						</view>
-						<view class="common">
-							<view class="text">
-								工作经验
-							</view>
-							{{item.experienceTime}}
-						</view>
-						<view class="common">
-							<view class="text">
-								期望薪资
-							</view>
-							{{item.pay}}
+							{{item.position?item.position:""}}
 						</view>
 						<view class="common">
 							<view class="text">
 								求职区域
 							</view>
-							{{item.area}}
+							{{item.city?item.city:""}}
 						</view>
 						<view class="common">
-							{{item.experience}}
+							<view class="text">
+								期望薪资
+							</view>
+							{{item.pay?item.pay:""}}
+						</view>
+						<view class="common">
+							<view class="text">
+								毕业院校
+							</view>
+							{{item.school?item.school:""}}
 						</view>
 						<view class="bottom">
 							<view class="view">

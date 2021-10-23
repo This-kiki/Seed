@@ -19,6 +19,29 @@
 				</swiper-item>
 			</swiper>
 		</view>
+		<!-- 发布按钮 -->
+		<view class="addBtn" @click="openSubmit()">
+			<view class="iconfont icon-tianjia">
+			</view>
+		</view>
+		<!-- 发布 -->
+		<uni-popup ref="popup" type="bottom" :mask-click="false">
+			<view class="submitContainer">
+				<view class="join" v-if="flag==0" @click="goPage('joinPage')&closeSubmit()">
+					立即入会 <text class="iconfont icon-xiangyou-copy"></text>
+				</view>
+				<view class="submitList">
+					<view class="common info" @click="goPage('InfoSubmit')&closeSubmit()">
+						<image src="../../static/icon/1.png" mode=""></image>
+						<text>资讯</text>
+					</view>
+				</view>
+				<view class="close" @click="closeSubmit()">
+					<view class="iconfont icon-quxiao">
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -71,11 +94,16 @@
 					}
 				],
 				current: 0, // tabs组件的current值，表示当前活动的tab选项
-				swiperCurrent: 0 // swiper组件的current值，表示当前那个swiper-item是活动的
+				swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
+				flag: 0
 			};
+		},
+		onShow() {
+			uni.showTabBar()
 		},
 		mounted() {
 			this.getCustom();
+			this.checkUser()
 		},
 		methods: {
 			getCustom() {
@@ -115,6 +143,34 @@
 				this.$refs.uTabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
 				this.current = current;
+			},
+			// 跳转页面
+			goPage(page) {
+				if (page == 'joinPage') {
+					uni.navigateTo({
+						url: `/pages/Mine/${page}/${page}`
+					})
+				}
+				uni.navigateTo({
+					url: `/pages/${page}/${page}`
+				})
+			},
+			// 弹出发布框
+			openSubmit() {
+				uni.hideTabBar()
+				this.$refs.popup.open('bottom')
+			},
+			// 关闭发布框
+			closeSubmit() {
+				this.$refs.popup.close('bottom')
+				setTimeout(() => {
+					uni.showTabBar()
+				}, 400)
+			},
+			// 判断是否为会员
+			async checkUser() {
+				let res = await this.$api.getUserMsg()
+				this.flag = res.data.userBaseInfo.identity
 			},
 		}
 	};
@@ -215,6 +271,83 @@
 
 		.select::-webkit-scrollbar {
 			display: none;
+		}
+	}
+
+	.addBtn {
+		position: fixed;
+		bottom: 60rpx;
+		right: 40rpx;
+		height: 100rpx;
+		width: 100rpx;
+		background-color: #36c1ba;
+		border-radius: 50rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+
+		.iconfont {
+			color: #ffff;
+			font-size: 60rpx;
+			font-weight: bold;
+		}
+	}
+
+	.submitContainer {
+		background-color: #fff;
+		width: 100%;
+		margin: 0 auto;
+		border-radius: 10rpx;
+		padding: 60rpx 30rpx 30rpx;
+		box-sizing: border-box;
+		position: fixed;
+		bottom: 0;
+		border-top-left-radius: 40rpx;
+		border-top-right-radius: 40rpx;
+
+		.join {
+			font-size: 28rpx;
+			color: #36c1ba;
+
+			.iconfont {
+				font-size: 24rpx;
+				margin-left: 10rpx;
+			}
+		}
+
+		.submitList {
+			display: flex;
+			padding: 60rpx 0 40rpx;
+			border-bottom: 10rpx solid #f8f8f8;
+
+			.common {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-right: 60rpx;
+
+				image {
+					width: 80rpx;
+					height: 80rpx;
+				}
+
+				text {
+					font-size: 26rpx;
+					letter-spacing: 1rpx;
+					margin-top: 12rpx;
+				}
+			}
+		}
+
+		.close {
+			padding: 40rpx 0;
+			text-align: center;
+			color: #999;
+
+			.iconfont {
+				font-size: 60rpx;
+			}
 		}
 	}
 </style>

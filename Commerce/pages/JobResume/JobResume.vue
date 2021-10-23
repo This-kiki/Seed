@@ -309,6 +309,7 @@
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #fff;
+		user-select: auto;
 
 		.mainContainer {
 			.userInfo {

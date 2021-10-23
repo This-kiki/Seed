@@ -4,6 +4,9 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 简历列表 -->
 		<view class="resumeContainer">
+			<view class="btn" @click="getAllResume()">
+				批量导出简历
+			</view>
 			<view class="resumeBox" v-for="item in resumeList" :key="item.id" @click="seeDetail(item)">
 				<view class="img" :style="{'backgroundImage':`url(${item.img})`}">
 				</view>
@@ -13,15 +16,15 @@
 					</view>
 					<view class="course common">
 						<text>期望薪资</text>
-						{{item.pay}}
+						{{item.pay?item.pay:""}}
 					</view>
 					<view class="computer common">
 						<text>求职职位</text>
-						{{item.position}}
+						{{item.position?item.position:""}}
 					</view>
 					<view class="english common">
 						<text>求职区域</text>
-						{{item.city}}
+						{{item.city?item.city:""}}
 					</view>
 				</view>
 			</view>
@@ -72,20 +75,35 @@
 					url: `/pages/ResumeDetail/ResumeDetail?id=${item.id}`
 				})
 			},
-			// 聊天
-			chat(item) {
-				if (item.openId == uni.getStorageSync("openid")) {
-					uni.showToast({
-						icon: "none",
-						title: "不能和自己聊天"
-					})
-					return
-				}
-				let link = encodeURIComponent(JSON.stringify(item.img))
-				uni.navigateTo({
-					url: `/pages/Chat/Chat?openid=${item.openId}&name=${item.name}&img=${link}`
+			// 批量导出简历
+			async getAllResume() {
+				uni.showLoading()
+				let res = await this.$api.getAllResume({
+					interviewId: this.form.companyInfoId
 				})
-			},
+				console.log(res)
+				let url = res.data.url
+				uni.hideLoading()
+				uni.showModal({
+					title: "简历链接",
+					content: url,
+					confirmText: "复制",
+					showCancel: false,
+					success: function(res) {
+						if (res.confirm) {
+							uni.setClipboardData({
+								data: url,
+								success: () => {
+									uni.showToast({
+										icon: "none",
+										title: '复制成功'
+									})
+								}
+							});
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -100,6 +118,19 @@
 		.resumeContainer {
 			width: 100%;
 			margin: 20rpx auto 0;
+
+			.btn {
+				background-color: #36c1ba;
+				width: 80%;
+				margin: 0 auto 20rpx;
+				height: 90rpx;
+				line-height: 90rpx;
+				font-size: 30rpx;
+				color: #FFFFFF;
+				text-align: center;
+				letter-spacing: 2rpx;
+				border-radius: 10rpx;
+			}
 
 			.resumeBox {
 				padding: 30rpx 5%;
