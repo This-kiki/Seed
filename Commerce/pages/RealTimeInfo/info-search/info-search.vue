@@ -119,28 +119,28 @@
 				var postAPI = {
 					keyword: this.content
 				}
-				console.log(postAPI)
-				await this.$api.searchIfo(postAPI).then((res) => {
-					resp = res
-				})
-				if (resp) {
-					if (resp.data.list.length == 0) {
-						this.loadmore = false;
-						this.$refs.uToast.show({
-							title: '无对应搜索数据',
-							type: 'warning',
-						})
-						setTimeout(function() {
-							uni.navigateBack({})
-						}, 1000)
-					} else {
-						this.list = resp.data.list;
-						setTimeout(function() {
-							// console.log('结束了', that.loading);
-							that.loading = false;
-						}, 500);
+				// console.log(postAPI)
+				await this.$api.searchIfo(postAPI).then((resp) => {
+					if (resp) {
+						if (resp.data.list.length == 0) {
+							// this.loadmore = false;
+							this.$refs.uToast.show({
+								title: '无对应搜索数据',
+								type: 'warning',
+							})
+							setTimeout(function() {
+								uni.navigateBack({})
+							}, 1000)
+						} else {
+							this.list = resp.data.list;
+							setTimeout(function() {
+								// console.log('结束了', that.loading);
+								that.loading = false;
+							}, 500);
+							console.log(this.list)
+						}
 					}
-				}
+				})
 			},
 		}
 	};

@@ -1,5 +1,5 @@
 <template>
-	<view class="infoBox" @click="onClick()" v-if="item.interest==0">
+	<view class="infoBox" @click="onClick()" v-if="item.interest!=1">
 		<view class="top">
 			<view class="top-head">
 				<view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view>
