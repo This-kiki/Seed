@@ -11,14 +11,22 @@
 			</slot>
 		</scroll-view>
 		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
-			<button open-type="share" class="share" @click="shareInfo">
+			<!-- <button open-type="share" class="share" @click="shareInfo">
 				<view class="iconfont share-icon">
 					&#xe63f;
 				</view>
 				<view class="share-content">
 					分享
 				</view>
-			</button>
+			</button> -->
+			<view class="share" @click="uninterested">
+				<view class="iconfont share-icon">
+					&#xe8b6;
+				</view>
+				<view class="share-content">
+					不感兴趣
+				</view>
+			</view>
 		</u-popup>
 	</view>
 </template>
@@ -48,6 +56,21 @@
 			this.getTopHomeInfo()
 		},
 		methods: {
+			uninterested() {
+				var getAPI = {
+					id: this.shareId
+				}
+				this.$api.uninterestedInfo(getAPI).then((res) => {
+					console.log(res)
+					for(let i=0;i<this.topList.length;i++) {
+						if(this.topList[i].id == this.shareId) {
+							// console.log(this.shareId,'删除了',this.topList[i])
+							this.topList.splice(i,1);
+						}
+					}
+				})
+				this.dialog = false
+			},
 			shareInfo() {
 				var getAPI = {
 					id: this.shareId
