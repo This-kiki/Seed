@@ -17,7 +17,7 @@
 <script>
 	import activityCard from '@/pages/Activity/activity-card/index.vue';
 	export default {
-		props: ['contentHeight'],
+		props: ['contentHeight', 'status'],
 		components: {
 			activityCard
 		},
@@ -46,10 +46,14 @@
 			},
 			async init() {
 				var that = this
+				setTimeout(function() {
+					console.log('高度', that.contentHeight)
+				}, 1000);
 				let resp
 				var getAPI = {
 					current: 1,
-					limit: 20
+					limit: 20,
+					status: this.status
 				}
 				await this.$api.getActivity(getAPI).then((res) => {
 					// console.log('活动',res.data)
@@ -88,7 +92,8 @@
 				let resp
 				var getAPI = {
 					current: this.current.currentPage,
-					limit: 20
+					limit: 20,
+					status: this.status
 				}
 				await this.$api.getActivity(getAPI).then((res) => {
 					// console.log('活动',res)

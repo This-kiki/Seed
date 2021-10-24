@@ -15,25 +15,23 @@
 			</view>
 			<view :style="'height:' + titleBarHeight + ';'"></view>
 		</view>
-		<scroll-view ref="scroll" :style="'height:' + 1000 + 'px;'" class="page" scroll-y="true"
-			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
+		<scroll-view ref="scroll" :style="'height:' + 1000 + 'px;'" class="page" scroll-y="true">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
 				</view>
-				<view v-if="loadmore" class="bottom" @tap="loadMore">{{ loadmoreText }}</view>
 				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
 		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
-			<button open-type="share" class="share" @click="shareInfo">
+			<view class="share" @click="uninterested">
 				<view class="iconfont share-icon">
-					&#xe63f;
+					&#xe8b6;
 				</view>
 				<view class="share-content">
-					分享
+					不感兴趣
 				</view>
-			</button>
+			</view>
 		</u-popup>
 		<u-toast ref="uToast" />
 	</view>
@@ -85,16 +83,20 @@
 			})
 		},
 		methods: {
-			shareInfo() {
+			uninterested() {
+				var getAPI = {
+					id: this.shareId
+				}
+				this.$api.uninterestedInfo(getAPI).then((res) => {
+					console.log(res)
+					for(let i=0;i<this.list.length;i++) {
+						if(this.list[i].id == this.shareId) {
+							// console.log(this.shareId,'删除了',this.list[i])
+							this.list.splice(i,1);
+						}
+					}
+				})
 				this.dialog = false
-				uni.share({
-					provider: "weixin",
-					scene: "WXSceneSession",
-					type: 1,
-					title: '张立辛',
-					summary: '张立辛'
-				});
-				console.log('000')
 			},
 			back() {
 				uni.navigateBack({})
@@ -111,86 +113,33 @@
 				this.$refs[id][0].viewsAdd();
 			},
 			async init() {
+				this.springback = true
 				var that = this;
 				let resp;
-				this.contentT = this.content
-				this.current = {
-					currentPage: 1, // 当前页码
-					totalPages: 0 // 总页数
-				}
 				var postAPI = {
-					current: this.current.currentPage,
-					content: this.contentT
+					keyword: this.content
 				}
+				console.log(postAPI)
 				await this.$api.searchIfo(postAPI).then((res) => {
-					// console.log('searchResult', res)
 					resp = res
-					this.current.currentPage = this.current.currentPage + 1
 				})
 				if (resp) {
-					this.current.totalPages = Math.ceil(resp.data.total / 20);
-					if (resp.data.rows.length == 0) {
+					if (resp.data.list.length == 0) {
 						this.loadmore = false;
 						this.$refs.uToast.show({
 							title: '无对应搜索数据',
-							// 如果不传此type参数，默认为default，也可以手动写上 type: 'default'
 							type: 'warning',
 						})
 						setTimeout(function() {
 							uni.navigateBack({})
 						}, 1000)
 					} else {
-						this.list = resp.data.rows;
+						this.list = resp.data.list;
 						setTimeout(function() {
 							// console.log('结束了', that.loading);
 							that.loading = false;
 						}, 500);
 					}
-				}
-			},
-
-			// 上划加载更多
-			async loadMore() {
-				this.springback = true
-				var that = this
-				if (this.loadmore == false || this.loadmoreIng == true) {
-					console.log('滚');
-					setTimeout(function() {
-						that.springback = false;
-					}, 1000);
-					return;
-				} else {
-					this.loadmoreIng = true;
-				}
-				this.loadmoreText = '拼命加载中...';
-				let resp;
-				var postAPI = {
-					current: this.current.currentPage,
-					content: this.contentT
-				}
-				await this.$api.searchIfo(postAPI).then((res) => {
-					resp = res
-					console.log('searchResult', res)
-
-					this.current.currentPage = this.current.currentPage + 1
-				})
-				if (resp) {
-					this.current.totalPages = Math.ceil(resp.data.total / 20);
-					if (resp.data.rows.length == 0) {
-						that.loadmore = false;
-						that.springback = true;
-						setTimeout(function() {
-							that.springback = false;
-						}, 1000);
-					} else {
-						for (var i = 0; i < resp.data.rows.length; i++) {
-							this.list.push(resp.data.rows[i]);
-							this.loadmoreText = '加载更多';
-						}
-					}
-					this.loadmoreIng = false;
-				} else {
-					return;
 				}
 			},
 		}

@@ -45,13 +45,13 @@ export class Api {
 	}
 	// 查询咨询
 	searchIfo = async (data) => {
-		let res = await flyio.post("/info/PageFindDynamic/" + data.current + "/20", data)
+		let res = await flyio.get("/info/findSomeDynamic/" + data.keyword)
 		return res.data
 	}
 
 	// 获取所有活动
 	getActivity = async (data) => {
-		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit)
+		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit+'?status=' + data.status)
 		return res
 	}
 
@@ -360,6 +360,11 @@ export class Api {
 	// 点赞资讯
 	collectInfo = async (data) => {
 		let res = await flyio.get("/info/col?id=" + data.id)
+		return res.data
+	}
+	// 不感兴趣资讯
+	uninterestedInfo = async (data) => {
+		let res = await flyio.get("/info/FBISayNo?id=" + data.id)
 		return res.data
 	}
 	// 获得我的收藏列表

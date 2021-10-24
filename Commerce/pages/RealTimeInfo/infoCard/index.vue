@@ -1,5 +1,5 @@
 <template>
-	<view class="infoBox" @click="onClick()">
+	<view class="infoBox" @click="onClick()" v-if="item.interest==0">
 		<view class="top">
 			<view class="top-head">
 				<view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view>
@@ -12,13 +12,13 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view class="iconfont top-more" @tap.stop="dialogT(item.id)">&#xe73a;</view> -->
-			<view class="top-view">
+			<view class="iconfont top-more" @tap.stop="dialogT(item.id)">&#xe73a;</view>
+			<!-- <view class="top-view">
 				<view class="iconfont top-more">
 					&#xe624;
 				</view>
 				{{item.view}}
-			</view>
+			</view> -->
 		</view>
 		<view class="middle">
 			<view class="middle-title">
@@ -67,15 +67,18 @@
 					</view>
 					{{item.comments}}
 				</view>
+				<view class="bottom-data-view">
+					<view class="iconfont bottom-data-view-icon">
+						&#xe624;
+					</view>
+					{{item.view}}
+				</view>
 			</view>
 			<view class="bottom-tag">
 				<!-- <u-tag text="GET" type="success" mode="plain" /> -->
 				{{ formatMsgTime(item.createTime) }}
 			</view>
 		</view>
-		<u-popup v-model="dialog" mode="bottom" :mask="false" :closeable="true" height="100">
-			<view style="height: 100rpx;">出淤泥而不染，濯清涟而不妖</view>
-		</u-popup>
 	</view>
 </template>
 <script>
