@@ -25,8 +25,14 @@
 			</view>
 		</view>
 		<view class="inputLine resumeList" v-if="current==4">
-			<input type="text" v-model="position" placeholder="请输入职位" @focus="showBtn=true" @blur="showBtn=false" />
-			<input type="text" v-model="experienceTime" placeholder="请输入工作经验" @focus="showBtn=true"
+			<picker @change="statePicker" range-key="name" :value="index" :range="stateList">
+				<view class="text">{{stateList[resumeSearch.state?resumeSearch.state:0].name}}</view>
+			</picker>
+			<input type="text" v-model="resumeSearch.position" placeholder="职位" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<input type="text" v-model="resumeSearch.city" placeholder="城市" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<input type="text" v-model="resumeSearch.pay" placeholder="薪资" @focus="showBtn=true"
 				@blur="showBtn=false" />
 			<view class="searchBtn" v-if="showBtn" @click="searchResume()">
 				搜索
@@ -52,8 +58,7 @@
 					<JobPart :cate="2" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList :position="position" :experienceTime="experienceTime" :height="height.swiperHeight-40"
-						v-if="submitResume" />
+					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-40" v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -132,10 +137,23 @@
 				// 身份
 				identity: 0,
 				submitResume: true,
-				// 求职表单 职位
-				position: "",
-				// 求职  工作时间
-				experienceTime: ""
+				// 求职表单 
+				resumeSearch: {
+					position: "",
+					state: "",
+					pay: "",
+					city: ""
+				},
+				// 状态列表
+				stateList: [{
+						name: "离职",
+						id: 0
+					},
+					{
+						name: "在职",
+						id: 1
+					},
+				],
 			}
 		},
 		onLoad() {
@@ -149,6 +167,9 @@
 			}, 400)
 		},
 		methods: {
+			statePicker(e) {
+				this.resumeSearch.state = parseInt(e.detail.value)
+			},
 			// 选择
 			goSwiper(id) {
 				this.current = id
@@ -212,9 +233,14 @@
 			// 清除搜索
 			clearBtn() {
 				this.inputValue = ""
-				this.position = ""
-				this.experienceTime = ""
-				this.submitResume = false
+				this.
+				resumeSearch = {
+						position: "",
+						state: "",
+						pay: "",
+						city: ""
+					},
+					this.submitResume = false
 				setTimeout(() => {
 					this.submitResume = true
 				}, 100)
@@ -379,9 +405,11 @@
 
 		.resumeList {
 
-			input {
-				width: 40%;
+			input,
+			picker {
+				width: 15%;
 				height: 60rpx;
+				line-height: 60rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
 				background-color: #fff;
