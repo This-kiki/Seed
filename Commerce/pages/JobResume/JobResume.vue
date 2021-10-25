@@ -309,7 +309,8 @@
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #fff;
-		user-select: auto;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContainer {
 			.userInfo {

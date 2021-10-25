@@ -16,11 +16,11 @@
 		<!-- 搜索框 -->
 		<view class="inputLine">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
-				@blur="showBtn=false" />
-			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
+				@blur="showBtn=false" v-if="current!=4" />
+			<view class="searchBtn" v-if="showBtn&&current!=4" @click="searchJob()">
 				搜索
 			</view>
-			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
+			<view class="clearBtn" v-if="showBtn&&current!=4" @click="clearBtn()">
 				清除搜索
 			</view>
 		</view>
@@ -113,6 +113,8 @@
 				],
 				// 输入框内容
 				inputValue: "",
+				// 当前搜索类别
+				cate: 3,
 				// 显示按钮
 				showBtn: false,
 				// 身份
@@ -139,6 +141,20 @@
 			changeSwiper(e) {
 				let detail = e.detail
 				this.current = detail.current
+				switch (this.current) {
+					case 0:
+						this.cate = 3;
+						break;
+					case 1:
+						this.cate = 0;
+						break;
+					case 2:
+						this.cate = 1;
+						break;
+					case 3:
+						this.cate = 2;
+						break;
+				}
 			},
 
 			// 获取自己的简历
@@ -167,7 +183,7 @@
 			// 搜索工作
 			searchJob() {
 				uni.navigateTo({
-					url: `/pages/JobSearch/JobSearch?input=${this.inputValue}`
+					url: `/pages/JobSearch/JobSearch?input=${this.inputValue}&cate=${this.cate}`
 				})
 				this.inputValue = ""
 			},
