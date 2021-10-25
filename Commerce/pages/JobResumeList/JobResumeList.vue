@@ -4,7 +4,7 @@
 		<topBar :nav="setNav" :loading="setLoading"></topBar>
 		<!-- 简历列表 -->
 		<view class="resumeContainer">
-			<view class="btn" @click="getAllResume()">
+			<view class="btn" @click="getAllResume()" v-if="resumeList.length">
 				批量导出简历
 			</view>
 			<view class="resumeBox" v-for="item in resumeList" :key="item.id" @click="seeDetail(item)">

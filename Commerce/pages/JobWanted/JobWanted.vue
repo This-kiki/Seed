@@ -14,13 +14,24 @@
 			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
 		</view>
 		<!-- 搜索框 -->
-		<view class="inputLine">
+		<view class="inputLine" v-if="current!=4">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
-				@blur="showBtn=false" v-if="current!=4" />
-			<view class="searchBtn" v-if="showBtn&&current!=4" @click="searchJob()">
+				@blur="showBtn=false" />
+			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
 				搜索
 			</view>
-			<view class="clearBtn" v-if="showBtn&&current!=4" @click="clearBtn()">
+			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
+				清除搜索
+			</view>
+		</view>
+		<view class="inputLine resumeList" v-if="current==4">
+			<input type="text" v-model="position" placeholder="请输入职位" @focus="showBtn=true" @blur="showBtn=false" />
+			<input type="text" v-model="experienceTime" placeholder="请输入工作经验" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<view class="searchBtn" v-if="showBtn" @click="searchResume()">
+				搜索
+			</view>
+			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
 				清除搜索
 			</view>
 		</view>
@@ -41,7 +52,8 @@
 					<JobPart :cate="2" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList :height="height.swiperHeight-40" v-if="submitResume" />
+					<ResumeList :position="position" :experienceTime="experienceTime" :height="height.swiperHeight-40"
+						v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -119,7 +131,11 @@
 				showBtn: false,
 				// 身份
 				identity: 0,
-				submitResume: true
+				submitResume: true,
+				// 求职表单 职位
+				position: "",
+				// 求职  工作时间
+				experienceTime: ""
 			}
 		},
 		onLoad() {
@@ -156,7 +172,6 @@
 						break;
 				}
 			},
-
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
@@ -187,9 +202,22 @@
 				})
 				this.inputValue = ""
 			},
+			// 搜索简历
+			searchResume() {
+				this.submitResume = false
+				setTimeout(() => {
+					this.submitResume = true
+				}, 100)
+			},
 			// 清除搜索
 			clearBtn() {
 				this.inputValue = ""
+				this.position = ""
+				this.experienceTime = ""
+				this.submitResume = false
+				setTimeout(() => {
+					this.submitResume = true
+				}, 100)
 			},
 			// 跳转页面
 			goPage(page) {
@@ -346,6 +374,22 @@
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
 				color: #fff;
+			}
+		}
+
+		.resumeList {
+
+			input {
+				width: 40%;
+				height: 60rpx;
+				margin: 0 auto;
+				padding: 0 20rpx;
+				background-color: #fff;
+				text-align: center;
+				border-radius: 14rpx;
+				letter-spacing: 1rpx;
+				transition: 0.2s ease-in-out;
+				margin-right: 20rpx;
 			}
 		}
 

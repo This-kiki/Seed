@@ -375,7 +375,7 @@ export class Api {
 
 	// 获得简历列表
 	getResumeList = async (data) => {
-		let res = await flyio.get(`/pro/resume/getPublish/${data.current}/${data.limit}`)
+		let res = await flyio.get(`/pro/resume/getPublish/${data.current}/${data.limit}?position=${data.position}&experienceTime=${data.experienceTime}`)
 		return res.data
 	}
 
