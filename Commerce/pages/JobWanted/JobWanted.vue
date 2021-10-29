@@ -14,10 +14,27 @@
 			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
 		</view>
 		<!-- 搜索框 -->
-		<view class="inputLine">
+		<view class="inputLine" v-if="current!=4">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
 				@blur="showBtn=false" />
 			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
+				搜索
+			</view>
+			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
+				清除搜索
+			</view>
+		</view>
+		<view class="inputLine resumeList" v-if="current==4">
+			<picker @change="statePicker" range-key="name" :value="index" :range="stateList">
+				<view class="text">{{stateList[resumeSearch.state?resumeSearch.state:0].name}}</view>
+			</picker>
+			<input type="text" v-model="resumeSearch.position" placeholder="职位" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<input type="text" v-model="resumeSearch.city" placeholder="城市" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<input type="text" v-model="resumeSearch.pay" placeholder="薪资" @focus="showBtn=true"
+				@blur="showBtn=false" />
+			<view class="searchBtn" v-if="showBtn" @click="searchResume()">
 				搜索
 			</view>
 			<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
@@ -29,19 +46,19 @@
 			<swiper class="swiper" :current="current" @change="changeSwiper"
 				:style="{'height':height.swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart :cate="3" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="0" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="1" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="2" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList :height="height.swiperHeight-40" v-if="submitResume" />
+					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-40" v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -113,11 +130,46 @@
 				],
 				// 输入框内容
 				inputValue: "",
+				// 当前搜索类别
+				cate: 3,
 				// 显示按钮
 				showBtn: false,
 				// 身份
 				identity: 0,
-				submitResume: true
+				submitResume: true,
+				// 求职表单 
+				resumeSearch: {
+					position: "",
+					state: "",
+					pay: "",
+					city: ""
+				},
+				// 状态列表
+				stateList: [{
+						name: "离职",
+						id: 0
+					},
+					{
+						name: "在职",
+						id: 1
+					},
+				],
+				// 提交表单后刷新
+				isSubmit: true
+			}
+		},
+		computed:{
+			storeSubmit(){
+				return this.$store.state.isSubmit
+			}
+		},
+		watch:{
+			storeSubmit(){
+				this.isSubmit = false
+				setTimeout(() => {
+					this.isSubmit = true
+				}, 100)
+				this.$store.dispatch('setSubmit',false)
 			}
 		},
 		onLoad() {
@@ -131,6 +183,9 @@
 			}, 400)
 		},
 		methods: {
+			statePicker(e) {
+				this.resumeSearch.state = parseInt(e.detail.value)
+			},
 			// 选择
 			goSwiper(id) {
 				this.current = id
@@ -139,8 +194,21 @@
 			changeSwiper(e) {
 				let detail = e.detail
 				this.current = detail.current
+				switch (this.current) {
+					case 0:
+						this.cate = 3;
+						break;
+					case 1:
+						this.cate = 0;
+						break;
+					case 2:
+						this.cate = 1;
+						break;
+					case 3:
+						this.cate = 2;
+						break;
+				}
 			},
-
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
@@ -167,13 +235,31 @@
 			// 搜索工作
 			searchJob() {
 				uni.navigateTo({
-					url: `/pages/JobSearch/JobSearch?input=${this.inputValue}`
+					url: `/pages/JobSearch/JobSearch?input=${this.inputValue}&cate=${this.cate}`
 				})
 				this.inputValue = ""
+			},
+			// 搜索简历
+			searchResume() {
+				this.submitResume = false
+				setTimeout(() => {
+					this.submitResume = true
+				}, 100)
 			},
 			// 清除搜索
 			clearBtn() {
 				this.inputValue = ""
+				this.
+				resumeSearch = {
+						position: "",
+						state: "",
+						pay: "",
+						city: ""
+					},
+					this.submitResume = false
+				setTimeout(() => {
+					this.submitResume = true
+				}, 100)
 			},
 			// 跳转页面
 			goPage(page) {
@@ -330,6 +416,24 @@
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
 				color: #fff;
+			}
+		}
+
+		.resumeList {
+
+			input,
+			picker {
+				width: 15%;
+				height: 60rpx;
+				line-height: 60rpx;
+				margin: 0 auto;
+				padding: 0 20rpx;
+				background-color: #fff;
+				text-align: center;
+				border-radius: 14rpx;
+				letter-spacing: 1rpx;
+				transition: 0.2s ease-in-out;
+				margin-right: 20rpx;
 			}
 		}
 

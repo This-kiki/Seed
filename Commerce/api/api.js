@@ -51,7 +51,8 @@ export class Api {
 
 	// 获取所有活动
 	getActivity = async (data) => {
-		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit+'?status=' + data.status)
+		let res = await flyio.get("/activity/list/" + data.current + "/" + data.limit + '?status=' + data
+			.status)
 		return res
 	}
 
@@ -375,7 +376,9 @@ export class Api {
 
 	// 获得简历列表
 	getResumeList = async (data) => {
-		let res = await flyio.get(`/pro/resume/getPublish/${data.current}/${data.limit}`)
+		let res = await flyio.get(
+			`/pro/resume/getPublish/${data.current}/${data.limit}?position=${data.position}&state=${data.state}&city=${data.city}&pay=${data.pay}`
+			)
 		return res.data
 	}
 

@@ -42,7 +42,7 @@
 			</view>
 			<view class="common">
 				<text>招聘人数</text>
-				<input type="text" v-model="jobInfo.num" placeholder="请填写招聘人数(数字)" @input="changeInput()" />
+				<input type="number" v-model="jobInfo.num" placeholder="请填写招聘人数(数字)" @input="changeInput()" />
 			</view>
 			<view class="common">
 				<text>工作地点</text>
@@ -221,7 +221,7 @@
 					return
 				}
 				for (let key in this.jobInfo) {
-					if (this.jobInfo[key] == ""&&key!='classfication') {
+					if (this.jobInfo[key] == "" && key != 'classfication') {
 						uni.showToast({
 							icon: "none",
 							title: "请将信息填写完整"
@@ -242,6 +242,7 @@
 									uni.showToast({
 										title: "发布成功"
 									})
+									that.$store.dispatch('setSubmit', true)
 									uni.removeStorageSync('jobRelease')
 									setTimeout(() => {
 										uni.navigateBack()
@@ -264,6 +265,7 @@
 						uni.showToast({
 							title: "发布成功"
 						})
+						this.$store.dispatch('setSubmit', true)
 						uni.removeStorageSync('jobRelease')
 						setTimeout(() => {
 							uni.navigateBack()

@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<view class="list" v-if="isShow">
-			<JobPart :isSearch="true" :inputValue='inputValue'></JobPart>
+			<JobPart :isSearch="true" :inputValue='inputValue' :cate='cate'></JobPart>
 		</view>
 	</view>
 </template>
@@ -36,7 +36,8 @@
 				height: {},
 				showBtn: false,
 				inputValue: '',
-				isShow: true
+				isShow: true,
+				cate: 0
 			};
 		},
 		created() {
@@ -45,6 +46,7 @@
 		onLoad(options) {
 			if (options.input) {
 				this.inputValue = options.input
+				this.cate = options.cate
 				this.isShow = false
 				setTimeout(() => {
 					this.isShow = true

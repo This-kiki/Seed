@@ -56,7 +56,7 @@
 
 <script>
 	export default {
-		props: ['height'],
+		props: ['height','resumeSearch'],
 		data() {
 			return {
 				// 当前页
@@ -113,7 +113,8 @@
 			async getResumeList() {
 				let data = {
 					current: this.current,
-					limit: 10
+					limit: 10,
+					...this.resumeSearch
 				}
 				let res = await await this.$api.getResumeList(data)
 				// console.log(res)

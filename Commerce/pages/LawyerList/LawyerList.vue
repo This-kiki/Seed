@@ -5,7 +5,7 @@
 			律师
 		</view>
 		<view class="imgContainer">
-			<view class="imgBox" v-for="item in lawList" :key="item.openId" @click="seeDetail(item.openId)">
+			<view class="imgBox" v-for="item in lawList" :key="item.openId" @click="checkIdentity(item.openId)">
 				<view class="img" :style="{'background-image':'url('+item.img+')'}">
 				</view>
 				<view class="name">
@@ -45,6 +45,20 @@
 				uni.navigateTo({
 					url: `/pages/UserListDetail/UserListDetail?id=${openId}&flag=${this.flag}`
 				})
+			},
+			// 检查身份
+			checkIdentity(openId) {
+				let identity = uni.getStorageSync("identity")
+				this.identity = identity
+				if (identity == 0) {
+					uni.showModal({
+						title: "暂无权限",
+						content: "请申请入会",
+						showCancel: false
+					})
+				}else{
+					this.seeDetail(openId)
+				}
 			},
 		}
 	}
