@@ -6,6 +6,7 @@ const store = new Vuex.Store({
 	state: {
 		openid: '',
 		userMsg: '',
+		isSubmit: false
 	},
 	mutations: {
 		setOpenidSync(state, openid) {
@@ -15,11 +16,17 @@ const store = new Vuex.Store({
 		setUserMsg(state, userMsg) {
 			// console.log('userMsg',userMsg)
 			state.userMsg = userMsg
+		},
+		setSubmit(state, bool) {
+			state.isSubmit = bool
 		}
 	},
 	actions: {
 		setOpenid(context, openid) {
 			context.commit('setOpenidSync', openid)
+		},
+		setSubmit(context, bool) {
+			context.commit('setSubmit', bool)
 		}
 	},
 	getters: {}

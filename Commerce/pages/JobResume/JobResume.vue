@@ -232,7 +232,7 @@
 				this.info = res.data.row
 				for (let key in this.info) {
 					if (!this.info[key]) {
-						this.info[key] = ""
+						this.info[key] = "无"
 					}
 				}
 				this.info.certificate = JSON.parse(this.info.certificate)
@@ -247,7 +247,7 @@
 				this.info = res.data.resume
 				for (let key in this.info) {
 					if (!this.info[key]) {
-						this.info[key] = ""
+						this.info[key] = "无"
 					}
 				}
 				this.info.certificate = JSON.parse(this.info.certificate)

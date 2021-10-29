@@ -398,25 +398,28 @@
 			insertImage() {
 				const that = this;
 				uni.chooseImage({
-					success: async (chooseImageRes) => {
+					success: (chooseImageRes) => {
+						console.log(chooseImageRes)
 						const tempFilePaths = chooseImageRes.tempFilePaths;
-						await uni.uploadFile({
-							url: 'https://hjzpzzh.com/seed/oss/uploadImag',
-							filePath: tempFilePaths[0],
-							name: 'file',
-						}).then((uploadFileRes) => {
-							let url = JSON.parse(uploadFileRes[1].data).data.url
-							that.editorCtx.insertImage({
-								src: url,
-								data: {
-									id: 'abcd',
-									role: 'god'
-								},
-								width: '100%',
-								success: function() {
-									console.log('insert image success');
-								}
-							});
+						tempFilePaths.forEach(async item => {
+							await uni.uploadFile({
+								url: 'https://hjzpzzh.com/seed/oss/uploadImag',
+								filePath: item,
+								name: 'file',
+							}).then((uploadFileRes) => {
+								let url = JSON.parse(uploadFileRes[1].data).data.url
+								that.editorCtx.insertImage({
+									src: url,
+									data: {
+										id: 'abcd',
+										role: 'god'
+									},
+									width: '100%',
+									success: function() {
+										console.log('insert image success');
+									}
+								});
+							})
 						})
 					}
 				});

@@ -46,16 +46,16 @@
 			<swiper class="swiper" :current="current" @change="changeSwiper"
 				:style="{'height':height.swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart :cate="3" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="0" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="1" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart :cate="2" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-40" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
 					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-40" v-if="submitResume" />
@@ -154,6 +154,22 @@
 						id: 1
 					},
 				],
+				// 提交表单后刷新
+				isSubmit: true
+			}
+		},
+		computed:{
+			storeSubmit(){
+				return this.$store.state.isSubmit
+			}
+		},
+		watch:{
+			storeSubmit(){
+				this.isSubmit = false
+				setTimeout(() => {
+					this.isSubmit = true
+				}, 100)
+				this.$store.dispatch('setSubmit',false)
 			}
 		},
 		onLoad() {
