@@ -2,7 +2,8 @@
 	<view>
 		<scroll-view :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true" refresher-enabled="true"
 			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
-			<slot slot="content" class="page">
+			<u-empty text="暂无活动" mode="list" v-if="!list[0]"></u-empty>
+			<slot slot="content" class="page" v-if="list[0]">
 				<!-- 数据列表 -->
 				<view v-for="(item, index) in list" :key="index" @click="go(item.id)">
 					<activity-card :options="item"></activity-card>
@@ -65,6 +66,10 @@
 					// console.log('活动',resp.data.act)
 					if (resp.data.act.length == 0) {
 						this.loadmore = false;
+						setTimeout(function() {
+							// console.log('结束了', that.loading);
+							that.loading = false;
+						}, 500);
 					} else {
 						this.list = resp.data.act;
 						setTimeout(function() {
