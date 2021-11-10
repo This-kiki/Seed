@@ -423,6 +423,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/JobRelease/CompanyInfo",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

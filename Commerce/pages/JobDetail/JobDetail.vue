@@ -50,6 +50,14 @@
 						<text>需求描述：</text>
 						{{jobInfo.need}}
 					</view>
+					<view class="item" v-if="jobInfo.isMember">
+						<text>公司名称：</text>
+						{{jobInfo.companyName}}
+					</view>
+					<view class="require" v-if="jobInfo.isMember">
+						<text>公司详情：</text>
+						{{jobInfo.companyInfo}}
+					</view>
 				</view>
 				<view class="num">
 					职位招聘 {{jobInfo.num}} 人
@@ -166,15 +174,37 @@
 				jobInfo: {},
 				// hr详情
 				hrInfo: {},
-				identity: 0
+				identity: 0,
+				canRelease: false
 			};
 		},
 		onLoad(option) {
 			this.identity = uni.getStorageSync('identity')
 			this.id = option.id
 			this.getJobDetail()
+			this.getResumeDetailOpenid()
 		},
 		methods: {
+			// 获取简历详情
+			async getResumeDetailOpenid() {
+				let res = await this.$api.getResumeDetailOpenid({
+					openid: uni.getStorageSync('openid')
+				})
+				// console.log(res)
+				let num = 0
+				let info = res.data.row
+				for (let key in info) {
+					if (!info[key]) {
+						num++
+					}
+				}
+				if (num > 6) {
+					this.canRelease = false
+				} else {
+					this.canRelease = true
+				}
+				console.log("是否能够投递简历", this.canRelease)
+			},
 			// 获取招聘详情
 			async getJobDetail() {
 				let res = await this.$api.getJobDetail({
@@ -285,6 +315,18 @@
 								url: "/pages/Mine/joinPage/joinPage"
 							})
 						}
+					})
+					return
+				}
+				if (this.companyInfo.openId == uni.getStorageSync('openid')) {
+					uni.showToast({
+						title: "无法申请自己发布的招聘"
+					})
+					return
+				}
+				if (!this.canRelease) {
+					uni.showToast({
+						title: "简历信息较少，请先完善简历"
 					})
 					return
 				}
@@ -613,8 +655,8 @@
 				.phone {
 					background-color: #117bd1;
 				}
-				
-				.noCompany{
+
+				.noCompany {
 					width: 400rpx;
 					height: 80rpx;
 					padding: 0;

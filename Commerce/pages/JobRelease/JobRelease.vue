@@ -48,6 +48,14 @@
 				<text>工作地点</text>
 				<input type="text" v-model="jobInfo.place" placeholder="请填写工作地点" @input="changeInput()" />
 			</view>
+			<view class="common" v-if="identity!=3">
+				<text>公司名称</text>
+				<input type="text" v-model="jobInfo.companyName" placeholder="请填写公司名称" @input="changeInput()" />
+			</view>
+			<view class="common" v-if="identity!=3" @click="goCompanyInfo()">
+				<text>公司详情</text>
+				<input type="text" v-model="jobInfo.companyInfo" placeholder="请填写公司详情" />
+			</view>
 			<view class="release" @click="releaseJobNeed()">
 				发布
 			</view>
@@ -76,7 +84,9 @@
 					need: "",
 					num: "",
 					place: "",
-					reward: ''
+					reward: '',
+					companyName: '',
+					companyInfo: ""
 				},
 				// flag
 				flag: 1,
@@ -185,6 +195,11 @@
 			goNeed() {
 				uni.navigateTo({
 					url: "/pages/JobRelease/need"
+				})
+			},
+			goCompanyInfo() {
+				uni.navigateTo({
+					url: "/pages/JobRelease/CompanyInfo"
 				})
 			},
 			hopeJob() {
