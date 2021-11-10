@@ -425,6 +425,7 @@
         }
         ,{
             "path" : "pages/Mine/ActivityPage/ActivityPage",
+            "path" : "pages/JobRelease/CompanyInfo",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

@@ -1,7 +1,12 @@
 <template>
 	<view class="submitContainer">
 		<!-- 顶部 -->
-		<topBar :nav="setNav" :loading="setLoading"></topBar>
+		<topBar :nav="setNav" v-if="!showEditor"></topBar>
+		<view class="setBack" :style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}"
+			v-if="showEditor" @click="showEditor=!showEditor">
+			<text class="iconfont icon-fanhui"></text>
+			<text class="title">返回</text>
+		</view>
 		<!-- 标题 -->
 		<view class="title" v-if="!showEditor">
 			<input type="text" v-model="infoForm.title" placeholder="请输入标题(5-20个字)" maxlength="20" />
@@ -199,6 +204,7 @@
 					isShowBackBtn: true,
 					backBtnColor: "black"
 				},
+				height: {},
 				// 分类列表
 				categoryList: [{
 						id: 1,
@@ -267,8 +273,11 @@
 				this.flag = 2
 				this.getInfoDetail(options.id)
 			}
+			if (this.flag != 2)
+				this.getLocalInfoForm()
 		},
 		created() {
+			this.height = uni.getStorageSync('height')
 			uni.onKeyboardHeightChange(res => {
 				// console.log(res.height)
 				this.keyboardHeight = res.height
@@ -312,7 +321,6 @@
 					}
 				]
 			}
-			this.getLocalInfoForm()
 		},
 		methods: {
 			// 获得本地暂存
@@ -343,10 +351,10 @@
 				})
 				// console.log(res)
 				this.infoForm = res.data.info
+				this.infoForm.category = this.getUpdateCate()
 				this.editorCtx.setContents({
 					html: this.infoForm.content
 				})
-				this.infoForm.category = this.getUpdateCate()
 			},
 			// 选择类型
 			selectCategory(e) {
@@ -362,6 +370,11 @@
 				let that = this
 				uni.createSelectorQuery().select('#editor').context(function(res) {
 					that.editorCtx = res.context;
+
+					that.editorCtx.setContents({
+						html: that.infoForm.content
+					})
+
 				}).exec();
 			},
 			// 样式改变时
@@ -659,7 +672,24 @@
 	.submitContainer {
 		background-color: #fff;
 		max-height: 100vh;
+
 		// overflow-y: hidden;
+		.setBack {
+			display: flex;
+			align-items: center;
+			width: 90%;
+			margin: 0 auto;
+			color: #000;
+			font-weight: bold;
+
+			.iconfont {
+				margin-right: 20rpx;
+			}
+
+			.title {
+				font-size: 34rpx;
+			}
+		}
 
 		.title {
 			border-bottom: 4rpx solid #eee;

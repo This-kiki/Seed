@@ -393,6 +393,12 @@ export class Api {
 		let res = await flyio.get(`/pro/resume/getPublishDetail?id=${data.id}`)
 		return res.data
 	}
+	
+	// 简历详情 openid
+	getResumeDetailOpenid = async (data) => {
+		let res = await flyio.get(`/pro/resume/getByOpenid?openid=${data.openid}`)
+		return res.data
+	}
 
 	// 简历导出
 	getResumePdf = async (data) => {
