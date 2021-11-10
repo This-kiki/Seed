@@ -423,6 +423,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/Mine/ActivityPage/ActivityPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

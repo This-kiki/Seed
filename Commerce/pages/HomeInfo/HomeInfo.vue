@@ -19,12 +19,19 @@
 					分享
 				</view>
 			</button> -->
-			<view class="share" @click="uninterested">
-				<view class="iconfont share-icon">
-					&#xe8b6;
-				</view>
-				<view class="share-content">
-					不感兴趣
+			<view style="height: 100%;width: 100%;padding: 30rpx 0;">
+				<view class="share" @click="uninterested">
+					<view class="iconfont share-icon">
+						&#xe8b6;
+					</view>
+					<view class="share-content">
+						<view>
+							不感兴趣
+						</view>
+						<view style="color: #bcbcbc;font-size: 24rpx;font-weight: 600;">
+							减少此类推荐
+						</view>
+					</view>
 				</view>
 			</view>
 		</u-popup>
@@ -185,14 +192,14 @@
 			border: 0 !important;
 			outline: none;
 			background-color: rgb(255, 255, 255);
-
+		
 			.share-icon {
 				font-size: 40rpx;
 				font-weight: 800;
 				color: rgb(130, 130, 130);
-				margin: 0 30rpx 0 40rpx;
+				margin: 0 30rpx 0 50rpx;
 			}
-
+		
 			.share-content {
 				font-size: 30rpx;
 				font-weight: 800;

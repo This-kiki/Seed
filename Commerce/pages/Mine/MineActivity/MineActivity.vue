@@ -1,9 +1,29 @@
 <template>
-	<view class="body">
+	<view class="infoContainer">
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
-		<view v-if="!dataList[0]" class="white-bord">您还未参加活动哦，快去参加吧</view>
-		<scroll-view v-if="dataList[0]" class="act-list" :style="{'height':height.swiperHeight+50+'px'}" scroll-y="true"
+		<view class="selectLine">
+			<view class="select" v-for="item in selectLine" :key="item.id" :class="current==item.id?'selectActive':''"
+				@click="goSwiper(item.id)">
+				{{item.name}}
+			</view>
+		</view>
+		<view class="swiperContainer">
+			<swiper class="swiper" @change="changeSwiper" :current="current"
+				:style="{height:height.swiperHeight+40+'px'}">
+				<swiper-item class="swiperItem">
+					<activityPage :height="height.swiperHeight+40" :status="0" />
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<activityPage :height="height.swiperHeight+40" :status="1" />
+				</swiper-item>
+				<swiper-item class="swiperItem">
+					<activityPage :height="height.swiperHeight+40" :status="2" />
+				</swiper-item>
+			</swiper>
+		</view>
+		
+		<!-- <scroll-view v-if="dataList[0]" class="act-list" :style="{'height':height.swiperHeight+50+'px'}" scroll-y="true"
 			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
 			@scrolltolower="loadMore">
 			<slot slot="content" class="act-list">
@@ -13,15 +33,15 @@
 				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
 			</slot>
-		</scroll-view>
+		</scroll-view> -->
 	</view>
 </template>
 
 <script>
-	import activityCard from '../../Activity/activity-card/index.vue'
+	import activityPage from '../ActivityPage/ActivityPage'
 	export default {
 		components: {
-			activityCard
+			activityPage
 		},
 		data() {
 			return {
@@ -32,171 +52,98 @@
 					isShowBackBtn: true,
 					backBtnColor: 'black'
 				},
-				dataList: [],
-				current: 1,
-				height: {},
-				loading: false,
-				loadmore: true,
-				loadmoreText: "加载更多",
-				springback: false
+				current: 0,
+				selectLine: [{
+						id: 0,
+						name: "未审核"
+					},
+					{
+						id: 1,
+						name: "已通过"
+					},
+					{
+						id: 2,
+						name: "被驳回"
+					},
+				],
+				height: {}
 			};
 		},
 		mounted() {
 			this.height = uni.getStorageSync('height')
-			this.getActivity();
+			// console.log('sssss',this.height)
 		},
 		methods: {
-			refresh() {
-				this.loading = true
-				this.current = 1
-				this.dataList = []
-				this.springback = false
-				this.loadmore = true
-				this.loadmoreText = "加载更多"
-				this.getActivity()
+			// 选择
+			goSwiper(id) {
+				this.current = id
 			},
-			loadMore() {
-				this.current++
-				this.loadmoreText = "正在加载中"
-				this.getActivity()
-			},
-			go(id) {
-				uni.navigateTo({
-					url: '../../Activity/ActivityInfo/ActivityInfo?activityId=' + id
-				});
-			},
-			getActivity() {
-				let data = {
-					current: this.current,
-					limit: 10
-				}
-				this.$api.getActivityState(data).then(res => {
-					var resp = res.data.data.act;
-					let list = resp;
-					if (list.length == 0) {
-						this.loadmore = false
-						this.springback = true
-						setTimeout(() => {
-							this.springback = false
-						}, 800)
-					} else {
-						this.dataList.push.apply(this.dataList, list)
-					}
-					setTimeout(() => {
-						this.loading = false
-					}, 300)
-				});
-			},
-			formatMsgTime(timespan) {
-				var time = timespan.replace(new RegExp(/-/gm), "/");
-				var dateTime = new Date(time); // 将传进来的字符串或者毫秒转为标准时间
-				let year = dateTime.getFullYear();
-				let month = dateTime.getMonth() + 1;
-				let day = dateTime.getDate();
-				let hour = dateTime.getHours()
-				let minute = dateTime.getMinutes()
-				let second = dateTime.getSeconds()
-				let millisecond = dateTime.getTime(); // 将当前编辑的时间转换为毫秒
-				let now = new Date(); // 获取本机当前的时间
-				let nowNew = now.getTime(); // 将本机的时间转换为毫秒
-				let milliseconds = 0;
-				let timeSpanStr;
-				milliseconds = nowNew - millisecond;
-				if (milliseconds <= 1000 * 60 * 1) {
-					// 小于一分钟展示为刚刚
-					timeSpanStr = '刚刚';
-				} else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
-					// 大于一分钟小于一小时展示为分钟
-					timeSpanStr = Math.round(milliseconds / (1000 * 60)) + ' 分钟前';
-				} else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
-					// 大于一小时小于一天展示为小时
-					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + ' 小时前';
-				} else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
-					// 大于一天小于十五天展示位天
-					timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + ' 天前';
-				} else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year === now.getFullYear()) {
-					timeSpanStr = month + '-' + day;
-				} else {
-					timeSpanStr = year + '-' + month + '-' + day;
-				}
-				return timeSpanStr;
+			// 当swiper滑动时
+			changeSwiper(e) {
+				let detail = e.detail
+				this.current = detail.current
 			},
 		}
 	};
 </script>
 
-<style>
-	.body {
-		min-height: 100vh;
-		background-color: rgb(243, 243, 243);
-	}
 
-	.act-list {
-		background-color: rgb(243, 243, 243);
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-	}
+<style lang="scss">
+	.infoContainer {
 
-	.act-list-item {
-		background-color: rgb(255, 255, 255);
-		padding: 20rpx 0;
-		margin: 10rpx 0;
-		width: 95%;
-		border-radius: 10rpx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		box-shadow: 0px 0px 3px rgb(234, 234, 234);
-	}
+		.selectLine {
+			width: 100%;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			margin: 0 auto;
+			background-color: #f5f5f5;
 
-	.act-list-item:active {
-		background-color: #e9eaec;
-	}
+			.select {
+				width: 25%;
+				height: 40px;
+				text-align: center;
+				line-height: 40px;
+				transition: 0.2s ease-in-out;
+				position: relative;
+				font-size: 26rpx;
+				color: #333;
+			}
 
-	.act-title {
-		width: 92%;
-		display: flex;
-		align-items: center;
-		font-size: 30rpx;
-		font-weight: 800;
-		color: #484848;
-		letter-spacing: 5rpx;
-	}
+			.select:after {
+				content: "";
+			}
 
-	.apply-time {
-		font-size: 25rpx;
-		color: #7a7a7a;
-	}
+			.selectActive {
+				font-size: 30rpx;
+				font-weight: bold;
+				transition: 0.2s ease-in-out;
+				position: relative;
+				color: #151515;
+			}
 
-	.act-state {
-		margin-top: 30rpx;
-		width: 92%;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-	}
+			.selectActive:after {
+				content: "";
+				width: 26rpx;
+				height: 6rpx;
+				border-radius: 3rpx;
+				background-color: #36c1ba;
+				position: absolute;
+				bottom: 0;
+				right: 42%;
+				transition: 0.2s ease-in-out;
+			}
+		}
 
-	.white-bord {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100vw;
-		height: 100vh;
-		font-size: 35rpx;
-	}
-
-
-	.loadMore {
-		width: 100%;
-		text-align: center;
-		height: 80rpx;
-		font-size: 25rpx;
-		letter-spacing: 5rpx;
-		color: rgb(175, 175, 175);
-		margin-top: 30rpx;
+		.swiperContainer {
+			.swiper {
+				.swiperItem {
+					height: 100%;
+					background-color: #f5f5f5;
+					overflow-y: scroll;
+				}
+			}
+		}
 	}
 </style>

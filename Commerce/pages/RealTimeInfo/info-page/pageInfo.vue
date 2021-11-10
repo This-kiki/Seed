@@ -11,7 +11,7 @@
 				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
-		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
+		<u-popup v-model="dialog" height="150" mode="bottom" border-radius="15">
 			<!-- <button open-type="share" class="share" @click="uninterested">
 				<view class="iconfont share-icon">
 					&#xe8b6;
@@ -20,15 +20,23 @@
 					不感兴趣
 				</view>
 			</button> -->
-			<view class="share" @click="uninterested">
-				<view class="iconfont share-icon">
-					&#xe8b6;
-				</view>
-				<view class="share-content">
-					不感兴趣
+			<view style="height: 100%;width: 100%;padding: 30rpx 0;">
+				<view class="share" @click="uninterested">
+					<view class="iconfont share-icon">
+						&#xe8b6;
+					</view>
+					<view class="share-content">
+						<view>
+							不感兴趣
+						</view>
+						<view style="color: #bcbcbc;font-size: 24rpx;font-weight: 600;">
+							减少此类推荐
+						</view>
+					</view>
 				</view>
 			</view>
 		</u-popup>
+	</view>
 	</view>
 </template>
 
@@ -66,10 +74,10 @@
 				}
 				this.$api.uninterestedInfo(getAPI).then((res) => {
 					console.log(res)
-					for(let i=0;i<this.list.length;i++) {
-						if(this.list[i].id == this.shareId) {
+					for (let i = 0; i < this.list.length; i++) {
+						if (this.list[i].id == this.shareId) {
 							// console.log(this.shareId,'删除了',this.list[i])
-							this.list.splice(i,1);
+							this.list.splice(i, 1);
 						}
 					}
 				})
@@ -240,7 +248,7 @@
 			font-size: 40rpx;
 			font-weight: 800;
 			color: rgb(130, 130, 130);
-			margin: 0 30rpx 0 20rpx;
+			margin: 0 30rpx 0 50rpx;
 		}
 
 		.share-content {

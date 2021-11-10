@@ -62,11 +62,11 @@
 						summary: res.data.info.simpleContent,
 					});
 				})
-				this.dialog = false
+				// this.dialog = false
 			},
 			dialogFather(id) {
 				this.shareId = id
-				this.dialog = true
+				// this.dialog = true
 			},
 			refresh() {
 				this.loading = true

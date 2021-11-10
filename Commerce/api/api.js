@@ -82,7 +82,7 @@ export class Api {
 
 	// 获取活动状态情况
 	getActivityState = async (data) => {
-		let res = await flyio.get(`/activity/queryApply/${data.current}/${data.limit}`)
+		let res = await flyio.get(`/activity/queryApply/${data.current}/${data.limit}`,data)
 		return res
 	}
 
