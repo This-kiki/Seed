@@ -273,6 +273,8 @@
 				this.flag = 2
 				this.getInfoDetail(options.id)
 			}
+			if (this.flag != 2)
+				this.getLocalInfoForm()
 		},
 		created() {
 			this.height = uni.getStorageSync('height')
@@ -319,12 +321,8 @@
 					}
 				]
 			}
-			this.getLocalInfoForm()
 		},
 		methods: {
-			qqq() {
-				console.log(1)
-			},
 			// 获得本地暂存
 			getLocalInfoForm() {
 				let infoForm = uni.getStorageSync("infoForm")
@@ -353,10 +351,10 @@
 				})
 				// console.log(res)
 				this.infoForm = res.data.info
+				this.infoForm.category = this.getUpdateCate()
 				this.editorCtx.setContents({
 					html: this.infoForm.content
 				})
-				this.infoForm.category = this.getUpdateCate()
 			},
 			// 选择类型
 			selectCategory(e) {
@@ -372,6 +370,11 @@
 				let that = this
 				uni.createSelectorQuery().select('#editor').context(function(res) {
 					that.editorCtx = res.context;
+
+					that.editorCtx.setContents({
+						html: that.infoForm.content
+					})
+
 				}).exec();
 			},
 			// 样式改变时
