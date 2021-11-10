@@ -15,6 +15,12 @@
 				<input class="input-box" type="text" v-model="layerMsg.idNum" placeholder-class="place" />
 			</view>
 			<view class="picker-box">
+				<text>律师身份</text>
+				<picker class="picker" mode="selector" range-key="label" v-model="layerMsg.subLevel" @change="bindSubLevelChange" :range="sublevelList">
+					<view class="picker-text">{{ layerMsg.polity }}</view>
+				</picker>
+			</view>
+			<view class="picker-box">
 				<text>生日</text>
 				<picker class="picker" mode="date" v-model="layerMsg.birth" @change="bindDateChange">
 					<view class="picker-text">{{ layerMsg.birth ? layerMsg.birth : '' }}</view>
@@ -101,6 +107,7 @@ export default {
 				sex: 3,
 				place: '',
 				polity: '',
+				subLevel: '',
 				nation: '',
 				phone: '',
 				email: '',
@@ -112,6 +119,24 @@ export default {
 				workNum: '',
 				workplace: ''
 			},
+			sublevelList: [
+				{
+					label: '律师',
+					value: 12
+				},
+				{
+					label: '公司法务',
+					value: 13
+				},
+				{
+					label: '法官',
+					value: 14
+				},
+				{
+					label: '检察',
+					value: 15
+				},
+			],
 			polityList: [
 				{
 					label: '中共党员',
@@ -191,6 +216,9 @@ export default {
 		bindPolityChange(e) {
 			this.layerMsg.polity = this.polityList[e.detail.value].label;
 			// console.log(this.polityList[e.detail.value].label)
+		},
+		bindSubLevelChange(e) {
+			this.layerMsg.subLevel = e.detail.value
 		},
 		bindRegionChange(e) {
 			// console.log(e)
