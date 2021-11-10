@@ -423,8 +423,16 @@
             }
             
         }
+		,{
+		    "path" : "pages/Mine/ActivityPage/ActivityPage",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
-            "path" : "pages/Mine/ActivityPage/ActivityPage",
             "path" : "pages/JobRelease/CompanyInfo",
             "style" :                                                                                    
             {
