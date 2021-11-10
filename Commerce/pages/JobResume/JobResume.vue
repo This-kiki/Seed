@@ -190,7 +190,7 @@
 				</view>
 			</view>
 			<view class="btn" @click="getResumePdf()">
-				简历导出
+				导出PDF简历
 			</view>
 		</view>
 	</view>

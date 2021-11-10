@@ -6,10 +6,10 @@
 				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
 					<news-card :item="item" :ref="item.id"></news-card>
 					<view class="operate">
-						<view class="delete" @click="deleteInfo(item.id)">
+						<view class="delete" @tap.stop="deleteInfo(item.id)">
 							删除
 						</view>
-						<view class="edit" @click="editInfo(item.id)">
+						<view class="edit" @tap.stop="editInfo(item.id)">
 							修改
 						</view>
 					</view>
