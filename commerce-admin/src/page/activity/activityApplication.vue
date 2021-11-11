@@ -97,6 +97,7 @@ export default {
       this.viewVisible = true;
     },
     access() {
+      var that = this;
       console.log(this.multipleSelection);
       for (var i = 0; i < this.multipleSelection.length; i++) {
         var postAPI = {
@@ -105,7 +106,9 @@ export default {
         };
         this.$http.handleApplyActivity(postAPI).then(() => {});
       }
-      this.getAllApplyActivity();
+      setTimeout(function () {
+        that.getAllApplyActivity();
+      }, 800);
       this.$message({
         message: "审核成功",
         type: "success",

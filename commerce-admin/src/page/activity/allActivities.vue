@@ -53,86 +53,86 @@ export default {
       },
       viewVisible: false,
       actData: {},
-    }
+    };
   },
   mounted() {
-    this.getAllActivity()
+    this.getAllActivity();
   },
   methods: {
     getAllActivity() {
-      let getAPI = { current: this.current.current }
+      let getAPI = { current: this.current.current };
       this.$http.getActivity(getAPI).then((res) => {
         // console.log(res)
-        var resp = res.data.act
-        this.current.total = Math.ceil(res.data.total / 20)
+        var resp = res.data.act;
+        this.current.total = Math.ceil(res.data.total / 20);
         for (let i = 0; i < resp.length; i++) {
           if (resp[i].status == 0) {
-            resp[i].type = '进行中'
+            resp[i].type = "进行中";
           } else if (resp[i].status == 1) {
-            resp[i].type = '已结束'
+            resp[i].type = "已结束";
           } else {
-            resp[i].type = '未知'
+            resp[i].type = "未知";
           }
         }
-        this.tableData = resp
-      })
+        this.tableData = resp;
+      });
     },
     getColor(status) {
       if (status == 0) {
-        return '#32CD32'
+        return "#32CD32";
       } else if (status == 1) {
-        return '#DAA520'
+        return "#DAA520";
       } else {
-        return '#808000'
+        return "#808000";
       }
     },
     viewActivity(row) {
       var getAPI = {
         id: row.id,
-      }
+      };
       this.$http.getOneActivity(getAPI).then((res) => {
-        console.log(res.data)
-        this.actData = res.data.acts
-      })
-      this.viewVisible = true
+        console.log(res.data);
+        this.actData = res.data.acts;
+      });
+      this.viewVisible = true;
     },
     endActivity(row) {
       var postAPI = {
         id: row.id,
         status: 1,
-      }
+      };
       this.$http.editActivity(postAPI).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '已结束活动',
-            type: 'success',
-          })
-          this.getAllActivity()
+            message: "已结束活动",
+            type: "success",
+          });
+          this.getAllActivity();
         }
-      })
+      });
     },
     editActivity(row) {
       this.$router.push({
-        path: '/index/releaseActivities',
+        path: "/index/releaseActivities",
         query: { id: row.id },
-      })
+      });
     },
     deleteActivity(row) {
       // console.log(row)
-      var postAPI = { actid: row.id }
+      var postAPI = { actid: row.id };
       this.$http.deleteActivity(postAPI).then((res) => {
         // console.log(res)
         if (res.code == 20000) {
           this.$message({
-            message: '删除成功',
-            type: 'success',
-          })
-          this.getAllActivity()
+            message: "删除成功",
+            type: "success",
+          });
+          this.getAllActivity();
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 <style scoped>
 </style>
