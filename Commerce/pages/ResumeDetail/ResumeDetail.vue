@@ -173,6 +173,8 @@
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #f1f1f1;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.userinfo {
 			width: 94%;

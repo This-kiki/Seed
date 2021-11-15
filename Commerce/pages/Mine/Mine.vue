@@ -204,6 +204,8 @@
 		min-height: 100vh;
 		width: 100vw;
 		background-color: rgb(250, 250, 250);
+		user-select: text;
+		-webkit-user-select: text;
 
 		.m-top {
 			background-color: rgb(255, 255, 255);

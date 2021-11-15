@@ -78,6 +78,8 @@
 	.searchContainer {
 		background-color: #f5f5f5;
 		min-height: 100vh;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.inputLine {
 			box-sizing: border-box;

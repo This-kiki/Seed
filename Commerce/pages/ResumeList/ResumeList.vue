@@ -111,6 +111,7 @@
 			},
 			// 获得简历列表
 			async getResumeList() {
+				this.resumeSearch.state = this.resumeSearch.state == 2 ? '' : this.resumeSearch.state
 				let data = {
 					current: this.current,
 					limit: 10,
@@ -145,6 +146,8 @@
 <style lang="scss">
 	.resumeContainer {
 		background-color: #f5f5f5;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.resumeList {
 			margin: 0 auto;

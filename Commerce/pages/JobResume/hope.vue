@@ -26,7 +26,9 @@
 			</view>
 			<view class="common">
 				<text class="name">期望薪资</text>
-				<input type="text" v-model="info.pay" placeholder="请填写期望薪资" />
+				<picker class="picker" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+					<view class="picker">{{info.pay?info.pay:"请选择期望薪资"}}</view>
+				</picker>
 			</view>
 		</view>
 		<view class="btn" @click="addResume()">
@@ -56,6 +58,15 @@
 						id: 1
 					},
 				],
+				rewardList: [
+					['1k', '2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+						'16k', '17k', '18k', '19k', '20k', '其他'
+					],
+					['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k', '16k',
+						'17k', '18k', '19k', '20k', '21k', '其他'
+					],
+					['12薪', '13薪', '14薪', '15薪', '16薪', '17薪', '18薪', '其他']
+				],
 			};
 		},
 		onShow() {
@@ -75,6 +86,10 @@
 				if (!this.info.city) {
 					this.info.city = ["北京市", "北京市", "东城区"]
 				}
+			},
+			selectReward(e) {
+				this.info.pay =
+					`${this.rewardList[0][e.detail.value[0]]}-${this.rewardList[1][e.detail.value[1]]} ${this.rewardList[2][e.detail.value[2]]}`
 			},
 			statePicker(e) {
 				this.info.state = parseInt(e.detail.value)

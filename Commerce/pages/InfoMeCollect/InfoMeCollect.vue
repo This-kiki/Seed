@@ -124,6 +124,8 @@
 <style lang="scss">
 	.homeInfoContainer {
 		overflow-y: scroll;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.infoList {
 			margin: 0rpx auto;

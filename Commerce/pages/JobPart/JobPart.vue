@@ -115,7 +115,7 @@
 					setTimeout(() => {
 						this.springback = false
 					}, 800)
-					if (this.isSearch) {
+					if (this.isSearch && this.current == 1) {
 						uni.showToast({
 							icon: "none",
 							title: "搜索结果为空"
@@ -157,6 +157,8 @@
 <style lang="scss">
 	.jobContainer {
 		background-color: #f5f5f5;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.jobList {
 

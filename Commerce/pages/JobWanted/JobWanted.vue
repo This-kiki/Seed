@@ -25,15 +25,16 @@
 			</view>
 		</view>
 		<view class="inputLine resumeList" v-if="current==4">
-			<picker @change="statePicker" range-key="name" :value="index" :range="stateList">
-				<view class="text">{{stateList[resumeSearch.state?resumeSearch.state:0].name}}</view>
+			<picker class="resumeInput" @change="statePicker" range-key="name" :value="index" :range="stateList">
+				<input type="text" :value="stateList[resumeSearch.state].name" placeholder="状态" disabled />
 			</picker>
-			<input type="text" v-model="resumeSearch.position" placeholder="职位" @focus="showBtn=true"
+			<input class="resumeInput" type="text" v-model="resumeSearch.position" placeholder="职位"
+				@focus="showBtn=true" @blur="showBtn=false" />
+			<input class="resumeInput" type="text" v-model="resumeSearch.city" placeholder="城市" @focus="showBtn=true"
 				@blur="showBtn=false" />
-			<input type="text" v-model="resumeSearch.city" placeholder="城市" @focus="showBtn=true"
-				@blur="showBtn=false" />
-			<input type="text" v-model="resumeSearch.pay" placeholder="薪资" @focus="showBtn=true"
-				@blur="showBtn=false" />
+			<picker class="resumeInput" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+				<input type="text" :value="resumeSearch.pay" placeholder="薪资" disabled />
+			</picker>
 			<view class="searchBtn" v-if="showBtn" @click="searchResume()">
 				搜索
 			</view>
@@ -152,24 +153,36 @@
 					{
 						name: "在职",
 						id: 1
-					},
+					}, {
+						name: "不限",
+						id: 3
+					}
 				],
 				// 提交表单后刷新
-				isSubmit: true
+				isSubmit: true,
+				rewardList: [
+					['1k', '2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+						'16k', '17k', '18k', '19k', '20k', '其他'
+					],
+					['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k', '16k',
+						'17k', '18k', '19k', '20k', '21k', '其他'
+					],
+					['12薪', '13薪', '14薪', '15薪', '16薪', '17薪', '18薪', '其他']
+				],
 			}
 		},
-		computed:{
-			storeSubmit(){
+		computed: {
+			storeSubmit() {
 				return this.$store.state.isSubmit
 			}
 		},
-		watch:{
-			storeSubmit(){
+		watch: {
+			storeSubmit() {
 				this.isSubmit = false
 				setTimeout(() => {
 					this.isSubmit = true
 				}, 100)
-				this.$store.dispatch('setSubmit',false)
+				this.$store.dispatch('setSubmit', false)
 			}
 		},
 		onLoad() {
@@ -183,8 +196,14 @@
 			}, 400)
 		},
 		methods: {
+			selectReward(e) {
+				this.resumeSearch.pay =
+					`${this.rewardList[0][e.detail.value[0]]}-${this.rewardList[1][e.detail.value[1]]} ${this.rewardList[2][e.detail.value[2]]}`
+				this.showBtn = true
+			},
 			statePicker(e) {
 				this.resumeSearch.state = parseInt(e.detail.value)
+				this.showBtn = true
 			},
 			// 选择
 			goSwiper(id) {
@@ -421,8 +440,7 @@
 
 		.resumeList {
 
-			input,
-			picker {
+			.resumeInput {
 				width: 15%;
 				height: 60rpx;
 				line-height: 60rpx;
@@ -434,6 +452,8 @@
 				letter-spacing: 1rpx;
 				transition: 0.2s ease-in-out;
 				margin-right: 20rpx;
+				display: flex;
+				align-items: center;
 			}
 		}
 

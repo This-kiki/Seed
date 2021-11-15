@@ -56,7 +56,7 @@
 						content: "请申请入会",
 						showCancel: false
 					})
-				}else{
+				} else {
 					this.seeDetail(openId)
 				}
 			},
@@ -67,6 +67,8 @@
 <style lang="scss">
 	.CompanyListContainer {
 		padding-bottom: 50rpx;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContaienr {
 			width: 96%;

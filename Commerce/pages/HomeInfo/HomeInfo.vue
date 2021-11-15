@@ -69,10 +69,10 @@
 				}
 				this.$api.uninterestedInfo(getAPI).then((res) => {
 					console.log(res)
-					for(let i=0;i<this.topList.length;i++) {
-						if(this.topList[i].id == this.shareId) {
+					for (let i = 0; i < this.topList.length; i++) {
+						if (this.topList[i].id == this.shareId) {
 							// console.log(this.shareId,'删除了',this.topList[i])
-							this.topList.splice(i,1);
+							this.topList.splice(i, 1);
 						}
 					}
 				})
@@ -167,6 +167,8 @@
 
 <style lang="scss">
 	.homeInfoContainer {
+		user-select: text;
+		-webkit-user-select: text;
 
 		.infoList {
 			margin: 0rpx auto;
@@ -192,14 +194,14 @@
 			border: 0 !important;
 			outline: none;
 			background-color: rgb(255, 255, 255);
-		
+
 			.share-icon {
 				font-size: 40rpx;
 				font-weight: 800;
 				color: rgb(130, 130, 130);
 				margin: 0 30rpx 0 50rpx;
 			}
-		
+
 			.share-content {
 				font-size: 30rpx;
 				font-weight: 800;

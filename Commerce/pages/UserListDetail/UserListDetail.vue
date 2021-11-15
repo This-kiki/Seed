@@ -181,6 +181,8 @@
 	.detailContainer {
 		min-height: 100vh;
 		background-color: #F5f5f5;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContaienr {
 			.userCard {

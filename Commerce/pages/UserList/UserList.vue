@@ -120,6 +120,8 @@
 <style lang="scss" scoped>
 	.UserListContainer {
 		padding-bottom: 50rpx;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContaienr {
 			width: 96%;

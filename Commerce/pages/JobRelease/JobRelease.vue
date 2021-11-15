@@ -49,12 +49,12 @@
 				<input type="text" v-model="jobInfo.place" placeholder="请填写工作地点" @input="changeInput()" />
 			</view>
 			<view class="common" v-if="identity!=3">
-				<text>公司名称</text>
-				<input type="text" v-model="jobInfo.companyName" placeholder="请填写公司名称" @input="changeInput()" />
+				<text>招聘单位</text>
+				<input type="text" v-model="jobInfo.companyName" placeholder="选填" @input="changeInput()" />
 			</view>
 			<view class="common" v-if="identity!=3" @click="goCompanyInfo()">
-				<text>公司详情</text>
-				<input type="text" v-model="jobInfo.companyInfo" placeholder="请填写公司详情" />
+				<text>招聘单位详情</text>
+				<input type="text" v-model="jobInfo.companyInfo" placeholder="选填" />
 			</view>
 			<view class="release" @click="releaseJobNeed()">
 				发布
@@ -236,7 +236,8 @@
 					return
 				}
 				for (let key in this.jobInfo) {
-					if (this.jobInfo[key] == "" && key != 'classfication') {
+					if (this.jobInfo[key] == "" && key != 'classfication' && key != 'companyInfo' && key !=
+						'companyName') {
 						uni.showToast({
 							icon: "none",
 							title: "请将信息填写完整"
@@ -248,7 +249,7 @@
 					let that = this
 					uni.showModal({
 						title: '免责声明',
-						content: '免责声明免责声明免责声明免责声明免责声明',
+						content: '所填内容仅代表用户个人想法，与平台无关。',
 						success: async function(res) {
 							if (res.confirm) {
 								let res = await that.$api.releaseJobNeed(that.jobInfo)
@@ -329,6 +330,8 @@
 		box-sizing: border-box;
 		min-height: 100vh;
 		background-color: #f1f1f1;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContainer {
 			width: 100%;

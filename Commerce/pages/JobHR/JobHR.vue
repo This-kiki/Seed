@@ -250,6 +250,8 @@
 		height: 100vh;
 		background-color: #f5f5f5;
 		overflow-y: hidden;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.inputLine {
 			box-sizing: border-box;

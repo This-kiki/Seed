@@ -85,6 +85,8 @@
 
 <style lang="scss">
 	.seedInfo {
+		user-select: text;
+		-webkit-user-select: text;
 
 		.selectLine {
 			width: 100%;

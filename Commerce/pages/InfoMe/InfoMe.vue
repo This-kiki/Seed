@@ -71,6 +71,8 @@
 
 <style lang="scss">
 	.infoContainer {
+		user-select: text;
+		-webkit-user-select: text;
 
 		.selectLine {
 			width: 100%;

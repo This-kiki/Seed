@@ -272,6 +272,7 @@
 				this.setNav.navTitle = "修改资讯"
 				this.flag = 2
 				this.getInfoDetail(options.id)
+				this.showOperate = true
 			}
 			if (this.flag != 2)
 				this.getLocalInfoForm()

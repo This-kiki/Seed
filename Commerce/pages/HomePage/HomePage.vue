@@ -195,6 +195,8 @@
 		background-color: #ffffff;
 		position: relative;
 		overflow-y: hidden;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.topLine {
 			position: fixed;

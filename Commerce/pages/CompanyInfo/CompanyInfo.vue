@@ -190,6 +190,8 @@
 		padding-top: 20rpx;
 		padding-bottom: 50rpx;
 		background-color: #F5f5f5;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.swiperContainer {
 			width: 100%;

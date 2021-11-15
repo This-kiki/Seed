@@ -360,6 +360,8 @@
 		background-color: #fff;
 		min-height: 100vh;
 		box-sizing: border-box;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.mainContaienr {
 			.workInfo {

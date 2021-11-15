@@ -183,6 +183,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.search-bar {
 			width: 90%;
