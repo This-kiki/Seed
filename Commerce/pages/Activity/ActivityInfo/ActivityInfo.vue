@@ -3,17 +3,6 @@
 		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
 		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png"></u-image>
 		<view class="content">
-			<!-- <view class="content-reaction">
-				<view class="content-reaction-bot-btn">
-					<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
-					</u-button>
-					<u-button plain type="warning" ripple size="mini" @click="cancelActivity" v-if="apply == 1">取消报名
-					</u-button>
-					<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
-					<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
-				</view>
-				<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
-			</view> -->
 			<view class="content-title">
 				{{ dataForm.name }}
 			</view>
@@ -65,6 +54,7 @@
 		</view>
 		<u-toast ref="uToast" />
 		<view class="content-reaction">
+			<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
 			<view class="content-reaction-bot-btn">
 				<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
 				</u-button>
@@ -73,7 +63,6 @@
 				<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
 				<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
 			</view>
-			<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
 		</view>
 	</view>
 </template>
@@ -186,6 +175,7 @@
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
 			position: relative;
 			top: -150rpx;
+			padding: 30rpx 0 10rpx 0;
 
 			.content-title {
 				margin: 0 auto;
@@ -232,7 +222,7 @@
 		.contenttext {
 			margin: 0 auto;
 			width: 93%;
-			top: -140rpx;
+			top: -120rpx;
 			background-color: #ffffff;
 			box-shadow: 0px 0px 2px rgb(111, 111, 111);
 			position: relative;
@@ -255,24 +245,25 @@
 
 		}
 		.content-reaction {
-			position: relative;
-			top: -160rpx;
+			position: fixed;
+			z-index: 100;
+			bottom: 0rpx;
 			display: flex;
 			flex-direction: row;
 			justify-content: flex-end;
 			align-items: center;
-			padding: 0 50rpx;
+			height: 100rpx;
+			width: 100vw;
+			background-color: #f9f9f9;
+			border-top: 1rpx solid #e1e1e1;
 		
 			.content-reaction-bot-btn {
-				margin-right: 30rpx;
+				margin: 0 30rpx;
 			}
 		
 			.content-reaction-like {
-				// height: 60rpx;
-				// width: 60rpx;
 				border-radius: 35rpx;
 				background-color: rgb(255, 255, 255);
-				// box-shadow: 0px 0px 4px rgb(111, 111, 111);
 				display: flex;
 				justify-content: center;
 				align-items: center;

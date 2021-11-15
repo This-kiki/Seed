@@ -8,14 +8,14 @@
 				</view>
 				<view class="search">
 					<view class="search-bar">
-						<input focus="true" style="width: 90%;" type="text" v-model="content" placeholder="搜索你感兴趣的~~" />
+						<input :focus="true" style="width: 90%;" type="text" v-model="content" placeholder="搜索你感兴趣的~~" />
 						<span class="iconfont" @click="init">&#xe775;</span>
 					</view>
 				</view>
 			</view>
 			<view :style="'height:' + titleBarHeight + ';'"></view>
 		</view>
-		<scroll-view ref="scroll" :style="'height:' + 1000 + 'px;'" class="page" scroll-y="true">
+		<scroll-view @scrolltolower="loadMore" ref="scroll" :style="'height:' + height.screenHeight + 'px;'" class="page" scroll-y="true">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
@@ -52,8 +52,6 @@
 				},
 				loading: false,
 				loadmore: true,
-				loadmoreIng: false,
-				loadmoreText: '加载更多',
 				springback: false,
 
 				content: '',
@@ -67,15 +65,14 @@
 			};
 		},
 		created() {
+			this.height = uni.getStorageSync('height')
 			var that = this;
 			uni.getSystemInfo({
 				success: function(res) {
 					if (res.model.indexOf('iPhone') !== -1) {
 						that.titleBarHeight = 44 + 'px';
-						that.height = res.statusBarHeight + 44
 					} else {
 						that.titleBarHeight = 48 + 'px';
-						that.height = res.statusBarHeight + 48
 					}
 					that.statusBarHeight = res.statusBarHeight + 'px'
 				},
@@ -88,7 +85,7 @@
 					id: this.shareId
 				}
 				this.$api.uninterestedInfo(getAPI).then((res) => {
-					console.log(res)
+					// console.log(res)
 					for(let i=0;i<this.list.length;i++) {
 						if(this.list[i].id == this.shareId) {
 							// console.log(this.shareId,'删除了',this.list[i])
@@ -137,11 +134,18 @@
 								// console.log('结束了', that.loading);
 								that.loading = false;
 							}, 500);
-							console.log(this.list)
+							// console.log(this.list)
 						}
 					}
 				})
 			},
+			loadMore() {
+				var that = this
+				that.springback = true;
+				setTimeout(function() {
+					that.springback = false;
+				}, 1000);
+			}
 		}
 	};
 </script>
@@ -183,7 +187,7 @@
 			justify-content: space-between;
 			align-items: center;
 			padding: 0 25rpx;
-			color: #adadad;
+			// color: #adadad;
 			font-size: 24rpx;
 			font-weight: 500;
 			letter-spacing: 3rpx;
@@ -191,15 +195,9 @@
 	}
 
 	.page {
-		margin-top: 85rpx;
+		margin-top: 44rpx;
 		// min-height: 100vh;
-		background-color: rgb(255, 255, 255);
-		width: 100%;
-	}
-
-	.page {
-		width: 100%;
-		background-color: rgb(245, 245, 245);
+		// width: 100%;
 	}
 
 	.infoList {
