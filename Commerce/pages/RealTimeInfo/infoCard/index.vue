@@ -40,7 +40,7 @@
 				</view>
 				<view class="middle-content1-img" :style="'background-image: url('+ imagArr[0] +');'"></view>
 			</view>
-			<view class="middle-content3" v-if="imagArr.length == 3||imagArr.length == 2">
+			<view class="middle-content3" v-if="imagArr.length == 3">
 				<view class="middle-content3-text">
 					{{item.simpleContent}}
 				</view>
@@ -405,13 +405,12 @@
 					height: 150rpx;
 					margin-top: 15rpx;
 					display: flex;
-					// justify-content: space-between;
+					justify-content: space-between;
 					align-items: center;
 
 					.middle-content3-img {
 						height: 150rpx;
 						width: 33%;
-						margin-right: 0.34%;
 						border-radius: 10rpx;
 						overflow: hidden;
 						background-repeat: no-repeat;
