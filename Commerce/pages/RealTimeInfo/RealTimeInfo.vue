@@ -14,7 +14,7 @@
 			<view style="height: 40px;"></view>
 			<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish"
 				:style="'height:' + contentHeight + 'px;'">
-				<swiper-item class="swiper-item" v-for="(item, index) in items">
+				<swiper-item class="swiper-item" v-for="(item, index) in items" :key="index">
 					<Page :contentHeight="contentHeight" :pageType="item.id"></Page>
 				</swiper-item>
 			</swiper>
