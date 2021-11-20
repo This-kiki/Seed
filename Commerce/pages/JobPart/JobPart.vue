@@ -14,14 +14,14 @@
 						</view>
 					</view>
 					<view class="words">
-						<view class="item">
-							{{item.experience?item.experience:""}}
+						<view class="item" v-if="item.experience">
+							{{item.experience}}
 						</view>
-						<view class="item">
-							{{item.education?item.education:""}}
+						<view class="item" v-if="item.education">
+							{{item.education}}
 						</view>
-						<view class="item">
-							{{item.num?item.num+"人":""}}
+						<view class="item" v-if="item.num">
+							{{item.num+"人"}}
 						</view>
 						<view class="brief">
 							<view class="item" v-for="(i,index) in item.brief.slice(0,3)" :key="index">
@@ -107,7 +107,14 @@
 				let res = await this.$api.getJobList(data)
 				let nowList = res.data.list
 				nowList.forEach(item => {
-					item.brief = item.brief.split(" ")
+					let brief = []
+					let arr = item.brief.split(" ")
+					arr.forEach(ele=>{
+						if(ele){
+							brief.push(ele)
+						}
+					})
+					item.brief = brief
 				})
 				if (nowList.length == 0) {
 					this.loadmore = false
