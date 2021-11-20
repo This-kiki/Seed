@@ -12,10 +12,10 @@
 			<swiper class="swiper" @change="changeSwiper" :current="current"
 				:style="{height:height.swiperHeight-40+50+'px'}">
 				<swiper-item class="swiperItem">
-					<InfoMeRelease :height="height.swiperHeight-40+50" />
+					<InfoMeRelease :height="height.swiperHeight-40+50" v-if="isRefresh"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<InfoMeCollect :height="height.swiperHeight-40+50" />
+					<InfoMeCollect :height="height.swiperHeight-40+50" v-if="isRefresh"/>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -49,11 +49,18 @@
 						name: "我的收藏"
 					},
 				],
-				height: {}
+				height: {},
+				isRefresh:  true
 			};
 		},
 		created() {
 			this.height = uni.getStorageSync('height')
+		},
+		onShow() {
+			this.isRefresh = false
+			setTimeout(()=>{
+				this.isRefresh = true
+			},300)
 		},
 		methods: {
 			// 选择

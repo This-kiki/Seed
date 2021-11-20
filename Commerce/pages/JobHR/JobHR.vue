@@ -70,11 +70,11 @@
 		data() {
 			return {
 				setNav: {
-					titleColor: "black",
+					titleColor: "white",
 					navTitle: "我的招聘",
-					bgColor: "white",
+					bgColor: "#36c1ba",
 					isShowBackBtn: true,
-					backBtnColor: "black"
+					backBtnColor: "white"
 				},
 				// 公司id
 				companyId: "",
@@ -259,7 +259,7 @@
 			width: 100%;
 			height: 40px;
 			padding: 0 3%;
-			background-color: #fff;
+			background-color: #36c1ba;
 			padding-bottom: 20rpx;
 			display: flex;
 			justify-content: space-between;
@@ -270,7 +270,7 @@
 				height: 60rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
-				background-color: #f1f1f1;
+				background-color: #ffffff;
 				text-align: center;
 				border-radius: 14rpx;
 				letter-spacing: 1rpx;
@@ -282,7 +282,7 @@
 				width: 100rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
-				color: #4e8df6;
+				color: #ffffff;
 			}
 
 			.clearBtn {
@@ -290,7 +290,7 @@
 				width: 180rpx;
 				line-height: 60rpx;
 				padding: 0 0 0 20rpx;
-				color: #4e8df6;
+				color: #ffffff;
 			}
 		}
 

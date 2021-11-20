@@ -228,6 +228,8 @@
 		flex-direction: column;
 		align-items: center;
 		background-color: rgb(254, 254, 254);
+		user-select: text;
+		-webkit-user-select: text;
 
 		.top {
 			width: 100%;

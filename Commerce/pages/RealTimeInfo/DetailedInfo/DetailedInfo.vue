@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="mainContaienr">
 		<view class="white-bord" v-if="!dataForm">加载中</view>
 		<view v-if="dataForm">
 			<view class="info-title">{{ dataForm.title }}</view>
@@ -337,6 +337,11 @@
 </script>
 
 <style scoped>
+	.mainContaienr {
+		user-select: text;
+		-webkit-user-select: text;
+	}
+
 	.collect-box {
 		height: 100rpx;
 		width: 100%;
@@ -350,7 +355,7 @@
 		font-size: 40rpx;
 		margin: 0 20rpx;
 	}
-	
+
 	.share-icon {
 		font-size: 40rpx;
 		margin: 0 20rpx;

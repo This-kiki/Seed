@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="mainContaienr">
 		<view class="navbar">
 			<view class="header"
 				:style="{'height':titleBarHeight,'padding-top':statusBarHeight,'background':'#36c1ba'}">
@@ -8,14 +8,16 @@
 				</view>
 				<view class="search">
 					<view class="search-bar">
-						<input :focus="true" style="width: 90%;" type="text" v-model="content" placeholder="搜索你感兴趣的~~" />
+						<input :focus="true" style="width: 90%;" type="text" v-model="content"
+							placeholder="搜索你感兴趣的~~" />
 						<span class="iconfont" @click="init">&#xe775;</span>
 					</view>
 				</view>
 			</view>
 			<view :style="'height:' + titleBarHeight + ';'"></view>
 		</view>
-		<scroll-view @scrolltolower="loadMore" ref="scroll" :style="'height:' + height.screenHeight + 'px;'" class="page" scroll-y="true">
+		<scroll-view @scrolltolower="loadMore" ref="scroll" :style="'height:' + height.screenHeight + 'px;'"
+			class="page" scroll-y="true">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
 					<news-card :item="item" :ref="item.id"></news-card>
@@ -86,10 +88,10 @@
 				}
 				this.$api.uninterestedInfo(getAPI).then((res) => {
 					// console.log(res)
-					for(let i=0;i<this.list.length;i++) {
-						if(this.list[i].id == this.shareId) {
+					for (let i = 0; i < this.list.length; i++) {
+						if (this.list[i].id == this.shareId) {
 							// console.log(this.shareId,'删除了',this.list[i])
-							this.list.splice(i,1);
+							this.list.splice(i, 1);
 						}
 					}
 				})
@@ -151,6 +153,11 @@
 </script>
 
 <style lang="scss" scoped>
+	.mainContaienr {
+		user-select: text;
+		-webkit-user-select: text;
+	}
+
 	.header {
 		box-sizing: content-box;
 		display: flex;

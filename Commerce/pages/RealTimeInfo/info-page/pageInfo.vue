@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="mainContaienr">
 		<scroll-view ref="scroll" :style="'height:' + contentHeight + 'px;'" class="page" scroll-y="true"
 			refresher-enabled="true" :refresher-triggered="loading" @refresherrefresh="refresh"
 			@scrolltolower="loadMore">
@@ -215,6 +215,11 @@
 </script>
 
 <style lang="scss">
+	.mainContaienr {
+		user-select: text;
+		-webkit-user-select: text;
+	}
+
 	.page {
 		width: 100%;
 		background-color: rgb(245, 245, 245);

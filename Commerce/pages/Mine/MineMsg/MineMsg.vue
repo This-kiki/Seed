@@ -238,6 +238,8 @@
 <style lang="scss">
 	.body {
 		width: 100%;
+		user-select: text;
+		-webkit-user-select: text;
 	}
 
 	.container {

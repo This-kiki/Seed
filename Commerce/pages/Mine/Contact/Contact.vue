@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="mainContaienr">
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
 		<view class="contactContainer infoContainer">
@@ -82,6 +82,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.mainContaienr {
+		user-select: text;
+		-webkit-user-select: text;
+	}
 	.contactContainer {
 		margin-top: 0;
 

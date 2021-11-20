@@ -480,8 +480,8 @@
 				this.editorCtx.getContents({
 					success: function(res) {
 						that.infoForm.content = res.html
-						that.infoForm.category = that.getRealCategory()
-						console.log(that.infoForm)
+						// that.infoForm.category = that.getRealCategory()
+						// console.log(that.infoForm)
 						uni.showModal({
 							title: '提示',
 							content: '确定发布？',
@@ -563,6 +563,7 @@
 			},
 			// 发布资讯
 			async submitInfo() {
+				this.infoForm.category = this.getRealCategory()
 				let res = await this.$api.submitInfo(this.infoForm)
 				if (res.code == 20000) {
 					uni.showModal({
@@ -587,6 +588,7 @@
 			// 修改资讯
 			async editInfo() {
 				this.infoForm.id = this.editId
+				this.infoForm.category = this.getRealCategory()
 				let res = await this.$api.updateInfo(this.infoForm)
 				if (res.code == 20000) {
 					uni.showToast({

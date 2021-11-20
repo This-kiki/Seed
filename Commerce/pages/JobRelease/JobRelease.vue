@@ -159,6 +159,10 @@
 					{
 						id: 6,
 						name: "博士"
+					},
+					{
+						id: 7,
+						name: "不限"
 					}
 				],
 				rewardList: [

@@ -221,6 +221,8 @@
 	} */
 	.homeInfoContainer {
 		overflow-y: scroll;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.white-bord {
 			display: flex;
