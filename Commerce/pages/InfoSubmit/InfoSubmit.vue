@@ -297,16 +297,25 @@
 					{
 						id: 6,
 						name: "知识板块"
+					},
+					{
+						id: 4,
+						name: "家乡新闻"
 					}
 				]
 			} else if (this.identity == 2) {
 				this.categoryList = [{
-					id: 5,
-					name: "普通资讯"
-				}, {
-					id: 7,
-					name: "法律常识"
-				}]
+						id: 5,
+						name: "普通资讯"
+					}, {
+						id: 7,
+						name: "法律常识"
+					},
+					{
+						id: 4,
+						name: "家乡新闻"
+					}
+				]
 			} else if (this.identity == 3) {
 				this.categoryList = [{
 						id: 3,
@@ -319,6 +328,10 @@
 					{
 						id: 6,
 						name: "知识板块"
+					},
+					{
+						id: 4,
+						name: "家乡新闻"
 					}
 				]
 			}
@@ -510,14 +523,18 @@
 						case 5:
 							return 1;
 						case 6:
-							return 2
+							return 2;
+						case 4:
+							return 3;
 					}
 				} else if (this.identity == 2) {
 					switch (num) {
 						case 5:
 							return 0;
 						case 7:
-							return 1
+							return 1;
+						case 4:
+							return 2;
 					}
 				} else if (this.identity == 3) {
 					switch (num) {
@@ -526,7 +543,9 @@
 						case 5:
 							return 1;
 						case 6:
-							return 2
+							return 2;
+						case 4:
+							return 3;
 					}
 				}
 			},
@@ -541,14 +560,18 @@
 						case 1:
 							return 5;
 						case 2:
-							return 6
+							return 6;
+						case 3:
+							return 4;
 					}
 				} else if (this.identity == 2) {
 					switch (num) {
 						case 0:
 							return 5;
 						case 1:
-							return 7
+							return 7;
+						case 2:
+							return 4;
 					}
 				} else if (this.identity == 3) {
 					switch (num) {
@@ -557,7 +580,9 @@
 						case 1:
 							return 5;
 						case 2:
-							return 6
+							return 6;
+						case 3:
+							return 4;
 					}
 				}
 			},
