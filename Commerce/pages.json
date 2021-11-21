@@ -46,7 +46,8 @@
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"backgroundColor":"#fafafa"
 			}
 
 		}, {
@@ -96,7 +97,8 @@
 			"path": "pages/Activity/ActivityInfo/ActivityInfo",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"backgroundColor":"#f8f8f8"
 			}
 
 		}, {

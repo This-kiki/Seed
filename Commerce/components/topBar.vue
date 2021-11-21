@@ -8,7 +8,7 @@
 			}" />
 			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
 			<view class="search" v-if="nav.isSearch">
-				<view class="search-bar" @click="go()">搜索你感兴趣的~~</view>
+				<view class="search-bar" @click="go()">输入关键字搜索</view>
 			</view>
 		</view>
 		<!-- <view :style="{'height':titleBarHeight,'padding-top':statusBarHeight}"></view> -->
@@ -100,14 +100,13 @@
 
 		.search-bar {
 			width: 90%;
-			height: 50rpx;
-			border-radius: 40rpx;
+			height: 45rpx;
+			border-radius: 10rpx;
 			border: 1rpx solid #f0f0f0;
 			background-color: rgb(248, 248, 248);
 			display: flex;
-			justify-content: flex-start;
+			justify-content: center;
 			align-items: center;
-			padding-left: 25rpx;
 			color: #adadad;
 			font-size: 24rpx;
 			font-weight: 500;

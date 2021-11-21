@@ -7,11 +7,21 @@
 					&#xe613;
 				</view>
 				<view class="search">
-					<view class="search-bar">
+					<view class="inputLine" v-if="current!=4">
+						<input class="input" type="text" v-model="content" placeholder="请输入关键字" @focus="showBtn=true"
+							@blur="showBtn=false" />
+						<view class="searchBtn" v-if="showBtn" @click="init()">
+							搜索
+						</view>
+						<view class="clearBtn" v-if="showBtn" @click="clearBtn()">
+							清除搜索
+						</view>
+					</view>
+					<!-- <view class="search-bar">
 						<input :focus="true" style="width: 90%;" type="text" v-model="content"
 							placeholder="搜索你感兴趣的~~" />
 						<span class="iconfont" @click="init">&#xe775;</span>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view :style="'height:' + titleBarHeight + ';'"></view>
@@ -20,18 +30,33 @@
 			class="page" scroll-y="true">
 			<slot name="content">
 				<view class="infoList" v-for="(item, index) in list" :key="index">
-					<news-card :item="item" :ref="item.id"></news-card>
+					<news-card :item="item" :ref="item.id" @tap="go(item.id)"></news-card>
 				</view>
 				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
-		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
-			<view class="share" @click="uninterested">
+		<u-popup v-model="dialog" height="150" mode="bottom" border-radius="15">
+			<!-- <button open-type="share" class="share" @click="uninterested">
 				<view class="iconfont share-icon">
 					&#xe8b6;
 				</view>
 				<view class="share-content">
 					不感兴趣
+				</view>
+			</button> -->
+			<view style="height: 100%;width: 100%;padding: 30rpx 0;">
+				<view class="share" @click="uninterested">
+					<view class="iconfont share-icon">
+						&#xe8b6;
+					</view>
+					<view class="share-content">
+						<view>
+							不感兴趣
+						</view>
+						<view style="color: #bcbcbc;font-size: 24rpx;font-weight: 600;">
+							减少此类推荐
+						</view>
+					</view>
 				</view>
 			</view>
 		</u-popup>
@@ -63,7 +88,9 @@
 
 				statusBarHeight: 0,
 				titleBarHeight: 0,
-				height: 0
+				height: 0,
+				
+				showBtn: false
 			};
 		},
 		created() {
@@ -72,9 +99,9 @@
 			uni.getSystemInfo({
 				success: function(res) {
 					if (res.model.indexOf('iPhone') !== -1) {
-						that.titleBarHeight = 44 + 'px';
+						that.titleBarHeight = 84 + 'px';
 					} else {
-						that.titleBarHeight = 48 + 'px';
+						that.titleBarHeight = 88 + 'px';
 					}
 					that.statusBarHeight = res.statusBarHeight + 'px'
 				},
@@ -141,6 +168,14 @@
 					}
 				})
 			},
+			clearBtn() {
+				this.content = ''
+				this.current = {
+					currentPage: 1, // 当前页码
+					totalPages: 2 // 总页数
+				}
+				this.contentT = ''
+			},
 			loadMore() {
 				var that = this
 				that.springback = true;
@@ -154,6 +189,7 @@
 
 <style lang="scss" scoped>
 	.mainContaienr {
+		background-color: rgb(245, 245, 245);
 		user-select: text;
 		-webkit-user-select: text;
 	}
@@ -161,8 +197,8 @@
 	.header {
 		box-sizing: content-box;
 		display: flex;
-		flex-direction: row;
-		align-items: center;
+		flex-direction: column;
+		align-items: flex-start;
 		top: 0;
 		position: fixed;
 		width: 100%;
@@ -170,6 +206,7 @@
 	}
 
 	.back {
+		height: 40px;
 		width: 10%;
 		font-weight: 1000;
 		font-size: 35rpx;
@@ -180,10 +217,54 @@
 
 	.search {
 		z-index: 6;
-		width: 90%;
-		height: 75rpx;
+		width: 100%;
+		height: 45px;
 		display: flex;
 		align-items: center;
+		
+		
+		// -------------
+		.inputLine {
+			box-sizing: border-box;
+			position: fixed;
+			width: 100%;
+			height: 40px;
+			padding: 0 3%;
+			background-color: #36c1ba;
+			padding-bottom: 20rpx;
+			display: flex;
+			justify-content: space-between;
+			z-index: 99;
+		
+			.input {
+				width: 100%;
+				height: 60rpx;
+				margin: 0 auto;
+				padding: 0 20rpx;
+				background-color: #fff;
+				text-align: center;
+				border-radius: 14rpx;
+				letter-spacing: 1rpx;
+				transition: 0.2s ease-in-out;
+			}
+		
+			.searchBtn {
+				font-size: 24rpx;
+				width: 100rpx;
+				line-height: 60rpx;
+				padding: 0 0 0 20rpx;
+				color: #fff;
+			}
+		
+			.clearBtn {
+				font-size: 24rpx;
+				width: 180rpx;
+				line-height: 60rpx;
+				padding: 0 0 0 20rpx;
+				color: #fff;
+			}
+		}
+		// -------------
 
 		.search-bar {
 			width: 65%;
@@ -219,5 +300,28 @@
 		letter-spacing: 5rpx;
 		color: rgb(175, 175, 175);
 		margin-top: 30rpx;
+	}
+	.share {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		border: 0 !important;
+		outline: none;
+		background-color: rgb(255, 255, 255);
+	
+		.share-icon {
+			font-size: 40rpx;
+			font-weight: 800;
+			color: rgb(130, 130, 130);
+			margin: 0 30rpx 0 50rpx;
+		}
+	
+		.share-content {
+			font-size: 30rpx;
+			font-weight: 800;
+			color: rgb(91, 91, 91);
+		}
 	}
 </style>

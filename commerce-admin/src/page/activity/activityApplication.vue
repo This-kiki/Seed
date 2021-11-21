@@ -108,11 +108,18 @@ export default {
       }
       setTimeout(function () {
         that.getAllApplyActivity();
+        if (that.multipleSelection.length == 0) {
+          that.$message({
+            message: "请先选择需要通过审核的内容",
+            type: "warning",
+          });
+        } else {
+          that.$message({
+            message: "审核成功",
+            type: "success",
+          });
+        }
       }, 800);
-      this.$message({
-        message: "审核成功",
-        type: "success",
-      });
     },
     handleApplyActivity(row, result) {
       var postAPI = {
