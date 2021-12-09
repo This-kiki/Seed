@@ -157,6 +157,7 @@
 <style lang="scss" scoped>
 	.body {
 		background-color: rgb(248, 248, 248);
+		min-height: 100vh;
 
 		.backImg {
 			vertical-align: middle;

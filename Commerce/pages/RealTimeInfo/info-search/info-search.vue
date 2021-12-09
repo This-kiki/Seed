@@ -24,7 +24,8 @@
 					</view> -->
 				</view>
 			</view>
-			<view :style="'height:' + titleBarHeight + ';'"></view>
+			<!-- <view :style="{'height':titleBarHeight}"></view> -->
+			<view :style="{'height':titleBarHeight,'margin-top':statusBarHeight}"></view>
 		</view>
 		<scroll-view @scrolltolower="loadMore" ref="scroll" :style="'height:' + height.screenHeight + 'px;'"
 			class="page" scroll-y="true">
@@ -283,7 +284,6 @@
 	}
 
 	.page {
-		margin-top: 44rpx;
 		// min-height: 100vh;
 		// width: 100%;
 	}

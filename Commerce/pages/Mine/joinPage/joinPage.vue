@@ -2,7 +2,10 @@
 	<view>
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
-		<view class="m-page-bottom">
+		<view class="nullpage" v-if="userMsg.apply == 1">
+			已经审请过啦!
+		</view>
+		<view class="m-page-bottom" v-if="userMsg.apply == 0">
 			<view class="m-page-list">
 				<view class="text" style="margin-left: 60rpx;">
 					个人会员
@@ -53,19 +56,48 @@
 					isShowBackBtn: true,
 					backBtnColor: "black"
 				},
+				userMsg: {},
 			};
+		},
+		mounted() {
+			this.getUserInfo()
 		},
 		methods: {
 			go(path) {
 				uni.navigateTo({
 					url: path
 				});
-			}
+			},
+			getUserInfo() {
+				this.$api.getUserMsg().then(userMsg_res => {
+					console.log('基本信息', userMsg_res.data.userBaseInfo)
+					this.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
+					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
+					this.userMsg = userMsg_res.data.userBaseInfo
+					if (userMsg_res.data.userBaseInfo.apply == 1) {
+						setTimeout(function() {
+							uni.navigateBack({
+								
+							})
+						}, 2000);
+					}
+					// this.identity = userMsg_res.data.userBaseInfo.identity
+				});
+			},
 		}
 	};
 </script>
 
 <style>
+	.nullpage {
+		height: 80vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: 800;
+		font-size: 40rpx;
+		color: #22C704;
+	}
 	.m-page-bottom {
 		width: 100%;
 		display: flex;
