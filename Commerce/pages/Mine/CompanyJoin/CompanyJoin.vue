@@ -3,8 +3,7 @@
 		<view class="ui-all">
 			<view class="avatar" @tap="avatarChoose">
 				<view class="imgAvatar">
-					<view class="iavatar"
-						:style="'background: url('+companyMsg.img+') no-repeat center/cover #eeeeee;'"></view>
+					<image class="page-headimg" :src="companyMsg.img" mode="aspectFill"></image>
 				</view>
 				<text v-if="companyMsg.img">修改公司标志图片</text>
 				<text v-if="!companyMsg.img">选择公司标志图片</text>
@@ -63,8 +62,7 @@
 			</view>
 			<view class="avatar" @tap="licenseAvatarChoose">
 				<view class="imgAvatar">
-					<view class="iavatar"
-						:style="'background: url('+companyMsg.license+') no-repeat center/cover #eeeeee;'"></view>
+					<image class="page-headimg" :src="companyMsg.license" mode="aspectFill"></image>
 				</view>
 				<text v-if="companyMsg.license">修改营业执照照片</text>
 				<text v-if="!companyMsg.license">上传营业执照照片</text>
@@ -300,11 +298,19 @@
 					vertical-align: middle;
 					overflow: hidden;
 					margin-left: 50rpx;
+					background-color: #d1d1d1;
 
 					.iavatar {
 						width: 100%;
 						height: 100%;
 						display: block;
+					}
+					
+					.page-headimg {
+						height: 140rpx;
+						width: 140rpx;
+						border-radius: 80rpx;
+						overflow: hidden;
 					}
 				}
 

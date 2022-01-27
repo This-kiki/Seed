@@ -3,7 +3,7 @@
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
 		<view class="nullpage" v-if="userMsg.apply == 1">
-			已经审请过啦!
+			已提交申请，请等待管理员审核
 		</view>
 		<view class="m-page-bottom" v-if="userMsg.apply == 0">
 			<view class="m-page-list">

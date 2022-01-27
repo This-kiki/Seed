@@ -54,14 +54,14 @@
 		</view>
 		<u-toast ref="uToast" />
 		<view class="content-reaction">
-			<u-button plain size="mini" shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
+			<u-button plain shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
 			<view class="content-reaction-bot-btn">
-				<u-button plain type="success" size="mini" ripple @click="joinActivity" v-if="apply == 0">我要参加
+				<u-button plain type="success" ripple @click="joinActivity" v-if="apply == 0">我要参加
 				</u-button>
-				<u-button plain type="warning" ripple size="mini" @click="cancelActivity" v-if="apply == 1">取消报名
+				<u-button plain type="warning" ripple @click="cancelActivity" v-if="apply == 1">取消报名
 				</u-button>
-				<u-button plain type="default" size="mini" hover-class="none" v-if="apply == 2">已结束</u-button>
-				<u-button plain type="primary" size="mini" hover-class="none" v-if="apply == 3">已满员</u-button>
+				<u-button plain type="default" hover-class="none" v-if="apply == 2">已结束</u-button>
+				<u-button plain type="primary" hover-class="none" v-if="apply == 3">已满员</u-button>
 			</view>
 		</view>
 	</view>
@@ -253,7 +253,7 @@
 			flex-direction: row;
 			justify-content: flex-end;
 			align-items: center;
-			height: 100rpx;
+			height: 130rpx;
 			width: 100vw;
 			background-color: #f9f9f9;
 			border-top: 1rpx solid #e1e1e1;

@@ -59,7 +59,7 @@
 						设置个人资料
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')" v-if="identity!=3">
+				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')" v-if="userMsg.identity!=3&&userMsg.identity!=0">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe646;
 					</view>
@@ -67,7 +67,7 @@
 						我的个人简历
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')" v-if="identity!=3">
+				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')" v-if="userMsg.identity!=3&&userMsg.identity!=0">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe606;
 					</view>
@@ -75,7 +75,7 @@
 						我的求职列表
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')">
+				<view class="m-bottom-item" @click="go('/pages/JobHR/JobHR')" v-if="userMsg.identity!=0">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe65c;
 					</view>
@@ -100,7 +100,6 @@
 					bgColor: "#ffffff"
 				},
 				userMsg: {},
-				identity: 0
 			}
 		},
 		onShow() {
@@ -113,7 +112,6 @@
 					this.$store.commit('setUserMsg', userMsg_res.data.userBaseInfo);
 					uni.setStorageSync('identity', userMsg_res.data.userBaseInfo.identity);
 					this.userMsg = userMsg_res.data.userBaseInfo
-					this.identity = userMsg_res.data.userBaseInfo.identity
 				});
 			},
 			go(path) {

@@ -121,7 +121,7 @@
 			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
 			getLevel(identity, sublevel) {
 				if (identity == 0) {
-					return '管理员'
+					return '普通用户'
 				} else if (identity == 1) {
 					switch (sublevel) {
 						case 4:
@@ -153,6 +153,8 @@
 					return '律师'
 				} else if (identity == 3) {
 					return '会员单位'
+				} else if (identity == 20) {
+					return '管理员'
 				} else {
 					return ''
 				}
