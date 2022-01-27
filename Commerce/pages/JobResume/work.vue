@@ -6,7 +6,7 @@
 		<view class="list">
 			<view class="common">
 				<text class="name">公司名称</text>
-				<input type="text" v-model="info.companyName" placeholder="请填写公司名称" />
+				<input type="text" v-model="info.companyName" placeholder="请填写公司名称" @blur="saveName()" />
 			</view>
 			<view class="common" @click="goPage('industryList')">
 				<text class="name">所在行业</text>
@@ -14,7 +14,7 @@
 			</view>
 			<view class="common">
 				<text class="name">在职时间</text>
-				<input type="text" v-model="info.jobTime" placeholder="请填写在职时间" />
+				<input type="text" v-model="info.jobTime" placeholder="请填写在职时间" @blur="saveTime()" />
 			</view>
 			<view class="common" @click="goPage('hopeJobList')">
 				<text class="name">职位名称</text>
@@ -22,7 +22,7 @@
 			</view>
 			<view class="common">
 				<text class="name">工作内容</text>
-				<textarea v-model="info.jobContent" placeholder="请填写工作内容" />
+				<textarea v-model="info.jobContent" placeholder="请填写工作内容" @blur="saveContent()" />
 			</view>
 		</view>
 		<view class="btn" @click="addResume()">
@@ -42,15 +42,33 @@
 			this.getResume()
 		},
 		methods: {
+			saveName() {
+				uni.setStorageSync("companyName", this.info.companyName)
+			},
+			saveTime() {
+				uni.setStorageSync("jobTime", this.info.jobTime)
+			},
+			jobContent() {
+				uni.setStorageSync("jobContent", this.info.jobContent)
+			},
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
 				this.info = res.data.resume
+				if (uni.getStorageSync('companyName')) {
+					this.info.companyName = uni.getStorageSync('companyName')
+				}
+				if (uni.getStorageSync('jobTime')) {
+					this.info.jobTime = uni.getStorageSync('jobTime')
+				}
 				if (uni.getStorageSync('hopeJob')) {
 					this.info.industyName = uni.getStorageSync('hopeJob')
 				}
 				if (uni.getStorageSync('hopeIndustry')) {
 					this.info.jobIndustry = uni.getStorageSync('hopeIndustry')
+				}
+				if (uni.getStorageSync('jobContent')) {
+					this.info.jobContent = uni.getStorageSync('jobContent')
 				}
 			},
 			// 添加简历
@@ -64,6 +82,9 @@
 					})
 					uni.removeStorageSync('hopeJob')
 					uni.removeStorageSync('hopeIndustry')
+					uni.removeStorageSync('companyName')
+					uni.removeStorageSync('jobTime')
+					uni.removeStorageSync('jobContent')
 					setTimeout(() => {
 						uni.navigateBack()
 					}, 300)

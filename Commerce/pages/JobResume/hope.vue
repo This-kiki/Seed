@@ -6,8 +6,8 @@
 		<view class="list">
 			<view class="common">
 				<text class="name">求职状态</text>
-				<picker @change="statePicker" range-key="name" :value="index" :range="stateList">
-					<view class="text">{{stateList[info.state?info.state:0].name}}</view>
+				<picker @change="statePicker" range-key="name" :range="stateList">
+					<view class="text">{{info.state==0?"已经离职":"在职"}}</view>
 				</picker>
 			</view>
 			<view class="common">
@@ -83,9 +83,16 @@
 				if (uni.getStorageSync('hopeIndustry')) {
 					this.info.industry = uni.getStorageSync('hopeIndustry')
 				}
-				if (!this.info.city) {
-					this.info.city = ["北京市", "北京市", "东城区"]
+				if (uni.getStorageSync('state')) {
+					this.info.state = parseInt(uni.getStorageSync('state'))
 				}
+				if (uni.getStorageSync('city')) {
+					this.info.city = uni.getStorageSync('city')
+				}
+				if (!this.info.city) {
+					this.info.city = "北京市-北京市-东城区"
+				}
+				await this.$api.addResume(this.info)
 			},
 			selectReward(e) {
 				this.info.pay =
@@ -93,10 +100,12 @@
 			},
 			statePicker(e) {
 				this.info.state = parseInt(e.detail.value)
+				uni.setStorageSync('state', this.info.state.toString())
 			},
 			cityPicker(e) {
 				console.log(e.detail.value)
 				this.info.city = e.detail.value.join("-")
+				uni.setStorageSync('city', this.info.city)
 			},
 			// 添加简历
 			async addResume() {
@@ -109,6 +118,8 @@
 					})
 					uni.removeStorageSync('hopeJob')
 					uni.removeStorageSync('hopeIndustry')
+					uni.removeStorageSync('state')
+					uni.removeStorageSync('city')
 					setTimeout(() => {
 						uni.navigateBack()
 					}, 300)

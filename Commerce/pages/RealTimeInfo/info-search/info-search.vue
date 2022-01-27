@@ -9,7 +9,7 @@
 				<view class="search">
 					<view class="inputLine" v-if="current!=4">
 						<input class="input" type="text" v-model="content" placeholder="请输入关键字" @focus="showBtn=true"
-							@blur="showBtn=false" />
+							@blur="showBtn=false"  confirm-type="search" @confirm="init()"/>
 						<view class="searchBtn" v-if="showBtn" @click="init()">
 							搜索
 						</view>

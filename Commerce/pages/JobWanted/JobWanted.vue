@@ -16,7 +16,7 @@
 		<!-- 搜索框 -->
 		<view class="inputLine" v-if="current!=4">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
-				@blur="showBtn=false" />
+				@blur="showBtn=false" confirm-type="search" @confirm="searchJob()" />
 			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
 				搜索
 			</view>
@@ -169,6 +169,8 @@
 					],
 					['12薪', '13薪', '14薪', '15薪', '16薪', '17薪', '18薪', '其他']
 				],
+				// 个人简历
+				resumeInfo: {}
 			}
 		},
 		computed: {
@@ -231,12 +233,13 @@
 			// 获取自己的简历
 			async getResume() {
 				let res = await this.$api.getResume()
-				let resumeInfo = res.data.resume
-				// console.log(this.resumeInfo)
-				if (resumeInfo == null) {
+				this.resumeInfo = res.data.resume
+				console.log("我的简历", this.resumeInfo)
+				if (this.resumeInfo == null && this.identity != 3) {
 					uni.showModal({
 						title: '提示',
 						content: '请先添加简历！',
+						showCancel: false,
 						success: async function(res) {
 							if (res.confirm) {
 								uni.navigateTo({
@@ -250,6 +253,15 @@
 				} else {
 					return
 				}
+			},
+			// 判断简历是否完整 空缺项＜5
+			checkResume() {
+				let flag = 0
+				for (let key in this.resumeInfo) {
+					if (this.resumeInfo[key] == null || this.resumeInfo[key].length == 0) flag++
+				}
+				console.log("个人简历未填项", flag)
+				return flag
 			},
 			// 搜索工作
 			searchJob() {
@@ -300,6 +312,22 @@
 			},
 			// 发布简历
 			release() {
+				if (this.checkResume() > 5) {
+					uni.showModal({
+						title: '提示',
+						content: '请先将简历填写完整！',
+						success: async function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/pages/JobResume/JobResume"
+								})
+							} else if (res.cancel) {
+								return
+							}
+						}
+					})
+					return
+				}
 				let that = this
 				uni.showModal({
 					title: '提示',

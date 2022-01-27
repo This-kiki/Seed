@@ -1,7 +1,7 @@
 <template>
 	<view class="infoContainer">
 		<view class="title">
-			编辑项目经历
+			编辑教育经历
 		</view>
 		<view class="list">
 			<view class="common">
@@ -18,7 +18,7 @@
 			</view>
 			<view class="common">
 				<text class="name">时间段</text>
-				<input type="text" v-model="info.schoolTime" placeholder="请填写时间段" />
+				<input type="text" v-model="info.schoolTime" placeholder="请填写时间段(例如 2019-2023)" />
 			</view>
 			<view class="common">
 				<text class="name">在校经历</text>

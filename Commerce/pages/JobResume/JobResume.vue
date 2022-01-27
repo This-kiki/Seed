@@ -12,7 +12,7 @@
 					</view>
 					<view class="detail">
 						<view class="age">
-							{{info.age}}
+							{{info.age?info.age:""}}
 						</view>
 						<view class="education">
 							{{info.education}}
@@ -31,7 +31,7 @@
 					</view>
 				</view>
 				<view class="content">
-					{{info.personAdvantage}}
+					{{info.personAdvantage?info.personAdvantage:"暂无"}}
 				</view>
 			</view>
 			<view class="hope common" @click="goPage('hope')">
@@ -43,7 +43,7 @@
 				<view class="content">
 					<view class="top">
 						<view class="position">
-							{{info.position}}
+							{{info.position?info.position:"暂无"}}
 						</view>
 						<view class="pay">
 							{{info.pay}}
@@ -69,7 +69,7 @@
 					<view class="item">
 						<view class="item_left">
 							<view class="name">
-								{{info.companyName}}
+								{{info.companyName?info.companyName:"暂无"}}
 							</view>
 							<view class="industy">
 								{{info.industyName}}
@@ -79,7 +79,7 @@
 							{{info.jobTime}}
 						</view>
 					</view>
-					<view class="jobContent item">
+					<view class="jobContent item" v-if="info.jobContent">
 						内容：
 						{{info.jobContent}}
 					</view>
@@ -98,7 +98,7 @@
 					<view class="detail">
 						<view class="detail_left">
 							<view class="name">
-								{{info.projectName}}
+								{{info.projectName?info.projectName:"暂无"}}
 							</view>
 							<view class="role">
 								{{info.role}}
@@ -108,15 +108,15 @@
 							{{info.projectTime}}
 						</view>
 					</view>
-					<view class="info">
+					<view class="info" v-if="info.projectDesc">
 						<text>内容：</text>
 						{{info.projectDesc}}
 					</view>
-					<view class="info">
+					<view class="info" v-if="info.projectPerformance">
 						<text>业绩：</text>
 						{{info.projectPerformance}}
 					</view>
-					<view class="info">
+					<view class="info" v-if="info.projectUrl">
 						<text>项目链接：</text>
 						{{info.projectUrl}}
 					</view>
@@ -131,7 +131,7 @@
 				<view class="content">
 					<view class="school">
 						<view class="name">
-							{{info.school}}
+							{{info.school?info.school:"暂无"}}
 						</view>
 						<view class="pro">
 							{{info.education}} {{info.profession}}
@@ -149,7 +149,10 @@
 					</view>
 				</view>
 				<view class="content">
-					<view class="box" v-for="(item,index) in info.certificate" :key="index">
+					<view class="name" v-if="!info.certificate">
+						暂无
+					</view>
+					<view class="box" v-for="(item,index) in info.certificate" :key="index" v-if="info.certificate">
 						{{item}}
 					</view>
 				</view>
@@ -161,7 +164,7 @@
 					</view>
 				</view>
 				<view class="content">
-					{{info.socicalIndex}}
+					{{info.socicalIndex?info.socicalIndex:"暂无"}}
 				</view>
 			</view>
 			<view class="volunteer common" @click="goPage('volunteer')">
@@ -174,7 +177,7 @@
 					<view class="volun">
 						<view class="volun_left">
 							<view class="name">
-								{{info.volunteerName}}
+								{{info.volunteerName?info.volunteerName:'暂无'}}
 							</view>
 							<view class="long">
 								{{info.volunteerLong}}
@@ -192,6 +195,9 @@
 			<view class="btn" @click="getResumePdf()">
 				导出PDF简历
 			</view>
+			<view class="btn" style="background-color: #e06c75;" @click="deleteResume()" v-if="flag==1">
+				删除当前简历
+			</view>
 		</view>
 	</view>
 </template>
@@ -208,9 +214,52 @@
 					backBtnColor: "black"
 				},
 				// 简历信息
-				info: {},
+				info: {
+					age: 0,
+					area: "",
+					attachment: "",
+					certificate: "",
+					city: "",
+					companyName: "",
+					education: "",
+					email: "",
+					experienceTime: "",
+					img: "",
+					industry: "",
+					industyName: "",
+					jobContent: "",
+					jobIndustry: "",
+					jobTime: "",
+					name: "",
+					openId: "",
+					pay: "",
+					personAdvantage: "",
+					phone: "",
+					position: "",
+					profession: "",
+					projectDesc: "",
+					projectName: "",
+					projectPerformance: "",
+					projectTime: "",
+					projectUrl: "",
+					publish: 0,
+					role: "",
+					school: "",
+					schoolExperience: "",
+					schoolTime: "",
+					sex: "",
+					socicalIndex: "",
+					state: 0,
+					view: 0,
+					volunteerDesc: "",
+					volunteerLong: "",
+					volunteerName: "",
+					volunteerTime: ""
+				},
 				flag: 1,
-				id: ""
+				id: "",
+				// 个人资料
+				baseInfo: {},
 			}
 		},
 		onLoad(options) {
@@ -224,6 +273,19 @@
 			this.getResume()
 		},
 		methods: {
+			// 获取个人信息
+			async getBaseInfo() {
+				let res = await this.$api.getUserMsg()
+				// console.log(res)
+				this.baseInfo = res.data.userBaseInfo
+				this.info.name = this.baseInfo.name
+				this.info.img = this.baseInfo.img
+				let time = parseInt(this.baseInfo.birth.split("-")[0])
+				let date = new Date
+				let now = date.getFullYear()
+				this.info.age = now - time
+				this.addResume()
+			},
 			// 获取简历详情
 			async getResumeDetail() {
 				let res = await this.$api.getResumeDetail({
@@ -244,13 +306,21 @@
 					return
 				}
 				let res = await this.$api.getResume()
-				this.info = res.data.resume
-				for (let key in this.info) {
-					if (!this.info[key]) {
-						this.info[key] = "无"
+				let obj = res.data.resume
+				for (let key in obj) {
+					if (obj[key]) {
+						this.info[key] = obj[key]
+					} else {
+						this.info[key] = ""
 					}
 				}
-				this.info.certificate = JSON.parse(this.info.certificate)
+				if (!obj) {
+					this.getBaseInfo()
+				}
+				if (this.info.certificate) {
+					this.info.certificate = JSON.parse(this.info.certificate)
+				}
+
 			},
 			// 跳转个人资料
 			goUserInfo() {
@@ -269,6 +339,11 @@
 				uni.navigateTo({
 					url: `/pages/JobResume/${page}`
 				})
+			},
+			// 添加简历
+			async addResume() {
+				let res = await this.$api.addResume(this.info)
+				// console.log(res)
 			},
 			// 导出简历
 			async getResumePdf() {
@@ -295,6 +370,29 @@
 									})
 								}
 							});
+						}
+					}
+				})
+			},
+			// 删除简历
+			deleteResume() {
+				uni.showModal({
+					title: "提示",
+					content: "确定删除？",
+					success: async res => {
+						if (res.confirm) {
+							let res = await this.$api.deleteResume({
+								id: this.info.id
+							})
+							console.log(res)
+							if (res.code == 20000) {
+								uni.showToast({
+									icon: "none",
+									title: '删除成功'
+								})
+								this.getResume()
+								uni.navigateBack()
+							}
 						}
 					}
 				})
@@ -480,6 +578,10 @@
 					display: flex;
 					flex-wrap: wrap;
 					font-size: 24rpx;
+
+					.name {
+						font-size: 28rpx;
+					}
 
 					.box {
 						padding: 4rpx 10rpx;
