@@ -2,14 +2,30 @@
 	<view class="mainContaienr">
 		<view class="white-bord" v-if="!dataForm">加载中</view>
 		<view v-if="dataForm">
+			<view class="top-head">
+				<view class="top-head-headimg">
+					
+				</view>
+				<!-- <view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view> -->
+				<view class="top-head-author">
+					<view class="top-head-author-name oneline">
+						<!-- {{ item.name }} -->
+						aaaa
+					</view>
+					<view class="top-head-author-identity oneline">
+						<!-- {{ getLevel(item.identity,item.subLevel) }} -->
+						bbbbbb
+					</view>
+				</view>
+			</view>
 			<view class="info-title">{{ dataForm.title }}</view>
-			<view class="collect-box">
+			<!-- <view class="collect-box">
 				<view :style="'color:' + praiseColor + ';'" class="iconfont collect-icon" @click="praise">&#xe64e;
 				</view>
 				<view :style="'color:' + collectColor + ';'" class="iconfont collect-icon" @click="collect">&#xe616;
 				</view>
 				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
-			</view>
+			</view> -->
 			<view class="info-content" v-html="dataForm.content"></view>
 			<!-- 评论 -->
 			<view class="comment">
@@ -49,9 +65,16 @@
 		</view>
 		<!-- 评论框 -->
 		<view class="reply-box">
-			<view class="reply-box-input" @tap="showReview">
+			<view class="reply-box-input" @tap="showReview" style="width: 60%;">
 				<span class="iconfont reply-box-text">&#xe615;</span>
-				<span class="reply-box-text">写评论...</span>
+				<span class="reply-box-text">写回复...</span>
+			</view>
+			<view class="collect-box">
+				<view :style="'color:' + praiseColor + ';'" class="iconfont collect-icon" @click="praise">&#xe64e;
+				</view>
+				<view :style="'color:' + collectColor + ';'" class="iconfont collect-icon" @click="collect">&#xe616;
+				</view>
+				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
 			</view>
 		</view>
 		<!-- 评论的具体信息 -->
@@ -336,15 +359,15 @@
 	};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.mainContaienr {
 		user-select: text;
 		-webkit-user-select: text;
 	}
 
 	.collect-box {
-		height: 100rpx;
-		width: 100%;
+		height: 90rpx;
+		width: 30%;
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-end;
@@ -364,6 +387,54 @@
 		align-items: center;
 		width: 50rpx;
 		height: 50rpx;
+	}
+
+	.top-head {
+		height: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		.top-head-headimg {
+			height: 70rpx;
+			width: 70rpx;
+			border-radius: 40rpx;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+			box-shadow: 0px 0px 2px rgb(216, 216, 216);
+		}
+
+		.top-head-author {
+			width: 30vw;
+			height: 60rpx;
+			display: flex;
+			flex-direction: column;
+			margin-left: 15rpx;
+
+			.oneline {
+				display: flex;
+				align-items: center;
+				width: 30vw;
+				height: 30rpx;
+				overflow: hidden; //多出部分隐藏
+				white-space: nowrap; //一行显示
+				text-overflow: ellipsis; //是否显示省略号
+			}
+
+			.top-head-author-name {
+				font-size: 27rpx;
+				font-weight: 800;
+				letter-spacing: 3rpx;
+			}
+
+			.top-head-author-identity {
+				font-size: 22rpx;
+				color: rgb(170, 170, 170);
+				letter-spacing: 3rpx;
+			}
+		}
 	}
 
 	.info-title {
@@ -402,12 +473,12 @@
 	.comment-reviewnum {
 		font-size: 28rpx;
 		font-weight: 700;
-		margin-left: 30rpx;
+		margin-left: 50rpx;
 	}
 
 	.comment-fabulousnum {
 		font-size: 24rpx;
-		margin-right: 30rpx;
+		margin-right: 50rpx;
 		color: rgb(153, 153, 153);
 	}
 
@@ -415,7 +486,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		margin-top: 20rpx;
+		margin-top: 40rpx;
 	}
 
 	.comment-all {
@@ -542,14 +613,14 @@
 		height: 90rpx;
 		border-bottom: 1rpx solid #e8e8e8;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
 	}
 
 	.reply-box-input {
 		width: 90%;
 		height: 60rpx;
-		border-radius: 50rpx;
+		border-radius: 10rpx;
 		background-color: rgb(241, 241, 241);
 		display: flex;
 		justify-content: flex-start;
@@ -558,7 +629,7 @@
 
 	.reply-box-text {
 		font-size: 26rpx;
-		color: rgb(34, 34, 34);
+		color: rgb(172, 172, 172);
 		margin-left: 20rpx;
 	}
 </style>
