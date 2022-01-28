@@ -3,8 +3,8 @@
 		<topBar ref="topBar" :nav="setNav"></topBar>
 		<!-- <page :contentHeight="contentHeight" :status="0"></page> -->
 		<view style="height: 40px;">
-			<u-tabs-swiper ref="uTabs" :list="list" :current="current" @change="tabsChange" :is-scroll="true"
-				swiperWidth="750" active-color="#36c1ba" font-size="28"></u-tabs-swiper>
+			<u-tabs ref="uTabs" :list="list" :current="current" @change="tabsChange" :is-scroll="true"
+				swiperWidth="750" active-color="#36c1ba" font-size="28"></u-tabs>
 			<u-line color="#d4d4d4"></u-line>
 		</view>
 		<swiper :style="'height:' + contentHeight + 'px;'" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">

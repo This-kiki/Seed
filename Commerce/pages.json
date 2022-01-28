@@ -1,6 +1,6 @@
 {
 	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [{
 			"path": "pages/login/login",
@@ -47,7 +47,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"backgroundColor":"#fafafa"
+				"backgroundColor": "#fafafa"
 			}
 
 		}, {
@@ -98,7 +98,7 @@
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
-				"backgroundColor":"#f8f8f8"
+				"backgroundColor": "#f8f8f8"
 			}
 
 		}, {

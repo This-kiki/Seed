@@ -6,8 +6,8 @@
 			<view class="top-nav-to">
 				<!-- <view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view> -->
 				<view style="height: 75rpx;">
-					<u-tabs-swiper ref="uTabs" :list="items" :current="current" @change="tabsChange" :is-scroll="true"
-						swiperWidth="750" active-color="#36c1ba" font-size="28"></u-tabs-swiper>
+					<u-tabs ref="uTabs" :list="items" :current="current" @change="tabsChange" lineColor="#36c1ba"
+						itemStyle="min-width: 80px;padding: 0; height: 40px;"></u-tabs>
 					<u-line color="#d4d4d4"></u-line>
 				</view>
 			</view>
@@ -129,12 +129,13 @@
 			},
 
 			// tabs通知swiper切换
-			tabsChange(index) {
-				this.swiperCurrent = index;
+			tabsChange(item) {
+				this.swiperCurrent = item.index;
 			},
 			// swiper-item左右移动，通知tabs的滑块跟随移动
 			transition(e) {
 				let dx = e.detail.dx;
+				this.setActive(dx)
 				this.$refs.uTabs.setDx(dx);
 			},
 			// swiper滑动结束，分别设置tabs和swiper的状态

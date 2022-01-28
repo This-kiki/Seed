@@ -5,8 +5,8 @@ import App from './App'
 import Api from './api/api'
 Vue.prototype.$api = Api
 
-import uView from "uview-ui";
-Vue.use(uView);
+import uView from '@/uni_modules/uview-ui'
+Vue.use(uView)
 
 // vuex
 import store from './store/index.js'
