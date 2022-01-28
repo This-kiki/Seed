@@ -13,8 +13,9 @@
 			</view>
 		</view>
 		<!-- 去除留白 -->
-		<view class="helpWhite" :style="{'height':titleBarHeight+'px','padding-top':statusBarHeight+'px'}">
+		<view class="helpWhite" :style="{'height':titleBarHeight+'px'}">
 		</view>
+		<!-- ,'padding-top':statusBarHeight+'px' -->
 		<!-- 申请入会 -->
 		<view class="submitSeed" v-if="flag==0">
 			<view class="left">

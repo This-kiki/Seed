@@ -10,9 +10,9 @@
 			</view>
 		</view>
 		<!-- 去除留白 -->
-		<view class="helpWhite"
-			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
+		<view class="helpWhite" :style="{'height':height.titleBarHeight+'px'}">
 		</view>
+		<!-- ,'padding-top':height.statusBarHeight+'px' -->
 		<!-- 搜索框 -->
 		<view class="inputLine" v-if="current!=4">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
