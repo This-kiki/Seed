@@ -2,72 +2,60 @@
 	<view class="body">
 		<!-- 顶部 -->
 		<topBar :nav="setNav"></topBar>
-		<view class="container">
-			<view class="ui-all">
-				<view class="avatar" @tap="avatarChoose">
-					<view class="imgAvatar">
-						<view class="iavatar"
-							:style="'background: url(' + mineMsg.img + ') no-repeat center/cover #eeeeee;'"></view>
+		<view class="">
+			<!-- 注意，如果需要兼容微信小程序，最好通过setRules方法设置rules规则 -->
+			<u--form labelPosition="left" :model="model1" :rules="rules" ref="form1">
+				<u-form-item prop="userInfo.img" borderBottom ref="item1">
+					<view class="avatar" @tap="avatarChoose">
+						<view class="imgAvatar">
+							<view class="iavatar"
+								:style="'background: url(' + model1.userInfo.img + ') no-repeat center/cover #eeeeee;'">
+							</view>
+						</view>
+						<text v-if="model1.userInfo.img">修改头像</text>
+						<text v-if="!model1.userInfo.img">选择头像</text>
 					</view>
-					<text v-if="mineMsg.img">修改头像</text>
-					<text v-if="!mineMsg.img">选择头像</text>
-				</view>
-				<view class="text-box">
-					<text>姓名</text>
-					<u-input placeholder="请输入内容" :clearable="false" border="surround" v-model="mineMsg.name"
-						class="uinput"></u-input>
-				</view>
-				<view class="text-box">
-					<text>生日</text>
-					<u-input placeholder="请输入内容" :clearable="false" border="surround" disabled v-model="mineMsg.birth"
-						class="uinput" @click="shows.show1 = true"></u-input>
-					<u-datetime-picker :show="show" v-model="value1" mode="date"></u-datetime-picker>
-				</view>
-				<view class="picker-box">
-					<text>生日</text>
-					<picker class="picker" mode="date" v-model="mineMsg.birth" @change="bindDateChange">
-						<view class="picker-text">{{ mineMsg.birth ? mineMsg.birth : ' ' }}</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.name" borderBottom ref="item1">
+					<view class="text-box">
+						<text>姓名</text>
+						<u--input v-model="model1.userInfo.name" border="surround" placeholder="请填写姓名"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.sex" borderBottom @click="shows.show1 = true; hideKeyboard()" ref="item1">
+					<view class="text-box">
+						<text>性别</text>
+						<u--input v-model="model1.userInfo.sex" border="surround" disabled disabledColor="#ffffff"
+							placeholder="请选择性别">
+						</u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.birth" borderBottom @click="shows.show2 = true;" ref="item2">
+					<view class="text-box">
+						<text>出生年月</text>
+						<u--input v-model="model1.userInfo.birth" border="surround" disabled disabledColor="#ffffff"
+							placeholder="请选择出生年月">
+						</u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.birth" borderBottom>
+					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
+						<view class="text-box">
+							<text>出生年月</text>
+							<u--input v-model="model1.userInfo.place" border="surround" disabled disabledColor="#ffffff"
+								placeholder="请选择籍贯">
+							</u--input>
+						</view>
 					</picker>
-				</view>
-				<view class="picker-box">
-					<text>性别</text>
-					<picker class="picker" mode="selector" range-key="name" v-model="mineMsg.sex"
-						@change="bindSexChange" :range="sex">
-						<view class="picker-text">{{ mineMsg.sex == 0 ? '男' : mineMsg.sex == 1 ? '女' : '' }}</view>
-					</picker>
-				</view>
-				<view class="picker-box">
-					<text>籍贯</text>
-					<picker class="picker" mode="region" v-model="mineMsg.place" @change="bindRegionChange">
-						<view class="picker-text">{{ mineMsg.place ? mineMsg.place : ' ' }}</view>
-					</picker>
-				</view>
-				<view class="text-box">
-					<text>手机号</text>
-					<input class="input-box" type="text" v-model="mineMsg.phone" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>学校</text>
-					<input class="input-box" type="text" v-model="mineMsg.school" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>专业</text>
-					<input class="input-box" type="text" v-model="mineMsg.major" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>年级</text>
-					<input class="input-box" type="text" v-model="mineMsg.grade" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>工作单位</text>
-					<input class="input-box" type="text" v-model="mineMsg.work" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>工作职位</text>
-					<input class="input-box" type="text" v-model="mineMsg.position" placeholder-class="place" />
-				</view>
-			</view>
-			<button class="save" @tap="save">保 存 修 改</button>
+				</u-form-item>
+			</u--form>
+			<!-- 性别选择器 -->
+			<u-action-sheet :show="shows.show1" :actions="sex" title="请选择性别" @close="shows.show1 = false"
+				@select="sexSelect">
+			</u-action-sheet>
+			<!-- 生日选择器 -->
+			<u-datetime-picker :show="shows.show2" v-model="value2" mode="date" closeOnClickOverlay @confirm="confirm"
+				@cancel="cancel(2)" @change="change(2)" @close="close(2)"></u-datetime-picker>
 		</view>
 	</view>
 </template>
@@ -87,19 +75,6 @@
 					backBtnColor: 'black'
 				},
 				temp: null,
-				mineMsg: {
-					img: '',
-					name: '',
-					birth: '',
-					sex: 3,
-					place: '',
-					phone: '',
-					school: '',
-					major: '',
-					grade: '',
-					work: '',
-					position: ''
-				},
 				sex: [{
 						id: 0,
 						name: '男'
@@ -112,43 +87,107 @@
 				shows: {
 					show1: false,
 					show2: false
-				}
+				},
+
+				// ssssssssssss
+				model1: {
+					userInfo: {
+						img: '',
+						name: '',
+						sex: '',
+						birth: '',
+						place: '',
+						phone: '',
+						school: '',
+						major: '',
+						grade: '',
+						work: '',
+						position: ''
+					},
+				},
+				rules: {
+					'userInfo.name': {
+						type: 'string',
+						required: true,
+						message: '请填写姓名',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.sex': {
+						type: 'string',
+						max: 1,
+						required: true,
+						message: '请选择男或女',
+						trigger: ['blur', 'change']
+					},
+				},
 			};
 		},
 		mounted() {
 			this.getUserInfo();
 		},
 		methods: {
+			// ssssss
+			sexSelect(e) {
+				this.model1.userInfo.sex = e.name
+				// this.$refs.form1.validateField('userInfo.sex')
+			},
+			close(index) {
+				this.shows[`show${index}`] = false
+			},
+			cancel(index) {
+				this.shows[`show${index}`] = false
+			},
+			confirm(e) {
+				this.shows.show2 = false
+				// this.result(e.value, e.mode)
+				let date = new Date(e.value)
+				let y = date.getFullYear();
+				let MM = date.getMonth() + 1;
+				MM = MM < 10 ? ('0' + MM) : MM;
+				let d = date.getDate();
+				d = d < 10 ? ('0' + d) : d;
+
+				// return y + '-' + MM + '-' + d;
+				this.model1.userInfo.birth = y + '-' + MM + '-' + d
+			},
+			change(e) {
+				// console.log('change', e)
+			},
+			// ssssssss
+
+
+
 			judge() {
-				// console.log(regular(this.mineMsg))
-				return regular(this.mineMsg);
+				// console.log(regular(this.model1.userInfo))
+				return regular(this.model1.userInfo);
 			},
 			getUserInfo() {
 				this.$api.getUserMsg().then(res => {
-					// this.mineMsg = res.data.userBaseInfo;
+					// this.model1.userInfo = res.data.userBaseInfo;
 					var obj = res.data.userBaseInfo;
 					for (let key in obj) {
 						// console.log(key,'-',obj[key])
 						if (obj[key])
-							this.mineMsg[key] = obj[key];
+							this.model1.userInfo[key] = obj[key];
 						else
-							this.mineMsg[key] = ''
+							this.model1.userInfo[key] = ''
 					}
 				});
 			},
 			bindSexChange(e) {
-				this.mineMsg.sex = e.detail.value;
+				this.model1.userInfo.sex = e.detail.value;
 			},
 			bindDateChange(e) {
-				this.mineMsg.birth = e.detail.value;
+				console.log()
+				// this.model1.userInfo.birth = e.detail.value;
 			},
-			bindRegionChange(e) {
+			bindPlaceChange(e) {
 				// console.log(e)
-				this.mineMsg.place = e.detail.value.join('-');
+				this.model1.userInfo.place = e.detail.value.join('-');
 			},
 			save() {
 				// if (this.judge().status == true) {
-				if (!this.mineMsg.name) {
+				if (!this.model1.userInfo.name) {
 					uni.showToast({
 						title: '请填写姓名',
 						icon: 'none'
@@ -165,7 +204,7 @@
 						})
 						.then(res => {
 							// console.log(res)
-							var obj = this.mineMsg;
+							var obj = this.model1.userInfo;
 							obj.img = res.data.url;
 							this.$api
 								.changeUserMsg(obj)
@@ -190,7 +229,7 @@
 								});
 						});
 				} else {
-					var obj = this.mineMsg;
+					var obj = this.model1.userInfo;
 					this.$api
 						.changeUserMsg(obj)
 						.then(res => {
@@ -238,7 +277,7 @@
 					success(res) {
 						const tempFilePaths = res.tempFilePaths;
 						that.temp = tempFilePaths;
-						that.mineMsg.img = tempFilePaths[0];
+						that.model1.userInfo.img = tempFilePaths[0];
 					}
 				});
 			}
@@ -251,163 +290,47 @@
 		width: 100%;
 		user-select: text;
 		-webkit-user-select: text;
-	}
 
-	.container {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-
-		.ui-all {
+		.avatar {
 			width: 100%;
+			height: 180rpx;
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
 
-			.avatar {
-				width: 100%;
-				height: 180rpx;
-				border-bottom: solid 1px #f2f2f2;
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
+			.imgAvatar {
+				width: 140rpx;
+				height: 140rpx;
+				border-radius: 50%;
+				display: inline-block;
+				vertical-align: middle;
+				overflow: hidden;
+				margin-left: 50rpx;
 
-				.imgAvatar {
-					width: 140rpx;
-					height: 140rpx;
-					border-radius: 50%;
-					display: inline-block;
-					vertical-align: middle;
-					overflow: hidden;
-					margin-left: 50rpx;
-
-					.iavatar {
-						width: 100%;
-						height: 100%;
-						display: block;
-					}
-				}
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 40rpx;
+				.iavatar {
+					width: 100%;
+					height: 100%;
+					display: block;
 				}
 			}
 
-			.text-box {
-				width: 100%;
-				height: 130rpx;
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				// border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #6c6c70;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-				}
-
-				.uinput {
-					margin-top: 10rpx;
-					width: 90%;
-					margin-left: 8%;
-				}
-
-				.input-box {
-					color: rgb(121, 121, 121);
-					margin-left: 20rpx;
-					font-size: 28rpx;
-				}
-
-				.place {
-					color: rgb(200, 200, 200);
-				}
-			}
-
-			.textarea-box {
-				width: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: flex-start;
-				align-items: flex-start;
-				border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-					height: 100rpx;
-				}
-
-				.textarea {
-					color: rgb(121, 121, 121);
-					margin-left: 20rpx;
-					font-size: 28rpx;
-					height: 150rpx;
-					width: 95%;
-					border: solid 1px #f2f2f2;
-				}
-
-				.place {
-					color: rgb(200, 200, 200);
-				}
-			}
-
-			.picker-box {
-				width: 100%;
-				height: 100rpx;
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-				}
-
-				.picker {
-					width: 80%;
-					height: 100rpx;
-				}
-
-				.picker-text {
-					color: rgb(121, 121, 121);
-					margin-left: 26rpx;
-					height: 100rpx;
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-				}
-			}
 		}
 
-		.save {
-			width: 80%;
-			background: #030303;
-			border: none;
-			color: #ffffff;
-			margin: 100rpx 0rpx;
-			font-size: 28rpx;
+		.text-box {
+			width: 95%;
+			margin: auto;
+			height: 100rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+
+			text {
+				display: inline-block;
+				vertical-align: middle;
+				color: #8e8e93;
+				font-size: 28rpx;
+			}
 		}
 	}
 </style>

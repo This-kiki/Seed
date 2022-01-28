@@ -12,7 +12,7 @@
 				</view>
 			</view>
 			<view style="height: 40px;"></view>
-			<swiper :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish"
+			<swiper :current="swiperCurrent" @animationfinish="animationfinish"
 				:style="'height:' + contentHeight + 'px;'">
 				<swiper-item class="swiper-item" v-for="(item, index) in items" :key="index">
 					<Page :contentHeight="contentHeight" :pageType="item.id"></Page>
@@ -132,16 +132,9 @@
 			tabsChange(item) {
 				this.swiperCurrent = item.index;
 			},
-			// swiper-item左右移动，通知tabs的滑块跟随移动
-			transition(e) {
-				let dx = e.detail.dx;
-				this.setActive(dx)
-				this.$refs.uTabs.setDx(dx);
-			},
 			// swiper滑动结束，分别设置tabs和swiper的状态
 			animationfinish(e) {
 				let current = e.detail.current;
-				this.$refs.uTabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
 				this.current = current;
 			},
