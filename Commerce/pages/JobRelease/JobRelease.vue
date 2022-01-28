@@ -28,7 +28,8 @@
 			</view>
 			<view class="common">
 				<text>薪资范围</text>
-				<picker @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+				<picker @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'
+					@columnchange="selectLowPay">
 					<view class="input">{{jobInfo.reward?jobInfo.reward:"请选择薪资范围"}}</view>
 				</picker>
 			</view>
@@ -196,6 +197,19 @@
 			}
 		},
 		methods: {
+			selectLowPay(e) {
+				let {
+					column,
+					value
+				} = e.detail
+				const upPay = ['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+					'16k',
+					'17k', '18k', '19k', '20k', '21k', '其他'
+				]
+				if (column) return
+				this.rewardList[1] = upPay.slice(value, 999)
+				this.$forceUpdate();
+			},
 			goNeed() {
 				uni.navigateTo({
 					url: "/pages/JobRelease/need"
@@ -240,7 +254,7 @@
 					return
 				}
 				for (let key in this.jobInfo) {
-					if (this.jobInfo[key] == "" && key != 'classfication' && key != 'companyInfo' && key !=
+					if (this.jobInfo[key].length == 0 && key != 'classfication' && key != 'companyInfo' && key !=
 						'companyName') {
 						uni.showToast({
 							icon: "none",

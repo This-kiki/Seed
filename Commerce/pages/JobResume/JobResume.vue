@@ -12,7 +12,7 @@
 					</view>
 					<view class="detail">
 						<view class="age">
-							{{info.age?info.age:""}}
+							{{info.age?info.age:""}}岁
 						</view>
 						<view class="education">
 							{{info.education}}

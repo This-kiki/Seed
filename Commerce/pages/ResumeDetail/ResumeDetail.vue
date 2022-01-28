@@ -72,7 +72,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="detailBtn" @click="goDetail()">
+		<view class="detailBtn" @click="goDetail()" v-if="identity!=0">
 			查看详细简历
 		</view>
 		<!-- 操作栏 -->

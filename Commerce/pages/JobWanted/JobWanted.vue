@@ -32,7 +32,8 @@
 				@focus="showBtn=true" @blur="showBtn=false" />
 			<input class="resumeInput" type="text" v-model="resumeSearch.city" placeholder="城市" @focus="showBtn=true"
 				@blur="showBtn=false" />
-			<picker class="resumeInput" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+			<picker class="resumeInput" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'
+				@columnchange="selectLowPay">
 				<input type="text" :value="resumeSearch.pay" placeholder="薪资" disabled />
 			</picker>
 			<view class="searchBtn" v-if="showBtn" @click="searchResume()">
@@ -198,6 +199,19 @@
 			}, 400)
 		},
 		methods: {
+			selectLowPay(e) {
+				let {
+					column,
+					value
+				} = e.detail
+				const upPay = ['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+					'16k',
+					'17k', '18k', '19k', '20k', '21k', '其他'
+				]
+				if (column) return
+				this.rewardList[1] = upPay.slice(value, 999)
+				this.$forceUpdate();
+			},
 			selectReward(e) {
 				this.resumeSearch.pay =
 					`${this.rewardList[0][e.detail.value[0]]}-${this.rewardList[1][e.detail.value[1]]} ${this.rewardList[2][e.detail.value[2]]}`

@@ -26,7 +26,8 @@
 			</view>
 			<view class="common">
 				<text class="name">期望薪资</text>
-				<picker class="picker" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'>
+				<picker class="picker" @change="selectReward" :value="index" :range="rewardList" mode='multiSelector'
+					@columnchange="selectLowPay">
 					<view class="picker">{{info.pay?info.pay:"请选择期望薪资"}}</view>
 				</picker>
 			</view>
@@ -106,6 +107,19 @@
 				console.log(e.detail.value)
 				this.info.city = e.detail.value.join("-")
 				uni.setStorageSync('city', this.info.city)
+			},
+			selectLowPay(e) {
+				let {
+					column,
+					value
+				} = e.detail
+				const upPay = ['2k', '3k', '4k', '5k', '6k', '7k', '8k', '9k', '10k', '11k', '12k', '13k', '14k', '15k',
+					'16k',
+					'17k', '18k', '19k', '20k', '21k', '其他'
+				]
+				if (column) return
+				this.rewardList[1] = upPay.slice(value, 999)
+				this.$forceUpdate();
 			},
 			// 添加简历
 			async addResume() {

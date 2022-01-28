@@ -192,18 +192,17 @@
 				})
 				// console.log(res)
 				let num = 0
-				let info = res.data.row
+				let info = res.data.resume
 				for (let key in info) {
-					if (!info[key]) {
+					if (info[key] == null || info[key].length == 0)
 						num++
-					}
 				}
 				if (num > 6) {
 					this.canRelease = false
 				} else {
 					this.canRelease = true
 				}
-				console.log("是否能够投递简历", this.canRelease)
+				console.log("是否能够投递简历", this.canRelease, num)
 			},
 			// 获取招聘详情
 			async getJobDetail() {
@@ -318,15 +317,30 @@
 					})
 					return
 				}
+				if (this.identity == 3) {
+					uni.showToast({
+						icon: "none",
+						title: "会员单位无法申请"
+					})
+					return
+				}
 				if (this.companyInfo.openId == uni.getStorageSync('openid')) {
 					uni.showToast({
+						icon: "none",
 						title: "无法申请自己发布的招聘"
 					})
 					return
 				}
 				if (!this.canRelease) {
-					uni.showToast({
-						title: "简历信息较少，请先完善简历"
+					uni.showModal({
+						title: "提示",
+						content: "简历信息较少，请先完善简历",
+						showCancel: false,
+						success() {
+							uni.navigateTo({
+								url: "/pages/JobResume/JobResume"
+							})
+						}
 					})
 					return
 				}
