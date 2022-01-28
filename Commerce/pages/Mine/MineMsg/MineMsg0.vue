@@ -14,14 +14,7 @@
 				</view>
 				<view class="text-box">
 					<text>姓名</text>
-					<u-input placeholder="请输入内容" :clearable="false" border="surround" v-model="mineMsg.name"
-						class="uinput"></u-input>
-				</view>
-				<view class="text-box">
-					<text>生日</text>
-					<u-input placeholder="请输入内容" :clearable="false" border="surround" disabled v-model="mineMsg.birth"
-						class="uinput" @click="shows.show1 = true"></u-input>
-					<u-datetime-picker :show="show" v-model="value1" mode="date"></u-datetime-picker>
+					<input class="input-box" type="text" v-model="mineMsg.name" placeholder-class="place" />
 				</view>
 				<view class="picker-box">
 					<text>生日</text>
@@ -108,11 +101,7 @@
 						id: 1,
 						name: '女'
 					}
-				],
-				shows: {
-					show1: false,
-					show2: false
-				}
+				]
 			};
 		},
 		mounted() {
@@ -303,25 +292,20 @@
 
 			.text-box {
 				width: 100%;
-				height: 130rpx;
+				height: 100rpx;
 				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				// border-bottom: solid 1px #f2f2f2;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
+				border-bottom: solid 1px #f2f2f2;
 
 				text {
 					display: inline-block;
 					vertical-align: middle;
-					color: #6c6c70;
+					color: #8e8e93;
 					font-size: 28rpx;
 					margin-left: 30rpx;
 					width: 150rpx;
-				}
-
-				.uinput {
-					margin-top: 10rpx;
-					width: 90%;
-					margin-left: 8%;
 				}
 
 				.input-box {
@@ -333,6 +317,10 @@
 				.place {
 					color: rgb(200, 200, 200);
 				}
+			}
+
+			.text-box:hover {
+				background-color: #eaeaea;
 			}
 
 			.textarea-box {
@@ -372,8 +360,10 @@
 				width: 100%;
 				height: 100rpx;
 				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: center;
 				border-bottom: solid 1px #f2f2f2;
 
 				text {
@@ -398,6 +388,10 @@
 					justify-content: flex-start;
 					align-items: center;
 				}
+			}
+
+			.picker-box:hover {
+				background-color: #eaeaea;
 			}
 		}
 

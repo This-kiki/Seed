@@ -14,7 +14,7 @@
 					</view>
 					<view class="top-head-author-identity oneline">
 						<!-- {{ getLevel(item.identity,item.subLevel) }} -->
-						bbbbbb
+						bbbbbb 来自 cccccc
 					</view>
 				</view>
 			</view>
