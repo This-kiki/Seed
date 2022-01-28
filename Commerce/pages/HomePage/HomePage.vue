@@ -169,10 +169,25 @@
 					uni.navigateTo({
 						url: `/pages/Mine/${page}/${page}`
 					})
+				} else {
+					if (!this.flag) {
+						uni.showModal({
+							title: "提示",
+							content: "请先申请入会",
+							success: (res) => {
+								if (res.confirm) {
+									this.goPage('joinPage')
+								} else {
+									return
+								}
+							}
+						})
+						return
+					}
+					uni.navigateTo({
+						url: `/pages/${page}/${page}`
+					})
 				}
-				uni.navigateTo({
-					url: `/pages/${page}/${page}`
-				})
 			},
 			// 弹出发布框
 			openSubmit() {

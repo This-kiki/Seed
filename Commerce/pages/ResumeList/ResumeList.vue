@@ -49,6 +49,9 @@
 				</view>
 				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+				<view class="noData" v-if="!resumeList.length">
+					暂无求职
+				</view>
 			</slot>
 		</scroll-view>
 	</view>
@@ -56,7 +59,7 @@
 
 <script>
 	export default {
-		props: ['height','resumeSearch'],
+		props: ['height', 'resumeSearch'],
 		data() {
 			return {
 				// 当前页
@@ -250,6 +253,12 @@
 			letter-spacing: 5rpx;
 			color: rgb(175, 175, 175);
 			margin-top: 30rpx;
+		}
+
+		.noData {
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>
