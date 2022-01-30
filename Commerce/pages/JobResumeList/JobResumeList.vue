@@ -123,9 +123,9 @@
 
 			.btn {
 				background-color: #36c1ba;
-				width: 80%;
+				width: 90%;
 				margin: 0 auto 20rpx;
-				height: 90rpx;
+				height: 80rpx;
 				line-height: 90rpx;
 				font-size: 30rpx;
 				color: #FFFFFF;

@@ -2,10 +2,20 @@
 	<view class="submitContainer">
 		<!-- 顶部 -->
 		<topBar :nav="setNav" v-if="!showEditor"></topBar>
-		<view class="setBack" :style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}"
-			v-if="showEditor" @click="showEditor=!showEditor">
-			<text class="iconfont icon-fanhui"></text>
-			<text class="title">返回</text>
+		<view class="setBack" :style="{'height':height.titleBarHeight+'px'}" v-if="showEditor">
+		</view>
+		<!-- 个人信息 -->
+		<view class="userInfo" v-if="!showEditor">
+			<view class="img" :style="{'backgroundImage':`url(${baseInfo.img})`}">
+			</view>
+			<view class="content">
+				<view class="name">
+					{{baseInfo.name}}
+				</view>
+				<view class="identity">
+					{{getIdentity(baseInfo.identity)}}
+				</view>
+			</view>
 		</view>
 		<!-- 标题 -->
 		<view class="title" v-if="!showEditor">
@@ -22,26 +32,30 @@
 		<view class="intro" v-if="!showEditor">
 			<textarea v-model="infoForm.simpleContent" placeholder="请输入简介(100字以内)" maxlength="100" />
 		</view>
-		<!-- 资讯主体 -->
-		<view class="mainContainer">
-			<view class="mainOperate">
-				<view class="showBtn" @click="showEditor=!showEditor">
-					{{showEditor?"编辑完毕":"编辑正文"}}
-				</view>
-				<view class="setLocal" @click="setLocal()">
-					暂存
-				</view>
+		<!-- 编辑正文 -->
+		<view class="edit" v-if="!showEditor" @click="showEditor=!showEditor">
+			<view class="text" v-if="!infoForm.content">
+				去编辑正文
 			</view>
-			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
-				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
-				@focus="(showEditor=true)&(showOperate= true)">
-			</editor>
-			<!-- 占位框 -->
-			<view class="setBox" v-if="showEditor" :style="{height:keyboardHeight+'px'}">
+			<rich-text v-if="infoForm.content" :nodes="infoForm.content"></rich-text>
+		</view>
+		<!-- 主页操作 -->
+		<view class="editOperate">
+			<view class="btn" @click="showEditor=!showEditor">
+				{{!showEditor?"编辑正文":"编辑完毕"}}
+			</view>
+			<view class="btn" @tap="preview">
+				预览
+			</view>
+			<view class="btn" @click="setLocal()">
+				暂存
+			</view>
+			<view class="btn" @tap="submit">
+				发布
 			</view>
 		</view>
 		<!-- 操作栏 -->
-		<view class="operate" v-if="showOperate">
+		<view class="operate" v-if="showEditor">
 			<view class="operateLine">
 				<view class="icon">
 					<view class="iconfont icon-tupian" @touchend.stop="insertImage()">
@@ -56,14 +70,6 @@
 					</view>
 					<view class="close" @click="tapSelect = 0" v-if="tapSelect">
 						收起
-					</view>
-				</view>
-				<view class="ready">
-					<view class="preview" @tap="preview">
-						预览
-					</view>
-					<view class="submit" @tap="submit">
-						发布
 					</view>
 				</view>
 			</view>
@@ -190,6 +196,16 @@
 				</view>
 			</view>
 		</view>
+		<!-- 资讯主体 -->
+		<view class="mainContainer" v-if="showEditor">
+			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
+				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
+				@focus="showEditor=true">
+			</editor>
+			<!-- 占位框 -->
+			<view class="setBox" v-if="showEditor" :style="{height:keyboardHeight+'px'}">
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -262,8 +278,8 @@
 				showEditor: false,
 				// 键盘高度
 				keyboardHeight: 0,
-				// 是否显示操作栏
-				showOperate: false
+				// 个人信息
+				baseInfo: {}
 			};
 		},
 		onLoad(options) {
@@ -278,6 +294,7 @@
 				this.getLocalInfoForm()
 		},
 		created() {
+			this.getBaseInfo()
 			this.height = uni.getStorageSync('height')
 			uni.onKeyboardHeightChange(res => {
 				// console.log(res.height)
@@ -337,6 +354,23 @@
 			}
 		},
 		methods: {
+			// 获取身份
+			getIdentity(flag) {
+				switch (flag) {
+					case 1:
+						return "会员";
+					case 2:
+						return "会员单位";
+					case 3:
+						return "律师";
+				}
+			},
+			// 获取个人信息
+			async getBaseInfo() {
+				let res = await this.$api.getUserMsg()
+				// console.log(res)
+				this.baseInfo = res.data.userBaseInfo
+			},
 			// 获得本地暂存
 			getLocalInfoForm() {
 				let infoForm = uni.getStorageSync("infoForm")
@@ -454,6 +488,7 @@
 			// 获得图片列表
 			getImgList(e) {
 				let html = e.detail.html
+				this.infoForm.content = html
 				let img = html.split("src=\"")
 				let img1 = []
 				img.forEach(item => {
@@ -703,19 +738,38 @@
 
 		// overflow-y: hidden;
 		.setBack {
-			display: flex;
-			align-items: center;
 			width: 90%;
 			margin: 0 auto;
-			color: #000;
-			font-weight: bold;
+		}
 
-			.iconfont {
-				margin-right: 20rpx;
+		.userInfo {
+			padding: 20rpx 40rpx;
+			display: flex;
+			align-items: center;
+
+			.img {
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-position: center;
+				width: 100rpx;
+				height: 100rpx;
+				border-radius: 50rpx;
 			}
 
-			.title {
-				font-size: 34rpx;
+			.content {
+				margin-left: 30rpx;
+				letter-spacing: 1rpx;
+
+				.name {
+					font-weight: bold;
+					color: #141414;
+				}
+
+				.identity {
+					font-size: 26rpx;
+					color: #999;
+					margin-top: 8rpx;
+				}
 			}
 		}
 
@@ -756,42 +810,44 @@
 			}
 		}
 
+		.edit {
+			padding: 20rpx 40rpx;
+			color: #808080;
+		}
+
+		.editOperate {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			background-color: #fff;
+			box-sizing: border-box;
+			position: fixed;
+			bottom: 20rpx;
+			left: 2%;
+			width: 96%;
+			height: 120rpx;
+			border-radius: 14rpx;
+			padding: 20rpx;
+			display: flex;
+			justify-content: space-between;
+			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			z-index: 999;
+
+			.btn {
+				width: 22%;
+				height: 60rpx;
+				line-height: 60rpx;
+				text-align: center;
+				border: 2rpx solid #36c1ba;
+				color: #36c1ba;
+				background-color: #36c1ba10;
+				border-radius: 8rpx;
+			}
+		}
+
 		.mainContainer {
 			padding: 0 40rpx 20rpx;
-
-			.mainOperate {
-				display: flex;
-				justify-content: flex-end;
-				align-items: center;
-
-				.showBtn {
-					color: #36c1ba;
-					letter-spacing: 2rpx;
-					font-size: 30rpx;
-					font-weight: bold;
-					// background-color: pink;
-					padding: 20rpx 0 0;
-					width: 140rpx;
-					height: 50rpx;
-					text-align: center;
-					line-height: 30rpx;
-					margin-right: 20rpx;
-				}
-
-				.setLocal {
-					color: #36c1ba;
-					letter-spacing: 2rpx;
-					font-size: 30rpx;
-					font-weight: bold;
-					// background-color: pink;
-					padding: 20rpx 0 0;
-					width: 70rpx;
-					height: 50rpx;
-					text-align: center;
-					line-height: 30rpx;
-
-				}
-			}
 
 			editor {
 				min-height: 74vh;
@@ -799,20 +855,19 @@
 		}
 
 		.operate {
-			position: fixed;
 			padding-bottom: 20rpx;
 			bottom: 0rpx;
 			width: 100%;
 			background-color: #fff;
-			border-top: 8rpx solid #eee;
 
 			.operateLine {
+				border-top: 2rpx solid #eee;
 				border-bottom: 2rpx solid #eee;
 				display: flex;
 				padding: 20rpx 10rpx;
 
 				.icon {
-					width: 76%;
+					width: 100%;
 					display: flex;
 					justify-content: space-around;
 
@@ -838,23 +893,6 @@
 						font-weight: bold;
 						margin-left: 20rpx;
 						letter-spacing: 1rpx;
-					}
-				}
-
-				.ready {
-					flex: 1;
-					display: flex;
-					border-left: 2rpx solid #eee;
-
-					.submit,
-					.preview {
-						display: block;
-						color: #4e8df6;
-						font-size: 30rpx;
-						font-weight: bold;
-						margin-left: 20rpx;
-						letter-spacing: 1rpx;
-
 					}
 				}
 

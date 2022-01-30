@@ -6,6 +6,7 @@
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
 				"enablePullDownRefresh": false
 			}
 
