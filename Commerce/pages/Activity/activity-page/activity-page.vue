@@ -48,7 +48,7 @@
 			async init() {
 				var that = this
 				setTimeout(function() {
-					console.log('高度', that.contentHeight)
+					// console.log('高度', that.contentHeight)
 				}, 1000);
 				let resp
 				var getAPI = {
@@ -107,7 +107,6 @@
 				})
 				if (resp) {
 					this.current.totalPages = Math.ceil(resp.data.total / 20);
-					console.log()
 					if (resp.data.act.length == 0) {
 						that.loadmore = false;
 						that.springback = true;

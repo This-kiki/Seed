@@ -8,7 +8,8 @@
 						{{ item.name }}
 					</view>
 					<view class="top-head-author-identity oneline">
-						{{ getLevel(item.identity,item.subLevel) }}
+						{{ getLevel(item.identity,item.subLevel) }} 来自<span
+							style="font-weight: 700;margin-left: 10rpx;">{{getCategory(item.category)}}</span>
 					</view>
 				</view>
 			</view>
@@ -22,9 +23,9 @@
 		</view>
 		<view class="middle">
 			<view class="middle-title">
-				<view class="middle-title-type">
+				<!-- <view class="middle-title-type">
 					<u-tag :text="getCategory(item.category)" mode="plain" size="mini" />
-				</view>
+				</view> -->
 				<view class="middle-title-text">
 					{{item.title}}
 				</view>
@@ -34,13 +35,13 @@
 					{{item.simpleContent}}
 				</view>
 			</view>
-			<view class="middle-content1" v-if="imagArr.length == 1">
+			<!-- <view class="middle-content1" v-if="imagArr.length == 1">
 				<view class="middle-content1-text">
 					{{item.simpleContent}}
 				</view>
 				<view class="middle-content1-img" :style="'background-image: url('+ imagArr[0] +');'"></view>
-			</view>
-			<view class="middle-content3" v-if="imagArr.length == 3||imagArr.length == 2">
+			</view> -->
+			<view class="middle-content3" v-if="imagArr.length == 3||imagArr.length == 2||imagArr.length == 1">
 				<view class="middle-content3-text">
 					{{item.simpleContent}}
 				</view>
@@ -223,7 +224,7 @@
 </script>
 <style lang="scss" scoped>
 	.infoBox {
-		width: 100vw;
+		width: 90vw;
 		margin: 10rpx auto;
 		padding: 10rpx 20rpx;
 		display: flex;
@@ -268,7 +269,7 @@
 					.oneline {
 						display: flex;
 						align-items: center;
-						width: 30vw;
+						width: 80vw;
 						height: 30rpx;
 						overflow: hidden; //多出部分隐藏
 						white-space: nowrap; //一行显示
@@ -323,7 +324,7 @@
 				.middle-title-text {
 					font-weight: 700;
 					font-size: 32rpx;
-					margin-left: 10rpx;
+					// margin-left: 10rpx;
 					letter-spacing: 3rpx;
 				}
 			}
@@ -337,6 +338,7 @@
 				margin-top: 15rpx;
 
 				.middle-content0-text {
+					margin-left: 10rpx;
 					width: 100%;
 					max-height: 135rpx;
 					font-size: 30rpx;
@@ -390,6 +392,7 @@
 				margin-top: 15rpx;
 
 				.middle-content3-text {
+					margin-left: 10rpx;
 					width: 100%;
 					max-height: 90rpx;
 					font-size: 30rpx;

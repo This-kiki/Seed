@@ -6,7 +6,8 @@
 			<view class="top-nav-to">
 				<!-- <view class="search"><view class="search-bar" @click="go()">搜索你感兴趣的~~</view></view> -->
 				<view style="height: 75rpx;">
-					<u-tabs ref="uTabs" :list="items" :current="current" @change="tabsChange" lineColor="#36c1ba"
+					<u-tabs ref="uTabs" :list="items" :current="current" @change="tabsChange"
+						:activeStyle="{color: '#36c1ba',fontWeight: 'bold'}" lineColor="#36c1ba"
 						itemStyle="min-width: 80px;padding: 0; height: 40px;"></u-tabs>
 					<u-line color="#d4d4d4"></u-line>
 				</view>

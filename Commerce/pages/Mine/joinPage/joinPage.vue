@@ -6,8 +6,11 @@
 			已提交申请，请等待管理员审核
 		</view>
 		<view class="m-page-bottom" v-if="userMsg.apply == 0">
+			<view class="m-page-title">
+				申请入会
+			</view>
 			<view class="m-page-list">
-				<view class="text" style="margin-left: 60rpx;">
+				<view class="text">
 					个人会员
 				</view>
 				<view class="m-page-listitem" @click="go('../Join/Join')">
@@ -19,7 +22,7 @@
 					<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 					<span class="iconfont m-page-listitemicon">&#xe623;</span>
 				</view>
-				<view style="margin-top: 30rpx;margin-left: 60rpx;" class="text">
+				<view style="margin-top: 30rpx;" class="text">
 					会员单位
 				</view>
 				<view class="m-page-listitem" @click="go('../CompanyJoin/CompanyJoin')">
@@ -51,7 +54,7 @@
 			return {
 				setNav: {
 					titleColor: "black",
-					navTitle: "申请入会",
+					navTitle: "返回",
 					bgColor: "white",
 					isShowBackBtn: true,
 					backBtnColor: "black"
@@ -99,15 +102,25 @@
 		color: #22C704;
 	}
 	.m-page-bottom {
+		background-color: rgb(239,239,239);
 		width: 100%;
+		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
 	}
+	
+	.m-page-title {
+		margin: 80rpx auto;
+		font-size: 45rpx;
+		font-weight: 700;
+	}
 
 	.m-page-list {
-		width: 100%;
+		border-radius: 20rpx;
+		width: 75%;
+		padding: 100rpx 30rpx;
 		background-color: rgb(255, 255, 255);
 		display: flex;
 		flex-direction: column;
@@ -157,6 +170,7 @@
 		height: 100rpx;
 		display: flex;
 		justify-content: flex-start;
+		align-self: flex-start;
 		align-items: center;
 		font-weight: 600;
 		border-bottom: 1rpx solid rgb(229, 229, 229);

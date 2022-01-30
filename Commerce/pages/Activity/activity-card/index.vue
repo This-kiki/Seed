@@ -4,8 +4,8 @@
 			<view class="act-card-content">
 				<view v-if="options.img" class="act-card-imag" :style="'background-image: url('+options.img+');'">
 				</view>
-				<u-image v-if="!options.img" class="act-card-imag" width="100%" height="170rpx" src="../../../static/img/logo.png"></u-image>
-				<view class="act-card-text">
+				<view v-if="!options.img" class="act-card-imag" width="100%" height="170rpx" style="background-image: url(../../../static/img/logo.png);"></view>
+				<view class=" act-card-text">
 					<view class="act-card-title">{{ options.name }}</view>
 					<view class="act-card-msg">
 						<view class="act-card-quota">名额：{{ options.num }}</view>
@@ -15,10 +15,10 @@
 			<view class="act-card-bottom">
 				<view class="act-card-time">{{ options.createTime.slice(0, 11) }}</view>
 				<view class="act-card-state">
-					<u-tag text="已满员" class="act-card-statebtn" size="mini" type="warning" :show="options.num == 0" />
-					<u-tag text="进行中" class="act-card-statebtn" size="mini" type="success"
-						:show="options.status != 1" />
-					<u-tag text="已结束" class="act-card-statebtn" size="mini" type="info" :show="options.status == 1" />
+					<u-tag text="已满员" size="mini" type="warning" plain plainFill :show="options.num == 0" />
+					<view style="width: 10rpx;"></view>
+					<u-tag text="进行中" size="mini" type="success" plain plainFill :show="options.status != 1" />
+					<u-tag text="已结束" size="mini" type="info" plain plainFill :show="options.status == 1" />
 				</view>
 			</view>
 		</view>
@@ -82,7 +82,7 @@
 	}
 
 	.act-card-state {
-		width: 93%;
+		width: 73%;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
@@ -133,12 +133,13 @@
 	.act-card-bottom {
 		margin-top: 15rpx;
 		padding: 0 15rpx;
-		width: 100%;
+		width: 95%;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
 	}
+
 	.act-card-time {
 		display: flex;
 		align-items: center;
@@ -149,9 +150,4 @@
 	}
 
 	.act-card-quota {}
-
-	.act-card-statebtn {
-		height: 100%;
-		margin-left: 10rpx;
-	}
 </style>

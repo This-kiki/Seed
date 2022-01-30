@@ -3,11 +3,12 @@
 		<topBar ref="topBar" :nav="setNav"></topBar>
 		<!-- <page :contentHeight="contentHeight" :status="0"></page> -->
 		<view style="height: 40px;">
-			<u-tabs ref="uTabs" :list="list" :current="current" @change="tabsChange" :is-scroll="true"
-				swiperWidth="750" active-color="#36c1ba" font-size="28"></u-tabs>
+			<u-tabs ref="uTabs" :list="list" :current="current" @change="tabsChange" :scrollable="false"
+				swiperWidth="750" :activeStyle="{color: '#36c1ba',fontWeight: 'bold'}" lineWidth='150'
+				lineColor="#36c1ba"></u-tabs>
 			<u-line color="#d4d4d4"></u-line>
 		</view>
-		<swiper :style="'height:' + contentHeight + 'px;'" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+		<swiper :style="'height:' + contentHeight + 'px;'" :current="swiperCurrent" @animationfinish="animationfinish">
 			<swiper-item class="swiper-item">
 				<page :contentHeight="contentHeight" :status='0'></page>
 			</swiper-item>
@@ -57,18 +58,14 @@
 				});
 			},
 			// tabs通知swiper切换
-			tabsChange(index) {
-				this.swiperCurrent = index;
+			tabsChange(item) {
+				this.swiperCurrent = item.index;
 			},
 			// swiper-item左右移动，通知tabs的滑块跟随移动
-			transition(e) {
-				let dx = e.detail.dx;
-				this.$refs.uTabs.setDx(dx);
-			},
+
 			// swiper滑动结束，分别设置tabs和swiper的状态
 			animationfinish(e) {
 				let current = e.detail.current;
-				this.$refs.uTabs.setFinishCurrent(current);
 				this.swiperCurrent = current;
 				this.current = current;
 			},

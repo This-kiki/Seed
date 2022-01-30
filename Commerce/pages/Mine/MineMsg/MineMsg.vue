@@ -16,13 +16,13 @@
 						<text v-if="!model1.userInfo.img">选择头像</text>
 					</view>
 				</u-form-item>
-				<u-form-item prop="userInfo.name" borderBottom ref="item1">
+				<u-form-item prop="userInfo.name" borderBottom>
 					<view class="text-box">
 						<text>姓名</text>
 						<u--input v-model="model1.userInfo.name" border="surround" placeholder="请填写姓名"></u--input>
 					</view>
 				</u-form-item>
-				<u-form-item prop="userInfo.sex" borderBottom @click="shows.show1 = true; hideKeyboard()" ref="item1">
+				<u-form-item prop="userInfo.sex" borderBottom @click="shows.show1 = true" ref="item3">
 					<view class="text-box">
 						<text>性别</text>
 						<u--input v-model="model1.userInfo.sex" border="surround" disabled disabledColor="#ffffff"
@@ -30,7 +30,7 @@
 						</u--input>
 					</view>
 				</u-form-item>
-				<u-form-item prop="userInfo.birth" borderBottom @click="shows.show2 = true;" ref="item2">
+				<u-form-item prop="userInfo.birth" borderBottom @click="shows.show2 = true;" ref="item4">
 					<view class="text-box">
 						<text>出生年月</text>
 						<u--input v-model="model1.userInfo.birth" border="surround" disabled disabledColor="#ffffff"
@@ -41,14 +41,51 @@
 				<u-form-item prop="userInfo.birth" borderBottom>
 					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
 						<view class="text-box">
-							<text>出生年月</text>
+							<text>籍贯</text>
 							<u--input v-model="model1.userInfo.place" border="surround" disabled disabledColor="#ffffff"
 								placeholder="请选择籍贯">
 							</u--input>
 						</view>
 					</picker>
 				</u-form-item>
+				<u-form-item prop="userInfo.phone" borderBottom ref="item1">
+					<view class="text-box">
+						<text>手机号</text>
+						<u--input v-model="model1.userInfo.phone" border="surround" placeholder="请填写手机号"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.school" borderBottom ref="item1">
+					<view class="text-box">
+						<text>学校</text>
+						<u--input v-model="model1.userInfo.school" border="surround" placeholder="请填写学校"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.major" borderBottom ref="item1">
+					<view class="text-box">
+						<text>专业</text>
+						<u--input v-model="model1.userInfo.major" border="surround" placeholder="请填写专业"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.grade" borderBottom ref="item1">
+					<view class="text-box">
+						<text>年级</text>
+						<u--input v-model="model1.userInfo.grade" border="surround" placeholder="请填写年级"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.work" borderBottom ref="item1">
+					<view class="text-box">
+						<text>工作单位</text>
+						<u--input v-model="model1.userInfo.work" border="surround" placeholder="请填写工作单位"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.position" borderBottom ref="item1">
+					<view class="text-box">
+						<text>工作职位</text>
+						<u--input v-model="model1.userInfo.position" border="surround" placeholder="请填写工作职位"></u--input>
+					</view>
+				</u-form-item>
 			</u--form>
+			<u-button type="primary" text="提交" customStyle="margin: 30px auto;width:90%" @click="save"></u-button>
 			<!-- 性别选择器 -->
 			<u-action-sheet :show="shows.show1" :actions="sex" title="请选择性别" @close="shows.show1 = false"
 				@select="sexSelect">
@@ -112,6 +149,42 @@
 						message: '请填写姓名',
 						trigger: ['blur', 'change']
 					},
+					'userInfo.phone': {
+						type: 'string',
+						required: true,
+						message: '请填写手机号',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.school': {
+						type: 'string',
+						required: true,
+						message: '请填写学校',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.major': {
+						type: 'string',
+						required: true,
+						message: '请填写专业',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.grade': {
+						type: 'string',
+						required: true,
+						message: '请填写年级',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.work': {
+						type: 'string',
+						required: true,
+						message: '请填写工作单位',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.position': {
+						type: 'string',
+						required: true,
+						message: '请填写工作职位',
+						trigger: ['blur', 'change']
+					},
 					'userInfo.sex': {
 						type: 'string',
 						max: 1,
@@ -150,9 +223,6 @@
 				// return y + '-' + MM + '-' + d;
 				this.model1.userInfo.birth = y + '-' + MM + '-' + d
 			},
-			change(e) {
-				// console.log('change', e)
-			},
 			// ssssssss
 
 
@@ -166,20 +236,23 @@
 					// this.model1.userInfo = res.data.userBaseInfo;
 					var obj = res.data.userBaseInfo;
 					for (let key in obj) {
-						// console.log(key,'-',obj[key])
+						// console.log(key, '-', obj[key])
 						if (obj[key])
 							this.model1.userInfo[key] = obj[key];
 						else
 							this.model1.userInfo[key] = ''
+						if (key == 'sex') {
+							if (obj[key] == 1) {
+								this.model1.userInfo[key] = '男'
+								console.log(key, '-', obj[key])
+							} else if (obj[key] == 2) {
+								this.model1.userInfo[key] = '女'
+							} else {
+								this.model1.userInfo[key] = ''
+							}
+						}
 					}
 				});
-			},
-			bindSexChange(e) {
-				this.model1.userInfo.sex = e.detail.value;
-			},
-			bindDateChange(e) {
-				console.log()
-				// this.model1.userInfo.birth = e.detail.value;
 			},
 			bindPlaceChange(e) {
 				// console.log(e)
@@ -206,6 +279,7 @@
 							// console.log(res)
 							var obj = this.model1.userInfo;
 							obj.img = res.data.url;
+							obj.sex = (obj.sex == '男' ? 1 : obj.sex == '女' ? 2 : 0)
 							this.$api
 								.changeUserMsg(obj)
 								.then(res => {
@@ -230,6 +304,7 @@
 						});
 				} else {
 					var obj = this.model1.userInfo;
+					obj.sex = (obj.sex == '男' ? 1 : obj.sex == '女' ? 2 : 0)
 					this.$api
 						.changeUserMsg(obj)
 						.then(res => {
@@ -259,14 +334,6 @@
 				// 	});
 				// 	return false;
 				// }
-			},
-			isPoneAvailable(poneInput) {
-				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if (!myreg.test(poneInput)) {
-					return false;
-				} else {
-					return true;
-				}
 			},
 			avatarChoose() {
 				let that = this;
@@ -320,7 +387,7 @@
 		.text-box {
 			width: 95%;
 			margin: auto;
-			height: 100rpx;
+			height: 110rpx;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
@@ -330,6 +397,7 @@
 				vertical-align: middle;
 				color: #8e8e93;
 				font-size: 28rpx;
+				padding-bottom: 10rpx;
 			}
 		}
 	}

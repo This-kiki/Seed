@@ -1,7 +1,8 @@
 <template>
 	<view class="body">
 		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
-		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png"></u-image>
+		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png">
+		</u-image>
 		<view class="content">
 			<view class="content-title">
 				{{ dataForm.name }}
@@ -54,11 +55,15 @@
 		</view>
 		<u-toast ref="uToast" />
 		<view class="content-reaction">
-			<u-button plain shape="circle" ripple open-type="share" @click="shareAct(dataForm)"><view class="iconfont content-reaction-like">&#xe63f;</view></u-button>
-			<view class="content-reaction-bot-btn">
-				<u-button plain type="success" ripple @click="joinActivity" v-if="apply == 0">我要参加
+			<view class="share-btn">
+				<u-button plain shape="circle" open-type="share" @click="shareAct(dataForm)">
+					<view class="iconfont content-reaction-like">&#xe63f;</view>
 				</u-button>
-				<u-button plain type="warning" ripple @click="cancelActivity" v-if="apply == 1">取消报名
+			</view>
+			<view class="content-reaction-bot-btn">
+				<u-button plain type="success" @click="joinActivity" v-if="apply == 0">我要参加
+				</u-button>
+				<u-button plain type="warning" @click="cancelActivity" v-if="apply == 1">取消报名
 				</u-button>
 				<u-button plain type="default" hover-class="none" v-if="apply == 2">已结束</u-button>
 				<u-button plain type="primary" hover-class="none" v-if="apply == 3">已满员</u-button>
@@ -245,6 +250,7 @@
 			}
 
 		}
+
 		.content-reaction {
 			position: fixed;
 			z-index: 100;
@@ -257,20 +263,24 @@
 			width: 100vw;
 			background-color: #f9f9f9;
 			border-top: 1rpx solid #e1e1e1;
-		
+
 			.content-reaction-bot-btn {
 				margin: 0 30rpx;
 			}
-		
-			.content-reaction-like {
-				border-radius: 35rpx;
-				background-color: rgb(255, 255, 255);
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				font-weight: 1000;
-				font-size: 35rpx;
-				color: rgb(171, 171, 171);
+
+			.share-btn {
+				width: 50px;
+
+				.content-reaction-like {
+					border-radius: 35rpx;
+					background-color: rgb(255, 255, 255);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					font-weight: 1000;
+					font-size: 35rpx;
+					color: rgb(171, 171, 171);
+				}
 			}
 		}
 	}

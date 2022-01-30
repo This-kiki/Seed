@@ -2,6 +2,8 @@
 	<view class="body">
 		<topBar :nav="setNav"></topBar>
 		<view class="m-top" v-if="userMsg.name">
+			<view class="bg-imag" :style="{backgroundImage:'url('+userMsg.img+')'}">
+			</view>
 			<view class="m-top-head" :style="{backgroundImage:'url('+userMsg.img+')'}"></view>
 			<view class="m-top-name">
 				{{ userMsg.name }}
@@ -59,7 +61,8 @@
 						设置个人资料
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')" v-if="userMsg.identity!=3&&userMsg.identity!=0">
+				<view class="m-bottom-item" @click="go('/pages/JobResume/JobResume')"
+					v-if="userMsg.identity!=3&&userMsg.identity!=0">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe646;
 					</view>
@@ -67,7 +70,8 @@
 						我的个人简历
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')" v-if="userMsg.identity!=3&&userMsg.identity!=0">
+				<view class="m-bottom-item" @click="go('/pages/JobMe/JobMe')"
+					v-if="userMsg.identity!=3&&userMsg.identity!=0">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe606;
 					</view>
@@ -97,7 +101,7 @@
 				setNav: {
 					titleColor: "#fff",
 					navTitle: "我的",
-					bgColor: "#ffffff"
+					bgColor: "#36c1ba"
 				},
 				userMsg: {},
 			}
@@ -212,9 +216,25 @@
 			width: 100%;
 			align-items: center;
 			justify-content: center;
-			height: 500rpx;
+			height: 600rpx;
+
+			.bg-imag {
+				width: 110%;
+				height: 600rpx;
+				position: absolute;
+				background-repeat: no-repeat;
+				z-index: 0;
+				background-position: center;
+				background-size: cover;
+				-webkit-filter: blur(10px);
+				-moz-filter: blur(10px);
+				-o-filter: blur(10px);
+				-ms-filter: blur(10px);
+				filter: blur(10px);
+			}
 
 			.m-top-head {
+				z-index: 1;
 				width: 220rpx;
 				height: 220rpx;
 				border-radius: 200rpx;
@@ -227,17 +247,21 @@
 			}
 
 			.m-top-name {
+				z-index: 1;
 				font-size: 40rpx;
 				font-weight: 1000;
 				margin: 30rpx 0;
+				color: rgb(255, 255, 255);
 			}
 
 			.m-top-idntity {
+				z-index: 1;
+				background-color: rgb(255, 255, 255);
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				height: 50rpx;
-				padding: 0 20rpx;
+				padding: 5rpx 25rpx;
 				font-size: 26rpx;
 				color: rgb(120, 120, 120);
 				border-radius: 30rpx;
@@ -289,11 +313,11 @@
 					}
 
 					.m-bottom-item-content {
-						width: 78%;
+						width: 65%;
 						font-size: 35rpx;
 						font-weight: 600;
-						color: rgb(108, 108, 108);
-						padding: 25rpx 30rpx;
+						color: rgb(135, 135, 135);
+						padding: 20rpx 30rpx;
 						border-bottom: 1rpx solid rgb(195, 195, 195);
 					}
 				}
