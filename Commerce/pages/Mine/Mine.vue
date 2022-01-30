@@ -1,6 +1,6 @@
 <template>
 	<view class="body">
-		<topBar :nav="setNav"></topBar>
+		<topBar :nav="setNav" :opacity="opacity"></topBar>
 		<view class="m-top" v-if="userMsg.name">
 			<view class="bg-imag" :style="{backgroundImage:'url('+userMsg.img+')'}">
 			</view>
@@ -100,14 +100,19 @@
 			return {
 				setNav: {
 					titleColor: "#fff",
-					navTitle: "我的",
-					bgColor: "#36c1ba"
+					navTitle: "个人中心",
+					titleAlign: "center",
+					bgColor: "#36c1ba",
 				},
+				opacity: 1,
 				userMsg: {},
 			}
 		},
 		onShow() {
 			this.getUserInfo()
+		},
+		onPageScroll(e) {
+			this.opacity = ((100 - e.scrollTop) / 100).toFixed(1)
 		},
 		methods: {
 			getUserInfo() {
@@ -204,7 +209,7 @@
 <style lang="scss" scoped>
 	.body {
 		min-height: 100vh;
-		width: 100vw;
+		width: 100%;
 		background-color: rgb(250, 250, 250);
 		user-select: text;
 		-webkit-user-select: text;

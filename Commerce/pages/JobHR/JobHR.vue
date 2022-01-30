@@ -261,7 +261,7 @@
 			position: fixed;
 			width: 100%;
 			height: 40px;
-			padding: 0 3%;
+			padding: 0 2%;
 			background-color: #36c1ba;
 			padding-bottom: 20rpx;
 			display: flex;
@@ -270,7 +270,7 @@
 
 			.input {
 				width: 100%;
-				height: 60rpx;
+				height: 66rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
 				background-color: #ffffff;
@@ -315,20 +315,20 @@
 						letter-spacing: 1rpx;
 
 						.title {
-							font-size: 28rpx;
+							font-size: 30rpx;
 							font-weight: bold;
 						}
 
 						.address {
 							color: #999;
-							font-size: 22rpx;
+							font-size: 24rpx;
 							margin-top: 10rpx;
 						}
 
 						.company {
 							margin-top: 4rpx;
 							color: #999;
-							font-size: 22rpx;
+							font-size: 24rpx;
 						}
 
 						.money {
@@ -365,8 +365,8 @@
 				}
 
 				.bottom {
-					margin-top: 16rpx;
-					padding-top: 16rpx;
+					margin-top: 14rpx;
+					padding-top: 14rpx;
 					border-top: 1rpx #ccc solid;
 					display: flex;
 					justify-content: space-around;
@@ -380,20 +380,7 @@
 
 						padding: 10rpx;
 						border-radius: 10rpx;
-						color: #fff;
-					}
-
-					.delete {
-						background-color: #e06c75;
-					}
-
-					.edit {
-						background-color: #61afef;
-					}
-
-					.resume {
-						background-color: #d19a66;
-
+						color: #000;
 					}
 				}
 			}

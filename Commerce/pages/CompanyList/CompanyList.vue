@@ -66,7 +66,7 @@
 
 <style lang="scss">
 	.CompanyListContainer {
-		padding-bottom: 50rpx;
+		padding-bottom: 100rpx;
 		user-select: text;
 		-webkit-user-select: text;
 

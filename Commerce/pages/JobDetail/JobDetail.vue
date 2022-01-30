@@ -160,11 +160,11 @@
 		data() {
 			return {
 				setNav: {
-					titleColor: "black",
+					titleColor: "#fff",
 					navTitle: "招聘详情",
-					bgColor: "white",
+					bgColor: "#36c1ba",
 					isShowBackBtn: true,
-					backBtnColor: "black"
+					backBtnColor: "#fff"
 				},
 				// 招聘详情id
 				id: '',
@@ -393,11 +393,11 @@
 					.work {
 						display: flex;
 						align-items: center;
-						font-size: 30rpx;
+						font-size: 34rpx;
 						font-weight: bold;
 
 						.category {
-							font-size: 22rpx;
+							font-size: 24rpx;
 							color: #d17846;
 							padding: 1rpx;
 							border: 1rpx solid #d17846;
@@ -408,11 +408,11 @@
 
 					.money {
 						margin-top: 20rpx;
-						font-size: 22rpx;
+						font-size: 24rpx;
 						color: #36c1ba;
 
 						text {
-							font-size: 32rpx;
+							font-size: 34rpx;
 							font-weight: bold;
 						}
 					}
@@ -425,7 +425,7 @@
 
 					view {
 						margin-right: 10rpx;
-						font-size: 22rpx;
+						font-size: 24rpx;
 						color: #666;
 						background-color: #eee;
 						padding: 2rpx 8rpx;
@@ -435,7 +435,7 @@
 
 				.date {
 					text-align: right;
-					font-size: 20rpx;
+					font-size: 22rpx;
 					color: #666;
 					margin-top: 16rpx;
 				}
@@ -449,7 +449,7 @@
 				border-bottom: 1rpx solid #eee;
 
 				.title {
-					font-size: 30rpx;
+					font-size: 32rpx;
 					font-weight: bold;
 				}
 
@@ -457,32 +457,32 @@
 					margin-top: 28rpx;
 
 					.item {
-						font-size: 24rpx;
+						font-size: 26rpx;
 						margin-bottom: 10rpx;
 						display: flex;
 
 						text {
-							color: #666;
-							width: 120rpx;
+							color: #999;
+							width: 140rpx;
 						}
 					}
 
 					.require {
 						display: flex;
 						flex-direction: column;
-						font-size: 24rpx;
+						font-size: 26rpx;
 						letter-spacing: 1rpx;
 						line-height: 38rpx;
 						margin-top: 16rpx;
 
 						text {
-							color: #666;
+							color: #999;
 						}
 					}
 				}
 
 				.num {
-					font-size: 24rpx;
+					font-size: 26rpx;
 					color: #333;
 					margin-top: 40rpx;
 				}
@@ -496,11 +496,11 @@
 				border-bottom: 1rpx solid #eee;
 
 				.title {
-					font-size: 30rpx;
+					font-size: 32rpx;
 					font-weight: bold;
 
 					text {
-						font-size: 24rpx;
+						font-size: 26rpx;
 						color: #36c1ba;
 						font-weight: normal;
 						float: right;
@@ -509,7 +509,7 @@
 
 				.name {
 					margin-top: 30rpx;
-					font-size: 28rpx;
+					font-size: 30rpx;
 					letter-spacing: 1rpx;
 					font-weight: bold;
 					padding-bottom: 16rpx;
@@ -517,7 +517,7 @@
 
 				.companyDetail {
 					margin-top: 16rpx;
-					font-size: 24rpx;
+					font-size: 26rpx;
 					letter-spacing: 1rpx;
 
 					.scope,
@@ -528,7 +528,7 @@
 
 						text {
 							color: #666;
-							width: 140rpx;
+							width: 200rpx;
 						}
 					}
 
@@ -569,7 +569,7 @@
 							display: flex;
 							justify-content: flex-start;
 							align-items: center;
-							font-size: 30rpx;
+							font-size: 32rpx;
 
 							.position {
 								margin-left: 10rpx;
@@ -580,7 +580,7 @@
 
 						.bottom {
 							margin-top: 10rpx;
-							font-size: 26rpx;
+							font-size: 28rpx;
 						}
 					}
 				}

@@ -109,8 +109,8 @@
 				nowList.forEach(item => {
 					let brief = []
 					let arr = item.brief.split(" ")
-					arr.forEach(ele=>{
-						if(ele){
+					arr.forEach(ele => {
+						if (ele) {
 							brief.push(ele)
 						}
 					})
@@ -168,11 +168,14 @@
 		-webkit-user-select: text;
 
 		.jobList {
+			width: 94%;
+			margin: 0 auto;
 
 			.jobBox {
 				background-color: #fff;
-				padding: 30rpx 4% 20rpx;
-				margin-bottom: 14rpx;
+				padding: 36rpx 4% 26rpx;
+				margin-bottom: 20rpx;
+				border-radius: 4rpx;
 
 				.top {
 					display: flex;
@@ -182,11 +185,11 @@
 					.title {
 						display: flex;
 						align-items: center;
-						font-size: 30rpx;
+						font-size: 32rpx;
 						font-weight: bold;
 
 						.category {
-							font-size: 22rpx;
+							font-size: 24rpx;
 							color: #d17846;
 							padding: 1rpx;
 							border: 1rpx solid #d17846;
@@ -196,19 +199,19 @@
 					}
 
 					.money {
-						font-size: 30rpx;
+						font-size: 32rpx;
 						color: #36c1ba;
 					}
 				}
 
 				.words {
-					margin-top: 16rpx;
+					margin-top: 20rpx;
 					display: flex;
 					align-items: center;
 					flex-wrap: wrap;
 
 					.item {
-						font-size: 22rpx;
+						font-size: 24rpx;
 						background-color: #eee;
 						margin: 0 10rpx 10rpx 0;
 						padding: 4rpx 10rpx;
@@ -223,7 +226,8 @@
 				}
 
 				.need {
-					font-size: 22rpx;
+					margin-top: 10rpx;
+					font-size: 24rpx;
 					color: #666;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
@@ -236,8 +240,8 @@
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					margin-top: 16rpx;
-					font-size: 22rpx;
+					margin-top: 20rpx;
+					font-size: 24rpx;
 					color: #999;
 
 					.company {
@@ -257,7 +261,7 @@
 						.name {
 							margin-left: 18rpx;
 							color: #000;
-							font-size: 24rpx;
+							font-size: 26rpx;
 						}
 					}
 				}

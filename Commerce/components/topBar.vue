@@ -6,7 +6,10 @@
 			<i v-if="nav.isShowBackBtn" class="iconfont icon-fanhui back-btn" @tap="backTo()" :style="{
 				color:nav.backBtnColor
 			}" />
-			<view class="header-title" :style="{'color':nav.titleColor}">{{nav.navTitle}}</view>
+			<view class="header-title"
+				:style="{'color':nav.titleColor,'text-align':nav.titleAlign,'width':nav.titleAlign?'100%':''}">
+				{{nav.navTitle}}
+			</view>
 			<view class="search" v-if="nav.isSearch">
 				<view class="search-bar" @click="go()">输入关键字搜索</view>
 			</view>
@@ -72,12 +75,12 @@
 	.header {
 		box-sizing: content-box;
 		display: flex;
-		padding: 0 20rpx;
+		padding: 0 3%;
 		justify-content: flex-start;
 		align-items: center;
 		top: 0;
 		position: fixed;
-		width: 100%;
+		width: 94%;
 		z-index: 50;
 	}
 

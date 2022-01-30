@@ -17,11 +17,10 @@
 					商会介绍
 				</view>
 			</view>
-			<view class="intro" :style="{height:infoHeight}">
-				{{info}}
-			</view>
-			<view class="showMore" @click="showMore()">
-				{{infoBtn}}
+			<view class="intro">
+				<view class="line" v-for="(item,index) in info" :key="index">
+					{{item}}
+				</view>
 			</view>
 		</view>
 		<!-- 种子会架构 -->
@@ -102,10 +101,6 @@
 				carouselList: [],
 				// 商会介绍
 				info: "暂无",
-				// 商会框高度
-				infoHeight: "300rpx",
-				// 商会按钮文字
-				infoBtn: "查看更多",
 				// 地址
 				address: "",
 				// 电话
@@ -134,19 +129,9 @@
 				let data = res.data.intro
 				this.address = data.address
 				this.phoneList = data.contact
-				this.info = data.introduce
+				this.info = data.introduce.split("\n")
 				this.frameWorkList = data.framework.split("\n")
 				this.constitution = data.constitution
-			},
-			// 介绍显示更多
-			showMore() {
-				if (this.infoBtn == "查看更多") {
-					this.infoHeight = "auto"
-					this.infoBtn = "收起"
-				} else {
-					this.infoHeight = "300rpx"
-					this.infoBtn = "查看更多"
-				}
 			},
 			// 信息复制到剪切板
 			copy(value) {
@@ -188,7 +173,7 @@
 <style lang="scss" scoped>
 	.infoContainer {
 		padding-top: 20rpx;
-		padding-bottom: 50rpx;
+		padding-bottom: 100rpx;
 		background-color: #F5f5f5;
 		user-select: text;
 		-webkit-user-select: text;
@@ -250,7 +235,7 @@
 
 			.intro {
 				margin-top: 20rpx;
-				padding: 40rpx 30rpx 80rpx;
+				padding: 40rpx 30rpx;
 				background-color: #fefefe;
 				box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
 				font-size: 28rpx;

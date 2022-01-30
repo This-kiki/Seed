@@ -35,9 +35,13 @@
 				</view>
 				<view class="operate">
 					<view class="delete" @click="cancelResume(item.id)">
+						<view class="iconfont icon-undo">
+						</view>
 						撤回
 					</view>
 					<view class="detail" @click="seeDetail(item.id)">
+						<view class="iconfont icon-zhaopin">
+						</view>
 						查看详情
 					</view>
 				</view>
@@ -54,11 +58,11 @@
 		data() {
 			return {
 				setNav: {
-					titleColor: "black",
+					titleColor: "#fff",
 					navTitle: "我的求职",
-					bgColor: "white",
+					bgColor: "#36c1ba",
 					isShowBackBtn: true,
-					backBtnColor: "black"
+					backBtnColor: "#fff"
 				},
 				// 招聘列表
 				jobList: []
@@ -150,7 +154,7 @@
 
 			.jobBox {
 				background-color: #fff;
-				padding: 30rpx 4%;
+				padding: 20rpx 4%;
 				margin-bottom: 14rpx;
 
 				.top {
@@ -161,28 +165,28 @@
 					.title {
 						display: flex;
 						align-items: center;
-						font-size: 30rpx;
+						font-size: 32rpx;
 						font-weight: bold;
 
 						.category {
-							font-size: 22rpx;
+							font-size: 24rpx;
 							color: #d17846;
-							padding: 1rpx;
+							padding: 2rpx;
 							border: 1rpx solid #d17846;
 							border-radius: 6rpx;
-							margin-left: 10rpx;
+							margin-left: 14rpx;
 						}
 					}
 
 					.money {
-						font-size: 30rpx;
+						font-size: 32rpx;
 						color: #36c1ba;
 					}
 				}
 
 				.need {
 					margin-top: 16rpx;
-					font-size: 22rpx;
+					font-size: 24rpx;
 					color: #666;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
@@ -192,7 +196,7 @@
 				}
 
 				.company {
-					font-size: 26rpx;
+					font-size: 28rpx;
 					margin-top: 10rpx;
 					display: flex;
 					justify-content: flex-start;
@@ -206,28 +210,28 @@
 					display: flex;
 					justify-content: space-between;
 					margin-top: 16rpx;
-					font-size: 22rpx;
+					font-size: 24rpx;
 					color: #999;
 				}
 
 				.operate {
-					padding-top: 20rpx;
-					margin-left: 400rpx;
+					padding-top: 16rpx;
+					margin-top: 16rpx;
+					border-top: 4rpx solid #eee;
 					display: flex;
-					justify-content: space-between;
+					justify-content: space-around;
+					font-size: 28rpx;
 
-					.detail {
-						padding: 10rpx;
-						background-color: #56b6c2;
-						color: #fff;
-						border-radius: 10rpx;
-					}
-
+					.detail,
 					.delete {
 						padding: 10rpx;
-						background-color: #e06c75;
-						color: #fff;
 						border-radius: 10rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						.iconfont{
+							margin-right: 10rpx;
+						}
 					}
 				}
 			}
