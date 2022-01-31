@@ -1,88 +1,131 @@
 <template>
-	<view class="container">
-		<view class="ui-all">
-			<view class="avatar" @tap="avatarChoose">
-				<view class="imgAvatar">
-					<image class="page-headimg" :src="ApplyMember.img" mode="aspectFill"></image>
-				</view>
-				<text v-if="ApplyMember.img">修改个人免冠证件照</text>
-				<text v-if="!ApplyMember.img">选择个人免冠证件照</text>
-			</view>
-			<view class="text-box">
-				<text>姓名</text>
-				<input class="input-box" type="text" v-model="ApplyMember.name" placeholder-class="place" />
-			</view>
-			<view class="picker-box">
-				<text>申请职位</text>
-				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.subLevel"
-					@change="bindLevelChange" :range="levelList">
-					<view class="picker-text">{{ getsubLevel(ApplyMember.subLevel) }}</view>
-				</picker>
-			</view>
-			<view class="text-box">
-				<text>身份证</text>
-				<input class="input-box" type="text" v-model="ApplyMember.idNum" placeholder-class="place" />
-			</view>
-			<view class="picker-box">
-				<text>生日</text>
-				<picker class="picker" mode="date" v-model="ApplyMember.birth" @change="bindDateChange">
-					<view class="picker-text">{{ ApplyMember.birth }}</view>
-				</picker>
-			</view>
-			<view class="picker-box">
-				<text>性别</text>
-				<picker class="picker" mode="selector" range-key="name" v-model="ApplyMember.sex"
-					@change="bindSexChange" :range="sexlist">
-					<view class="picker-text">{{ ApplyMember.sex == 0 ? '男' : ApplyMember.sex == 1 ? '女' : '' }}</view>
-				</picker>
-			</view>
-			<view class="picker-box">
-				<text>籍贯</text>
-				<picker class="picker" mode="region" v-model="ApplyMember.place" @change="bindRegionChange">
-					<view class="picker-text">{{ ApplyMember.place }}</view>
-				</picker>
-			</view>
-			<view class="picker-box">
-				<text>政治面貌</text>
-				<picker class="picker" mode="selector" range-key="label" v-model="ApplyMember.polity"
-					@change="bindPolityChange" :range="polityList">
-					<view class="picker-text">{{ ApplyMember.polity }}</view>
-				</picker>
-			</view>
-			<view class="text-box">
-				<text>民族</text>
-				<input class="input-box" type="text" v-model="ApplyMember.nation" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>手机号</text>
-				<input class="input-box" type="text" v-model="ApplyMember.phone" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>电子邮箱</text>
-				<input class="input-box" type="text" v-model="ApplyMember.email" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>学校</text>
-				<input class="input-box" type="text" v-model="ApplyMember.school" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>专业</text>
-				<input class="input-box" type="text" v-model="ApplyMember.major" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>工作单位</text>
-				<input class="input-box" type="text" v-model="ApplyMember.work" placeholder-class="place" />
-			</view>
-			<view class="text-box">
-				<text>工作职位</text>
-				<input class="input-box" type="text" v-model="ApplyMember.position" placeholder-class="place" />
-			</view>
-			<view class="textarea-box">
-				<text>简介</text>
-				<textarea class="textarea" placeholder-class="place" v-model="ApplyMember.introduce"></textarea>
-			</view>
+	<view class="body">
+		<topBar :nav="setNav"></topBar>
+		<view class="">
+			<!-- 注意，如果需要兼容微信小程序，最好通过setRules方法设置rules规则 -->
+			<u--form labelPosition="left" :model="model1" :rules="rules" ref="form1">
+				<u-form-item prop="userInfo.img" borderBottom ref="item1">
+					<view class="avatar" @tap="avatarChoose">
+						<view class="imgAvatar">
+							<view class="iavatar"
+								:style="'background: url(' + model1.userInfo.img + ') no-repeat center/cover #eeeeee;'">
+							</view>
+						</view>
+						<text v-if="model1.userInfo.img">修改个人免冠证件照</text>
+						<text v-if="!model1.userInfo.img">选择个人免冠证件照</text>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.name" borderBottom>
+					<view class="text-box">
+						<text>姓名</text>
+						<u--input v-model="model1.userInfo.name" border="surround" placeholder="请填写姓名"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.subLevel" borderBottom>
+					<picker mode="selector" range-key="label" v-model="model1.userInfo.subLevel"
+						@change="bindLevelChange" :range="levelList">
+						<view class="text-box">
+							<text>申请职位</text>
+							<u-cell :border="false" :title="getsubLevel(model1.userInfo.subLevel)">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<u-form-item prop="userInfo.idNum" borderBottom>
+					<view class="text-box">
+						<text>身份证</text>
+						<u--input v-model="model1.userInfo.idNum" border="surround" placeholder="请填写身份证号"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.birth" borderBottom>
+					<picker class="picker" mode="date" v-model="model1.userInfo.birth" @change="bindDateChange">
+						<view class="text-box">
+							<text>生日</text>
+							<u-cell :border="false" :title="model1.userInfo.birth?model1.userInfo.birth:'请选择生日'">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<u-form-item prop="userInfo.sex" borderBottom ref="item3">
+					<picker class="picker" mode="selector" range-key="name" v-model="model1.userInfo.sex"
+						@change="bindSexChange" :range="sexlist">
+						<view class="text-box">
+							<text>性别</text>
+							<u-cell :border="false" :title="getsex(model1.userInfo.sex)">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<u-form-item prop="userInfo.birth" borderBottom>
+					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
+						<view class="text-box">
+							<text>籍贯</text>
+							<u-cell :border="false" :title="model1.userInfo.place?model1.userInfo.place:'请选择籍贯'">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<u-form-item prop="userInfo.polity" borderBottom ref="item3">
+					<picker class="picker" mode="selector" range-key="label" v-model="model1.userInfo.polity"
+						@change="bindPolityChange" :range="polityList">
+						<view class="text-box">
+							<text>政治面貌</text>
+							<u-cell :border="false" :title="model1.userInfo.polity?model1.userInfo.polity:'请选择政治面貌'">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<!-- <u-form-item prop="userInfo.nation" borderBottom ref="item1">
+					<view class="text-box">
+						<text>民族</text>
+						<u--input v-model="model1.userInfo.nation" border="surround" placeholder="请选择民族"></u--input>
+					</view>
+				</u-form-item> -->
+				<u-form-item prop="userInfo.phone" borderBottom ref="item1">
+					<view class="text-box">
+						<text>手机号</text>
+						<u--input v-model="model1.userInfo.phone" border="surround" placeholder="请填写手机号"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.email" borderBottom ref="item1">
+					<view class="text-box">
+						<text>电子邮箱</text>
+						<u--input v-model="model1.userInfo.email" border="surround" placeholder="请填写电子邮箱"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.school" borderBottom ref="item1">
+					<view class="text-box">
+						<text>学校</text>
+						<u--input v-model="model1.userInfo.school" border="surround" placeholder="请填写学校"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.major" borderBottom ref="item1">
+					<view class="text-box">
+						<text>专业</text>
+						<u--input v-model="model1.userInfo.major" border="surround" placeholder="请填写专业"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.work" borderBottom ref="item1">
+					<view class="text-box">
+						<text>工作单位</text>
+						<u--input v-model="model1.userInfo.work" border="surround" placeholder="请填写工作单位"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.position" borderBottom ref="item1">
+					<view class="text-box">
+						<text>工作职位</text>
+						<u--input v-model="model1.userInfo.position" border="surround" placeholder="请填写工作职位"></u--input>
+					</view>
+				</u-form-item>
+				<u-form-item prop="userInfo.introduce" borderBottom ref="item1">
+					<view class="text-box" style="height: 350rpx;">
+						<text>简介</text>
+						<u--textarea v-model="model1.userInfo.introduce" border="surround" placeholder="请填写简介" ></u--textarea>
+					</view>
+				</u-form-item>
+			</u--form>
+			<u-button type="primary" text="提交申请" customStyle="margin: 30px auto;width:90%" @click="save"></u-button>
 		</view>
-		<button class="save" @tap="save">提 交 审 核</button>
 	</view>
 </template>
 
@@ -93,24 +136,90 @@
 	export default {
 		data() {
 			return {
+				rules: {
+					'userInfo.name': {
+						type: 'string',
+						required: true,
+						message: '请填写姓名',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.idNum': {
+						type: 'string',
+						required: true,
+						message: '请填写身份证号',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.phone': {
+						type: 'string',
+						required: true,
+						message: '请填写手机号',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.school': {
+						type: 'string',
+						required: true,
+						message: '请填写学校',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.major': {
+						type: 'string',
+						required: true,
+						message: '请填写专业',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.grade': {
+						type: 'string',
+						required: true,
+						message: '请填写年级',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.work': {
+						type: 'string',
+						required: true,
+						message: '请填写工作单位',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.position': {
+						type: 'string',
+						required: true,
+						message: '请填写工作职位',
+						trigger: ['blur', 'change']
+					},
+					'userInfo.sex': {
+						type: 'string',
+						max: 1,
+						required: true,
+						message: '请选择男或女',
+						trigger: ['blur', 'change']
+					},
+				},
+				setNav: {
+					titleColor: 'black',
+					navTitle: '申请成为会员',
+					bgColor: 'white',
+					isShowBackBtn: true,
+					backBtnColor: 'black'
+				},
 				temp: null,
-				ApplyMember: {
-					img: '',
-					name: '',
-					idNum: '',
-					birth: '',
-					sex: 3,
-					place: '',
-					polity: '',
-					nation: '',
-					phone: '',
-					email: '',
-					school: '',
-					major: '',
-					work: '',
-					position: '',
-					introduce: '',
-					subLevel: 100
+				model1: {
+					userInfo: {
+						img: '',
+						name: '',
+						idNum: '',
+						birth: '',
+						sex: 3,
+						place: '',
+						polity: '',
+						nation: '',
+						phone: '',
+						email: '',
+						school: '',
+						major: '',
+						work: '',
+						position: '',
+						introduce: '',
+						subLevel: 100
+					}
 				},
 				sexlist: [{
 						id: 0,
@@ -211,25 +320,24 @@
 		},
 		methods: {
 			judge() {
-				// console.log(regular(this.ApplyMember))
-				return regular(this.ApplyMember);
+				// console.log(regular(this.model1.userInfo))
+				return regular(this.model1.userInfo);
 			},
 			bindLevelChange(e) {
-				this.ApplyMember.subLevel = this.levelList[e.detail.value].value;
+				this.model1.userInfo.subLevel = this.levelList[e.detail.value].value;
 			},
 			bindSexChange(e) {
-				this.ApplyMember.sex = this.sexlist[e.detail.value].id;
+				this.model1.userInfo.sex = this.sexlist[e.detail.value].id;
+			},
+			bindPlaceChange(e) {
+				this.model1.userInfo.place = e.detail.value.join('-');
 			},
 			bindPolityChange(e) {
-				this.ApplyMember.polity = this.polityList[e.detail.value].label;
+				this.model1.userInfo.polity = this.polityList[e.detail.value].label;
 				// console.log(this.polityList[e.detail.value].label)
 			},
 			bindDateChange(e) {
-				this.ApplyMember.birth = e.detail.value;
-			},
-			bindRegionChange(e) {
-				console.log(e);
-				this.ApplyMember.place = e.detail.value.join('-');
+				this.model1.userInfo.birth = e.detail.value;
 			},
 			getsubLevel(key) {
 				switch (key) {
@@ -258,6 +366,20 @@
 						return '会员';
 						break;
 					default:
+						return '请选择申请职位';
+						break;
+				}
+			},
+			getsex(key) {
+				switch (key) {
+					case 0:
+						return '男';
+						break;
+					case 1:
+						return '女';
+						break;
+					default:
+						return '请选择性别';
 						break;
 				}
 			},
@@ -270,7 +392,7 @@
 					success(res) {
 						const tempFilePaths = res.tempFilePaths;
 						that.temp = tempFilePaths;
-						that.ApplyMember.img = tempFilePaths[0];
+						that.model1.userInfo.img = tempFilePaths[0];
 						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
 						// 	console.log(res)
 						// })
@@ -288,7 +410,7 @@
 						})
 						.then(res => {
 							// console.log(res)
-							var obj = this.ApplyMember;
+							var obj = this.model1.userInfo;
 							obj.openId = uni.getStorageSync('openid');
 							obj.img = res.data.url;
 							obj.level = 0;
@@ -335,179 +457,56 @@
 				}
 			}
 		},
-		onLoad() {}
 	};
 </script>
 
 <style lang="scss">
-	.container {
+	.body {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
+		user-select: text;
+		-webkit-user-select: text;
 
-		.ui-all {
+		.avatar {
 			width: 100%;
+			height: 180rpx;
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
 
-			.avatar {
-				width: 100%;
-				height: 180rpx;
-				border-bottom: solid 1px #f2f2f2;
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
+			.imgAvatar {
+				width: 140rpx;
+				height: 140rpx;
+				border-radius: 50%;
+				display: inline-block;
+				vertical-align: middle;
+				overflow: hidden;
+				margin-left: 50rpx;
 
-				.imgAvatar {
-					width: 140rpx;
-					height: 140rpx;
-					border-radius: 50%;
-					display: inline-block;
-					vertical-align: middle;
-					overflow: hidden;
-					margin-left: 50rpx;
-					background-color: #d1d1d1;
-
-					.iavatar {
-						width: 100%;
-						height: 100%;
-						display: block;
-					}
-
-					.page-headimg {
-						height: 140rpx;
-						width: 140rpx;
-						border-radius: 80rpx;
-						overflow: hidden;
-					}
-				}
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 40rpx;
+				.iavatar {
+					width: 100%;
+					height: 100%;
+					display: block;
 				}
 			}
 
-			.text-box {
-				width: 100%;
-				height: 100rpx;
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
-				border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-				}
-
-				.input-box {
-					color: rgb(121, 121, 121);
-					margin-left: 20rpx;
-					font-size: 28rpx;
-				}
-
-				.place {
-					color: rgb(200, 200, 200);
-				}
-			}
-
-			.text-box:hover {
-				background-color: #eaeaea;
-			}
-
-			.textarea-box {
-				width: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: flex-start;
-				align-items: flex-start;
-				border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-					height: 100rpx;
-				}
-
-				.textarea {
-					color: rgb(121, 121, 121);
-					margin-left: 20rpx;
-					font-size: 28rpx;
-					height: 150rpx;
-					width: 95%;
-					border: solid 1px #f2f2f2;
-				}
-
-				.place {
-					color: rgb(200, 200, 200);
-				}
-			}
-
-			.picker-box {
-				width: 100%;
-				height: 100rpx;
-				display: flex;
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				align-items: center;
-				border-bottom: solid 1px #f2f2f2;
-
-				text {
-					display: inline-block;
-					vertical-align: middle;
-					color: #8e8e93;
-					font-size: 28rpx;
-					margin-left: 30rpx;
-					width: 150rpx;
-				}
-
-				.picker {
-					width: 80%;
-					height: 100rpx;
-				}
-
-				.picker-text {
-					color: rgb(121, 121, 121);
-					margin-left: 26rpx;
-					height: 100rpx;
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-				}
-			}
-
-			.picker-box:hover {
-				background-color: #eaeaea;
-			}
 		}
 
-		.save {
-			width: 80%;
-			background: #030303;
-			border: none;
-			color: #ffffff;
-			margin: 100rpx 0rpx;
-			font-size: 28rpx;
+		.text-box {
+			width: 95%;
+			margin: auto;
+			height: 110rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+
+			text {
+				display: inline-block;
+				vertical-align: middle;
+				color: #8e8e93;
+				font-size: 28rpx;
+				padding-bottom: 10rpx;
+			}
 		}
 	}
 </style>

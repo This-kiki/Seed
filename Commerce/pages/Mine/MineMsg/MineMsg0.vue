@@ -1,67 +1,105 @@
 <template>
-	<view class="body">
-		<!-- 顶部 -->
-		<topBar :nav="setNav"></topBar>
-		<view class="container">
-			<view class="ui-all">
-				<view class="avatar" @tap="avatarChoose">
-					<view class="imgAvatar">
-						<view class="iavatar"
-							:style="'background: url(' + mineMsg.img + ') no-repeat center/cover #eeeeee;'"></view>
-					</view>
-					<text v-if="mineMsg.img">修改头像</text>
-					<text v-if="!mineMsg.img">选择头像</text>
+	<view class="container">
+		<view class="ui-all">
+			<view class="avatar" @tap="avatarChoose">
+				<view class="imgAvatar">
+					<image class="page-headimg" :src="companyMsg.img" mode="aspectFill"></image>
 				</view>
-				<view class="text-box">
-					<text>姓名</text>
-					<input class="input-box" type="text" v-model="mineMsg.name" placeholder-class="place" />
-				</view>
-				<view class="picker-box">
-					<text>生日</text>
-					<picker class="picker" mode="date" v-model="mineMsg.birth" @change="bindDateChange">
-						<view class="picker-text">{{ mineMsg.birth ? mineMsg.birth : ' ' }}</view>
-					</picker>
-				</view>
-				<view class="picker-box">
-					<text>性别</text>
-					<picker class="picker" mode="selector" range-key="name" v-model="mineMsg.sex"
-						@change="bindSexChange" :range="sex">
-						<view class="picker-text">{{ mineMsg.sex == 0 ? '男' : mineMsg.sex == 1 ? '女' : '' }}</view>
-					</picker>
-				</view>
-				<view class="picker-box">
-					<text>籍贯</text>
-					<picker class="picker" mode="region" v-model="mineMsg.place" @change="bindRegionChange">
-						<view class="picker-text">{{ mineMsg.place ? mineMsg.place : ' ' }}</view>
-					</picker>
-				</view>
-				<view class="text-box">
-					<text>手机号</text>
-					<input class="input-box" type="text" v-model="mineMsg.phone" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>学校</text>
-					<input class="input-box" type="text" v-model="mineMsg.school" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>专业</text>
-					<input class="input-box" type="text" v-model="mineMsg.major" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>年级</text>
-					<input class="input-box" type="text" v-model="mineMsg.grade" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>工作单位</text>
-					<input class="input-box" type="text" v-model="mineMsg.work" placeholder-class="place" />
-				</view>
-				<view class="text-box">
-					<text>工作职位</text>
-					<input class="input-box" type="text" v-model="mineMsg.position" placeholder-class="place" />
-				</view>
+				<text v-if="companyMsg.img">修改公司标志图片</text>
+				<text v-if="!companyMsg.img">选择公司标志图片</text>
 			</view>
-			<button class="save" @tap="save">保 存 修 改</button>
+			<view class="text-box">
+				<text>公司全称</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyName" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>注册资金</text>
+				<input class="input-box" type="text" v-model="companyMsg.money" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>地址</text>
+				<input class="input-box" type="text" v-model="companyMsg.address" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>公司联系电话</text>
+				<input class="input-box" type="text" v-model="companyMsg.companyPhone" placeholder-class="place" />
+			</view>
+			<view class="textarea-box">
+				<text>公司介绍</text>
+				<textarea class="textarea" placeholder-class="place" v-model="companyMsg.content"></textarea>
+			</view>
+			<view class="text-box">
+				<text>信用代码</text>
+				<input class="input-box" type="text" v-model="companyMsg.creditCode" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>电子邮箱 </text>
+				<input class="input-box" type="text" v-model="companyMsg.email" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>行业</text>
+				<input class="input-box" type="text" v-model="companyMsg.industry" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>经营范围 </text>
+				<input class="input-box" type="text" v-model="companyMsg.manageArea" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>企业人数</text>
+				<input class="input-box" type="number" v-model="companyMsg.num" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>经营状态</text>
+				<input class="input-box" type="text" v-model="companyMsg.manageStatus" placeholder-class="place" />
+			</view>
+			<view class="picker-box">
+				<text>创建时间</text>
+				<picker class="picker" mode="date" v-model="companyMsg.time" @change="bindDateChange">
+					<view class="picker-text">
+						{{companyMsg.time}}
+					</view>
+				</picker>
+			</view>
+			<view class="avatar" @tap="licenseAvatarChoose">
+				<view class="imgAvatar">
+					<image class="page-headimg" :src="companyMsg.license" mode="aspectFill"></image>
+				</view>
+				<text v-if="companyMsg.license">修改营业执照照片</text>
+				<text v-if="!companyMsg.license">上传营业执照照片</text>
+			</view>
+			<view class="text-box">
+				<text>法人代表姓名</text>
+				<input class="input-box" type="text" v-model="companyMsg.representative" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>HR姓名</text>
+				<input class="input-box" type="text" v-model="companyMsg.name" placeholder-class="place" />
+			</view>
+			<view class="picker-box">
+				<text>HR性别</text>
+				<picker class="picker" mode="selector" range-key="name" v-model="companyMsg.sex" @change="bindSexChange"
+					:range="sexlist">
+					<view class="picker-text">{{ companyMsg.sex == 0 ? '男' : companyMsg.sex == 1 ? '女' : '' }}</view>
+				</picker>
+			</view>
+			<!-- 			<view class="text-box">
+				<text>籍贯</text>
+				<input class="input-box" type="text" v-model="companyMsg.place" placeholder-class="place" />
+			</view> -->
+			<view class="text-box">
+				<text>HR手机号</text>
+				<input class="input-box" type="text" v-model="companyMsg.phone" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>工作单位</text>
+				<input class="input-box" type="text" v-model="companyMsg.work" placeholder-class="place" />
+			</view>
+			<view class="text-box">
+				<text>工作职位</text>
+				<input class="input-box" type="text" v-model="companyMsg.position" placeholder-class="place" />
+			</view>
 		</view>
+		<button class="save" @tap="save">提 交 申 请</button>
 	</view>
 </template>
 
@@ -72,28 +110,29 @@
 	export default {
 		data() {
 			return {
-				setNav: {
-					titleColor: 'black',
-					navTitle: '个人资料',
-					bgColor: 'white',
-					isShowBackBtn: true,
-					backBtnColor: 'black'
-				},
-				temp: null,
-				mineMsg: {
+				temp: '',
+				temp1: '',
+				companyMsg: {
 					img: '',
+					address: '',
+					companyName: '',
+					companyPhone: '',
+					content: '',
+					creditCode: '',
+					email: '',
+					industry: '',
+					license: '',
+					manageArea: '',
+					manageStatus: '',
+					money: '',
 					name: '',
-					birth: '',
-					sex: 3,
-					place: '',
+					num: '',
 					phone: '',
-					school: '',
-					major: '',
-					grade: '',
-					work: '',
-					position: ''
+					representative: '',
+					sex: 3,
+					time: '',
 				},
-				sex: [{
+				sexlist: [{
 						id: 0,
 						name: '男'
 					},
@@ -102,113 +141,84 @@
 						name: '女'
 					}
 				]
-			};
-		},
-		mounted() {
-			this.getUserInfo();
+			}
 		},
 		methods: {
 			judge() {
-				// console.log(regular(this.mineMsg))
-				return regular(this.mineMsg);
-			},
-			getUserInfo() {
-				this.$api.getUserMsg().then(res => {
-					// this.mineMsg = res.data.userBaseInfo;
-					var obj = res.data.userBaseInfo;
-					for (let key in obj) {
-						// console.log(key,'-',obj[key])
-						if (obj[key])
-							this.mineMsg[key] = obj[key];
-						else
-							this.mineMsg[key] = ''
-					}
-				});
+				return regular(this.companyMsg);
 			},
 			bindSexChange(e) {
-				this.mineMsg.sex = e.detail.value;
+				this.companyMsg.sex = this.sexlist[e.detail.value].id;
 			},
 			bindDateChange(e) {
-				this.mineMsg.birth = e.detail.value;
-			},
-			bindRegionChange(e) {
-				// console.log(e)
-				this.mineMsg.place = e.detail.value.join('-');
+				this.companyMsg.time = e.detail.value;
 			},
 			save() {
-				// if (this.judge().status == true) {
-				if (!this.mineMsg.name) {
-					uni.showToast({
-						title: '请填写姓名',
-						icon: 'none'
-					});
-					return false;
-				}
-				uni.showLoading({
-					title: '正在提交'
-				});
-				if (this.temp) {
-					this.$api
-						.uploadPicture({
+				if (this.judge().status == true) {
+					uni.showLoading({
+						title: '正在提交'
+					})
+					this.$api.uploadPicture({
 							tempFilePaths: this.temp
 						})
-						.then(res => {
-							// console.log(res)
-							var obj = this.mineMsg;
-							obj.img = res.data.url;
-							this.$api
-								.changeUserMsg(obj)
-								.then(res => {
-									uni.hideLoading();
-									if (res.code == 20000) {
-										uni.showToast({
-											title: '修改成功',
-											duration: 2000
-										});
-										setTimeout(() => {
-											uni.navigateBack({});
-										}, 1000);
-									}
+						.then((img_res) => {
+							// console.log(img_res)
+							var obj = this.companyMsg
+							obj.img = img_res.data.url
+							this.$api.uploadPicture({
+									tempFilePaths: this.temp1
 								})
-								.catch(err => {
-									uni.hideLoading();
+								.then((license_res) => {
+									obj.license = license_res.data.url
+									obj.openId = uni.getStorageSync('openid');
+									this.$api.applyComopany(obj)
+										.then((res) => {
+											uni.hideLoading()
+											if (res.success == true) {
+												uni.showToast({
+													title: '申请成功',
+													duration: 2000
+												});
+												setTimeout(() => {
+													uni.navigateBack({});
+												}, 1000)
+											} else {
+												uni.showToast({
+													title: res.message,
+													icon: 'none'
+												})
+											}
+										})
+										.catch((err) => {
+											uni.hideLoading()
+											uni.showToast({
+												title: '提交失败，请重新提交',
+												icon: 'none'
+											})
+										})
+								})
+								.catch((err) => {
+									uni.hideLoading()
 									uni.showToast({
-										title: '提交失败，请重新提交',
+										title: '图片上传失败',
 										icon: 'none'
-									});
-								});
-						});
-				} else {
-					var obj = this.mineMsg;
-					this.$api
-						.changeUserMsg(obj)
-						.then(res => {
-							uni.hideLoading();
-							if (res.code == 20000) {
-								uni.showToast({
-									title: '修改成功',
-									duration: 2000
-								});
-								setTimeout(() => {
-									uni.navigateBack({});
-								}, 1000);
-							}
+									})
+								})
 						})
-						.catch(err => {
-							uni.hideLoading();
+						.catch((err) => {
+							uni.hideLoading()
 							uni.showToast({
-								title: '提交失败，请重新提交',
+								title: '图片上传失败',
 								icon: 'none'
-							});
-						});
+							})
+						})
+				} else {
+					uni.showToast({
+						title: this.judge().value,
+						icon: 'none'
+					});
+					return false
 				}
-				// } else {
-				// 	uni.showToast({
-				// 		title: this.judge().value,
-				// 		icon: 'none'
-				// 	});
-				// 	return false;
-				// }
 			},
 			isPoneAvailable(poneInput) {
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -225,29 +235,44 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success(res) {
-						const tempFilePaths = res.tempFilePaths;
-						that.temp = tempFilePaths;
-						that.mineMsg.img = tempFilePaths[0];
+						const tempFilePaths = res.tempFilePaths
+						that.temp = tempFilePaths
+						that.companyMsg.img = tempFilePaths[0]
+						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
+						// 	console.log(res)
+						// })
 					}
 				});
-			}
+			},
+			licenseAvatarChoose() {
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success(res) {
+						const tempFilePaths = res.tempFilePaths
+						that.temp1 = tempFilePaths
+						that.companyMsg.license = tempFilePaths[0]
+						// that.$api.uploadPicture({tempFilePaths: tempFilePaths}).then((res) => {
+						// 	console.log(res)
+						// })
+					}
+				});
+			},
 		}
-	};
+	}
 </script>
 
 <style lang="scss">
-	.body {
-		width: 100%;
-		user-select: text;
-		-webkit-user-select: text;
-	}
-
 	.container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
+		user-select: text;
+		-webkit-user-select: text;
 
 		.ui-all {
 			width: 100%;
@@ -273,11 +298,19 @@
 					vertical-align: middle;
 					overflow: hidden;
 					margin-left: 50rpx;
+					background-color: #d1d1d1;
 
 					.iavatar {
 						width: 100%;
 						height: 100%;
 						display: block;
+					}
+					
+					.page-headimg {
+						height: 140rpx;
+						width: 140rpx;
+						border-radius: 80rpx;
+						overflow: hidden;
 					}
 				}
 
