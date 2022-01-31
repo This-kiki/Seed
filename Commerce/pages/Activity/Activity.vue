@@ -31,7 +31,8 @@
 				setNav: {
 					titleColor: "#fff",
 					navTitle: "活动",
-					bgColor: "#36c1ba"
+					bgColor: "#36c1ba",
+					titleAlign: "center"
 				},
 				list: [{
 						name: '进行中'

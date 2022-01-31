@@ -177,18 +177,18 @@
 					<view class="volun">
 						<view class="volun_left">
 							<view class="name">
-								{{info.volunteerName?info.volunteerName:'暂无'}}
+								{{info.volunteerList?info.volunteerList[0].volunteerName:'暂无'}}
 							</view>
 							<view class="long">
-								{{info.volunteerLong}}
+								{{info.volunteerList[0].volunteerLong}}
 							</view>
 						</view>
 						<view class="time">
-							{{info.volunteerTime}}
+							{{info.volunteerList[0].volunteerTime}}
 						</view>
 					</view>
 					<view class="volunInfo">
-						{{info.volunteerDesc}}
+						{{info.volunteerList[0].volunteerDesc}}
 					</view>
 				</view>
 			</view>
@@ -207,11 +207,11 @@
 		data() {
 			return {
 				setNav: {
-					titleColor: "black",
+					titleColor: "#fff",
 					navTitle: "我的简历",
-					bgColor: "white",
+					bgColor: "#36c1ba",
 					isShowBackBtn: true,
-					backBtnColor: "black"
+					backBtnColor: "#fff"
 				},
 				// 简历信息
 				info: {

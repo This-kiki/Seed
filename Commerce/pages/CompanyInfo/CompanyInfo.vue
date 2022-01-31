@@ -31,8 +31,7 @@
 				</view>
 			</view>
 			<view class="frameWorkList">
-				<view class="frameItem" v-for="(item,index) in frameWorkList" :key="index">
-					{{item}}
+				<view class="frameItem" v-for="(item,index) in frameWorkList" :key="index" v-html="item">
 				</view>
 			</view>
 		</view>

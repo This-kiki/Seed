@@ -47,6 +47,9 @@
 				</view>
 				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
+				<view class="noData" v-if="!jobList.length">
+					暂无招聘信息
+				</view>
 			</slot>
 		</scroll-view>
 	</view>
@@ -277,6 +280,12 @@
 			letter-spacing: 5rpx;
 			color: rgb(175, 175, 175);
 			margin-top: 30rpx;
+		}
+
+		.noData {
+			margin: 300rpx auto;
+			text-align: center;
+			color: #999;
 		}
 	}
 </style>

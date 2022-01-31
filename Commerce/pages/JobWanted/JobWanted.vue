@@ -1,18 +1,6 @@
 <template>
 	<view class="jobContainer">
-		<view class="selectLine"
-			:style="{'height':height.titleBarHeight+'px','padding-top':height.statusBarHeight+'px'}">
-			<view class="select">
-				<view class="common" v-for="item in selectLine" :key="item.id" :class="current==item.id?'active':''"
-					@click="goSwiper(item.id)">
-					{{item.name}}
-				</view>
-			</view>
-		</view>
-		<!-- 去除留白 -->
-		<view class="helpWhite" :style="{'height':height.titleBarHeight+'px'}">
-		</view>
-		<!-- ,'padding-top':height.statusBarHeight+'px' -->
+		<topBar :nav="setNav"></topBar>
 		<!-- 搜索框 -->
 		<view class="inputLine" v-if="current!=4">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
@@ -43,24 +31,30 @@
 				清除搜索
 			</view>
 		</view>
+		<view class="selectLine">
+			<view class="common" v-for="item in selectLine" :key="item.id" :class="current==item.id?'active':''"
+				@click="goSwiper(item.id)">
+				{{item.name}}
+			</view>
+		</view>
 		<!-- swiper -->
 		<view class="swiperContainer">
 			<swiper class="swiper" :current="current" @change="changeSwiper"
-				:style="{'height':height.swiperHeight-40+'px'}">
+				:style="{'height':height.swiperHeight-80+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-40" />
+					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-40" v-if="submitResume" />
+					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-80" v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -108,6 +102,13 @@
 		},
 		data() {
 			return {
+				setNav: {
+					titleColor: "#fff",
+					navTitle: "职场",
+					bgColor: "#36c1ba",
+					titleAlign: "center",
+					isShowBackBtn: false
+				},
 				height: {},
 				current: 0,
 				selectLine: [{
@@ -405,37 +406,32 @@
 
 		.selectLine {
 			position: fixed;
-			box-sizing: border-box;
-			background-color: #36c1ba;
-			display: flex;
-			justify-content: space-between;
+			background-color: #f5f5f5;
 			width: 100%;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			height: 40px;
+			z-index: 10;
+			margin-top: 40px;
+			font-size: 26rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
 
-			.select {
+			.common {
+				text-align: center;
+				color: #36c1baee;
 				font-size: 26rpx;
-				padding: 20rpx;
-				// width: 60%;
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-				background-color: #36c1ba;
+				transition: 0.2s ease-in-out;
+				width: 20%;
+				height: 36px;
+				line-height: 40px;
+			}
 
-				.common {
-					margin-right: 20rpx;
-					text-align: center;
-					color: #eee;
-					font-size: 26rpx;
-					transition: 0.2s ease-in-out;
-				}
-
-				.active {
-					font-weight: bold;
-					color: #fff;
-					position: relative;
-					font-size: 34rpx;
-					transition: 0.2s ease-in-out;
-				}
+			.active {
+				font-weight: bold;
+				color: #36c1ba;
+				font-size: 32rpx;
+				transition: 0.2s ease-in-out;
+				border-bottom: 4rpx solid #36c1ba;
 			}
 		}
 
@@ -453,7 +449,7 @@
 
 			.input {
 				width: 100%;
-				height: 60rpx;
+				height: 70rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
 				background-color: #fff;
@@ -484,7 +480,7 @@
 
 			.resumeInput {
 				width: 15%;
-				height: 60rpx;
+				height: 70rpx;
 				line-height: 60rpx;
 				margin: 0 auto;
 				padding: 0 20rpx;
@@ -500,7 +496,7 @@
 		}
 
 		.swiperContainer {
-			margin-top: 40px;
+			margin-top: 80px;
 			background-color: #f5f5f5;
 
 			.swiper {
