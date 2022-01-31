@@ -5,8 +5,6 @@
 			<slot slot="content" class="infoList">
 				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
 					<news-card :item="item" :ref="item.id"></news-card>
-					<view class="operate">
-					</view>
 				</view>
 				<view v-if="loadmore" class="loadMore" @tap="loadMore">{{ loadmoreText }}</view>
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
@@ -130,6 +128,10 @@
 		.infoList {
 			margin: 0rpx auto;
 			background-color: #f5f5f5;
+
+			.infoBox {
+				margin-bottom: 20rpx;
+			}
 		}
 
 		.loadMore {

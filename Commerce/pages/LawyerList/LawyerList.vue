@@ -68,6 +68,7 @@
 	.mainContaienr {
 		width: 96%;
 		margin: 20rpx auto 0;
+		padding-bottom: 100rpx;
 
 		.title {
 			font-size: 32rpx;

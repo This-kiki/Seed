@@ -7,9 +7,13 @@
 					<news-card :item="item" :ref="item.id"></news-card>
 					<view class="operate">
 						<view class="delete" @tap.stop="deleteInfo(item.id)">
+							<view class="iconfont icon-shanchu">
+							</view>
 							删除
 						</view>
 						<view class="edit" @tap.stop="editInfo(item.id)">
+							<view class="iconfont icon-xiugai">
+							</view>
 							修改
 						</view>
 					</view>
@@ -167,35 +171,34 @@
 		-webkit-user-select: text;
 
 		.infoList {
+			width: 96%;
 			margin: 0rpx auto;
 			background-color: #f5f5f5;
 
 			.infoBox {
-				width: 100%;
-				background-color: #fefefe;
-				padding-bottom: 20rpx;
+				background-color: #fff;
+				margin: auto;
+				padding-top: 10rpx;
+				margin-bottom: 20rpx;
 
 				.operate {
-					margin-right: 30rpx;
+					margin-top: 14rpx;
+					padding-top: 14rpx;
+					border-top: 4rpx #eee solid;
 					display: flex;
-					justify-content: flex-end;
-					margin-top: 20rpx;
+					justify-content: space-around;
 
-					.delete {
-						padding: 10rpx;
-						background-color: #e06c75;
-						color: #fff;
-						border-radius: 10rpx;
-						margin-right: 20rpx;
-					}
-
+					.delete,
 					.edit {
-						padding: 10rpx;
-						background-color: #56b6c2;
-						color: #fff;
-						border-radius: 10rpx;
-					}
+						display: flex;
+						align-items: center;
+						color: #000;
+						padding: 10rpx 0 20rpx;
 
+						.iconfont {
+							margin-right: 10rpx;
+						}
+					}
 				}
 			}
 		}

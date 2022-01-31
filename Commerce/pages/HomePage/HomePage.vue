@@ -1,21 +1,13 @@
 <template>
 	<view class="homeContainer">
+		<topBar :nav="setNav"></topBar>
 		<!-- 顶部操作 -->
-		<view class="topLine" :style="{'height':titleBarHeight+'px','padding-top':statusBarHeight+'px'}">
-			<view class="select">
-				<view class="title">
-					濠江区珠浦种子会
-				</view>
-				<view class="common" v-for="item in tapList" :key="item.id" @click="setActive(item.id)"
-					:class="item.id==active?'active':''">
-					{{item.name}}
-				</view>
+		<view class="topLine">
+			<view class="common" v-for="item in tapList" :key="item.id" @click="setActive(item.id)"
+				:class="item.id==active?'active':''">
+				{{item.name}}
 			</view>
 		</view>
-		<!-- 去除留白 -->
-		<view class="helpWhite" :style="{'height':titleBarHeight+'px'}">
-		</view>
-		<!-- ,'padding-top':statusBarHeight+'px' -->
 		<!-- 申请入会 -->
 		<view class="submitSeed" v-if="flag==0">
 			<view class="left">
@@ -34,12 +26,12 @@
 		</view>
 		<!-- swiper -->
 		<view class="swiperContainer">
-			<swiper class="swiper" :current="active" @change="changeSwiper" :style="{'height':swiperHeight+'px'}">
+			<swiper class="swiper" :current="active" @change="changeSwiper" :style="{'height':swiperHeight-40+'px'}">
 				<swiper-item class="swiperItem">
-					<HomeInfo :height='swiperHeight' />
+					<HomeInfo :height='swiperHeight-40' />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<SeedInfo :height='swiperHeight' />
+					<SeedInfo :height='swiperHeight-40' />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -80,10 +72,17 @@
 		},
 		data() {
 			return {
+				setNav: {
+					titleColor: "#fff",
+					navTitle: "濠江区珠浦种子会",
+					bgColor: "#36c1ba",
+					titleAlign: "center",
+					isShowBackBtn: false
+				},
 				// tap
 				tapList: [{
 						id: 0,
-						name: "推荐"
+						name: "资讯推荐"
 					},
 					{
 						id: 1,
@@ -215,45 +214,31 @@
 		-webkit-user-select: text;
 
 		.topLine {
-			position: fixed;
-			box-sizing: border-box;
-			background-color: #36c1ba;
+			font-size: 26rpx;
 			display: flex;
-			justify-content: space-between;
+			align-items: center;
 			width: 100%;
-			box-shadow: 0 4px 8px 1px rgba(100, 100, 100, 0.1), 0 6px 16px 1px rgba(140, 140, 140, 0.08);
+			justify-content: space-around;
+			background-color: #f5f5f5;
+			height: 40px;
+			line-height: 40px;
 
-			.title {
-				font-size: 32rpx;
-				font-weight: bold;
-				color: #fff;
-				margin-right: 30rpx;
+			.common {
+				text-align: center;
+				color: #36c1baee;
+				font-size: 26rpx;
+				transition: 0.2s ease-in-out;
+				width: 40%;
+				height: 36px;
+				line-height: 40px;
 			}
 
-			.select {
-				font-size: 26rpx;
-				padding: 20rpx;
-				// width: 60%;
-				display: flex;
-				align-items: center;
-				// justify-content: space-around;
-				background-color: #36c1ba;
-
-				.common {
-					margin-right: 40rpx;
-					text-align: center;
-					color: #eee;
-					font-size: 26rpx;
-					transition: 0.2s ease-in-out;
-				}
-
-				.active {
-					font-weight: bold;
-					color: #fff;
-					position: relative;
-					font-size: 32rpx;
-					transition: 0.2s ease-in-out;
-				}
+			.active {
+				font-weight: bold;
+				color: #36c1ba;
+				font-size: 32rpx;
+				transition: 0.2s ease-in-out;
+				border-bottom: 4rpx solid #36c1ba;
 			}
 		}
 
