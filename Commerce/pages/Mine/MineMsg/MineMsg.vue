@@ -373,7 +373,8 @@
 				display: inline-block;
 				vertical-align: middle;
 				overflow: hidden;
-				margin-left: 50rpx;
+				margin: 0 50rpx;
+				background-color: rgb(230, 230, 230);
 
 				.iavatar {
 					width: 100%;

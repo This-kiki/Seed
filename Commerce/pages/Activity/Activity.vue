@@ -48,6 +48,9 @@
 		mounted() {
 			this.getCustom();
 		},
+		onShow() {
+			console.log('123')
+		},
 		methods: {
 			getCustom() {
 				// 获取设备信息

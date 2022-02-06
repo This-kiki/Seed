@@ -275,7 +275,7 @@ export default {
   // 获取所有律师
   getLayer(data) {
     return service({
-      url: '/pro/lawyer/lawer/' + data.current,
+      url: '/pro/lawyer/lawer/' + data.current + '/20',
       method: 'get',
     });
   },

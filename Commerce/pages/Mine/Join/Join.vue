@@ -56,7 +56,7 @@
 						</view>
 					</picker>
 				</u-form-item>
-				<u-form-item prop="userInfo.birth" borderBottom>
+				<u-form-item prop="userInfo.place" borderBottom>
 					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
 						<view class="text-box">
 							<text>籍贯</text>
@@ -75,12 +75,16 @@
 						</view>
 					</picker>
 				</u-form-item>
-				<!-- <u-form-item prop="userInfo.nation" borderBottom ref="item1">
-					<view class="text-box">
-						<text>民族</text>
-						<u--input v-model="model1.userInfo.nation" border="surround" placeholder="请选择民族"></u--input>
-					</view>
-				</u-form-item> -->
+				<u-form-item prop="userInfo.nation" borderBottom ref="item3">
+					<picker class="picker" mode="selector" range-key="label" v-model="model1.userInfo.nation"
+						@change="bindNationChange" :range="nationList">
+						<view class="text-box">
+							<text>民族</text>
+							<u-cell :border="false" :title="model1.userInfo.nation?model1.userInfo.nation:'请选择民族'">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
 				<u-form-item prop="userInfo.phone" borderBottom ref="item1">
 					<view class="text-box">
 						<text>手机号</text>
@@ -120,7 +124,8 @@
 				<u-form-item prop="userInfo.introduce" borderBottom ref="item1">
 					<view class="text-box" style="height: 350rpx;">
 						<text>简介</text>
-						<u--textarea v-model="model1.userInfo.introduce" border="surround" placeholder="请填写简介" ></u--textarea>
+						<u--textarea v-model="model1.userInfo.introduce" border="surround" placeholder="请填写简介">
+						</u--textarea>
 					</view>
 				</u-form-item>
 			</u--form>
@@ -133,66 +138,11 @@
 	import {
 		regular
 	} from '../../../util/common.js';
+	import * as data from '../../../util/data.js'
 	export default {
 		data() {
 			return {
-				rules: {
-					'userInfo.name': {
-						type: 'string',
-						required: true,
-						message: '请填写姓名',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.idNum': {
-						type: 'string',
-						required: true,
-						message: '请填写身份证号',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.phone': {
-						type: 'string',
-						required: true,
-						message: '请填写手机号',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.school': {
-						type: 'string',
-						required: true,
-						message: '请填写学校',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.major': {
-						type: 'string',
-						required: true,
-						message: '请填写专业',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.grade': {
-						type: 'string',
-						required: true,
-						message: '请填写年级',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.work': {
-						type: 'string',
-						required: true,
-						message: '请填写工作单位',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.position': {
-						type: 'string',
-						required: true,
-						message: '请填写工作职位',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.sex': {
-						type: 'string',
-						max: 1,
-						required: true,
-						message: '请选择男或女',
-						trigger: ['blur', 'change']
-					},
-				},
+				rules: data.rules,
 				setNav: {
 					titleColor: 'black',
 					navTitle: '申请成为会员',
@@ -221,101 +171,10 @@
 						subLevel: 100
 					}
 				},
-				sexlist: [{
-						id: 0,
-						name: '男'
-					},
-					{
-						id: 1,
-						name: '女'
-					}
-				],
-				levelList: [{
-						label: '荣誉会长',
-						value: 4
-					},
-					{
-						label: '会长',
-						value: 5
-					},
-					{
-						label: '副会长',
-						value: 6
-					},
-					{
-						label: '执行委员会成员',
-						value: 7
-					},
-					{
-						label: '秘书长',
-						value: 8
-					},
-					{
-						label: '会计',
-						value: 9
-					},
-					{
-						label: '出纳',
-						value: 10
-					},
-					{
-						label: '会员',
-						value: 11
-					}
-				],
-				polityList: [{
-						label: '中共党员',
-						value: 0
-					},
-					{
-						label: '中共预备党员',
-						value: 1
-					},
-					{
-						label: '共青团员',
-						value: 3
-					},
-					{
-						label: '无党派人士',
-						value: 4
-					},
-					{
-						label: '群众',
-						value: 5
-					},
-					{
-						label: '民革会员',
-						value: 6
-					},
-					{
-						label: '民盟盟员',
-						value: 7
-					},
-					{
-						label: '民建会员',
-						value: 8
-					},
-					{
-						label: '民进会员',
-						value: 9
-					},
-					{
-						label: '农工党党员',
-						value: 10
-					},
-					{
-						label: '致公党党员',
-						value: 11
-					},
-					{
-						label: '九三学社社员',
-						value: 12
-					},
-					{
-						label: '台盟盟员',
-						value: 13
-					}
-				]
+				sexlist: data.sexlist,
+				levelList: data.levelList,
+				polityList: data.polityList,
+				nationList: data.nationList
 			};
 		},
 		methods: {
@@ -332,6 +191,9 @@
 			bindPlaceChange(e) {
 				this.model1.userInfo.place = e.detail.value.join('-');
 			},
+			bindNationChange(e) {
+				this.model1.userInfo.nation = this.nationList[e.detail.value].label;
+			},
 			bindPolityChange(e) {
 				this.model1.userInfo.polity = this.polityList[e.detail.value].label;
 				// console.log(this.polityList[e.detail.value].label)
@@ -340,48 +202,10 @@
 				this.model1.userInfo.birth = e.detail.value;
 			},
 			getsubLevel(key) {
-				switch (key) {
-					case 4:
-						return '荣誉会长';
-						break;
-					case 5:
-						return '会长';
-						break;
-					case 6:
-						return '副会长';
-						break;
-					case 7:
-						return '执行委员会成员';
-						break;
-					case 8:
-						return '秘书长';
-						break;
-					case 9:
-						return '会计';
-						break;
-					case 10:
-						return '出纳';
-						break;
-					case 11:
-						return '会员';
-						break;
-					default:
-						return '请选择申请职位';
-						break;
-				}
+				return data.getsubLevel(key)
 			},
 			getsex(key) {
-				switch (key) {
-					case 0:
-						return '男';
-						break;
-					case 1:
-						return '女';
-						break;
-					default:
-						return '请选择性别';
-						break;
-				}
+				return data.getsex(key)
 			},
 			avatarChoose() {
 				let that = this;
@@ -456,7 +280,7 @@
 					return false;
 				}
 			}
-		},
+		}
 	};
 </script>
 
@@ -481,7 +305,8 @@
 				display: inline-block;
 				vertical-align: middle;
 				overflow: hidden;
-				margin-left: 50rpx;
+				margin: 0 50rpx;
+				background-color: rgb(230, 230, 230);
 
 				.iavatar {
 					width: 100%;

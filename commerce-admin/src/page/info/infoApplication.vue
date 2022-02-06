@@ -1,6 +1,13 @@
 <template>
   <div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-col :span="2" :offset="22">
+      <div style="margin: 10px 0;">
+        <el-button type="success" @click="access" size="small" plain> 全 部 审 核 </el-button>
+      </div>
+    </el-col>
+    <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" show-overflow-tooltip>
+      </el-table-column>
       <el-table-column prop="title" label="资讯名" width="150">
       </el-table-column>
       <el-table-column prop="categroyType" label="类别" width="200">
@@ -41,12 +48,41 @@ export default {
       },
       viewVisible: false,
       actData: {},
+      multipleSelection: [],
     };
   },
   mounted() {
     this.getAllApplyInfo();
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    },
+    access() {
+      var that = this;
+      console.log(this.multipleSelection);
+      for (var i = 0; i < this.multipleSelection.length; i++) {
+        var postAPI = {
+          id: this.multipleSelection[i].id,
+          status: 1,
+        };
+        this.$http.applyInfo(postAPI).then(() => {});
+      }
+      setTimeout(function () {
+        that.getAllApplyInfo();
+        if (that.multipleSelection.length == 0) {
+          that.$message({
+            message: "请先选择需要通过审核的内容",
+            type: "warning",
+          });
+        } else {
+          that.$message({
+            message: "审核成功",
+            type: "success",
+          });
+        }
+      }, 800);
+    },
     getAllApplyInfo() {
       let getAPI = { current: this.current.current };
       this.$http.getApplyInfo(getAPI).then((res) => {
