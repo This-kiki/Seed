@@ -18,7 +18,7 @@
 					<InfoMeCollect :height="height.swiperHeight-40+50" v-if="isRefresh"/>
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<InfoMeCollect :height="height.swiperHeight-40+50" v-if="isRefresh"/>
+					<infoMeFabulous :height="height.swiperHeight-40+50" v-if="isRefresh"/>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -28,10 +28,12 @@
 <script>
 	import InfoMeRelease from "../InfoMeRelease/InfoMeRelease"
 	import InfoMeCollect from "../InfoMeCollect/InfoMeCollect"
+	import infoMeFabulous from "../infoMeFabulous/infoMeFabulous"
 	export default {
 		components: {
 			InfoMeRelease,
-			InfoMeCollect
+			InfoMeCollect,
+			infoMeFabulous
 		},
 		data() {
 			return {

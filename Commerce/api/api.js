@@ -373,6 +373,12 @@ export class Api {
 		let res = await flyio.get(`/info/getMyCol/${data.current}/${data.limit}`)
 		return res.data
 	}
+	
+	// 获取我点赞的列表
+	getFabulousInfo = async (data) => {
+		let res = await flyio.get(`/pro/love/findLoveInfo/${data.current}/${data.limit}`)
+		return res.data
+	}
 
 	// 获得简历列表
 	getResumeList = async (data) => {

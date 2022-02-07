@@ -22,7 +22,7 @@
 				<view v-show="springback" class="loadMore">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
-		<u-popup v-model="dialog" height="100" mode="bottom" border-radius="15">
+		<u-popup :show="dialog" round="15" mode="bottom" @close="dialog=false">
 			<button open-type="share" class="share" @click="shareInfo">
 				<view class="iconfont share-icon">
 					&#xe63f;
