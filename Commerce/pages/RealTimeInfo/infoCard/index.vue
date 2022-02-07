@@ -1,7 +1,7 @@
 <template>
 	<view class="infoBox" @click="onClick()" v-if="item.interest!=1">
 		<view class="top">
-			<view class="top-head">
+			<view class="top-head" @tap.stop="goDetail(item.identity,item.subLevel,item.openId)">
 				<view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view>
 				<view class="top-head-author">
 					<view class="top-head-author-name oneline">
@@ -83,6 +83,7 @@
 	</view>
 </template>
 <script>
+	import * as data from '../../../util/data.js'
 	export default {
 		name: 'HmNewsCard',
 		props: {
@@ -119,71 +120,36 @@
 					url: 'DetailedInfo/DetailedInfo?infoId=' + this.item.id
 				});
 			},
-			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
-			getLevel(identity, sublevel) {
-				if (identity == 0) {
-					return '普通用户'
-				} else if (identity == 1) {
-					switch (sublevel) {
-						case 4:
-							return '荣誉会长';
-							break;
-						case 5:
-							return '会长';
-							break;
-						case 6:
-							return '副会长';
-							break;
-						case 7:
-							return '执行委员会成员';
-							break;
-						case 8:
-							return '秘书长';
-							break;
-						case 9:
-							return '会计';
-							break;
-						case 10:
-							return '出纳';
-							break;
-						case 11:
-							return '会员';
-							break;
+			goDetail(identity,sublevel,openId) {
+				console.log(identity,sublevel,openId)
+				if (identity == 1) {
+					if(sublevel == 11) {
+						uni.navigateTo({
+							url: "../UserListDetail/UserListDetail?id=" + openId + "&flag=2"
+						})
+					}else{
+						uni.navigateTo({
+							url: "../UserListDetail/UserListDetail?id=" + openId + "&flag=1"
+						})
 					}
 				} else if (identity == 2) {
-					return '律师'
+					uni.navigateTo({
+						url: "../UserListDetail/UserListDetail?id=" + openId
+					})
 				} else if (identity == 3) {
-					return '会员单位'
-				} else if (identity == 20) {
-					return '管理员'
+					uni.navigateTo({
+						url: "../CompanyListDetail/CompanyListDetail?id=" + openId
+					})
 				} else {
 					return ''
 				}
 			},
+			// 4荣誉会长，5会长，6副会长，7执行委员会成员，8秘书长，9会计，10出纳，11会员
+			getLevel(identity, sublevel) {
+				return data.getLevel(identity, sublevel)
+			},
 			getCategory(id) {
-				switch (id) {
-					case 1:
-						return '种子会动态';
-						break
-					case 2:
-						return '会员风采';
-						break;
-					case 3:
-						return '会员单位';
-						break;
-					case 4:
-						return '家乡新闻';
-						break;
-					case 5:
-						return '普通资讯';
-						break;
-					case 6:
-						return '知识';
-						break;
-					case 7:
-						return '法律常识';
-						break;
-				}
+				return data.getCategory(id)
 			},
 			formatMsgTime(timespan) {
 				var time = timespan.replace(new RegExp(/-/gm), "/");

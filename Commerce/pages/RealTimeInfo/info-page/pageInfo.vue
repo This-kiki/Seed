@@ -11,7 +11,7 @@
 				<view v-show="springback" class="bottom">已经到底啦~~</view>
 			</slot>
 		</scroll-view>
-		<u-popup v-model="dialog" height="150" mode="bottom" border-radius="15">
+		<u-popup :show="dialog" round="15" mode="bottom" @close="dialog=false">
 			<!-- <button open-type="share" class="share" @click="uninterested">
 				<view class="iconfont share-icon">
 					&#xe8b6;
@@ -121,6 +121,7 @@
 				this.dialog = false
 			},
 			dialogFather(id) {
+				console.log('123')
 				this.shareId = id
 				this.dialog = true
 			},

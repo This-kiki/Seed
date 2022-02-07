@@ -17,6 +17,9 @@
 				<swiper-item class="swiperItem">
 					<InfoMeCollect :height="height.swiperHeight-40+50" v-if="isRefresh"/>
 				</swiper-item>
+				<swiper-item class="swiperItem">
+					<InfoMeCollect :height="height.swiperHeight-40+50" v-if="isRefresh"/>
+				</swiper-item>
 			</swiper>
 		</view>
 	</view>
@@ -47,6 +50,10 @@
 					{
 						id: 1,
 						name: "我的收藏"
+					},
+					{
+						id: 2,
+						name: "我的点赞"
 					},
 				],
 				height: {},

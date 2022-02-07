@@ -2,21 +2,25 @@
 	<view class="mainContaienr">
 		<view class="white-bord" v-if="!dataForm">加载中</view>
 		<view v-if="dataForm">
-			<view class="top-head">
-				<view class="top-head-headimg">
-					
-				</view>
-				<!-- <view class="top-head-headimg" :style="'background-image: url('+item.img+');'"></view> -->
-				<view class="top-head-author">
-					<view class="top-head-author-name oneline">
-						<!-- {{ item.name }} -->
-						aaaa
-					</view>
-					<view class="top-head-author-identity oneline">
-						<!-- {{ getLevel(item.identity,item.subLevel) }} -->
-						bbbbbb 来自 cccccc
+			<view class="top">
+				<view class="top-head" @tap.stop="goDetail(userForm.identity,userForm.subLevel,userForm.openId)">
+					<view class="top-head-headimg" :style="'background-image: url('+userForm.img+');'"></view>
+					<view class="top-head-author">
+						<view class="top-head-author-name oneline">
+							{{ userForm.name }}
+						</view>
+						<view class="top-head-author-identity oneline">
+							{{ getLevel(userForm.identity,userForm.subLevel) }} 来自<span
+								style="font-weight: 700;margin-left: 10rpx;">{{getCategory(userForm.category)}}</span>
+						</view>
 					</view>
 				</view>
+				<!-- <view class="top-view">
+					<view class="iconfont top-more">
+						&#xe624;
+					</view>
+					{{item.view}}
+				</view> -->
 			</view>
 			<view class="info-title">{{ dataForm.title }}</view>
 			<!-- <view class="collect-box">
@@ -136,6 +140,7 @@
 <script>
 	import popupLayer from '../../../components/popup-layer/popup-layer.vue';
 	import ygcComment from '../../../components/ygc-comment/ygc-comment.vue';
+	import * as data from '../../../util/data.js'
 	export default {
 		props: ['infoId'],
 		components: {
@@ -146,6 +151,7 @@
 			return {
 				dataForm: null,
 				commentForm: null,
+				userForm: null,
 				actComment: null,
 				actCommentReply: null,
 				boolShow: true,
@@ -164,6 +170,7 @@
 				this.$api.getOneInfo(getAPI).then(res => {
 					this.dataForm = res.data.info;
 					this.commentForm = res.data.comment
+					this.userForm = res.data.user
 					this.collectColor = (res.data.info.col === 1 ? '#00aaff' : '#000000')
 					this.praiseColor = (res.data.info.thumb === 1 ? '#ff0000' : '#000000')
 					// console.log(res.data.Info)
@@ -265,12 +272,41 @@
 			},
 			judgeDelete(openid) {
 				var myOpenid = uni.getStorageSync("openid")
-				console.log(myOpenid + '==' + openid)
+				// console.log(myOpenid + '==' + openid)
 				if (openid === myOpenid) {
 					return true
 				} else {
 					return false
 				}
+			},
+			goDetail(identity,sublevel,openId) {
+				if (identity == 1) {
+					if(sublevel == 11) {
+						uni.navigateTo({
+							url: "../../UserListDetail/UserListDetail?id=" + openId + "&flag=2"
+						})
+					}else{
+						uni.navigateTo({
+							url: "../../UserListDetail/UserListDetail?id=" + openId + "&flag=1"
+						})
+					}
+				} else if (identity == 2) {
+					uni.navigateTo({
+						url: "../../UserListDetail/UserListDetail?id=" + openId
+					})
+				} else if (identity == 3) {
+					uni.navigateTo({
+						url: "../../CompanyListDetail/CompanyListDetail?id=" + openId
+					})
+				} else {
+					return ''
+				}
+			},
+			getCategory(id) {
+				return data.getCategory(id)
+			},
+			getLevel(identity, sublevel) {
+				return data.getLevel(identity, sublevel)
 			},
 			formatMsgTime(timespan) {
 				var time = timespan.replace(new RegExp(/-/gm), "/");
@@ -364,6 +400,86 @@
 		user-select: text;
 		-webkit-user-select: text;
 	}
+	
+	.top {
+		width: 100%;
+		height: 100rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding-left: 10rpx;
+		padding-top: 20rpx;
+	
+		.top-head {
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+	
+			.top-head-headimg {
+				height: 70rpx;
+				width: 70rpx;
+				border-radius: 40rpx;
+				overflow: hidden;
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: cover;
+				box-shadow: 0px 0px 2px rgb(216, 216, 216);
+			}
+	
+			.top-head-author {
+				width: 30vw;
+				height: 60rpx;
+				display: flex;
+				flex-direction: column;
+				margin-left: 15rpx;
+	
+				.oneline {
+					display: flex;
+					align-items: center;
+					width: 80vw;
+					height: 30rpx;
+					overflow: hidden; //多出部分隐藏
+					white-space: nowrap; //一行显示
+					text-overflow: ellipsis; //是否显示省略号
+				}
+	
+				.top-head-author-name {
+					font-size: 27rpx;
+					font-weight: 800;
+					letter-spacing: 3rpx;
+				}
+	
+				.top-head-author-identity {
+					font-size: 22rpx;
+					color: rgb(170, 170, 170);
+					letter-spacing: 3rpx;
+				}
+			}
+		}
+	
+		.top-view {
+	
+			width: 70rpx;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			color: rgb(170, 170, 170);
+			font-size: 26rpx;
+	
+			.top-more {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				font-size: 30rpx;
+			}
+	
+		}
+	
+	}
 
 	.collect-box {
 		height: 90rpx;
@@ -389,56 +505,8 @@
 		height: 50rpx;
 	}
 
-	.top-head {
-		height: 100%;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-
-		.top-head-headimg {
-			height: 70rpx;
-			width: 70rpx;
-			border-radius: 40rpx;
-			overflow: hidden;
-			background-repeat: no-repeat;
-			background-position: center center;
-			background-size: cover;
-			box-shadow: 0px 0px 2px rgb(216, 216, 216);
-		}
-
-		.top-head-author {
-			width: 30vw;
-			height: 60rpx;
-			display: flex;
-			flex-direction: column;
-			margin-left: 15rpx;
-
-			.oneline {
-				display: flex;
-				align-items: center;
-				width: 30vw;
-				height: 30rpx;
-				overflow: hidden; //多出部分隐藏
-				white-space: nowrap; //一行显示
-				text-overflow: ellipsis; //是否显示省略号
-			}
-
-			.top-head-author-name {
-				font-size: 27rpx;
-				font-weight: 800;
-				letter-spacing: 3rpx;
-			}
-
-			.top-head-author-identity {
-				font-size: 22rpx;
-				color: rgb(170, 170, 170);
-				letter-spacing: 3rpx;
-			}
-		}
-	}
-
 	.info-title {
-		margin: 20rpx 10rpx;
+		margin: 20rpx;
 		font-size: 35rpx;
 		font-weight: 900;
 	}

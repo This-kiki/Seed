@@ -339,6 +339,7 @@ function getsubLevel(key) {
 			break;
 	}
 }
+
 function getlaylevel(key) {
 	switch (key) {
 		case 12:
@@ -431,6 +432,97 @@ const rules = {
 	},
 }
 
+function getCategory(id) {
+	switch (id) {
+		case 1:
+			return '种子会动态';
+			break
+		case 2:
+			return '会员风采';
+			break;
+		case 3:
+			return '会员单位';
+			break;
+		case 4:
+			return '家乡新闻';
+			break;
+		case 5:
+			return '普通资讯';
+			break;
+		case 6:
+			return '知识';
+			break;
+		case 7:
+			return '法律常识';
+			break;
+	}
+}
+
+function getLevel(identity, sublevel) {
+	if (identity == 0) {
+		return '普通用户'
+	} else if (identity == 1) {
+		switch (sublevel) {
+			case 4:
+				return '荣誉会长';
+				break;
+			case 5:
+				return '会长';
+				break;
+			case 6:
+				return '副会长';
+				break;
+			case 7:
+				return '执行委员会成员';
+				break;
+			case 8:
+				return '秘书长';
+				break;
+			case 9:
+				return '会计';
+				break;
+			case 10:
+				return '出纳';
+				break;
+			case 11:
+				return '会员';
+				break;
+		}
+	} else if (identity == 2) {
+		return '律师'
+	} else if (identity == 3) {
+		return '会员单位'
+	} else if (identity == 20) {
+		return '管理员'
+	} else {
+		return ''
+	}
+}
+
+function goDetail(identity, sublevel,openId) {
+	if (identity == 1) {
+		if(sublevel == 11) {
+			uni.navigateTo({
+				url: "../pages/UserListDetail/UserListDetail?id=" + openId + "flag=2"
+			})
+		}else{
+			uni.navigateTo({
+				url: "../pages/UserListDetail/UserListDetail?id=" + openId + "flag=1"
+			})
+		}
+	} else if (identity == 2) {
+		uni.navigateTo({
+			url: "../pages/UserListDetail/UserListDetail?id=" + openId
+		})
+	} else if (identity == 3) {
+		uni.navigateTo({
+			url: "../pages/CompanyListDetail/CompanyListDetail?id=" + openId
+		})
+	} else {
+		return '';
+	}
+}
+
 export {
 	nationList,
 	polityList,
@@ -440,7 +532,9 @@ export {
 	getsubLevel,
 	getlaylevel,
 	getsex,
-	rules
+	rules,
+	getCategory,
+	getLevel,
 }
 
 // export default {
