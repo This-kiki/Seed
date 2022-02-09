@@ -1,6 +1,20 @@
 <template>
 	<view class="homeInfoContainer">
-		<scroll-view class="infoList" :style="{'height':height+'px'}" scroll-y="true" refresher-enabled="true"
+		<view class="selectLine">
+			<view class="btn" @click="selectStatus(0)"
+				:style="{'color':status == 0?'#fff':'#36c1ba','background-color':status == 0?'#36c1ba':''}">
+				未审核
+			</view>
+			<view class="btn" @click="selectStatus(1)"
+				:style="{'color':status == 1?'#fff':'#36c1ba','background-color':status == 1?'#36c1ba':''}">
+				已通过
+			</view>
+			<view class="btn" @click="selectStatus(2)"
+				:style="{'color':status == 2?'#fff':'#36c1ba','background-color':status == 2?'#36c1ba':''}">
+				被驳回
+			</view>
+		</view>
+		<scroll-view class="infoList" :style="{'height':height-40+'px'}" scroll-y="true" refresher-enabled="true"
 			:refresher-triggered="loading" @refresherrefresh="refresh" @scrolltolower="loadMore">
 			<slot slot="content" class="infoList">
 				<view class="infoBox" v-for="item in infoList" :key="item.id" @click="infoDetail(item.id)">
@@ -44,6 +58,8 @@
 		},
 		data() {
 			return {
+				// 当前选择状态
+				status: 1,
 				infoList: [],
 				current: 1,
 				loading: false,
@@ -92,9 +108,20 @@
 				this.loadmoreText = "正在加载中"
 				this.getAllHomeInfo()
 			},
+			selectStatus(status) {
+				this.loading = true
+				this.status = status
+				this.current = 1
+				this.infoList = []
+				this.springback = false
+				this.loadmore = true
+				this.loadmoreText = "加载更多"
+				this.getAllHomeInfo()
+			},
 			// 获取所有资讯列表
 			async getAllHomeInfo() {
 				let res = await this.$api.getAllHomeInfo({
+					status: this.status,
 					current: this.current,
 					openid: uni.getStorageSync("openid")
 				})
@@ -169,6 +196,18 @@
 		overflow-y: scroll;
 		user-select: text;
 		-webkit-user-select: text;
+
+		.selectLine {
+			height: 40px;
+
+			.btn {
+				font-size: 25rpx;
+				border: 3rpx solid #36c1ba;
+				border-radius: 10rpx;
+				color: #36c1ba;
+				padding: 6rpx 14rpx;
+			}
+		}
 
 		.infoList {
 			width: 96%;

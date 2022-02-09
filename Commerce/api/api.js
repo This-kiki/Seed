@@ -82,7 +82,7 @@ export class Api {
 
 	// 获取活动状态情况
 	getActivityState = async (data) => {
-		let res = await flyio.get(`/activity/queryApply/${data.current}/${data.limit}`,data)
+		let res = await flyio.get(`/activity/queryApply/${data.current}/${data.limit}`, data)
 		return res
 	}
 
@@ -326,7 +326,9 @@ export class Api {
 
 	//获得所有资讯
 	getAllHomeInfo = async (data) => {
-		let res = await flyio.get(`/info/findAllDynamic/${data.current}?openid=${data.openid?data.openid:''}`)
+		let res = await flyio.get(
+			`/info/findAllDynamic/${data.current}?openid=${data.openid?data.openid:''}&status=${data.status?data.status:''}`
+			)
 		return res.data
 	}
 
@@ -373,7 +375,7 @@ export class Api {
 		let res = await flyio.get(`/info/getMyCol/${data.current}/${data.limit}`)
 		return res.data
 	}
-	
+
 	// 获取我点赞的列表
 	getFabulousInfo = async (data) => {
 		let res = await flyio.get(`/pro/love/findLoveInfo/${data.current}/${data.limit}`)
@@ -384,7 +386,7 @@ export class Api {
 	getResumeList = async (data) => {
 		let res = await flyio.get(
 			`/pro/resume/getPublish/${data.current}/${data.limit}?position=${data.position}&state=${data.state}&city=${data.city}&pay=${data.pay}`
-			)
+		)
 		return res.data
 	}
 
@@ -399,7 +401,7 @@ export class Api {
 		let res = await flyio.get(`/pro/resume/getPublishDetail?id=${data.id}`)
 		return res.data
 	}
-	
+
 	// 简历详情 openid
 	getResumeDetailOpenid = async (data) => {
 		let res = await flyio.get(`/pro/resume/getByOpenid?openid=${data.openid}`)

@@ -37,7 +37,7 @@
 		</view>
 		<!-- 发布按钮 -->
 		<view class="addBtn" @click="openSubmit()" v-if="active!=1">
-			<view class="iconfont icon-tianjia">
+			<view class="iconfont icon-tianjiadingdan1">
 			</view>
 		</view>
 		<!-- 发布 -->
@@ -312,8 +312,7 @@
 
 			.iconfont {
 				color: #ffff;
-				font-size: 60rpx;
-				font-weight: bold;
+				font-size: 40rpx;
 			}
 		}
 
