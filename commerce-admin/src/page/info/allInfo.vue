@@ -171,12 +171,12 @@ export default {
     getAllInfo() {
       let getAPI = { current: this.current.current };
       this.$http.getAllInfo(getAPI).then((res) => {
-        // console.log(res)
+        // console.log(res);
         var resp = res.data.AllDynamic;
         for (let i = 0; i < resp.length; i++) {
           resp[i].top = "0";
         }
-        this.current.total = Math.ceil(res.data.AllDynamic.length / 20);
+        this.current.total = Math.ceil(res.data.total / 20);
         this.tableData = resp;
       });
     },
