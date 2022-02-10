@@ -5,7 +5,7 @@
 		<!-- 搜索框 -->
 		<view class="inputLine">
 			<input class="input" type="text" v-model="inputValue" placeholder="请输入关键字" @focus="showBtn=true"
-				@blur="showBtn=false"  confirm-type="search" @confirm="searchJob()"/>
+				@blur="showBtn=false" confirm-type="search" @confirm="searchJob()" />
 			<view class="searchBtn" v-if="showBtn" @click="searchJob()">
 				搜索
 			</view>
@@ -31,7 +31,8 @@
 					titleColor: "#fff",
 					bgColor: "#36c1ba",
 					isShowBackBtn: true,
-					backBtnColor: "#fff"
+					backBtnColor: "#fff",
+					navTitle: "职场搜索"
 				},
 				height: {},
 				showBtn: false,

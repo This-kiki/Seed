@@ -131,6 +131,7 @@
 			// 获取所有资讯列表
 			async getAllHomeInfo() {
 				let res = await this.$api.getAllHomeInfo({
+					status: "",
 					current: this.current
 				})
 				// console.log(res)

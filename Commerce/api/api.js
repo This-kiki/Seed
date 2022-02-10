@@ -326,9 +326,10 @@ export class Api {
 
 	//获得所有资讯
 	getAllHomeInfo = async (data) => {
+		console.log(data.status.toString())
 		let res = await flyio.get(
-			`/info/findAllDynamic/${data.current}?openid=${data.openid?data.openid:''}&status=${data.status?data.status:''}`
-			)
+			`/info/findAllDynamic/${data.current}?openid=${data.openid?data.openid:''}&status=${data.status.toString().length == 0?'':data.status}`
+		)
 		return res.data
 	}
 
