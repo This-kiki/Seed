@@ -22,29 +22,31 @@
 						<u--input v-model="model1.userInfo.name" border="surround" placeholder="请填写姓名"></u--input>
 					</view>
 				</u-form-item>
-				<u-form-item prop="userInfo.sex" borderBottom @click="shows.show1 = true" ref="item3">
-					<view class="text-box">
-						<text>性别</text>
-						<u--input v-model="model1.userInfo.sex" border="surround" disabled disabledColor="#ffffff"
-							placeholder="请选择性别">
-						</u--input>
-					</view>
-				</u-form-item>
-				<u-form-item prop="userInfo.birth" borderBottom @click="shows.show2 = true;" ref="item4">
-					<view class="text-box">
-						<text>出生年月</text>
-						<u--input v-model="model1.userInfo.birth" border="surround" disabled disabledColor="#ffffff"
-							placeholder="请选择出生年月">
-						</u--input>
-					</view>
+				<u-form-item prop="userInfo.sex" borderBottom ref="item3">
+					<picker class="picker" mode="selector" range-key="name" v-model="model1.userInfo.sex"
+						@change="bindSexChange" :range="sexlist">
+						<view class="text-box">
+							<text>性别</text>
+							<u-cell :border="false" :title="getsex(model1.userInfo.sex)">
+							</u-cell>
+						</view>
+					</picker>
 				</u-form-item>
 				<u-form-item prop="userInfo.birth" borderBottom>
+					<picker class="picker" mode="date" v-model="model1.userInfo.birth" @change="bindDateChange">
+						<view class="text-box">
+							<text>生日</text>
+							<u-cell :border="false" :title="model1.userInfo.birth?model1.userInfo.birth:'请选择出生年月'">
+							</u-cell>
+						</view>
+					</picker>
+				</u-form-item>
+				<u-form-item prop="userInfo.place" borderBottom>
 					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
 						<view class="text-box">
 							<text>籍贯</text>
-							<u--input v-model="model1.userInfo.place" border="surround" disabled disabledColor="#ffffff"
-								placeholder="请选择籍贯">
-							</u--input>
+							<u-cell :border="false" :title="model1.userInfo.place?model1.userInfo.place:'请选择籍贯'">
+							</u-cell>
 						</view>
 					</picker>
 				</u-form-item>
@@ -86,13 +88,6 @@
 				</u-form-item>
 			</u--form>
 			<u-button type="primary" text="提交" customStyle="margin: 30px auto;width:90%" @click="save"></u-button>
-			<!-- 性别选择器 -->
-			<u-action-sheet :show="shows.show1" :actions="sex" title="请选择性别" @close="shows.show1 = false"
-				@select="sexSelect">
-			</u-action-sheet>
-			<!-- 生日选择器 -->
-			<u-datetime-picker :show="shows.show2" v-model="value2" mode="date" closeOnClickOverlay @confirm="confirm"
-				@cancel="cancel(2)" @change="change(2)" @close="close(2)"></u-datetime-picker>
 		</view>
 	</view>
 </template>
@@ -101,6 +96,7 @@
 	import {
 		regular
 	} from '../../../util/common.js';
+	import * as data from '../../../util/data.js'
 	export default {
 		data() {
 			return {
@@ -112,15 +108,7 @@
 					backBtnColor: 'black'
 				},
 				temp: null,
-				sex: [{
-						id: 0,
-						name: '男'
-					},
-					{
-						id: 1,
-						name: '女'
-					}
-				],
+				sexlist: data.sexlist,
 				shows: {
 					show1: false,
 					show2: false
@@ -142,67 +130,30 @@
 						position: ''
 					},
 				},
-				rules: {
-					'userInfo.name': {
-						type: 'string',
-						required: true,
-						message: '请填写姓名',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.phone': {
-						type: 'string',
-						required: true,
-						message: '请填写手机号',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.school': {
-						type: 'string',
-						required: true,
-						message: '请填写学校',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.major': {
-						type: 'string',
-						required: true,
-						message: '请填写专业',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.grade': {
-						type: 'string',
-						required: true,
-						message: '请填写年级',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.work': {
-						type: 'string',
-						required: true,
-						message: '请填写工作单位',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.position': {
-						type: 'string',
-						required: true,
-						message: '请填写工作职位',
-						trigger: ['blur', 'change']
-					},
-					'userInfo.sex': {
-						type: 'string',
-						max: 1,
-						required: true,
-						message: '请选择男或女',
-						trigger: ['blur', 'change']
-					},
-				},
+				rules: data.rules,
 			};
 		},
 		mounted() {
-			this.getUserInfo();
+			this.getUserInfo()
 		},
 		methods: {
 			// ssssss
 			sexSelect(e) {
 				this.model1.userInfo.sex = e.name
 				// this.$refs.form1.validateField('userInfo.sex')
+			},
+			bindPlaceChange(e) {
+				this.model1.userInfo.place = e.detail.value.join('-');
+			},
+			bindDateChange(e) {
+				this.model1.userInfo.birth = e.detail.value;
+			},
+			
+			bindSexChange(e) {
+				this.model1.userInfo.sex = this.sexlist[e.detail.value].id;
+			},
+			getsex(key) {
+				return data.getsex(key)
 			},
 			close(index) {
 				this.shows[`show${index}`] = false
@@ -237,20 +188,10 @@
 					var obj = res.data.userBaseInfo;
 					for (let key in obj) {
 						// console.log(key, '-', obj[key])
-						if (obj[key])
+						if (obj[key] != null)
 							this.model1.userInfo[key] = obj[key];
 						else
 							this.model1.userInfo[key] = ''
-						if (key == 'sex') {
-							if (obj[key] == 1) {
-								this.model1.userInfo[key] = '男'
-								console.log(key, '-', obj[key])
-							} else if (obj[key] == 2) {
-								this.model1.userInfo[key] = '女'
-							} else {
-								this.model1.userInfo[key] = ''
-							}
-						}
 					}
 				});
 			},
@@ -279,7 +220,6 @@
 							// console.log(res)
 							var obj = this.model1.userInfo;
 							obj.img = res.data.url;
-							obj.sex = (obj.sex == '男' ? 1 : obj.sex == '女' ? 2 : 0)
 							this.$api
 								.changeUserMsg(obj)
 								.then(res => {
@@ -304,7 +244,6 @@
 						});
 				} else {
 					var obj = this.model1.userInfo;
-					obj.sex = (obj.sex == '男' ? 1 : obj.sex == '女' ? 2 : 0)
 					this.$api
 						.changeUserMsg(obj)
 						.then(res => {

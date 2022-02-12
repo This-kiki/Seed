@@ -64,7 +64,7 @@
 			},
 			dialogFather(id) {
 				this.shareId = id
-				// this.dialog = true
+				this.dialog = true
 			},
 			refresh() {
 				this.loading = true

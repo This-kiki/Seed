@@ -135,9 +135,6 @@ let formVerification = [{
 	label: 'companyName',
 	value: '请填写公司全称'
 }, {
-	label: 'companyPhone',
-	value: '请填写公司联系电话'
-}, {
 	label: 'content',
 	value: '请填写公司介绍'
 }, {
@@ -173,12 +170,16 @@ let formVerification = [{
 }]
 
 function findWord(word) {
+	var ret = {
+		status: true,
+	}
 	for (let key in formVerification) {
 		if (formVerification[key].label == word) {
-			return {
+			ret = {
 				status: false,
 				value: formVerification[key].value
 			}
+			return ret
 		}
 	}
 }
@@ -218,15 +219,15 @@ function verification(form) {
 			}
 		}
 	}
-	if (obj.companyPhone) {
-		if (!phoneRuler(obj.companyPhone)) {
-			// console.log('企业手机号码格式不对')
-			return {
-				status: false,
-				value: '企业手机号码格式不对'
-			}
-		}
-	}
+	// if (obj.companyPhone) {
+	// 	if (!phoneRuler(obj.companyPhone)) {
+	// 		// console.log('企业手机号码格式不对')
+	// 		return {
+	// 			status: false,
+	// 			value: '企业手机号码格式不对'
+	// 		}
+	// 	}
+	// }
 	if (obj.idNum) {
 		if (!isCardNo(obj.idNum)) {
 			// console.log('身份证号码格式不对')

@@ -438,7 +438,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/RealTimeInfo/infoReview/infoReview",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

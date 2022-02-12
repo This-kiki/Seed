@@ -57,7 +57,7 @@
 								</view>
 								<view class="comment-item-time">{{ formatMsgTime(item.createTime) }}</view>
 								<span class="iconfont comment-item-delete" v-if="judgeDelete(item.openId)"
-									v-on:click.stop="deleteComment(item.id)">&#xe608;</span>
+									v-on:click.stop="deletemodel(item.id)">&#xe608;</span>
 							</view>
 						</view>
 					</view>
@@ -81,58 +81,7 @@
 				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
 			</view>
 		</view>
-		<!-- 评论的具体信息 -->
-		<popup-layer ref="popupRef" :direction="'top'" v-model="boolShow">
-			<view class="reply-page" v-if="actComment">
-				<view class="reply-close-box">
-					<span class="iconfont reply-close" @tap="closeReply">&#xe614;</span>
-					<view class="reply-num">
-						{{ actCommentReply.length }}条评论回复
-					</view>
-				</view>
-				<view class="comment-item" style="border-bottom: 1rpx solid #e8e8e8;">
-					<div v-if="actComment.img" class="comment-item-head"
-						:style="'background-image: url(' + actComment.img + ');'"></div>
-					<div v-if="!actComment.img" class="comment-item-head"
-						style="background-image: url('../../../static/img/head.webp');"></div>
-					<view class="comment-text" style="border: none">
-						<view class="comment-item-user">{{ actComment.name?actComment.name:'游客' }}</view>
-						<view class="comment-item-content">{{ actComment.content }}</view>
-						<view class="comment-item-tile">
-							<view class="comment-item-time">{{ formatMsgTime(actComment.createTime) }}</view>
-						</view>
-					</view>
-				</view>
-				<view class="comment-list">
-					<view class="comment-all">
-						{{ actCommentReply.length==0?'暂无评论回复':'全部回复' }}
-					</view>
-					<view class="comment-item" v-for="(item,index) in actCommentReply" :key="index">
-						<div v-if="item.img" class="comment-item-head"
-							:style="'background-image: url(' + item.img + ');'"></div>
-						<div v-if="!item.img" class="comment-item-head"
-							style="background-image: url('../../../static/img/head.webp');"></div>
-						<view class="comment-text">
-							<view class="comment-item-user">{{ item.name?item.name:'游客' }}</view>
-							<view class="comment-item-content">{{ item.content }}</view>
-							<view class="comment-item-tile">
-								<view class="comment-item-time">{{ formatMsgTime(item.createTime) }}</view>
-								<span class="iconfont comment-item-delete" v-if="judgeDelete(item.openId)"
-									v-on:click.stop="deleteComment2(item.id)">&#xe608;</span>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<!-- 回复评论框 -->
-			<view class="reply-box">
-				<view class="reply-box-input" @tap="showReview2">
-					<span class="iconfont reply-box-text">&#xe615;</span>
-					<span class="reply-box-text">写回复...</span>
-				</view>
-			</view>
-			<ygc-comment ref="ygcComment2" :placeholder="'回复评论'" @pubComment="pubComment2"></ygc-comment>
-		</popup-layer>
+		<u-modal :showCancelButton="true" :show="show" title="是否删除" @cancel="show=false" @confirm="deleteComment"></u-modal>
 		<ygc-comment ref="ygcComment" :placeholder="'发布评论'" @pubComment="pubComment"></ygc-comment>
 	</view>
 </template>
@@ -156,7 +105,9 @@
 				actCommentReply: null,
 				boolShow: true,
 				praiseColor: '#000000',
-				collectColor: '#000000'
+				collectColor: '#000000',
+				show: false,
+				deleteAPI: {}
 			};
 		},
 		mounted() {
@@ -177,15 +128,22 @@
 				});
 			},
 			showReply(item) {
-				this.actComment = item
-				let getAPI = {
-					commentId: item.id
-				}
-				this.$api.getReply(getAPI).then((res) => {
-					this.actCommentReply = res.data.comments
-					// console.log(res)
+				var obj = JSON.stringify(item)
+				uni.navigateTo({
+					url: '../infoReview/infoReview?obj=' + encodeURIComponent(obj) + '&infoId=' + this.infoId,
+					fail: function(res) {
+						console.log(res)
+					},
 				})
-				this.$refs.popupRef.show();
+				// this.actComment = item
+				// let getAPI = {
+				// 	commentId: item.id
+				// }
+				// this.$api.getReply(getAPI).then((res) => {
+				// 	this.actCommentReply = res.data.comments
+				// 	// console.log(res)
+				// })
+				// this.$refs.popupRef.show();
 			},
 			closeReply() {
 				this.$refs.popupRef.close();
@@ -193,9 +151,7 @@
 			showReview() {
 				this.$refs.ygcComment.toggleMask('show');
 			},
-			showReview2() {
-				this.$refs.ygcComment2.toggleMask('show');
-			},
+			
 			pubComment(content) {
 				let getAPI = {
 					infoId: this.infoId,
@@ -217,56 +173,18 @@
 					}
 				})
 			},
-			pubComment2(content) {
-				let getAPI = {
-					infoId: this.infoId,
-					content: content,
-					commentId: this.actComment.id
+			
+			deletemodel(id) {
+				this.deleteAPI = {
+					id: id,
 				}
-				// console.log(getAPI)
-				this.$api.postReply(getAPI).then((res) => {
-					// console.log(res)
-					if (res.success) {
-						this.$refs.ygcComment2.toggleMask();
-						let getAPI2 = {
-							commentId: this.actComment.id
-						}
-						this.$api.getReply(getAPI2).then((res) => {
-							this.actCommentReply = res.data.comments
-							// console.log(res)
-						})
-					} else {
-						uni.showToast({
-							title: res.message,
-							duration: 1000,
-							icon: 'none'
-						});
-					}
-				})
+				this.show = true
 			},
 			deleteComment(id) {
-				let deleteAPI = {
-					id: id
-				}
-				this.$api.deleteReply(deleteAPI).then((res) => {
+				this.show = false
+				this.$api.deleteReply(this.deleteAPI).then((res) => {
 					if (res.success) {
 						this.getInfo()
-					}
-				})
-			},
-			deleteComment2(id) {
-				let deleteAPI = {
-					id: id
-				}
-				this.$api.deleteReply(deleteAPI).then((res) => {
-					if (res.success) {
-						let getAPI2 = {
-							commentId: this.actComment.id
-						}
-						this.$api.getReply(getAPI2).then((res) => {
-							this.actCommentReply = res.data.comments
-							// console.log(res)
-						})
 					}
 				})
 			},
