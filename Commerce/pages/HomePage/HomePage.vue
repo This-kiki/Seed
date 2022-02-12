@@ -26,12 +26,12 @@
 		</view>
 		<!-- swiper -->
 		<view class="swiperContainer">
-			<swiper class="swiper" :current="active" @change="changeSwiper" :style="{'height':swiperHeight-40+'px'}">
+			<swiper class="swiper" :current="active" @change="changeSwiper" :style="{'height':swiperHeight-20+'px'}">
 				<swiper-item class="swiperItem">
-					<HomeInfo :height='swiperHeight-40' />
+					<HomeInfo :height='swiperHeight-20' />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<SeedInfo :height='swiperHeight-40' />
+					<SeedInfo :height='swiperHeight-20' />
 				</swiper-item>
 			</swiper>
 		</view>
