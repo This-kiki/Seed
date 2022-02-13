@@ -174,10 +174,10 @@
 					</view>
 				</view>
 				<view class="content">
-					<view class="volun">
+					<view class="volun" v-if="info.volunteerList">
 						<view class="volun_left">
 							<view class="name">
-								{{info.volunteerList?info.volunteerList[0].volunteerName:'暂无'}}
+								{{info.volunteerList[0].volunteerName}}
 							</view>
 							<view class="long">
 								{{info.volunteerList[0].volunteerLong}}
@@ -188,7 +188,7 @@
 						</view>
 					</view>
 					<view class="volunInfo">
-						{{info.volunteerList[0].volunteerDesc}}
+						{{info.volunteerList?info.volunteerList[0].volunteerDesc:"暂无"}}
 					</view>
 				</view>
 			</view>

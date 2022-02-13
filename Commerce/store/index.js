@@ -6,7 +6,8 @@ const store = new Vuex.Store({
 	state: {
 		openid: '',
 		userMsg: '',
-		isSubmit: false
+		isSubmit: false,
+		jobStatus: 3,
 	},
 	mutations: {
 		setOpenidSync(state, openid) {
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
 		},
 		setSubmit(state, bool) {
 			state.isSubmit = bool
+		},
+		setJobStatus(state, jobStatus) {
+			state.jobStatus = jobStatus
 		}
 	},
 	actions: {
@@ -27,6 +31,9 @@ const store = new Vuex.Store({
 		},
 		setSubmit(context, bool) {
 			context.commit('setSubmit', bool)
+		},
+		setJobStatus(context, jobStatus) {
+			context.commit('setJobStatus', jobStatus)
 		}
 	},
 	getters: {}

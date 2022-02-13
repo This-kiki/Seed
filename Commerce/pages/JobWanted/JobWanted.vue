@@ -40,21 +40,21 @@
 		<!-- swiper -->
 		<view class="swiperContainer">
 			<swiper class="swiper" :current="current" @change="changeSwiper"
-				:style="{'height':height.swiperHeight-60+'px'}">
+				:style="{'height':height.swiperHeight-80+'px'}">
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-60" />
+					<JobPart v-if="isSubmit" :cate="3" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-60" />
+					<JobPart v-if="isSubmit" :cate="0" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-60" />
+					<JobPart v-if="isSubmit" :cate="1" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-60" />
+					<JobPart v-if="isSubmit" :cate="2" :height="height.swiperHeight-80" />
 				</swiper-item>
 				<swiper-item class="swiperItem">
-					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-60" v-if="submitResume" />
+					<ResumeList :resumeSearch="resumeSearch" :height="height.swiperHeight-80" v-if="submitResume" />
 				</swiper-item>
 			</swiper>
 		</view>
@@ -178,6 +178,9 @@
 		computed: {
 			storeSubmit() {
 				return this.$store.state.isSubmit
+			},
+			storeJobStatus() {
+				return this.$store.state.jobStatus
 			}
 		},
 		watch: {
@@ -187,6 +190,10 @@
 					this.isSubmit = true
 				}, 100)
 				this.$store.dispatch('setSubmit', false)
+			},
+			storeJobStatus() {
+				this.current = this.$store.state.jobStatus + 1
+				if (this.current == 4) this.current = 0
 			}
 		},
 		onLoad() {

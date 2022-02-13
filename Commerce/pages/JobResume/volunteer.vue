@@ -24,6 +24,11 @@
 					<text class="name">项目描述</text>
 					<textarea v-model="item.volunteerDesc" placeholder="请填写项目描述" />
 				</view>
+				<view class="delete">
+					<view class="btn" v-if="index != info.volunteerList.length-1" @click="deleteItem(index)">
+						删除
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="bottom">
@@ -91,6 +96,25 @@
 					volunteerDesc: ""
 				}
 				this.info.volunteerList.unshift(item)
+			},
+			// 删除一项
+			deleteItem(index) {
+				let that = this
+				uni.showModal({
+					title: "提示",
+					content: "确定删除当前项？",
+					success: function(res) {
+						if (res.confirm) {
+							that.info.volunteerList.splice(index, 1)
+							uni.showToast({
+								icon: 'none',
+								title: '删除成功'
+							})
+						} else {
+							return
+						}
+					}
+				})
 			}
 		}
 	}
@@ -141,6 +165,19 @@
 					picker {
 						width: 100%;
 						height: 40rpx;
+					}
+				}
+
+				.delete {
+					float: right;
+					margin-top: 20rpx;
+
+					.btn {
+						font-size: 25rpx;
+						border-radius: 10rpx;
+						background-color: #36c1ba;
+						color: #fff;
+						padding: 15rpx 30rpx;
 					}
 				}
 

@@ -55,7 +55,7 @@
 			</view>
 			<view class="common" v-if="identity!=3" @click="goCompanyInfo()">
 				<text>招聘单位详情</text>
-				<input type="text" v-model="jobInfo.companyInfo" placeholder="选填" />
+				<input type="text" v-model="jobInfo.companyInfo" placeholder="选填" disabled />
 			</view>
 			<view class="release" @click="releaseJobNeed()">
 				发布
@@ -277,6 +277,7 @@
 										title: "发布成功"
 									})
 									that.$store.dispatch('setSubmit', true)
+									that.$store.dispatch('setJobStatus', that.jobInfo.classfication)
 									uni.removeStorageSync('jobRelease')
 									setTimeout(() => {
 										uni.navigateBack()

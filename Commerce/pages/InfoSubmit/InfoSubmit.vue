@@ -91,16 +91,16 @@
 						</view>
 					</view>
 					<view class="selectMain" @touchend.stop="format">
-						<view class="small common" data-name="header" :data-value="5"
+						<view class="small common" data-name="fontSize" data-value="14px"
 							:class="textSize==0?'selectBgColor':''" @click="selectTextSize(0)">小
 						</view>
-						<view class="normal common" data-name="header" :data-value="4"
+						<view class="normal common" data-name="fontSize" data-value="18px"
 							:class="textSize==1?'selectBgColor':''" @click="selectTextSize(1)">标准
 						</view>
-						<view class="big common" data-name="header" :data-value="3"
+						<view class="big common" data-name="fontSize" data-value="22px"
 							:class="textSize==2?'selectBgColor':''" @click="selectTextSize(2)">大
 						</view>
-						<view class="bigger common" data-name="header" :data-value="2"
+						<view class="bigger common" data-name="fontSize" data-value="26px"
 							:class="textSize==3?'selectBgColor':''" @click="selectTextSize(3)">超大
 						</view>
 					</view>
@@ -179,11 +179,14 @@
 				<view class="listStyle">
 					<text>列表</text>
 					<view class="selectMain" @touchend.stop="format">
-						<view class="iconfont icon-youxupailie" data-name="list" data-value="ordered">
+						<view class="iconfont icon-youxupailie" @click="selectListStyle(0)"
+							:class="listStyle==0?'selectBgColor':''" data-name="list" data-value="ordered">
 						</view>
-						<view class="iconfont icon-wuxupailie" data-name="list" data-value="bullet">
+						<view class="iconfont icon-wuxupailie" @click="selectListStyle(1)"
+							:class="listStyle==1?'selectBgColor':''" data-name="list" data-value="bullet">
 						</view>
-						<view class="iconfont icon--checklist" data-name="list" data-value="check">
+						<view class="iconfont icon--checklist" @click="selectListStyle(2)"
+							:class="listStyle==2?'selectBgColor':''" data-name="list" data-value="check">
 						</view>
 					</view>
 				</view>
@@ -197,7 +200,7 @@
 			</view>
 		</view>
 		<!-- 资讯主体 -->
-		<view class="mainContainer" v-if="showEditor">
+		<view class="mainContainer" v-show="showEditor">
 			<editor id="editor" show-img-size show-img-resize show-img-toolbar placeholder="请输入正文(当图片加载完毕后才可点击发布)"
 				@statuschange="onStatusChange" @ready="onEditorReady" @input="getImgList" :read-only="!showEditor"
 				@focus="showEditor=true">
@@ -268,6 +271,8 @@
 				textHigh: 0,
 				// 对齐方式选择
 				textAlign: 0,
+				// 列表样式选择
+				listStyle: -1,
 				// 是否是修改
 				flag: 1,
 				// 修改的id
@@ -279,7 +284,9 @@
 				// 键盘高度
 				keyboardHeight: 0,
 				// 个人信息
-				baseInfo: {}
+				baseInfo: {},
+				// 是否加载本地暂存
+				isLoadLocal: false,
 			};
 		},
 		onLoad(options) {
@@ -383,8 +390,9 @@
 							if (res.confirm) {
 								that.infoForm = infoForm
 								that.editorCtx.setContents({
-									html: infoForm.content
+									html: that.infoForm.content
 								})
+								that.isLoadLocal = true
 							} else if (res.cancel) {
 								return
 							}
@@ -488,6 +496,7 @@
 			// 获得图片列表
 			getImgList(e) {
 				let html = e.detail.html
+				console.log(html)
 				this.infoForm.content = html
 				let img = html.split("src=\"")
 				let img1 = []
@@ -524,6 +533,13 @@
 			},
 			// 发布
 			submit() {
+				if (this.infoForm.content == '') {
+					uni.showToast({
+						icon: 'none',
+						title: '请编辑正文'
+					})
+					return
+				}
 				let that = this
 				this.editorCtx.getContents({
 					success: function(res) {
@@ -644,6 +660,9 @@
 						icon: "none"
 					})
 				}
+				if (this.isLoadLocal) {
+					uni.removeStorageSync('infoForm')
+				}
 			},
 			// 修改资讯
 			async editInfo() {
@@ -664,23 +683,26 @@
 			},
 			// 暂存
 			setLocal() {
+				let localInfo = uni.getStorageSync("infoForm")
 				let that = this
-				this.editorCtx.getContents({
+				if (this.infoForm.content != "") {
+					this.editorCtx.getContents({
+						success: function(res) {
+							that.infoForm.content = res.html
+						}
+					});
+				}
+				uni.showModal({
+					title: '确定暂存？',
+					content: localInfo ? '此操作将会覆盖上次暂存。' : "",
 					success: function(res) {
-						that.infoForm.content = res.html
-						uni.showModal({
-							title: '确定暂存？',
-							content: '此操作将会覆盖上次暂存。',
-							success: function(res) {
-								if (res.confirm) {
-									uni.setStorageSync("infoForm", that.infoForm)
-								} else if (res.cancel) {
-									return
-								}
-							}
-						})
+						if (res.confirm) {
+							uni.setStorageSync("infoForm", that.infoForm)
+						} else if (res.cancel) {
+							return
+						}
 					}
-				});
+				})
 			},
 			// 选择字体样式
 			selectTextStyle(num) {
@@ -708,6 +730,13 @@
 			// 选择对齐方式
 			selectTextAlign(num) {
 				this.textAlign = num
+			},
+			// 选择列表
+			selectListStyle(num) {
+				if (this.listStyle == num) {
+					num = -1
+				}
+				this.listStyle = num
 			}
 		}
 	}

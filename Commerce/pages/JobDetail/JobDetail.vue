@@ -9,7 +9,7 @@
 				<view class="top">
 					<view class="work">
 						{{jobInfo.job}}
-						<text class="category">兼职</text>
+						<text class="category">{{jobInfo.classfication?cateList[jobInfo.classfication]:'兼职'}}</text>
 					</view>
 					<view class="money">
 						<text>{{jobInfo.reward}}</text>
@@ -175,7 +175,8 @@
 				// hr详情
 				hrInfo: {},
 				identity: 0,
-				canRelease: false
+				canRelease: false,
+				cateList: ["兼职", "实习", "校招", "社招"],
 			};
 		},
 		onLoad(option) {
