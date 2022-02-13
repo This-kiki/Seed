@@ -8,6 +8,7 @@ const store = new Vuex.Store({
 		userMsg: '',
 		isSubmit: false,
 		jobStatus: 3,
+		newMsg: false,
 	},
 	mutations: {
 		setOpenidSync(state, openid) {
@@ -23,7 +24,10 @@ const store = new Vuex.Store({
 		},
 		setJobStatus(state, jobStatus) {
 			state.jobStatus = jobStatus
-		}
+		},
+		setNewMsg(state, newMsg) {
+			state.newMsg = newMsg
+		},
 	},
 	actions: {
 		setOpenid(context, openid) {
@@ -34,7 +38,10 @@ const store = new Vuex.Store({
 		},
 		setJobStatus(context, jobStatus) {
 			context.commit('setJobStatus', jobStatus)
-		}
+		},
+		setNewMsg(context, newMsg) {
+			context.commit('setNewMsg', newMsg)
+		},
 	},
 	getters: {}
 })

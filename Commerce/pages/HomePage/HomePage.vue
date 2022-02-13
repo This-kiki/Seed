@@ -99,7 +99,19 @@
 				statusBarHeight: 0,
 				// 屏幕高度
 				screenHeight: 0,
-				swiperHeight: 0
+				// 轮播图高度
+				swiperHeight: 0,
+
+				// Socket连接状态
+				IsOpen: false,
+				// SocketTask监听状态
+				SocketTask: {},
+				// 是否上线
+				IsOnline: false,
+				// 心跳
+				heartTimer: "",
+				// 自己的id
+				openid: "",
 			}
 		},
 		created() {
@@ -117,13 +129,95 @@
 					that.screenHeight = res.windowHeight
 				},
 			})
+			this.openid = uni.getStorageSync('openid')
+			this.openSocket()
 		},
 		onShow() {
 			setTimeout(() => {
 				uni.showTabBar()
 			}, 400)
 		},
+		beforeDestroy() {
+			// 关闭
+			this.SocketTask.close()
+			// 清除心跳
+			clearInterval(this.heartTimer)
+		},
 		methods: {
+			// 用户上线  接受消息
+			openSocket() {
+				// 防止重复连接
+				if (this.IsOpen) return
+				// 连接
+				this.SocketTask = uni.connectSocket({
+					url: `wss://hjzpzzh.com/seed/websocket/${this.openid}`,
+					complete: () => {}
+				});
+				if (!this.SocketTask) return;
+				// 监听开启
+				this.SocketTask.onOpen(() => {
+					// 将连接状态设为已连接
+					console.log('将连接状态设为已连接');
+					this.IsOpen = true
+				})
+				// 心跳
+				let that = this
+				this.heartTimer = setInterval(() => {
+					that.SocketTask.send({
+						data: "heart"
+					})
+				}, 5000)
+				// 监听关闭
+				this.SocketTask.onClose(() => {
+					console.log('连接已关闭');
+					this.IsOpen = false;
+					this.SocketTask = false;
+					this.IsOnline = false
+					clearInterval(this.heartTimer)
+					// 清空会话列表
+					// 更新未读数提示
+				})
+				// 监听错误
+				this.SocketTask.onError(() => {
+					console.log('连接错误');
+					this.IsOpen = false;
+					this.SocketTask = false;
+					this.IsOnline = false
+					clearInterval(this.heartTimer)
+					uni.showToast({
+						title: '网络错误，您已掉线，请重新打开小程序。'
+					})
+				})
+				// 监听接收信息
+				this.SocketTask.onMessage(async (e) => {
+					console.log('接收消息', e);
+					let arr = e.data.split('**msg**')
+					let newMsg = {
+						cate: parseInt(arr[0]),
+						time: arr[2],
+						name: arr[3],
+						img: arr[4],
+						id: arr[5],
+						title: arr[6],
+						content: arr.length == 9 ? arr[7] : '',
+					}
+					let msgList = []
+					if (uni.getStorageSync('msgList')) {
+						msgList = uni.getStorageSync('msgList')
+					}
+					msgList.push(newMsg)
+					uni.setStorageSync('msgList', msgList)
+					this.$store.dispatch('setNewMsg', true)
+					// tabber 我的 显示红点
+					uni.showTabBarRedDot({
+						index: 4
+					})
+					uni.showToast({
+						icon: "none",
+						title: '您有新的消息'
+					})
+				})
+			},
 			// 判断是否为会员
 			async checkUser() {
 				let res = await this.$api.getUserMsg()

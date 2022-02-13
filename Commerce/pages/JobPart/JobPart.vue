@@ -246,10 +246,12 @@
 					margin-top: 20rpx;
 					font-size: 24rpx;
 					color: #999;
+					box-sizing: border-box;
 
 					.company {
 						display: flex;
 						align-items: center;
+						margin-right: 20rpx;
 
 						.img {
 							width: 60rpx;
@@ -265,7 +267,16 @@
 							margin-left: 18rpx;
 							color: #000;
 							font-size: 26rpx;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							white-space: nowrap;
 						}
+					}
+
+					.address {
+						text-overflow: ellipsis;
+						overflow: hidden;
+						white-space: nowrap;
 					}
 				}
 			}

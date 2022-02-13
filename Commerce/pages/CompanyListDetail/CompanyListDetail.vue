@@ -175,6 +175,9 @@
 		-webkit-user-select: text;
 
 		.mainContaienr {
+			width: 94%;
+			margin: auto;
+
 			.userCard {
 				width: 90%;
 				margin: 20rpx auto;

@@ -37,6 +37,16 @@
 						联系我们
 					</view>
 				</view>
+				<view class="m-bottom-item" @click="go('Notice/Notice')">
+					<view class="iconfont m-bottom-item-icon">
+						&#xe601;
+					</view>
+					<view class="m-bottom-item-content">
+						我的消息
+						<view class="hotDot" v-if="newMsg">
+						</view>
+					</view>
+				</view>
 				<view class="m-bottom-item" @click="go('MineActivity/MineActivity')">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe622;
@@ -106,6 +116,11 @@
 				},
 				opacity: 1,
 				userMsg: {},
+			}
+		},
+		computed: {
+			newMsg() {
+				return this.$store.state.newMsg
 			}
 		},
 		onShow() {
@@ -324,6 +339,17 @@
 						color: rgb(135, 135, 135);
 						padding: 20rpx 30rpx;
 						border-bottom: 1rpx solid rgb(195, 195, 195);
+						position: relative;
+
+						.hotDot {
+							position: absolute;
+							width: 16rpx;
+							height: 16rpx;
+							background-color: red;
+							border-radius: 8rpx;
+							top: 8rpx;
+							left: 160rpx;
+						}
 					}
 				}
 

@@ -297,6 +297,7 @@
 						this.info[key] = "无"
 					}
 				}
+				this.info.volunteerList = JSON.parse(this.info.volunteer)
 				this.info.certificate = JSON.parse(this.info.certificate)
 			},
 			// 获取自己的简历
