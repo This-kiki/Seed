@@ -188,6 +188,16 @@
 			}
 			this.identity = uni.getStorageSync('identity')
 		},
+		created() {
+			if (uni.getStorageSync('jobCate')) {
+				this.jobInfo.classfication = uni.getStorageSync('jobCate')
+			}
+		},
+		beforeDestroy() {
+			if (uni.getStorageSync('jobCate')) {
+				uni.removeStorageSync('jobCate')
+			}
+		},
 		onShow() {
 			this.jobInfo = uni.getStorageSync('jobRelease')
 			if (uni.getStorageSync('hopeJob')) {

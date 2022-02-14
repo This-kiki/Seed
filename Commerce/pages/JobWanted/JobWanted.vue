@@ -205,6 +205,7 @@
 			setTimeout(() => {
 				uni.showTabBar()
 			}, 400)
+			uni.setStorageSync('jobCate', this.cate)
 		},
 		methods: {
 			selectLowPay(e) {
@@ -251,6 +252,7 @@
 						this.cate = 2;
 						break;
 				}
+				uni.setStorageSync('jobCate', this.cate)
 			},
 			// 获取自己的简历
 			async getResume() {
