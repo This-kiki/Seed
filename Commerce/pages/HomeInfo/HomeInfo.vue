@@ -48,7 +48,6 @@
 		data() {
 			return {
 				topList: [],
-				infoList: [],
 				current: 1,
 				loading: false,
 				loadmore: true,
@@ -68,7 +67,7 @@
 					id: this.shareId
 				}
 				this.$api.uninterestedInfo(getAPI).then((res) => {
-					console.log(res)
+					// console.log(res)
 					for (let i = 0; i < this.topList.length; i++) {
 						if (this.topList[i].id == this.shareId) {
 							// console.log(this.shareId,'删除了',this.topList[i])
@@ -114,8 +113,8 @@
 			// 获取置顶资讯
 			async getTopHomeInfo() {
 				let res = await this.$api.getTopHomeInfo()
-				// console.log(res)
 				let list = res.data.AllDynamic
+				// console.log(list)
 				// this.topList.push.apply(this.topList,list);
 				this.topList = list
 				this.topList.forEach(item => {
@@ -126,6 +125,7 @@
 							item.isImg = true
 						}
 				})
+				console.log(this.topList)
 				this.getAllHomeInfo()
 			},
 			// 获取所有资讯列表

@@ -14,7 +14,7 @@
 					</view>
 					<view class="info">
 						<view class="age">
-							{{info.age?info.age:""}}岁
+							{{info.age>=0?info.age+"岁":""}}
 						</view>
 						<!-- <view class="marriage">
 							{{info.marriage}}

@@ -63,12 +63,10 @@
 <script>
 	import HomeInfo from "../HomeInfo/HomeInfo"
 	import SeedInfo from "../SeedInfo/SeedInfo"
-	import LawInfo from "../LawInfo/LawInfo"
 	export default {
 		components: {
 			HomeInfo,
-			SeedInfo,
-			LawInfo
+			SeedInfo
 		},
 		data() {
 			return {
@@ -130,6 +128,7 @@
 				},
 			})
 			this.openid = uni.getStorageSync('openid')
+			this.getLeaveNotice()
 			this.openSocket()
 		},
 		onShow() {
@@ -144,6 +143,28 @@
 			clearInterval(this.heartTimer)
 		},
 		methods: {
+			// 获取离线消息
+			async getLeaveNotice() {
+				let res = await this.$api.getLeaveNotice()
+				// console.log(res)
+				let list = res.data.msg.reverse()
+				list.forEach(item => {
+					let newMsg = {
+						cate: item.cate,
+						time: item.createTime,
+						name: item.userName,
+						img: item.userImg,
+						id: item.otherId,
+						title: item.title,
+						content: item.content ? item.content : ''
+					}
+					this.loadNotice(newMsg)
+				})
+				if (res.code == 20000 && list.length) {
+					let del = await this.$api.clearLeaveNotice()
+					// console.log(del)
+				}
+			},
 			// 用户上线  接受消息
 			openSocket() {
 				// 防止重复连接
@@ -201,21 +222,25 @@
 						title: arr[6],
 						content: arr.length == 9 ? arr[7] : '',
 					}
-					let msgList = []
-					if (uni.getStorageSync('msgList')) {
-						msgList = uni.getStorageSync('msgList')
-					}
-					msgList.push(newMsg)
-					uni.setStorageSync('msgList', msgList)
-					this.$store.dispatch('setNewMsg', true)
-					// tabber 我的 显示红点
-					uni.showTabBarRedDot({
-						index: 4
-					})
-					uni.showToast({
-						icon: "none",
-						title: '您有新的消息'
-					})
+					this.loadNotice(newMsg)
+				})
+			},
+			// 消息加载到本地并提醒
+			loadNotice(newMsg) {
+				let msgList = []
+				if (uni.getStorageSync('msgList')) {
+					msgList = uni.getStorageSync('msgList')
+				}
+				msgList.push(newMsg)
+				uni.setStorageSync('msgList', msgList)
+				this.$store.dispatch('setNewMsg', true)
+				// tabber 我的 显示红点
+				uni.showTabBarRedDot({
+					index: 4
+				})
+				uni.showToast({
+					icon: "none",
+					title: '您有新的消息'
 				})
 			},
 			// 判断是否为会员

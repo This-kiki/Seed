@@ -1,5 +1,33 @@
 <template>
   <div>
+    <el-tag type="success">如需分段，回车换行即可。</el-tag>
+    <el-row>
+      <div class="title">· 设置奖学金评选规则</div>
+      <el-col :span="2" :offset="22">
+        <div style="margin: 10px 0">
+          <el-button
+            type="success"
+            @click="setMoneyRule"
+            icon="el-icon-plus"
+            size="small"
+            plain
+          >
+            提 交</el-button
+          >
+        </div>
+      </el-col>
+      <el-col>
+        <el-form ref="form" label-width="100px">
+          <el-form-item label="奖学金">
+            <el-input
+              type="textarea"
+              placeholder="请设置奖学金评选规则"
+              v-model="MoneyRule"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
     <el-row>
       <div class="title">· 设置种子会地址</div>
       <el-col :span="2" :offset="22">
@@ -15,7 +43,7 @@
           >
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col>
         <el-form ref="form" label-width="100px">
           <el-form-item label="种子会地址">
             <el-input
@@ -42,7 +70,7 @@
           >
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col>
         <el-form ref="form" label-width="100px">
           <el-form-item label="种子会章程">
             <el-input
@@ -69,7 +97,7 @@
           >
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col>
         <el-form ref="form" label-width="100px">
           <el-form-item label="种子会架构">
             <el-input
@@ -96,7 +124,7 @@
           >
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col>
         <el-form ref="form" label-width="100px">
           <el-form-item label="种子会介绍">
             <el-input
@@ -123,7 +151,7 @@
           >
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col>
         <el-form ref="form" label-width="120px">
           <el-form-item label="联系人姓名电话">
             <el-input
@@ -147,6 +175,7 @@ export default {
       framework: "",
       introduce: "",
       contact: "",
+      MoneyRule: "",
     };
   },
   methods: {
@@ -184,6 +213,16 @@ export default {
     },
     setIntroduce() {
       this.$http.setIntroduce({ content: this.introduce }).then((res) => {
+        if (res.code == 20000) {
+          this.$message({
+            message: "设置成功",
+            type: "success",
+          });
+        }
+      });
+    },
+    setMoneyRule() {
+      this.$http.setMoneyRule(this.MoneyRule).then((res) => {
         if (res.code == 20000) {
           this.$message({
             message: "设置成功",

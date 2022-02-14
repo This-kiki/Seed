@@ -432,6 +432,24 @@ export class Api {
 		let res = await flyio.get(`/pro/resume/getAllResumeZip?interviewId=${data.interviewId}`)
 		return res.data
 	}
+
+	// 获取奖学金规则
+	getMoneyRule = async () => {
+		let res = await flyio.get('/intro/getMoneyRule')
+		return res.data
+	}
+
+	// 获取离线消息
+	getLeaveNotice = async () => {
+		let res = await flyio.post('/user/getNotice')
+		return res.data
+	}
+
+	// 清除离线消息
+	clearLeaveNotice = async () => {
+		let res = await flyio.post('/user/noticeDel')
+		return res.data
+	}
 }
 
 

@@ -437,17 +437,21 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/RealTimeInfo/infoReview/infoReview",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/MoneyRule/MoneyRule",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
 		}
-	    ,{
-            "path" : "pages/RealTimeInfo/infoReview/infoReview",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

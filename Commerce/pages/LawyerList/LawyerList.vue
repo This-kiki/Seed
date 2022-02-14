@@ -36,7 +36,7 @@
 					key: "",
 				}
 				let res = await this.$api.getLawyerList(data)
-				console.log(res)
+				// console.log(res)
 				let nowList = res.data.rows
 				this.lawList.push.apply(this.lawList, nowList)
 			},

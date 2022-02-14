@@ -469,4 +469,12 @@ export default {
       method: 'get',
     });
   },
+  // 设置奖学金
+  setMoneyRule(data) {
+    return service({
+      url: `/intro/setMoneyRule`,
+      method: 'post',
+      data
+    });
+  },
 };

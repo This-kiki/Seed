@@ -98,7 +98,7 @@
 					});
 				} else {
 					uni.navigateTo({
-						url: `/pages/JobDetail/JobDetail?id=${id}`
+						url: `/pages/JobResumeList/JobResumeList?id=${id}`
 					})
 				}
 			},
