@@ -1,8 +1,11 @@
 <template>
 	<view class="body">
 		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
-		<u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png">
-		</u-image>
+		<!-- <u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png">
+		</u-image> -->
+		<view v-if="!dataForm.img" class="backImg" width="100%"  style="background-image: url(../../../static/img/logo.png);">
+			
+		</view>
 		<view class="content">
 			<view class="content-title">
 				{{ dataForm.name }}
@@ -170,10 +173,10 @@
 			vertical-align: middle;
 			height: 400rpx;
 			width: 100%;
-			// overflow: hidden;
-			// background-repeat: no-repeat;
-			// background-position: center center;
-			// background-size: cover;
+			overflow: hidden;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
 		}
 
 		.content {

@@ -26,8 +26,11 @@
 						@change="bindLevelChange" :range="levelList">
 						<view class="text-box">
 							<text>申请职位</text>
-							<u-cell :border="false" :title="getsubLevel(model1.userInfo.subLevel)">
-							</u-cell>
+							<view class="val">
+								{{getsubLevel(model1.userInfo.subLevel)}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -41,8 +44,11 @@
 					<picker class="picker" mode="date" v-model="model1.userInfo.birth" @change="bindDateChange">
 						<view class="text-box">
 							<text>生日</text>
-							<u-cell :border="false" :title="model1.userInfo.birth?model1.userInfo.birth:'请选择生日'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.birth?model1.userInfo.birth:'请选择生日'}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -51,8 +57,11 @@
 						@change="bindSexChange" :range="sexlist">
 						<view class="text-box">
 							<text>性别</text>
-							<u-cell :border="false" :title="getsex(model1.userInfo.sex)">
-							</u-cell>
+							<view class="val">
+								{{getsex(model1.userInfo.sex)}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -60,8 +69,11 @@
 					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
 						<view class="text-box">
 							<text>籍贯</text>
-							<u-cell :border="false" :title="model1.userInfo.place?model1.userInfo.place:'请选择籍贯'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.place?model1.userInfo.place:'请选择籍贯'}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -70,8 +82,11 @@
 						@change="bindPolityChange" :range="polityList">
 						<view class="text-box">
 							<text>政治面貌</text>
-							<u-cell :border="false" :title="model1.userInfo.polity?model1.userInfo.polity:'请选择政治面貌'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.polity?model1.userInfo.polity:'请选择政治面貌'}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -80,8 +95,11 @@
 						@change="bindNationChange" :range="nationList">
 						<view class="text-box">
 							<text>民族</text>
-							<u-cell :border="false" :title="model1.userInfo.nation?model1.userInfo.nation:'请选择民族'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.nation?model1.userInfo.nation:'请选择民族'}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -331,6 +349,14 @@
 				color: #8e8e93;
 				font-size: 28rpx;
 				padding-bottom: 10rpx;
+			}
+
+			.val {
+				display: flex;
+				align-items: center;
+				border: 0.5px solid #dadbde;
+				padding: 8px 9px;
+				border-radius: 4px;
 			}
 		}
 	}

@@ -27,8 +27,11 @@
 						@change="bindSexChange" :range="sexlist">
 						<view class="text-box">
 							<text>性别</text>
-							<u-cell :border="false" :title="getsex(model1.userInfo.sex)">
-							</u-cell>
+							<view class="val">
+								{{getsex(model1.userInfo.sex)}}
+							</view>
+							<!-- <u-cell :border="false" :title="getsex(model1.userInfo.sex)">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -36,8 +39,11 @@
 					<picker class="picker" mode="date" v-model="model1.userInfo.birth" @change="bindDateChange">
 						<view class="text-box">
 							<text>生日</text>
-							<u-cell :border="false" :title="model1.userInfo.birth?model1.userInfo.birth:'请选择出生年月'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.birth?model1.userInfo.birth:'请选择出生年月'}}
+							</view>
+							<!-- <u-cell :border="false" :title="model1.userInfo.birth?model1.userInfo.birth:'请选择出生年月'">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -45,8 +51,11 @@
 					<picker class="picker" mode="region" v-model="model1.userInfo.place" @change="bindPlaceChange">
 						<view class="text-box">
 							<text>籍贯</text>
-							<u-cell :border="false" :title="model1.userInfo.place?model1.userInfo.place:'请选择籍贯'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.place?model1.userInfo.place:'请选择籍贯'}}
+							</view>
+							<!-- <u-cell :border="false" :title="model1.userInfo.place?model1.userInfo.place:'请选择籍贯'">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -148,7 +157,7 @@
 			bindDateChange(e) {
 				this.model1.userInfo.birth = e.detail.value;
 			},
-			
+
 			bindSexChange(e) {
 				this.model1.userInfo.sex = this.sexlist[e.detail.value].id;
 			},
@@ -338,6 +347,14 @@
 				color: #8e8e93;
 				font-size: 28rpx;
 				padding-bottom: 10rpx;
+			}
+
+			.val {
+				display: flex;
+				align-items: center;
+				border: 0.5px solid #dadbde;
+				padding: 8px 9px;
+				border-radius: 4px;
 			}
 		}
 	}

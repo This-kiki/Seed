@@ -91,8 +91,11 @@
 					<picker class="picker" mode="date" v-model="model1.userInfo.time" @change="bindDateChange">
 						<view class="text-box">
 							<text>创建时间</text>
-							<u-cell :border="false" :title="model1.userInfo.time?model1.userInfo.time:'请选择创建时间'">
-							</u-cell>
+							<view class="val">
+								{{model1.userInfo.time?model1.userInfo.time:'请选择创建时间'}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -125,8 +128,11 @@
 						@change="bindSexChange" :range="sexlist">
 						<view class="text-box">
 							<text>HR性别</text>
-							<u-cell :border="false" :title="getsex(model1.userInfo.sex)">
-							</u-cell>
+							<view class="val">
+								{{getsex(model1.userInfo.sex)}}
+							</view>
+							<!-- <u-cell :border="false" :title="">
+							</u-cell> -->
 						</view>
 					</picker>
 				</u-form-item>
@@ -318,7 +324,7 @@
 		width: 100%;
 		user-select: text;
 		-webkit-user-select: text;
-	
+
 		.avatar {
 			width: 100%;
 			height: 180rpx;
@@ -326,7 +332,7 @@
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
-	
+
 			.imgAvatar {
 				width: 140rpx;
 				height: 140rpx;
@@ -336,16 +342,16 @@
 				overflow: hidden;
 				margin: 0 50rpx;
 				background-color: rgb(230, 230, 230);
-	
+
 				.iavatar {
 					width: 100%;
 					height: 100%;
 					display: block;
 				}
 			}
-	
+
 		}
-	
+
 		.text-box {
 			width: 95%;
 			margin: auto;
@@ -353,13 +359,21 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
-	
+
 			text {
 				display: inline-block;
 				vertical-align: middle;
 				color: #8e8e93;
 				font-size: 28rpx;
 				padding-bottom: 10rpx;
+			}
+
+			.val {
+				display: flex;
+				align-items: center;
+				border: 0.5px solid #dadbde;
+				padding: 8px 9px;
+				border-radius: 4px;
 			}
 		}
 	}
