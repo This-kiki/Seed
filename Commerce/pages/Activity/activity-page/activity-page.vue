@@ -126,6 +126,7 @@
 			},
 			// 下拉刷新数据列表
 			async refresh() {
+				this.list = []
 				this.loading = true;
 				this.current.currentPage = 1;
 				this.loadmore = true;

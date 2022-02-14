@@ -50,7 +50,9 @@
 				<view class="contenttext-content-name">
 					活动详情
 				</view>
-				<view class="contenttext-content-value" v-html="dataForm.content"></view>
+				<view class="contenttext-content-value">
+					<u-parse :content="dataForm.content"></u-parse>
+				</view>
 			</view>
 		</view>
 		<u-toast ref="uToast" />

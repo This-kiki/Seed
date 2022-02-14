@@ -30,7 +30,9 @@
 				</view>
 				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
 			</view> -->
-			<view class="info-content" v-html="dataForm.content"></view>
+			<view class="info-content">
+				<u-parse :content="dataForm.content"></u-parse>
+			</view>
 			<!-- 评论 -->
 			<view class="comment">
 				<view class="comment-head">
@@ -81,7 +83,8 @@
 				<button open-type="share" class="iconfont share-icon" @click="shareInfo"> &#xe747;</button>
 			</view>
 		</view>
-		<u-modal :showCancelButton="true" :show="show" title="是否删除" @cancel="show=false" @confirm="deleteComment"></u-modal>
+		<u-modal :showCancelButton="true" :show="show" title="是否删除" @cancel="show=false" @confirm="deleteComment">
+		</u-modal>
 		<ygc-comment ref="ygcComment" :placeholder="'发布评论'" @pubComment="pubComment"></ygc-comment>
 	</view>
 </template>
@@ -107,7 +110,7 @@
 				praiseColor: '#000000',
 				collectColor: '#000000',
 				show: false,
-				deleteAPI: {}
+				deleteAPI: {},
 			};
 		},
 		mounted() {
@@ -151,7 +154,7 @@
 			showReview() {
 				this.$refs.ygcComment.toggleMask('show');
 			},
-			
+
 			pubComment(content) {
 				let getAPI = {
 					infoId: this.infoId,
@@ -173,7 +176,7 @@
 					}
 				})
 			},
-			
+
 			deletemodel(id) {
 				this.deleteAPI = {
 					id: id,
@@ -197,13 +200,13 @@
 					return false
 				}
 			},
-			goDetail(identity,sublevel,openId) {
+			goDetail(identity, sublevel, openId) {
 				if (identity == 1) {
-					if(sublevel == 11) {
+					if (sublevel == 11) {
 						uni.navigateTo({
 							url: "../../UserListDetail/UserListDetail?id=" + openId + "&flag=2"
 						})
-					}else{
+					} else {
 						uni.navigateTo({
 							url: "../../UserListDetail/UserListDetail?id=" + openId + "&flag=1"
 						})
@@ -315,10 +318,12 @@
 
 <style lang="scss" scoped>
 	.mainContaienr {
+		margin: auto;
+		width: 96vw;
 		user-select: text;
 		-webkit-user-select: text;
 	}
-	
+
 	.top {
 		width: 100%;
 		height: 100rpx;
@@ -326,15 +331,15 @@
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		padding-left: 10rpx;
+		padding-left: 5rpx;
 		padding-top: 20rpx;
-	
+
 		.top-head {
 			height: 100%;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-	
+
 			.top-head-headimg {
 				height: 70rpx;
 				width: 70rpx;
@@ -345,14 +350,14 @@
 				background-size: cover;
 				box-shadow: 0px 0px 2px rgb(216, 216, 216);
 			}
-	
+
 			.top-head-author {
 				width: 30vw;
 				height: 60rpx;
 				display: flex;
 				flex-direction: column;
-				margin-left: 15rpx;
-	
+				margin-left: 10rpx;
+
 				.oneline {
 					display: flex;
 					align-items: center;
@@ -362,13 +367,13 @@
 					white-space: nowrap; //一行显示
 					text-overflow: ellipsis; //是否显示省略号
 				}
-	
+
 				.top-head-author-name {
 					font-size: 27rpx;
 					font-weight: 800;
 					letter-spacing: 3rpx;
 				}
-	
+
 				.top-head-author-identity {
 					font-size: 22rpx;
 					color: rgb(170, 170, 170);
@@ -376,9 +381,9 @@
 				}
 			}
 		}
-	
+
 		.top-view {
-	
+
 			width: 70rpx;
 			display: flex;
 			flex-direction: row;
@@ -386,7 +391,7 @@
 			justify-content: space-between;
 			color: rgb(170, 170, 170);
 			font-size: 26rpx;
-	
+
 			.top-more {
 				display: flex;
 				flex-direction: row;
@@ -394,9 +399,9 @@
 				align-items: center;
 				font-size: 30rpx;
 			}
-	
+
 		}
-	
+
 	}
 
 	.collect-box {
@@ -424,7 +429,7 @@
 	}
 
 	.info-title {
-		margin: 20rpx;
+		margin: 20rpx 10rpx;
 		font-size: 35rpx;
 		font-weight: 900;
 	}

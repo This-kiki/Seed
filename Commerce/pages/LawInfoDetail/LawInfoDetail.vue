@@ -13,7 +13,8 @@
 			</view>
 		</view>
 		<!-- 文本内容 -->
-		<view class="content" v-html="lawDetail.content">
+		<view class="content">
+			<u-parse :content="lawDetail.content"></u-parse>
 		</view>
 	</view>
 </template>

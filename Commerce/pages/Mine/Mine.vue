@@ -224,7 +224,8 @@
 <style lang="scss" scoped>
 	.body {
 		min-height: 100vh;
-		width: 100%;
+		// width: 80vw;
+		margin: auto;
 		background-color: rgb(250, 250, 250);
 		user-select: text;
 		-webkit-user-select: text;
@@ -239,7 +240,7 @@
 			height: 600rpx;
 
 			.bg-imag {
-				width: 110%;
+				width: 100%;
 				height: 600rpx;
 				position: absolute;
 				background-repeat: no-repeat;
