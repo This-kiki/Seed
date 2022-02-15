@@ -3,7 +3,7 @@
 		<view v-if="dataForm.img" class="backImg" :style="'background-image: url('+ dataForm.img +');'"></view>
 		<!-- <u-image v-if="!dataForm.img" class="backImg" width="100%" height="400rpx" src="../../../static/img/logo.png">
 		</u-image> -->
-		<view v-if="!dataForm.img" class="backImg" width="100%"  style="background-image: url(../../../static/img/logo.png);">
+		<view v-if="!dataForm.img" class="backImg" width="100%"  style="background-image: url('https://hjzpzzh.com/logo.png');">
 			
 		</view>
 		<view class="content">

@@ -82,13 +82,6 @@
 			}
 
 		}, {
-			"path": "pages/Mine/Complaints/Complaints",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
 			"path": "pages/Mine/Contact/Contact",
 			"style": {
 				"navigationBarTitleText": "",

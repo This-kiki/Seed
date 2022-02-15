@@ -110,6 +110,8 @@
 				heartTimer: "",
 				// 自己的id
 				openid: "",
+				// 重连次数
+				reSocketNum: 0,
 			}
 		},
 		created() {
@@ -128,8 +130,8 @@
 				},
 			})
 			this.openid = uni.getStorageSync('openid')
-			this.getLeaveNotice()
 			this.openSocket()
+			this.clearMsgBefore()
 		},
 		onShow() {
 			setTimeout(() => {
@@ -165,6 +167,24 @@
 					// console.log(del)
 				}
 			},
+			// 清除七天之前的消息
+			clearMsgBefore() {
+				let msgList = []
+				if (uni.getStorageSync('msgList')) {
+					msgList = uni.getStorageSync('msgList')
+				}
+				for (var i = msgList.length - 1; i >= 0; i--) {
+					let oldTime = new Date(msgList[i].time)
+					let newTime = new Date()
+					let days = (newTime - oldTime) / (1 * 24 * 60 * 60 * 1000);
+					if (days > 7) {
+						msgList.splice(i, 1)
+					}
+				}
+				uni.setStorageSync('msgList', msgList)
+				// 清除完成以后再获取离线消息
+				this.getLeaveNotice()
+			},
 			// 用户上线  接受消息
 			openSocket() {
 				// 防止重复连接
@@ -195,8 +215,8 @@
 					this.SocketTask = false;
 					this.IsOnline = false
 					clearInterval(this.heartTimer)
-					// 清空会话列表
-					// 更新未读数提示
+					if (this.reSocketNum <= 5)
+						this.reSocket()
 				})
 				// 监听错误
 				this.SocketTask.onError(() => {
@@ -205,9 +225,8 @@
 					this.SocketTask = false;
 					this.IsOnline = false
 					clearInterval(this.heartTimer)
-					uni.showToast({
-						title: '网络错误，您已掉线，请重新打开小程序。'
-					})
+					if (this.reSocketNum <= 5)
+						this.reSocket()
 				})
 				// 监听接收信息
 				this.SocketTask.onMessage(async (e) => {
@@ -224,6 +243,20 @@
 					}
 					this.loadNotice(newMsg)
 				})
+			},
+			// 断开重连
+			reSocket() {
+				this.openSocket()
+				this.getLeaveNotice()
+				this.reSocketNum++
+				if (this.reSocketNum > 5) {
+					uni.showModal({
+						title: "网络错误",
+						content: "重连失败，您已掉线。请将小程序退出后台并重新打开。",
+						showCancel: false
+					})
+					return
+				}
 			},
 			// 消息加载到本地并提醒
 			loadNotice(newMsg) {
