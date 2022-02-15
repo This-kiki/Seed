@@ -14,13 +14,13 @@
 							{{item.name}}
 						</view>
 						<view class="tip">
-							{{item.cate == 1?'回复了我的资讯':'投递了简历'}}
+							{{item.cate == 2?'投递了简历':(item.cate == 1?'回复了我的资讯':'回复了我的评论')}}
 						</view>
 						<view class="article">
 							{{item.title}}
 						</view>
 					</view>
-					<view class="content" v-if="item.cate==1">
+					<view class="content" v-if="item.cate==1||item.cate == 3">
 						{{item.content}}
 					</view>
 					<view class="time">
@@ -92,7 +92,7 @@
 			},
 			// 查看详情
 			seeDetail(cate, id) {
-				if (cate == 1) {
+				if (cate == 1 || cate == 3) {
 					uni.navigateTo({
 						url: '/pages/RealTimeInfo/DetailedInfo/DetailedInfo?infoId=' + id
 					});
