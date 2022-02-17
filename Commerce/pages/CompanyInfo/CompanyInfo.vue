@@ -60,7 +60,7 @@
 					</view>
 					<view class="info" v-for="(item,index) in phoneList" :key="index" @click="callPhone(item.phone)">
 						<view class="text">
-							{{item.phone}} {{item.name}}
+							{{item.phone?item.phone:""}} {{item.name?item.name:""}}
 						</view>
 						<view class="iconfont icon-dianhua"></view>
 					</view>
@@ -181,7 +181,7 @@
 			width: 100%;
 
 			.swiper {
-				height: 300rpx;
+				height: 400rpx;
 
 				.swiper-item {
 					width: 94%;
