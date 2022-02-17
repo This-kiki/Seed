@@ -4,7 +4,7 @@
 			<view class="act-card-content">
 				<view v-if="options.img" class="act-card-imag" :style="'background-image: url('+options.img+');'">
 				</view>
-				<view v-if="!options.img" class="act-card-imag" width="100%" height="170rpx" style="background-image: url(../../../static/img/logo.png);"></view>
+				<view v-if="!options.img" class="act-card-imag" width="100%" height="170rpx" style="background-image: url('https://hjzpzzh.com/logo.png');"></view>
 				<view class=" act-card-text">
 					<view class="act-card-title">{{ options.name }}</view>
 					<view class="act-card-msg">

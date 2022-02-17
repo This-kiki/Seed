@@ -286,6 +286,19 @@
 				this.info.age = now - time
 				this.addResume()
 			},
+			// 设置年龄
+			async setAge(){
+				let res = await this.$api.getUserMsg()
+				this.baseInfo = res.data.userBaseInfo
+				let time = parseInt(this.baseInfo.birth.split("-")[0])
+				let date = new Date
+				let now = date.getFullYear()
+				let age = now - time
+				if(this.info.age != age){
+					this.info.age = age
+				}
+				this.addResume()
+			},
 			// 获取简历详情
 			async getResumeDetail() {
 				let res = await this.$api.getResumeDetail({
@@ -317,6 +330,8 @@
 				}
 				if (!obj) {
 					this.getBaseInfo()
+				}else{
+					this.setAge()
 				}
 				if (this.info.certificate) {
 					this.info.certificate = JSON.parse(this.info.certificate)

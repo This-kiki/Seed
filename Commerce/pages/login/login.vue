@@ -10,7 +10,7 @@
 				<view class="name">{{ userInfo.name ? userInfo.name : ' ' }}</view>
 			</view>
 			<view class="msg" v-if="!hasUserInfo">
-				<div v-if="!item.img" class="page-headimg" style="background-image: url('../../static/img/logo.png');">
+				<div v-if="!item.img" class="page-headimg" style="background-image: url('https://hjzpzzh.com/logo.png');">
 				</div>
 				<view class="name">濠江区珠浦种子会</view>
 			</view>
