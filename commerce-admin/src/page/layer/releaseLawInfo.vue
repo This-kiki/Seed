@@ -20,7 +20,8 @@
           </el-form>
         </el-col>
         <el-col :span="24">
-          <div id="demo1"></div>
+          <div id="toolbar-container" class="toolbar"></div>
+          <div id="text-container" class="text"></div>
         </el-col>
       </el-row>
     </div>
@@ -58,125 +59,140 @@
   </div>
 </template>
 <script>
-import wangEditor from 'wangeditor'
-import iphone from '../../components/iphone/index.vue'
+import wangEditor from "wangeditor";
+import iphone from "../../components/iphone/index.vue";
 export default {
   components: {
     iphone,
   },
   data() {
     return {
-      id: '',
+      id: "",
       editor: null,
       addForm: {
-        content: '',
-        title: '',
-        brief: '',
-        img: '',
+        content: "",
+        title: "",
+        brief: "",
+        img: "",
       },
       imgList: [
         {
-          img: 'https://i01picsos.sogoucdn.com/caf58fc2e02d522d',
+          img: "https://i01picsos.sogoucdn.com/caf58fc2e02d522d",
         },
       ],
-    }
+    };
   },
   mounted() {
-    this.init()
+    this.init();
   },
   methods: {
     init() {
-      const editor = new wangEditor(`#demo1`)
+      var _this = this;
+      const editor = new wangEditor("#toolbar-container", "#text-container");
+      // const editor = new wangEditor(`#demo1`);
       editor.config.menus = [
-        'head',
-        'bold',
-        'fontSize',
-        'fontName',
-        'foreColor',
-        'backColor',
-        'justify',
-        'image',
-        'table',
-        'splitLine',
-      ]
-      editor.config.uploadImgServer = 'https://hjzpzzh.com/seed/oss/uploadImagAdmin'
-      editor.config.showLinkImg = false
-      editor.config.uploadFileName = 'file'
-      editor.config.debug = true // 开启debug模式
-      editor.config.uploadImgHeaders = {
-        token: localStorage.getItem('token'), // 设置请求头
-      }
-      editor.config.uploadImgHooks = {
-        // 图片上传并返回结果，但图片插入错误时触发
-        fail: function (xhr, editor, result) {
-          console.log('上传出错', result)
-        },
-        success: function (xhr, editor, result) {
-          // 图片上传并返回结果，图片插入成功之后触发
-          console.log(result, '<success>')
-        },
-        customInsert: function (insertImgFn, result) {
-          console.log('customInsert', result)
-          insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
-        },
-      }
+        "head",
+        "bold",
+        "fontSize",
+        "fontName",
+        "foreColor",
+        "backColor",
+        "justify",
+        "image",
+        "table",
+        "splitLine",
+      ];
+      editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+        console.log(resultFiles);
+        for (let i = 0; i < resultFiles.length; i++) {
+          let image = new FormData();
+          image.append("file", resultFiles[i]);
+          _this.$http.uploadImg(image).then((res) => {
+            console.log(res);
+            // _this.editor.txt.append(
+            //   '<img src="' +
+            //     res.data.url +
+            //     '" contente ditable="false" style="max-width: 100%;"width="80%"/>'
+            // );
+            insertImgFn(res.data.url);
+          });
+        }
+      };
+      editor.config.showLinkImg = false;
+      editor.config.debug = true; // 开启debug模式
+      // editor.config.uploadImgHooks = {
+      //   // 图片上传并返回结果，但图片插入错误时触发
+      //   fail: function (xhr, editor, result) {
+      //     console.log('上传出错', result)
+      //   },
+      //   success: function (xhr, editor, result) {
+      //     // 图片上传并返回结果，图片插入成功之后触发
+      //     console.log(result, '<success>')
+      //   },
+      //   customInsert: function (insertImgFn, result) {
+      //     console.log('customInsert', result)
+      //     insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+      //   },
+      // }
       editor.config.onchange = (newHtml) => {
-        this.addForm.content = newHtml
-      }
+        this.addForm.content = newHtml;
+      };
 
-      editor.create()
-      this.editor = editor
+      editor.config.height = 1000;
+
+      editor.create();
+      this.editor = editor;
 
       // 获取id
       if (this.$route.query.id) {
-        this.id = this.$route.query.id
+        this.id = this.$route.query.id;
         // console.log('id:', this.id)
-        var getAPI = { id: this.id }
+        var getAPI = { id: this.id };
         this.$http.getLawInfoDetail(getAPI).then((res) => {
-          this.addForm = res.data.rows
-          console.log(this.addForm)
-          this.editor.txt.html(this.addForm.content)
-        })
+          this.addForm = res.data.rows;
+          console.log(this.addForm);
+          this.editor.txt.html(this.addForm.content);
+        });
       }
     },
 
     copyUrl(row) {
-      var _th = this
-      var input = document.getElementById('input')
-      input.value = row.img // 修改文本框的内容
-      input.select() // 选中文本
-      document.execCommand('copy') // 执行浏览器复制命令
+      var _th = this;
+      var input = document.getElementById("input");
+      input.value = row.img; // 修改文本框的内容
+      input.select(); // 选中文本
+      document.execCommand("copy"); // 执行浏览器复制命令
       _th.$notify({
-        message: '已复制到剪切板',
-        type: 'success',
-      })
+        message: "已复制到剪切板",
+        type: "success",
+      });
     },
     getaddForm() {
       // 通过代码获取编辑器内容
-      let data = this.editor.txt.html()
-      console.log(data)
+      let data = this.editor.txt.html();
+      console.log(data);
       // console.log(this.addForm.content)
       // alert(data)
     },
     uploadImg() {
-      this.$refs.avatarInput.click()
+      this.$refs.avatarInput.click();
     },
     changeImage(e) {
-      var file = e.target.files[0]
-      var reader = new FileReader()
-      var _this = this
-      reader.readAsDataURL(file)
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var _this = this;
+      reader.readAsDataURL(file);
       reader.onload = function (e) {
         // that.avatar = this.result
         if (_this.$refs.avatarInput.files.length !== 0) {
-          var image = new FormData()
-          image.append('file', _this.$refs.avatarInput.files[0])
+          var image = new FormData();
+          image.append("file", _this.$refs.avatarInput.files[0]);
           _this.$http.uploadImg(image).then((res) => {
             // console.log(res)
-            _this.imgList.push({ img: res.data.url })
-          })
+            _this.imgList.push({ img: res.data.url });
+          });
         }
-      }
+      };
     },
     submit() {
       // if (this.imgList[0]) {
@@ -186,23 +202,35 @@ export default {
       this.$http.releaseLawInfo(this.addForm).then((res) => {
         if (res.code == 20000) {
           this.$message({
-            message: '发布活动成功',
-            type: 'success',
-          })
+            message: "发布活动成功",
+            type: "success",
+          });
         }
         // console.log(res)
-      })
+      });
     },
   },
   beforeDestroy() {
     // 调用销毁 API 对当前编辑器实例进行销毁
-    this.editor.destroy()
-    this.editor = null
+    this.editor.destroy();
+    this.editor = null;
   },
-}
+};
 </script>
 <style scoped>
-.hid {
+.toolbar {
+  border: 1px solid #ccc;
+  width: 60%;
+  margin-left: 80px;
+}
+.text {
+  border: 1px solid #ccc;
+  min-height: 1000px;
+  padding: 30px 60px;
+  width: 60%;
+  margin-left: 80px;
+}
+.hi .hid {
   left: 10px;
   top: 0px;
   background-color: white;

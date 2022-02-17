@@ -20,7 +20,8 @@
           </el-form>
         </el-col>
         <el-col :span="24">
-          <div id="demo1"></div>
+          <div id="toolbar-container" class="toolbar"></div>
+          <div id="text-container" class="text"></div>
         </el-col>
       </el-row>
     </div>
@@ -87,7 +88,9 @@ export default {
   },
   methods: {
     init() {
-      const editor = new wangEditor(`#demo1`);
+      var _this = this;
+      const editor = new wangEditor("#toolbar-container", "#text-container");
+      // const editor = new wangEditor(`#demo1`);
       editor.config.menus = [
         "head",
         "bold",
@@ -100,31 +103,43 @@ export default {
         "table",
         "splitLine",
       ];
-      editor.config.uploadImgServer =
-        "https://hjzpzzh.com/seed/oss/uploadImagAdmin";
+      editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+        console.log(resultFiles);
+        for (let i = 0; i < resultFiles.length; i++) {
+          let image = new FormData();
+          image.append("file", resultFiles[i]);
+          _this.$http.uploadImg(image).then((res) => {
+            console.log(res);
+            // _this.editor.txt.append(
+            //   '<img src="' +
+            //     res.data.url +
+            //     '" contente ditable="false" style="max-width: 100%;"width="80%"/>'
+            // );
+            insertImgFn(res.data.url);
+          });
+        }
+      };
       editor.config.showLinkImg = false;
-      editor.config.uploadFileName = "file";
       editor.config.debug = true; // 开启debug模式
-      editor.config.uploadImgHeaders = {
-        token: localStorage.getItem("token"), // 设置请求头
-      };
-      editor.config.uploadImgHooks = {
-        // 图片上传并返回结果，但图片插入错误时触发
-        fail: function (xhr, editor, result) {
-          console.log("上传出错", result);
-        },
-        success: function (xhr, editor, result) {
-          // 图片上传并返回结果，图片插入成功之后触发
-          console.log(result, "<success>");
-        },
-        customInsert: function (insertImgFn, result) {
-          console.log("customInsert", result);
-          insertImgFn(result.data[0]); // 只插入一个图片，多了忽略
-        },
-      };
+      // editor.config.uploadImgHooks = {
+      //   // 图片上传并返回结果，但图片插入错误时触发
+      //   fail: function (xhr, editor, result) {
+      //     console.log("上传出错", result);
+      //   },
+      //   success: function (xhr, editor, result) {
+      //     // 图片上传并返回结果，图片插入成功之后触发
+      //     console.log(result, "<success>");
+      //   },
+      //   customInsert: function (insertImgFn, result) {
+      //     console.log("customInsert", result);
+      //     insertImgFn(result.data[0]); // 只插入一个图片，多了忽略
+      //   },
+      // };
       editor.config.onchange = (newHtml) => {
         this.addForm.content = newHtml;
       };
+
+      editor.config.height = 1000;
 
       editor.create();
       this.editor = editor;
@@ -219,6 +234,18 @@ export default {
 };
 </script>
 <style scoped>
+.toolbar {
+  border: 1px solid #ccc;
+  width: 60%;
+  margin-left: 80px;
+}
+.text {
+  border: 1px solid #ccc;
+  min-height: 1000px;
+  padding: 30px 60px;
+  width: 60%;
+  margin-left: 80px;
+}
 .hid {
   left: 10px;
   top: 0px;

@@ -13,6 +13,14 @@ export default {
     });
   },
 
+  uploadImgMany(data) {
+    return service({
+      url: '/oss/uploadImagMany',
+      method: 'post',
+      data: data,
+    });
+  },
+
   // 获取所有文件
   getFiles() {
     return service({
@@ -474,7 +482,7 @@ export default {
     return service({
       url: `/intro/setMoneyRule`,
       method: 'post',
-      data
+      data,
     });
   },
 };

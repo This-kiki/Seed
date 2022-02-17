@@ -4,37 +4,17 @@
       <el-col :span="9" :offset="1">
         <el-col :span="7">
           <el-form ref="form">
-            <el-input
-              type="text"
-              placeholder="搜索资讯"
-              v-model="keyword"
-              size="small"
-            ></el-input>
+            <el-input type="text" placeholder="搜索资讯" v-model="keyword" size="small"></el-input>
           </el-form>
         </el-col>
         <el-col :span="1" :offset="1">
-          <el-button
-            @click="searchInfo()"
-            icon="el-icon-search"
-            circle
-            size="small"
-          ></el-button>
+          <el-button @click="searchInfo()" icon="el-icon-search" circle size="small"></el-button>
         </el-col>
       </el-col>
       <el-col :span="2" :offset="11">
         <div>
-          <el-select
-            v-model="current.type"
-            placeholder="请选择"
-            @change="handleSelectChange"
-            size="small"
-          >
-            <el-option
-              v-for="item in typeList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
+          <el-select v-model="current.type" placeholder="请选择" @change="handleSelectChange" size="small">
+            <el-option v-for="item in typeList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </div>
@@ -47,84 +27,29 @@
         <el-table-column prop="category" label="类型" width="100">
           <template slot-scope="scope">
             <div>
-              {{ getCategory(scope.raw.category) }}
+              {{ getCategory(scope.row.category) }}
             </div>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="发布时间" width="200">
         </el-table-column>
-        <el-table-column
-          prop="simpleContent"
-          label="主要内容"
-        ></el-table-column>
-        <el-table-column
-          fixed="right"
-          label="置顶资讯"
-          width="180"
-          align="center"
-        >
+        <el-table-column prop="simpleContent" label="主要内容"></el-table-column>
+        <el-table-column fixed="right" label="置顶资讯" width="180" align="center">
           <template slot-scope="scope">
-            <el-popconfirm
-              v-if="scope.row.top == 0"
-              confirm-button-text="好的"
-              cancel-button-text="取消"
-              icon="el-icon-info"
-              icon-color="red"
-              title="置顶这个资讯吗"
-              @confirm="topInfo(scope.row, 1)"
-            >
+            <el-popconfirm v-if="scope.row.top == 0" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="置顶这个资讯吗" @confirm="topInfo(scope.row, 1)">
               <el-button slot="reference" type="text">置顶咨询</el-button>
             </el-popconfirm>
-            <el-popconfirm
-              v-if="scope.row.top == 1"
-              confirm-button-text="好的"
-              cancel-button-text="取消"
-              icon="el-icon-info"
-              icon-color="red"
-              title="取消置顶这个资讯吗"
-              @confirm="topInfo(scope.row, 0)"
-            >
-              <el-button slot="reference" style="color: #daa520" type="text"
-                >取消置顶</el-button
-              >
+            <el-popconfirm v-if="scope.row.top == 1" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="取消置顶这个资讯吗" @confirm="topInfo(scope.row, 0)">
+              <el-button slot="reference" style="color: #daa520" type="text">取消置顶</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="180" align="center">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              plain
-              circle
-              @click="viewInfo(scope.row)"
-              icon="el-icon-view"
-              size="small"
-            ></el-button>
-            <el-button
-              type="primary"
-              plain
-              circle
-              @click="editInfo(scope.row)"
-              icon="el-icon-edit-outline"
-              size="small"
-              style="margin: 0 10px"
-            ></el-button>
-            <el-popconfirm
-              confirm-button-text="好的"
-              cancel-button-text="取消"
-              icon="el-icon-info"
-              icon-color="red"
-              title="确定删除该活动吗"
-              @confirm="deleteInfo(scope.row)"
-            >
-              <el-button
-                slot="reference"
-                type="danger"
-                plain
-                circle
-                icon="el-icon-delete"
-                size="small"
-              ></el-button>
+            <el-button type="primary" plain circle @click="viewInfo(scope.row)" icon="el-icon-view" size="small"></el-button>
+            <el-button type="primary" plain circle @click="editInfo(scope.row)" icon="el-icon-edit-outline" size="small" style="margin: 0 10px"></el-button>
+            <el-popconfirm confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定删除该活动吗" @confirm="deleteInfo(scope.row)">
+              <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
@@ -136,95 +61,36 @@
       </el-table-column>
       <el-table-column prop="category" label="类型" width="100">
         <template slot-scope="scope">
-            <div>
-              {{ getCategory(scope.row.category) }}
-            </div>
-          </template>
+          <div>
+            {{ getCategory(scope.row.category) }}
+          </div>
+        </template>
       </el-table-column>
       <el-table-column prop="createTime" label="发布时间" width="200">
       </el-table-column>
       <el-table-column prop="simpleContent" label="主要内容"></el-table-column>
       <!-- <el-table-column prop="" label=""></el-table-column> -->
-      <el-table-column
-        fixed="right"
-        label="置顶资讯"
-        width="180"
-        align="center"
-      >
+      <el-table-column fixed="right" label="置顶资讯" width="180" align="center">
         <template slot-scope="scope">
-          <el-popconfirm
-            v-if="scope.row.top == 0"
-            confirm-button-text="好的"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="置顶这个资讯吗"
-            @confirm="topInfo(scope.row, 1)"
-          >
+          <el-popconfirm v-if="scope.row.top == 0" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="置顶这个资讯吗" @confirm="topInfo(scope.row, 1)">
             <el-button slot="reference" type="text">置顶咨询</el-button>
           </el-popconfirm>
-          <el-popconfirm
-            v-if="scope.row.top == 1"
-            confirm-button-text="好的"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="取消置顶这个资讯吗"
-            @confirm="topInfo(scope.row, 0)"
-          >
-            <el-button slot="reference" style="color: #daa520" type="text"
-              >取消置顶</el-button
-            >
+          <el-popconfirm v-if="scope.row.top == 1" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="取消置顶这个资讯吗" @confirm="topInfo(scope.row, 0)">
+            <el-button slot="reference" style="color: #daa520" type="text">取消置顶</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            circle
-            @click="viewInfo(scope.row)"
-            icon="el-icon-view"
-            size="small"
-          ></el-button>
-          <el-button
-            type="primary"
-            plain
-            circle
-            @click="editInfo(scope.row)"
-            icon="el-icon-edit-outline"
-            size="small"
-            style="margin: 0 10px"
-          ></el-button>
-          <el-popconfirm
-            confirm-button-text="好的"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定删除该活动吗"
-            @confirm="deleteInfo(scope.row)"
-          >
-            <el-button
-              slot="reference"
-              type="danger"
-              plain
-              circle
-              icon="el-icon-delete"
-              size="small"
-            ></el-button>
+          <el-button type="primary" plain circle @click="viewInfo(scope.row)" icon="el-icon-view" size="small"></el-button>
+          <el-button type="primary" plain circle @click="editInfo(scope.row)" icon="el-icon-edit-outline" size="small" style="margin: 0 10px"></el-button>
+          <el-popconfirm confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定删除该活动吗" @confirm="deleteInfo(scope.row)">
+            <el-button slot="reference" type="danger" plain circle icon="el-icon-delete" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      style="margin: 20px"
-      :page-count="current.total"
-      :current-page.sync="current.current"
-      @current-change="handleSelectChange"
-    ></el-pagination>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="handleSelectChange"></el-pagination>
     <div>
       <el-dialog title="资讯详情" :visible.sync="viewVisible" width="25%">
         <div v-html="actData.content"></div>
@@ -234,21 +100,9 @@
           <!-- 所有评论列表 -->
           <div class="comment-list">
             <!-- 某个评论 -->
-            <div
-              class="comment-item"
-              v-for="(item, index) in commentForm"
-              :key="index"
-            >
-              <div
-                v-if="item.img"
-                class="comment-item-head"
-                :style="'background-image: url(' + item.img + ');'"
-              ></div>
-              <div
-                v-if="!item.img"
-                class="comment-item-head"
-                style="background-image: url('../../../static/head.webp')"
-              ></div>
+            <div class="comment-item" v-for="(item, index) in commentForm" :key="index">
+              <div v-if="item.img" class="comment-item-head" :style="'background-image: url(' + item.img + ');'"></div>
+              <div v-if="!item.img" class="comment-item-head" style="background-image: url('../../../static/head.webp')"></div>
               <div class="comment-text">
                 <div class="comment-item-user">
                   {{ item.name ? item.name : "游客" }}
@@ -258,15 +112,7 @@
                   <div class="comment-item-time">
                     {{ formatMsgTime(item.createTime) }}
                   </div>
-                  <el-button
-                    type="danger"
-                    class="comment-item-delete"
-                    icon="el-icon-delete"
-                    circle
-                    @click="deleteComment(item.id)"
-                    plain
-                    size="mini"
-                  ></el-button>
+                  <el-button type="danger" class="comment-item-delete" icon="el-icon-delete" circle @click="deleteComment(item.id)" plain size="mini"></el-button>
                 </div>
               </div>
             </div>
@@ -449,6 +295,7 @@ export default {
       this.$http.searchInfo(getAPI).then((res) => {
         this.searchForm = res.data.list;
       });
+      console.log("aaaaaaa", this.searchForm);
     },
     formatMsgTime(timespan) {
       var dateTime = new Date(timespan); // 将传进来的字符串或者毫秒转为标准时间
