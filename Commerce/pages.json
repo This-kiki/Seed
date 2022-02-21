@@ -64,13 +64,15 @@
 			"path": "pages/Mine/Join/Join",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 
 		}, {
 			"path": "pages/Mine/MineMsg/MineMsg",
 			"style": {
 				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 
@@ -106,7 +108,8 @@
 			"path": "pages/Mine/CompanyJoin/CompanyJoin",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 
 		}, {
@@ -120,7 +123,8 @@
 			"path": "pages/Mine/LawyerJoin/LawyerJoin",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 
 		}, {
