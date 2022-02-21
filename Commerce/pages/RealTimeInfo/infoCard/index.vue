@@ -41,7 +41,7 @@
 				</view>
 				<view class="middle-content1-img" :style="'background-image: url('+ imagArr[0] +');'"></view>
 			</view> -->
-			<view class="middle-content3" v-if="imagArr.length == 3||imagArr.length == 2||imagArr.length == 1">
+			<view class="middle-content3" v-if="imagArr.length >= 1">
 				<view class="middle-content3-text">
 					{{item.simpleContent}}
 				</view>
@@ -100,7 +100,7 @@
 		},
 		created() {
 			if (this.item.imag != '') {
-				this.imagArr = JSON.parse(this.item.imag)
+				this.imagArr = JSON.parse(this.item.imag).slice(0,3)
 			} else {
 				this.imagArr = []
 			}

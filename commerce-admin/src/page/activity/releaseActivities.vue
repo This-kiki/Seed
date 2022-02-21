@@ -15,6 +15,12 @@
             <el-form-item label="活动名额">
               <el-input-number v-model="addForm.num" :min="1" size="small"></el-input-number>
             </el-form-item>
+            <el-form-item label="活动地点">
+              <el-input v-model="addForm.place" placeholder="请输入活动地点"></el-input>
+            </el-form-item>
+            <el-form-item label="联系方式">
+              <el-input v-model="addForm.phone" placeholder="请输入联系方式"></el-input>
+            </el-form-item>
             <el-form-item label="正文内容">
             </el-form-item>
           </el-form>
@@ -75,6 +81,8 @@ export default {
         name: "",
         num: 0,
         img: "",
+        place: "",
+        phone: "",
       },
       imgList: [
         {
