@@ -355,7 +355,7 @@ function getlaylevel(key) {
 			return '检察';
 			break;
 		default:
-			return '请选择律师身份';
+			return '请选择法律从业者身份';
 			break;
 	}
 }

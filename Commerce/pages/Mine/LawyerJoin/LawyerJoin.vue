@@ -31,7 +31,7 @@
 					<picker mode="selector" range-key="label" v-model="model1.userInfo.subLevel"
 						@change="bindSubLevelChange" :range="sublevelList">
 						<view class="text-box">
-							<text>律师身份</text>
+							<text>法律从业者身份</text>
 							<view class="val">
 								{{getlaylevel(model1.userInfo.subLevel)}}
 							</view>

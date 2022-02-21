@@ -38,7 +38,7 @@
 					<view class="m-page-listitemtitle">
 						<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemimg">&#xe611;</span>
-						<view class="m-page-listitemtext">申请律师</view>
+						<view class="m-page-listitemtext">申请法律从业者</view>
 					</view>
 					<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 					<span class="iconfont m-page-listitemicon">&#xe623;</span>

@@ -123,12 +123,6 @@ let formVerification = [{
 	label: 'subLevel',
 	value: '请填写申请的职位'
 }, {
-	label: 'workNum',
-	value: '请填写工号'
-}, {
-	label: 'workplace',
-	value: '请填写执业律所'
-}, {
 	label: 'address',
 	value: '请填写地址'
 }, {
@@ -204,6 +198,12 @@ function verification(form) {
 			} else if (key == 'subLevel') {
 				continue
 			} else if (key == 'identity') {
+				continue
+			}else if (key == 'identity') {
+				continue
+			}else if (key == 'identity') {
+				continue
+			}else if (key == 'identity') {
 				continue
 			} else {
 				return findWord(key)
