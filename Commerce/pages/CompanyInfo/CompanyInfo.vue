@@ -4,8 +4,9 @@
 		<view class="swiperContainer">
 			<swiper class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
 				:duration="duration" :circular="circular">
-				<swiper-item v-for="item in carouselList" :key="item.id">
-					<view class="swiper-item" :style="{'background-image':'url('+item+')'}">
+				<swiper-item v-for="(item,index) in carouselList" :key="index">
+					<view class="swiper-item" :style="{'background-image':'url('+item+')'}"
+						@click="previewImage(index)">
 					</view>
 				</swiper-item>
 			</swiper>
@@ -76,7 +77,9 @@
 				</view>
 			</view>
 			<view class="main">
-				{{constitution}}
+				<view class="line" v-for="(item,index) in constitution" :key="index">
+					{{item}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -115,12 +118,20 @@
 			this.getIntro()
 		},
 		methods: {
+			// 预览图片
+			previewImage(index) {
+				uni.previewImage({
+					indicator: "number",
+					loop: true,
+					current: index,
+					urls: this.carouselList
+				})
+			},
 			// 种子会轮播图
 			async getInfoCarousel() {
 				let res = await this.$api.getInfoCarousel()
 				// console.log(res)
 				this.carouselList = res.data.urlList
-				console.log(this.carouselList)
 			},
 			// 获取种子会介绍
 			async getIntro() {
@@ -131,7 +142,7 @@
 				this.phoneList = data.contact
 				this.info = data.introduce.split("\n")
 				this.frameWorkList = data.framework.split("\n")
-				this.constitution = data.constitution
+				this.constitution = data.constitution.split("\n")
 			},
 			// 信息复制到剪切板
 			copy(value) {
@@ -337,6 +348,10 @@
 				letter-spacing: 1rpx;
 				line-height: 46rpx;
 				border-radius: 10rpx;
+				.line{
+					text-indent: 2em;
+					margin-bottom: 10px;
+				}
 			}
 		}
 	}

@@ -83,7 +83,7 @@
 			async getManagerList() {
 				let data = {
 					current: 1,
-					limit: 2000
+					limit: 20000
 				}
 				let res = await this.$api.getManagerList(data)
 				// console.log(res)
@@ -93,7 +93,7 @@
 			async getUserList() {
 				let data = {
 					current: 1,
-					limit: 2000
+					limit: 20000
 				}
 				let res = await this.$api.getUserList(data)
 				// console.log(res)
