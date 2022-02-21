@@ -91,8 +91,11 @@ export default {
         id: row.id,
       };
       this.$http.getOneActivity(getAPI).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.actData = res.data.acts;
+      });
+      this.$http.getAcceptList(getAPI).then((res) => {
+        console.log("已通过列表", res);
       });
       this.viewVisible = true;
     },

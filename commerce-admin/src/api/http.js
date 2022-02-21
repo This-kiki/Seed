@@ -85,6 +85,14 @@ export default {
       params: data,
     });
   },
+  // 查询某个活动已通过的人
+  getAcceptList(data) {
+    return service({
+      url: '/admin/activity/accpect_list',
+      method: 'get',
+      params: { actid: data.id },
+    });
+  },
   // 发布活动
   addActivity(data) {
     return service({
