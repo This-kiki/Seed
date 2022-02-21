@@ -1,4 +1,5 @@
 import service from './request';
+import servicePic from './uploadPic';
 
 export default {
   // setservice() {
@@ -6,7 +7,7 @@ export default {
   // },
   // 上传图片
   uploadImg(data) {
-    return service({
+    return servicePic({
       url: '/oss/uploadImag',
       method: 'post',
       data: data,
@@ -14,7 +15,7 @@ export default {
   },
 
   uploadImgMany(data) {
-    return service({
+    return servicePic({
       url: '/oss/uploadImagMany',
       method: 'post',
       data: data,
@@ -89,7 +90,7 @@ export default {
     return service({
       url: '/admin/activity/add',
       method: 'post',
-      params: data,
+      data: data,
     });
   },
   // 编辑活动
@@ -123,7 +124,7 @@ export default {
       params: data,
     });
   },
-  //   // 获取会员单位资讯
+  //   // 获取单位会员资讯
   //   getCompanyInfo(data) {
   //     return service({
   //       url: '/info/PageFindCompanyDynamic/' + data.current + '/20',

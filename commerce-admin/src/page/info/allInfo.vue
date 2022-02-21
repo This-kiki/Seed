@@ -37,7 +37,7 @@
         <el-table-column fixed="right" label="置顶资讯" width="180" align="center">
           <template slot-scope="scope">
             <el-popconfirm v-if="scope.row.top == 0" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="置顶这个资讯吗" @confirm="topInfo(scope.row, 1)">
-              <el-button slot="reference" type="text">置顶咨询</el-button>
+              <el-button slot="reference" type="text">置顶资讯</el-button>
             </el-popconfirm>
             <el-popconfirm v-if="scope.row.top == 1" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="取消置顶这个资讯吗" @confirm="topInfo(scope.row, 0)">
               <el-button slot="reference" style="color: #daa520" type="text">取消置顶</el-button>
@@ -73,7 +73,7 @@
       <el-table-column fixed="right" label="置顶资讯" width="180" align="center">
         <template slot-scope="scope">
           <el-popconfirm v-if="scope.row.top == 0" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="置顶这个资讯吗" @confirm="topInfo(scope.row, 1)">
-            <el-button slot="reference" type="text">置顶咨询</el-button>
+            <el-button slot="reference" type="text">置顶资讯</el-button>
           </el-popconfirm>
           <el-popconfirm v-if="scope.row.top == 1" confirm-button-text="好的" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="取消置顶这个资讯吗" @confirm="topInfo(scope.row, 0)">
             <el-button slot="reference" style="color: #daa520" type="text">取消置顶</el-button>
@@ -154,7 +154,7 @@ export default {
         },
         {
           id: 3,
-          name: "会员单位",
+          name: "单位会员",
         },
         {
           id: 4,
@@ -190,7 +190,7 @@ export default {
         case 2:
           return "会员风采";
         case 3:
-          return "会员单位";
+          return "单位会员";
         case 4:
           return "家乡新闻";
         case 5:

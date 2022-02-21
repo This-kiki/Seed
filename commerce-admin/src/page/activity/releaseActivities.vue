@@ -110,6 +110,8 @@ export default {
         "image",
         "table",
         "splitLine",
+        "undo",
+        "redo",
       ];
       editor.config.customUploadImg = function (resultFiles, insertImgFn) {
         console.log(resultFiles);
@@ -147,7 +149,7 @@ export default {
         this.addForm.content = newHtml;
       };
 
-      editor.config.height = 1000;
+      // editor.config.height = 1000;
 
       editor.create();
       this.editor = editor;
@@ -249,7 +251,8 @@ export default {
 }
 .text {
   border: 1px solid #ccc;
-  min-height: 1000px;
+  /* min-height: 1000px; */
+  height: 80vh;
   padding: 30px 60px;
   width: 60%;
   margin-left: 80px;

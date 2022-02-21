@@ -7,12 +7,7 @@
         </el-button>
       </div>
     </el-col>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="title" label="资讯名" width="150">
@@ -24,60 +19,17 @@
       <el-table-column prop="" label=""> </el-table-column>
       <el-table-column fixed="right" label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            plain
-            circle
-            @click="viewApplyInfo(scope.row)"
-            icon="el-icon-view"
-            size="small"
-          ></el-button>
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定通过该申请吗"
-            @confirm="handleApplyInfo(scope.row, 1)"
-          >
-            <el-button
-              style="margin: 0 10px"
-              slot="reference"
-              type="success"
-              plain
-              circle
-              icon="el-icon-check"
-              size="small"
-            ></el-button>
+          <el-button type="primary" plain circle @click="viewApplyInfo(scope.row)" icon="el-icon-view" size="small"></el-button>
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定通过该申请吗" @confirm="handleApplyInfo(scope.row, 1)">
+            <el-button style="margin: 0 10px" slot="reference" type="success" plain circle icon="el-icon-check" size="small"></el-button>
           </el-popconfirm>
-          <el-popconfirm
-            confirm-button-text="确定"
-            cancel-button-text="取消"
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定驳回该申请吗"
-            @confirm="handleApplyInfo(scope.row, 2)"
-          >
-            <el-button
-              slot="reference"
-              type="danger"
-              plain
-              circle
-              icon="el-icon-close"
-              size="small"
-            ></el-button>
+          <el-popconfirm confirm-button-text="确定" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="确定驳回该申请吗" @confirm="handleApplyInfo(scope.row, 2)">
+            <el-button slot="reference" type="danger" plain circle icon="el-icon-close" size="small"></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      style="margin: 20px"
-      :page-count="current.total"
-      :current-page.sync="current.current"
-      @current-change="getAllApplyInfo"
-    ></el-pagination>
+    <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="current.total" :current-page.sync="current.current" @current-change="getAllApplyInfo"></el-pagination>
     <div>
       <el-dialog title="资讯详情" :visible.sync="viewVisible" width="45%">
         <div v-html="actData.content"></div>
@@ -158,7 +110,7 @@ export default {
         case 2:
           return "会员风采";
         case 3:
-          return "会员单位";
+          return "单位会员";
         case 4:
           return "家乡新闻";
         case 5:

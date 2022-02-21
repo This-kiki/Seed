@@ -9,13 +9,13 @@ import { Message } from 'element-ui';
 let baseURL = URL.BASE_URL_DEV;
 
 // 创建axios实例
-const service = axios.create({
+const servicePic = axios.create({
   baseURL: baseURL, // api 的 base_url
-  timeout: 10000, // 请求超时时间
+  timeout: 180000, // 请求超时时间
 });
 
 // request拦截器
-service.interceptors.request.use(
+servicePic.interceptors.request.use(
   (config) => {
     let code = config.code;
     config.headers = getHeader(code); // 让每个请求携带自定义签名
@@ -28,7 +28,7 @@ service.interceptors.request.use(
 );
 
 // response 拦截器
-service.interceptors.response.use(
+servicePic.interceptors.response.use(
   (response) => {
     const res = response.data;
     if (
@@ -64,4 +64,4 @@ service.interceptors.response.use(
   }
 );
 
-export default service;
+export default servicePic;
