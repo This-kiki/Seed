@@ -79,7 +79,7 @@
 			return {
 				setNav: {
 					titleColor: "black",
-					navTitle: "会员单位详情",
+					navTitle: "单位会员详情",
 					bgColor: "white",
 					isShowBackBtn: true,
 					backBtnColor: "black"
@@ -173,6 +173,8 @@
 		background-color: #F5f5f5;
 		user-select: text;
 		-webkit-user-select: text;
+		overflow-y: scroll;
+		padding-bottom: 120rpx;
 
 		.mainContaienr {
 			width: 94%;

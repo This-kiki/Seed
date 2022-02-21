@@ -16,6 +16,9 @@
 						{{item.name}}
 					</view>
 				</view>
+				<view class="noData" v-if="!managerList.length">
+					暂无信息
+				</view>
 			</view>
 		</view>
 		<!-- 用户 -->
@@ -30,6 +33,9 @@
 					<view class="name">
 						{{item.name}}
 					</view>
+				</view>
+				<view class="noData" v-if="!userList.length">
+					暂无信息
 				</view>
 			</view>
 		</view>
@@ -109,7 +115,7 @@
 						content: "请申请入会",
 						showCancel: false
 					})
-				}else{
+				} else {
 					this.seeDetail(openId)
 				}
 			},
@@ -181,6 +187,12 @@
 						letter-spacing: 1rpx;
 					}
 				}
+			}
+
+			.noData {
+				margin: 300rpx auto;
+				text-align: center;
+				color: #999;
 			}
 		}
 	}

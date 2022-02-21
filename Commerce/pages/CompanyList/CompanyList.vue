@@ -3,7 +3,7 @@
 		<!-- 管理层 -->
 		<view class="mainContaienr">
 			<view class="title">
-				会员单位介绍
+				单位会员介绍
 			</view>
 			<view class="imgContainer">
 				<view class="imgBox" v-for="item in companyList" :key="item.openId" @click="checkIdentity(item.openId)">
@@ -12,6 +12,9 @@
 					<view class="name">
 						{{item.companyName}}
 					</view>
+				</view>
+				<view class="noData" v-if="!companyList.length">
+					暂无信息
 				</view>
 			</view>
 		</view>
@@ -119,6 +122,12 @@
 						letter-spacing: 1rpx;
 					}
 				}
+			}
+
+			.noData {
+				margin: 300rpx auto;
+				text-align: center;
+				color: #999;
 			}
 		}
 	}

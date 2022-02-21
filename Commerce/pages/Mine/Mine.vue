@@ -213,7 +213,7 @@
 						return '律师';
 						break;
 					case 3:
-						return '会员单位';
+						return '单位会员';
 						break;
 				}
 			}

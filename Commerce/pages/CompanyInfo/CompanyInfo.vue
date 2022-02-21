@@ -14,7 +14,7 @@
 		<view class="infoContainer">
 			<view class="titleLine">
 				<view class="title">
-					商会介绍
+					种子会简介
 				</view>
 			</view>
 			<view class="intro">
@@ -120,6 +120,7 @@
 				let res = await this.$api.getInfoCarousel()
 				// console.log(res)
 				this.carouselList = res.data.urlList
+				console.log(this.carouselList)
 			},
 			// 获取种子会介绍
 			async getIntro() {

@@ -23,13 +23,13 @@
 					<span class="iconfont m-page-listitemicon">&#xe623;</span>
 				</view>
 				<view style="margin-top: 30rpx;" class="text">
-					会员单位
+					单位会员
 				</view>
 				<view class="m-page-listitem" @click="go('../CompanyJoin/CompanyJoin')">
 					<view class="m-page-listitemtitle">
 						<!-- <image class="m-page-listitemimg" src="" mode=""></image> -->
 						<span class="iconfont m-page-listitemimg">&#xe642;</span>
-						<view class="m-page-listitemtext">申请会员单位</view>
+						<view class="m-page-listitemtext">申请单位会员</view>
 					</view>
 					<!-- <image class="m-page-listitemicon" src="" mode=""></image> -->
 					<span class="iconfont m-page-listitemicon">&#xe623;</span>

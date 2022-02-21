@@ -441,7 +441,7 @@ function getCategory(id) {
 			return '会员风采';
 			break;
 		case 3:
-			return '会员单位';
+			return '单位会员';
 			break;
 		case 4:
 			return '家乡新闻';
@@ -491,7 +491,7 @@ function getLevel(identity, sublevel) {
 	} else if (identity == 2) {
 		return '律师'
 	} else if (identity == 3) {
-		return '会员单位'
+		return '单位会员'
 	} else if (identity == 20) {
 		return '管理员'
 	} else {

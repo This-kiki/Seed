@@ -183,6 +183,8 @@
 		background-color: #F5f5f5;
 		user-select: text;
 		-webkit-user-select: text;
+		overflow-y: scroll;
+		padding-bottom: 120rpx;
 
 		.mainContaienr {
 			width: 94%;

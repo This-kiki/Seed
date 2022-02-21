@@ -12,6 +12,9 @@
 					{{item.name}}
 				</view>
 			</view>
+			<view class="noData" v-if="!lawList.length">
+				暂无信息
+			</view>
 		</view>
 	</view>
 </template>
@@ -56,7 +59,7 @@
 						content: "请申请入会",
 						showCancel: false
 					})
-				}else{
+				} else {
 					this.seeDetail(openId)
 				}
 			},
@@ -123,6 +126,12 @@
 					margin: 4rpx 0 20rpx;
 					letter-spacing: 1rpx;
 				}
+			}
+
+			.noData {
+				margin: 300rpx auto;
+				text-align: center;
+				color: #999;
 			}
 		}
 	}

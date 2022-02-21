@@ -321,7 +321,7 @@
 				if (this.identity == 3) {
 					uni.showToast({
 						icon: "none",
-						title: "会员单位无法申请"
+						title: "单位会员无法申请"
 					})
 					return
 				}

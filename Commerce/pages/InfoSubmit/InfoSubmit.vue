@@ -235,7 +235,7 @@
 					},
 					{
 						id: 3,
-						name: "会员单位"
+						name: "单位会员"
 					},
 					{
 						id: 4,
@@ -343,7 +343,7 @@
 			} else if (this.identity == 3) {
 				this.categoryList = [{
 						id: 3,
-						name: "会员单位"
+						name: "单位会员"
 					},
 					{
 						id: 5,
@@ -367,7 +367,7 @@
 					case 1:
 						return "会员";
 					case 2:
-						return "会员单位";
+						return "单位会员";
 					case 3:
 						return "律师";
 				}

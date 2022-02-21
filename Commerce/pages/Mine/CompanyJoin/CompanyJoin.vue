@@ -170,7 +170,7 @@
 			return {
 				setNav: {
 					titleColor: 'black',
-					navTitle: '申请成为会员单位',
+					navTitle: '申请成为单位会员',
 					bgColor: 'white',
 					isShowBackBtn: true,
 					backBtnColor: 'black'

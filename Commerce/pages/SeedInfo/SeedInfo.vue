@@ -23,9 +23,6 @@
 				<swiper-item class="swiperItem">
 					<LawyerList />
 				</swiper-item>
-				<swiper-item class="swiperItem">
-					<MoneyRule />
-				</swiper-item>
 			</swiper>
 		</view>
 	</view>
@@ -37,7 +34,6 @@
 	import UserList from "../UserList/UserList"
 	import CompanyList from "../CompanyList/CompanyList"
 	import LawyerList from "../LawyerList/LawyerList"
-	import MoneyRule from "../MoneyRule/MoneyRule"
 	export default {
 		props: ["height"],
 		components: {
@@ -45,8 +41,7 @@
 			ManagerList,
 			UserList,
 			CompanyList,
-			LawyerList,
-			MoneyRule
+			LawyerList
 		},
 		data() {
 			return {
@@ -65,16 +60,12 @@
 					},
 					{
 						id: 3,
-						name: "会员单位"
+						name: "单位会员"
 					},
 					{
 						id: 4,
 						name: "律师"
-					},
-					{
-						id: 5,
-						name: "奖学金"
-					},
+					}
 				]
 			};
 		},
