@@ -35,7 +35,7 @@
 			async getLawyerList() {
 				let data = {
 					current: 1,
-					limit: 200,
+					limit: 20000,
 					key: "",
 				}
 				let res = await this.$api.getLawyerList(data)

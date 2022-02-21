@@ -31,6 +31,9 @@
 					<HomeInfo :height='swiperHeight-40' />
 				</swiper-item>
 				<swiper-item class="swiperItem">
+					<HomeJobInfo :height='swiperHeight-40' />
+				</swiper-item>
+				<swiper-item class="swiperItem">
 					<SeedInfo :height='swiperHeight-40' />
 				</swiper-item>
 			</swiper>
@@ -62,11 +65,13 @@
 </template>
 <script>
 	import HomeInfo from "../HomeInfo/HomeInfo"
+	import HomeJobInfo from "../HomeJobInfo/HomeJobInfo"
 	import SeedInfo from "../SeedInfo/SeedInfo"
 	export default {
 		components: {
 			HomeInfo,
-			SeedInfo
+			SeedInfo,
+			HomeJobInfo
 		},
 		data() {
 			return {
@@ -79,14 +84,15 @@
 				},
 				// tap
 				tapList: [{
-						id: 0,
-						name: "资讯推荐"
-					},
-					{
-						id: 1,
-						name: "种子会"
-					}
-				],
+					id: 0,
+					name: "资讯推荐"
+				}, {
+					id: 1,
+					name: "职场推荐"
+				}, {
+					id: 2,
+					name: "种子会"
+				}],
 				// 当前选择
 				active: 0,
 				// 是否会员

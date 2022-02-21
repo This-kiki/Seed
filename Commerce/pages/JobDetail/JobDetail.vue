@@ -105,7 +105,8 @@
 								{{hrInfo.name}}
 							</view>
 							<view class="position">
-								{{hrInfo.position}}
+								<!-- {{hrInfo.position}} -->
+								HR
 							</view>
 						</view>
 						<view class="bottom">
@@ -143,7 +144,7 @@
 						电话
 					</view>
 				</view>
-				<view class="submit" @click="submitResume()" v-if="companyInfo">
+				<view class="submit" @click="submitResume()" v-if="companyInfo&&identity!=3">
 					<view class="iconfont icon-submit">
 					</view>
 					<view class="text">

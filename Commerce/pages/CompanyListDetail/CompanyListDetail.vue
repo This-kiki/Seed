@@ -45,8 +45,8 @@
 					{{companyInfo.representative}}
 				</view>
 				<view class="common license">
-					<text class="name">营业执照照片</text>
-					<view class="img" :style="{'backgroundImage':`url(${companyInfo.license})`}">
+					<text class="name">营业执照</text>
+					<view class="img" :style="{'backgroundImage':`url(${companyInfo.license})`}" @click="previewImage">
 					</view>
 				</view>
 			</view>
@@ -96,6 +96,14 @@
 			this.checkIdentity()
 		},
 		methods: {
+			// 预览图片
+			previewImage() {
+				let urls = []
+				urls.push(this.companyInfo.license)
+				uni.previewImage({
+					urls
+				})
+			},
 			// 检查身份
 			checkIdentity() {
 				let identity = uni.getStorageSync("identity")

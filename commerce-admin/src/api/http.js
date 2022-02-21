@@ -478,12 +478,28 @@ export default {
       method: 'get',
     });
   },
-  // 设置奖学金
-  setMoneyRule(data) {
+  // 招聘信息列表
+  getJobList(data) {
     return service({
-      url: `/intro/setMoneyRule`,
-      method: 'post',
-      data,
-    });
+      url: `/hr/companyInterview/getComList/${data.current}/${data.limit}`,
+      method: 'get',
+      params: data
+    })
   },
+  // 删除招聘信息
+  delJob(data) {
+    return service({
+      url: '/hr/companyInterview/del',
+      method: 'post',
+      params: data
+    })
+  },
+  // 招聘详细信息
+  getJobDetail(data) {
+    return service({
+      url: 'GET /hr/companyInterview/getInfo',
+      method: 'get',
+      params: data
+    })
+  }
 };

@@ -25,6 +25,7 @@ import allAdmin from '../page/superAdmin/allAdmin.vue'
 import layout from '../page/appPage/page.vue'
 import allCarousel from "../page/carousel/allCarousel.vue"
 import releaseCarousel from "../page/carousel/releaseCarousel.vue"
+import job from '../page/job/job.vue'
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -62,6 +63,10 @@ export const routerMap = [{
       name: '活动申请审核',
       path: 'activityApplication',
       component: activityApplication
+    },{
+      name: '职场管理',
+      path: 'job',
+      component: job
     }, {
       name: '所有公司',
       path: 'allCompanies',

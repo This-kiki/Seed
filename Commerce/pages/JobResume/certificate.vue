@@ -38,6 +38,13 @@
 		},
 		methods: {
 			addItem() {
+				if (!this.inputValue) {
+					uni.showToast({
+						icon: "none",
+						title: '不能为空'
+					})
+					return
+				}
 				this.list.unshift(this.inputValue)
 			},
 			deleteItem(item) {
