@@ -88,9 +88,9 @@ export default {
   // 查询某个活动已通过的人
   getAcceptList(data) {
     return service({
-      url: '/admin/activity/accpect_list',
+      url: '/admin/activity/accpect_list/1/100',
       method: 'get',
-      params: { actid: data.id },
+      params: { id: data.id },
     });
   },
   // 发布活动
@@ -491,23 +491,23 @@ export default {
     return service({
       url: `/hr/companyInterview/getComList/${data.current}/${data.limit}`,
       method: 'get',
-      params: data
-    })
+      params: data,
+    });
   },
   // 删除招聘信息
   delJob(data) {
     return service({
       url: '/hr/companyInterview/del',
       method: 'post',
-      params: data
-    })
+      params: data,
+    });
   },
   // 招聘详细信息
   getJobDetail(data) {
     return service({
       url: 'GET /hr/companyInterview/getInfo',
       method: 'get',
-      params: data
-    })
-  }
+      params: data,
+    });
+  },
 };

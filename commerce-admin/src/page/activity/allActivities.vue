@@ -36,6 +36,19 @@
     <el-pagination background layout="prev, pager, next" style="margin: 20px" :page-count="Math.ceil(current.total/20)" :current-page.sync="current.current" @current-change="getAllActivity"></el-pagination>
     <div>
       <el-dialog title="活动详情" :visible.sync="viewVisible" width="25%">
+        <div class="title">已报名通过成员</div>
+        <div>
+          <el-table :data="acceptData" style="width: 100%">
+            <el-table-column prop="name" label="姓名" width="180">
+            </el-table-column>
+            <el-table-column label="性别">
+              <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.sex==0?'男':'女' }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div class="title">活动详情</div>
         <div v-html="actData.content"></div>
       </el-dialog>
     </div>
@@ -53,6 +66,7 @@ export default {
       },
       viewVisible: false,
       actData: {},
+      acceptData: [],
     };
   },
   mounted() {
@@ -96,6 +110,7 @@ export default {
       });
       this.$http.getAcceptList(getAPI).then((res) => {
         console.log("已通过列表", res);
+        this.acceptData = res.data.users;
       });
       this.viewVisible = true;
     },
@@ -138,4 +153,9 @@ export default {
 };
 </script>
 <style scoped>
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: rgb(247, 110, 110);
+}
 </style>
