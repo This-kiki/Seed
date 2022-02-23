@@ -235,7 +235,7 @@
 					},
 					{
 						id: 3,
-						name: "单位会员"
+						name: "单位会员资讯"
 					},
 					{
 						id: 4,
@@ -343,7 +343,7 @@
 			} else if (this.identity == 3) {
 				this.categoryList = [{
 						id: 3,
-						name: "单位会员"
+						name: "单位会员资讯"
 					},
 					{
 						id: 5,
@@ -367,9 +367,9 @@
 					case 1:
 						return "会员";
 					case 2:
-						return "单位会员";
+						return "法律从业者";
 					case 3:
-						return "律师";
+						return "单位会员";
 				}
 			},
 			// 获取个人信息

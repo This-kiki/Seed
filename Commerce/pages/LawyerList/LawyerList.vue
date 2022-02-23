@@ -2,7 +2,7 @@
 	<!-- 用户 -->
 	<view class="mainContaienr">
 		<view class="title">
-			律师
+			法律从业者
 		</view>
 		<view class="imgContainer">
 			<view class="imgBox" v-for="item in lawList" :key="item.openId" @click="checkIdentity(item.openId)">

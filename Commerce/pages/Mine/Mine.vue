@@ -210,7 +210,7 @@
 						return '会员';
 						break;
 					case 2:
-						return '律师';
+						return '法律从业者';
 						break;
 					case 3:
 						return '单位会员';

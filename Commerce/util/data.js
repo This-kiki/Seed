@@ -291,7 +291,7 @@ const sexlist = [{
 	}
 ]
 const sublevelList = [{
-		label: '律师',
+		label: '法律从业者',
 		value: 12
 	},
 	{
@@ -343,7 +343,7 @@ function getsubLevel(key) {
 function getlaylevel(key) {
 	switch (key) {
 		case 12:
-			return '律师';
+			return '法律从业者';
 			break;
 		case 13:
 			return '公司法务';
@@ -489,7 +489,7 @@ function getLevel(identity, sublevel) {
 				break;
 		}
 	} else if (identity == 2) {
-		return '律师'
+		return '法律从业者'
 	} else if (identity == 3) {
 		return '单位会员'
 	} else if (identity == 20) {

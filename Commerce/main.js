@@ -10,6 +10,10 @@ Vue.use(uView)
 
 // vuex
 import store from './store/index.js'
+// mixins
+import share from "./util/share.js"
+Vue.mixin(share)
+
 
 // 引入基础样式
 import "./static/base.css"

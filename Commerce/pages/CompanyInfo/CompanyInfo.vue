@@ -46,7 +46,7 @@
 			<view class="main">
 				<view class="address" @click="goMap()">
 					<view class="title">
-						商会地址
+						办公地址
 					</view>
 					<view class="info">
 						<view class="text">

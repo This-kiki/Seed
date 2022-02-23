@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <el-tag type="success"
+      >若图片较大，则上传时间较长，请耐心等待20-30s。</el-tag
+    >
     <div class="ac-top">
       <el-row>
         <el-col :span="2" :offset="22">
