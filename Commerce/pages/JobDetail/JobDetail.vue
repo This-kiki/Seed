@@ -81,7 +81,7 @@
 						<text>企业人数：</text>
 						{{companyInfo.num}}
 					</view>
-					<view class="phone" v-if="identity!=0">
+					<view class="phone">
 						<text>电话：</text>
 						{{companyInfo.companyPhone}}
 					</view>
@@ -229,22 +229,9 @@
 			},
 			// 打电话
 			callPhone(phone) {
-				if (this.identity == 0) {
-					uni.showModal({
-						title: "暂无权限",
-						content: "请申请入会",
-						showCancel: false,
-						success() {
-							uni.navigateTo({
-								url: "/pages/Mine/joinPage/joinPage"
-							})
-						}
-					})
-				} else {
-					uni.makePhoneCall({
-						phoneNumber: phone
-					})
-				}
+				uni.makePhoneCall({
+					phoneNumber: phone
+				})
 			},
 			// 信息复制到剪切板
 			copy(value) {
