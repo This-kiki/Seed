@@ -8,7 +8,7 @@
 				<view style="height: 75rpx;">
 					<u-tabs ref="uTabs" :list="items" :current="current" @change="tabsChange"
 						:activeStyle="{color: '#36c1ba',fontWeight: 'bold'}" lineColor="#36c1ba"
-						itemStyle="min-width: 80px;padding: 0; height: 40px;"></u-tabs>
+						itemStyle="min-width: 100px;padding: 0; height: 40px;"></u-tabs>
 					<u-line color="#d4d4d4"></u-line>
 				</view>
 			</view>
@@ -74,7 +74,7 @@
 						id: 2
 					},
 					{
-						name: '单位会员',
+						name: '单位会员资讯',
 						id: 3
 					},
 					{

@@ -39,12 +39,14 @@
         <div class="title">已报名通过成员</div>
         <div>
           <el-table :data="acceptData" style="width: 100%">
-            <el-table-column prop="name" label="姓名" width="180">
+            <el-table-column prop="name" label="姓名">
             </el-table-column>
             <el-table-column label="性别">
               <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.sex==0?'男':'女' }}</span>
               </template>
+            </el-table-column>
+            <el-table-column prop="phone" label="电话号码">
             </el-table-column>
           </el-table>
         </div>

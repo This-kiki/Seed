@@ -441,7 +441,7 @@ function getCategory(id) {
 			return '会员风采';
 			break;
 		case 3:
-			return '单位会员';
+			return '单位会员资讯';
 			break;
 		case 4:
 			return '家乡新闻';
