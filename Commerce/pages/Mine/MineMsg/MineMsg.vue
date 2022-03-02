@@ -98,6 +98,16 @@
 			</u--form>
 			<u-button type="primary" text="提交" customStyle="margin: 30px auto;width:90%" @click="save"></u-button>
 		</view>
+		<view class="s-model">
+			<u-modal :show="show" title="涉及收集您的信息" @confirm="show = false" @cancel="go(0)" confirmText="同意"
+				cancelText="取消" :showCancelButton="true">
+				<view class="slot-content">
+					<view class="s-model-text">
+						请您同意我们的<span class="s-model-text-to" @click="go('../../ServiceAgreement/ServiceAgreement')">用户服务协议</span>和<span class="s-model-text-to" @click="go('../../PrivacyPolicy/PrivacyPolicy')">隐私政策</span>
+					</view>
+				</view>
+			</u-modal>
+		</view>
 	</view>
 </template>
 
@@ -140,6 +150,8 @@
 					},
 				},
 				rules: data.rules,
+				
+				show:true
 			};
 		},
 		mounted() {
@@ -184,8 +196,17 @@
 				this.model1.userInfo.birth = y + '-' + MM + '-' + d
 			},
 			// ssssssss
-
-
+			go(path) {
+				if (path == 0) {
+					uni.navigateBack({
+				
+					})
+				} else {
+					uni.navigateTo({
+						url: path
+					});
+				}
+			},
 
 			judge() {
 				// console.log(regular(this.model1.userInfo))
@@ -356,6 +377,16 @@
 				padding: 8px 9px;
 				border-radius: 4px;
 			}
+		}
+
+		.s-model-text {
+			margin-top: 20rpx;
+			font-size: 25rpx;
+		}
+
+		.s-model-text-to {
+			color: #18B566;
+			font-size: 26rpx;
 		}
 	}
 </style>

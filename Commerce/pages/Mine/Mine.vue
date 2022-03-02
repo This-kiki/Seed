@@ -97,7 +97,7 @@
 						我的招聘信息
 					</view>
 				</view>
-				<view class="m-bottom-item" @click="go('/pages/About/About')" v-if="userMsg.identity!=0">
+				<view class="m-bottom-item" @click="go('/pages/About/About')">
 					<view class="iconfont m-bottom-item-icon">
 						&#xe600;
 					</view>

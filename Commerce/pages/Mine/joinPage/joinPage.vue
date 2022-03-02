@@ -45,6 +45,16 @@
 				</view>
 			</view>
 		</view>
+		<view class="s-model">
+			<u-modal :show="show" title="涉及收集您的信息" @confirm="show = false" @cancel="go(0)" confirmText="同意"
+				cancelText="取消" :showCancelButton="true">
+				<view class="slot-content">
+					<view class="s-model-text">
+						请您同意我们的<span class="s-model-text-to" @click="go('../../ServiceAgreement/ServiceAgreement')">用户服务协议</span>和<span class="s-model-text-to" @click="go('../../PrivacyPolicy/PrivacyPolicy')">隐私政策</span>
+					</view>
+				</view>
+			</u-modal>
+		</view>
 	</view>
 </template>
 
@@ -57,9 +67,12 @@
 					navTitle: "返回",
 					bgColor: "white",
 					isShowBackBtn: true,
-					backBtnColor: "black"
+					backBtnColor: "black",
+
 				},
 				userMsg: {},
+
+				show: true,
 			};
 		},
 		mounted() {
@@ -67,9 +80,15 @@
 		},
 		methods: {
 			go(path) {
-				uni.navigateTo({
-					url: path
-				});
+				if (path == 0) {
+					uni.navigateBack({
+
+					})
+				} else {
+					uni.navigateTo({
+						url: path
+					});
+				}
 			},
 			getUserInfo() {
 				this.$api.getUserMsg().then(userMsg_res => {
@@ -80,7 +99,7 @@
 					if (userMsg_res.data.userBaseInfo.apply == 1) {
 						setTimeout(function() {
 							uni.navigateBack({
-								
+
 							})
 						}, 2000);
 					}
@@ -101,8 +120,9 @@
 		font-size: 40rpx;
 		color: #22C704;
 	}
+
 	.m-page-bottom {
-		background-color: rgb(239,239,239);
+		background-color: rgb(239, 239, 239);
 		width: 100%;
 		min-height: 100vh;
 		display: flex;
@@ -110,7 +130,7 @@
 		justify-content: flex-start;
 		align-items: center;
 	}
-	
+
 	.m-page-title {
 		margin: 80rpx auto;
 		font-size: 45rpx;
@@ -174,5 +194,15 @@
 		align-items: center;
 		font-weight: 600;
 		border-bottom: 1rpx solid rgb(229, 229, 229);
+	}
+
+	.s-model-text {
+		margin-top: 20rpx;
+		font-size: 25rpx;
+	}
+
+	.s-model-text-to {
+		color: #18B566;
+		font-size: 26rpx;
 	}
 </style>
