@@ -11,8 +11,8 @@
 								:style="'background: url(' + model1.userInfo.img + ') no-repeat center/cover #eeeeee;'">
 							</view>
 						</view>
-						<text v-if="model1.userInfo.img">修改个人免冠证件照</text>
-						<text v-if="!model1.userInfo.img">选择个人免冠证件照</text>
+						<text v-if="model1.userInfo.img">修改个人头像</text>
+						<text v-if="!model1.userInfo.img">选择个人头像</text>
 					</view>
 				</u-form-item>
 				<u-form-item prop="userInfo.name" borderBottom>
